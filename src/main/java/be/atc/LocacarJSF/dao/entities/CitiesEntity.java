@@ -1,0 +1,99 @@
+package be.atc.LocacarJSF.dao.entities;
+
+import javax.persistence.*;
+import java.util.Collection;
+import java.util.Objects;
+
+@Entity
+@Table(name = "cities", schema = "locacarjsf", catalog = "")
+public class CitiesEntity {
+    private int id;
+    private int idCountries;
+    private String region;
+    private int postalCode;
+    private String label;
+    private Collection<AddressesEntity> addressesById;
+    private CountriesEntity countriesByIdCountries;
+
+    @Id
+    @Column(name = "ID")
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    @Basic
+    @Column(name = "ID_Countries")
+    public int getIdCountries() {
+        return idCountries;
+    }
+
+    public void setIdCountries(int idCountries) {
+        this.idCountries = idCountries;
+    }
+
+    @Basic
+    @Column(name = "Region")
+    public String getRegion() {
+        return region;
+    }
+
+    public void setRegion(String region) {
+        this.region = region;
+    }
+
+    @Basic
+    @Column(name = "Postal_Code")
+    public int getPostalCode() {
+        return postalCode;
+    }
+
+    public void setPostalCode(int postalCode) {
+        this.postalCode = postalCode;
+    }
+
+    @Basic
+    @Column(name = "Label")
+    public String getLabel() {
+        return label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CitiesEntity that = (CitiesEntity) o;
+        return id == that.id && idCountries == that.idCountries && postalCode == that.postalCode && Objects.equals(region, that.region) && Objects.equals(label, that.label);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, idCountries, region, postalCode, label);
+    }
+
+    @OneToMany(mappedBy = "citiesByIdCities")
+    public Collection<AddressesEntity> getAddressesById() {
+        return addressesById;
+    }
+
+    public void setAddressesById(Collection<AddressesEntity> addressesById) {
+        this.addressesById = addressesById;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "ID_Countries", referencedColumnName = "ID", nullable = false)
+    public CountriesEntity getCountriesByIdCountries() {
+        return countriesByIdCountries;
+    }
+
+    public void setCountriesByIdCountries(CountriesEntity countriesByIdCountries) {
+        this.countriesByIdCountries = countriesByIdCountries;
+    }
+}
