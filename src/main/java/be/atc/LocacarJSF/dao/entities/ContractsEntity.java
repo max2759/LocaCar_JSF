@@ -19,7 +19,7 @@ public class ContractsEntity {
     private OrdersEntity ordersByIdOrders;
     private CarsEntity carsByIdCars;
     private ContractTypesEntity contractTypesByIdContractType;
-    private Object finalPrice;
+    private double finalPrice;
 
     @Id
     @Column(name = "ID")
@@ -145,11 +145,11 @@ public class ContractsEntity {
 
     @Basic
     @Column(name = "Final_Price")
-    public Object getFinalPrice() {
+    public double getFinalPrice() {
         return finalPrice;
     }
 
-    public void setFinalPrice(Object finalPrice) {
+    public void setFinalPrice(double finalPrice) {
         this.finalPrice = finalPrice;
     }
 }

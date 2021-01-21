@@ -1,5 +1,7 @@
 package be.atc.LocacarJSF.dao.entities;
 
+import be.atc.LocacarJSF.enums.EnumTypeAds;
+
 import javax.persistence.*;
 import java.sql.Date;
 import java.util.Collection;
@@ -17,7 +19,7 @@ public class AdsEntity {
     private CarsEntity carsByIdCars;
     private Collection<UsersAdsEntity> usersAdsById;
     private double price;
-    private Object typeAds;
+    private EnumTypeAds typeAds;
 
     @Id
     @Column(name = "ID")
@@ -70,6 +72,27 @@ public class AdsEntity {
     }
 
     @Basic
+    @Column(name = "Price")
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    @Enumerated(EnumType.STRING)
+    @Basic
+    @Column(name = "Type_Ads", nullable = false)
+    public EnumTypeAds getTypeAds() {
+        return typeAds;
+    }
+
+    public void setTypeAds(EnumTypeAds typeAds) {
+        this.typeAds = typeAds;
+    }
+
+    @Basic
     @Column(name = "IsActive")
     public boolean isActive() {
         return isActive;
@@ -84,12 +107,12 @@ public class AdsEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AdsEntity adsEntity = (AdsEntity) o;
-        return id == adsEntity.id && idCars == adsEntity.idCars && isActive == adsEntity.isActive && Objects.equals(dateStart, adsEntity.dateStart) && Objects.equals(dateEnd, adsEntity.dateEnd) && Objects.equals(label, adsEntity.label);
+        return id == adsEntity.id && Objects.equals(price, adsEntity.price) && idCars == adsEntity.idCars && isActive == adsEntity.isActive && Objects.equals(dateStart, adsEntity.dateStart) && Objects.equals(dateEnd, adsEntity.dateEnd) && Objects.equals(typeAds, adsEntity.typeAds) && Objects.equals(label, adsEntity.label);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, idCars, dateStart, dateEnd, label, isActive);
+        return Objects.hash(id, price, idCars, dateStart, dateEnd, typeAds, label, isActive);
     }
 
     @ManyToOne
@@ -111,23 +134,5 @@ public class AdsEntity {
         this.usersAdsById = usersAdsById;
     }
 
-    @Basic
-    @Column(name = "Price")
-    public double getPrice() {
-        return price;
-    }
 
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
-    @Basic
-    @Column(name = "Type_Ads")
-    public Object getTypeAds() {
-        return typeAds;
-    }
-
-    public void setTypeAds(Object typeAds) {
-        this.typeAds = typeAds;
-    }
 }
