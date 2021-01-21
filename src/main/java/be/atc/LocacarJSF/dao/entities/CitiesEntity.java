@@ -16,6 +16,7 @@ public class CitiesEntity {
     private CountriesEntity countriesByIdCountries;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     public int getId() {
         return id;
@@ -88,7 +89,7 @@ public class CitiesEntity {
     }
 
     @ManyToOne
-    @JoinColumn(name = "ID_Countries", referencedColumnName = "ID", nullable = false)
+    @JoinColumn(name = "ID_Countries", referencedColumnName = "id", insertable = false, updatable = false, nullable = false)
     public CountriesEntity getCountriesByIdCountries() {
         return countriesByIdCountries;
     }

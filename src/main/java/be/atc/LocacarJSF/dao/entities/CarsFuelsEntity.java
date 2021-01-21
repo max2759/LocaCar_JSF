@@ -12,6 +12,7 @@ public class CarsFuelsEntity {
     private Collection<CarsEntity> carsById;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     public int getId() {
         return id;

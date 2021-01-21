@@ -12,6 +12,7 @@ public class BrandsEntity {
     private Collection<ModelsEntity> modelsById;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     public int getId() {
         return id;

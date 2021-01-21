@@ -22,6 +22,7 @@ public class AdsEntity {
     private EnumTypeAds typeAds;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     public int getId() {
         return id;
@@ -116,7 +117,7 @@ public class AdsEntity {
     }
 
     @ManyToOne
-    @JoinColumn(name = "ID_Cars", referencedColumnName = "ID", nullable = false)
+    @JoinColumn(name = "ID_Cars", referencedColumnName = "ID", insertable = false, updatable = false, nullable = false)
     public CarsEntity getCarsByIdCars() {
         return carsByIdCars;
     }

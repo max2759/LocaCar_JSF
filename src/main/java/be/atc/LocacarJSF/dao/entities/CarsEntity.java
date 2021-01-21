@@ -29,6 +29,7 @@ public class CarsEntity {
     private Collection<ContractsEntity> contractsById;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     public int getId() {
         return id;
@@ -161,7 +162,7 @@ public class CarsEntity {
     }
 
     @ManyToOne
-    @JoinColumn(name = "ID_Models", referencedColumnName = "ID", nullable = false)
+    @JoinColumn(name = "ID_Models", referencedColumnName = "ID", insertable = false, updatable = false, nullable = false)
     public ModelsEntity getModelsByIdModels() {
         return modelsByIdModels;
     }
@@ -171,7 +172,7 @@ public class CarsEntity {
     }
 
     @ManyToOne
-    @JoinColumn(name = "ID_Cars_Types", referencedColumnName = "ID", nullable = false)
+    @JoinColumn(name = "ID_Cars_Types", referencedColumnName = "ID", insertable = false, updatable = false, nullable = false)
     public CarsTypesEntity getCarsTypesByIdCarsTypes() {
         return carsTypesByIdCarsTypes;
     }
@@ -181,7 +182,7 @@ public class CarsEntity {
     }
 
     @ManyToOne
-    @JoinColumn(name = "ID_Cars_GearBox", referencedColumnName = "ID", nullable = false)
+    @JoinColumn(name = "ID_Cars_GearBox", referencedColumnName = "ID", insertable = false, updatable = false, nullable = false)
     public CarsGearboxEntity getCarsGearboxByIdCarsGearBox() {
         return carsGearboxByIdCarsGearBox;
     }
@@ -191,7 +192,7 @@ public class CarsEntity {
     }
 
     @ManyToOne
-    @JoinColumn(name = "ID_Cars_Fuels", referencedColumnName = "ID", nullable = false)
+    @JoinColumn(name = "ID_Cars_Fuels", referencedColumnName = "ID", insertable = false, updatable = false, nullable = false)
     public CarsFuelsEntity getCarsFuelsByIdCarsFuels() {
         return carsFuelsByIdCarsFuels;
     }
@@ -201,7 +202,7 @@ public class CarsEntity {
     }
 
     @ManyToOne
-    @JoinColumn(name = "ID_Cars_Colors", referencedColumnName = "ID", nullable = false)
+    @JoinColumn(name = "ID_Cars_Colors", referencedColumnName = "id", insertable = false, updatable = false, nullable = false)
     public CarsColorsEntity getCarsColorsByIdCarsColors() {
         return carsColorsByIdCarsColors;
     }
@@ -211,7 +212,7 @@ public class CarsEntity {
     }
 
     @ManyToOne
-    @JoinColumn(name = "ID_Cars_Pictures", referencedColumnName = "ID", nullable = false)
+    @JoinColumn(name = "ID_Cars_Pictures", referencedColumnName = "id", insertable = false, updatable = false, nullable = false)
     public CarsPicturesEntity getCarsPicturesByIdCarsPictures() {
         return carsPicturesByIdCarsPictures;
     }

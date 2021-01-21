@@ -22,6 +22,7 @@ public class ContractsEntity {
     private double finalPrice;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     public int getId() {
         return id;
@@ -114,7 +115,7 @@ public class ContractsEntity {
     }
 
     @ManyToOne
-    @JoinColumn(name = "ID_Orders", referencedColumnName = "ID", nullable = false)
+    @JoinColumn(name = "ID_Orders", referencedColumnName = "id", insertable = false, updatable = false, nullable = false)
     public OrdersEntity getOrdersByIdOrders() {
         return ordersByIdOrders;
     }
@@ -124,7 +125,7 @@ public class ContractsEntity {
     }
 
     @ManyToOne
-    @JoinColumn(name = "ID_Cars", referencedColumnName = "ID", nullable = false)
+    @JoinColumn(name = "ID_Cars", referencedColumnName = "id", insertable = false, updatable = false, nullable = false)
     public CarsEntity getCarsByIdCars() {
         return carsByIdCars;
     }
@@ -134,7 +135,7 @@ public class ContractsEntity {
     }
 
     @ManyToOne
-    @JoinColumn(name = "ID_Contract_Type", referencedColumnName = "ID", nullable = false)
+    @JoinColumn(name = "ID_Contract_Type", referencedColumnName = "id", insertable = false, updatable = false, nullable = false)
     public ContractTypesEntity getContractTypesByIdContractType() {
         return contractTypesByIdContractType;
     }

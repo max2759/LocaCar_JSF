@@ -13,6 +13,7 @@ public class UsersAdsEntity {
     private AdsEntity adsByIdAds;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     public int getId() {
         return id;
@@ -56,7 +57,7 @@ public class UsersAdsEntity {
     }
 
     @ManyToOne
-    @JoinColumn(name = "ID_Users", referencedColumnName = "ID", nullable = false)
+    @JoinColumn(name = "ID_Users", referencedColumnName = "id", insertable = false, updatable = false, nullable = false)
     public UsersEntity getUsersByIdUsers() {
         return usersByIdUsers;
     }
@@ -66,7 +67,7 @@ public class UsersAdsEntity {
     }
 
     @ManyToOne
-    @JoinColumn(name = "ID_Ads", referencedColumnName = "ID", nullable = false)
+    @JoinColumn(name = "ID_Ads", referencedColumnName = "id", insertable = false, updatable = false, nullable = false)
     public AdsEntity getAdsByIdAds() {
         return adsByIdAds;
     }

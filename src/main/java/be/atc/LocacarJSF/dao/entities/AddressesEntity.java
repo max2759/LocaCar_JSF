@@ -16,6 +16,7 @@ public class AddressesEntity {
     private UsersEntity usersByIdUsers;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     public int getId() {
         return id;
@@ -89,7 +90,7 @@ public class AddressesEntity {
     }
 
     @ManyToOne
-    @JoinColumn(name = "ID_Cities", referencedColumnName = "ID", nullable = false)
+    @JoinColumn(name = "ID_Cities", referencedColumnName = "ID", insertable = false, updatable = false, nullable = false)
     public CitiesEntity getCitiesByIdCities() {
         return citiesByIdCities;
     }
@@ -99,7 +100,7 @@ public class AddressesEntity {
     }
 
     @ManyToOne
-    @JoinColumn(name = "ID_Users", referencedColumnName = "ID", nullable = false)
+    @JoinColumn(name = "ID_Users", referencedColumnName = "ID", insertable = false, updatable = false, nullable = false)
     public UsersEntity getUsersByIdUsers() {
         return usersByIdUsers;
     }

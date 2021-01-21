@@ -14,6 +14,7 @@ public class ModelsEntity {
     private BrandsEntity brandsByIdBrands;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     public int getId() {
         return id;
@@ -66,7 +67,7 @@ public class ModelsEntity {
     }
 
     @ManyToOne
-    @JoinColumn(name = "ID_Brands", referencedColumnName = "ID", nullable = false)
+    @JoinColumn(name = "ID_Brands", referencedColumnName = "id", insertable = false, updatable = false, nullable = false)
     public BrandsEntity getBrandsByIdBrands() {
         return brandsByIdBrands;
     }
