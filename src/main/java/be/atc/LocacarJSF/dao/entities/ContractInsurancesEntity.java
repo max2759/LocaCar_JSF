@@ -13,6 +13,7 @@ public class ContractInsurancesEntity {
     private InsurancesEntity insurancesByIdInsurance;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     public int getId() {
         return id;
@@ -56,7 +57,7 @@ public class ContractInsurancesEntity {
     }
 
     @ManyToOne
-    @JoinColumn(name = "ID_Contract", referencedColumnName = "ID", nullable = false)
+    @JoinColumn(name = "ID_Contract", referencedColumnName = "id", insertable = false, updatable = false, nullable = false)
     public ContractsEntity getContractsByIdContract() {
         return contractsByIdContract;
     }
@@ -66,7 +67,7 @@ public class ContractInsurancesEntity {
     }
 
     @ManyToOne
-    @JoinColumn(name = "ID_Insurance", referencedColumnName = "ID", nullable = false)
+    @JoinColumn(name = "ID_Insurance", referencedColumnName = "id", insertable = false, updatable = false, nullable = false)
     public InsurancesEntity getInsurancesByIdInsurance() {
         return insurancesByIdInsurance;
     }

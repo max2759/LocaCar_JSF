@@ -13,6 +13,7 @@ public class CarsOptionsEntity {
     private CarsEntity carsByIdCars;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     public int getId() {
         return id;
@@ -56,7 +57,7 @@ public class CarsOptionsEntity {
     }
 
     @ManyToOne
-    @JoinColumn(name = "ID_Options", referencedColumnName = "ID", nullable = false)
+    @JoinColumn(name = "ID_Options", referencedColumnName = "id", insertable = false, updatable = false, nullable = false)
     public OptionsEntity getOptionsByIdOptions() {
         return optionsByIdOptions;
     }
@@ -66,7 +67,7 @@ public class CarsOptionsEntity {
     }
 
     @ManyToOne
-    @JoinColumn(name = "ID_Cars", referencedColumnName = "ID", nullable = false)
+    @JoinColumn(name = "ID_Cars", referencedColumnName = "id", insertable = false, updatable = false, nullable = false)
     public CarsEntity getCarsByIdCars() {
         return carsByIdCars;
     }

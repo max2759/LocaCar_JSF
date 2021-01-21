@@ -13,6 +13,7 @@ public class RolesPermissionsEntity {
     private PermissionsEntity permissionsByIdPermissions;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     public int getId() {
         return id;
@@ -56,7 +57,7 @@ public class RolesPermissionsEntity {
     }
 
     @ManyToOne
-    @JoinColumn(name = "ID_Roles", referencedColumnName = "ID", nullable = false)
+    @JoinColumn(name = "ID_Roles", referencedColumnName = "id", insertable = false, updatable = false, nullable = false)
     public RolesEntity getRolesByIdRoles() {
         return rolesByIdRoles;
     }
@@ -66,7 +67,7 @@ public class RolesPermissionsEntity {
     }
 
     @ManyToOne
-    @JoinColumn(name = "ID_Permissions", referencedColumnName = "ID", nullable = false)
+    @JoinColumn(name = "ID_Permissions", referencedColumnName = "id", insertable = false, updatable = false, nullable = false)
     public PermissionsEntity getPermissionsByIdPermissions() {
         return permissionsByIdPermissions;
     }

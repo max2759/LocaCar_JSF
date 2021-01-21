@@ -18,6 +18,7 @@ public class OrdersEntity {
     private EnumOrderStatut orderStatut;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     public int getId() {
         return id;
@@ -81,7 +82,7 @@ public class OrdersEntity {
     }
 
     @ManyToOne
-    @JoinColumn(name = "ID_Users", referencedColumnName = "ID", nullable = false)
+    @JoinColumn(name = "ID_Users", referencedColumnName = "id", insertable = false, updatable = false, nullable = false)
     public UsersEntity getUsersByIdUsers() {
         return usersByIdUsers;
     }

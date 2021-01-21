@@ -1,6 +1,7 @@
 package be.atc.LocacarJSF.dao.entities;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Collection;
 import java.util.Objects;
 
@@ -15,6 +16,7 @@ public class InsurancesEntity {
     private Collection<ContractInsurancesEntity> contractInsurancesById;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     public int getId() {
         return id;
@@ -25,6 +27,7 @@ public class InsurancesEntity {
     }
 
     @Basic
+    @NotNull
     @Column(name = "Label")
     public String getLabel() {
         return label;

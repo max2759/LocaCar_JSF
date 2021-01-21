@@ -12,6 +12,7 @@ public class OptionsEntity {
     private Collection<CarsOptionsEntity> carsOptionsById;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     public int getId() {
         return id;

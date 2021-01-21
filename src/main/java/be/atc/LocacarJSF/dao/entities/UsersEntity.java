@@ -24,6 +24,7 @@ public class UsersEntity {
     private Collection<UsersAdsEntity> usersAdsById;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     public int getId() {
         return id;
@@ -155,7 +156,7 @@ public class UsersEntity {
     }
 
     @ManyToOne
-    @JoinColumn(name = "ID_Roles", referencedColumnName = "ID", nullable = false)
+    @JoinColumn(name = "ID_Roles", referencedColumnName = "id", insertable = false, updatable = false, nullable = false)
     public RolesEntity getRolesByIdRoles() {
         return rolesByIdRoles;
     }
