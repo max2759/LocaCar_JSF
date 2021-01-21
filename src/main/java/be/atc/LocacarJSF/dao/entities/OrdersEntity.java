@@ -1,5 +1,7 @@
 package be.atc.LocacarJSF.dao.entities;
 
+import be.atc.LocacarJSF.enums.EnumOrderStatut;
+
 import javax.persistence.*;
 import java.sql.Date;
 import java.util.Collection;
@@ -13,7 +15,7 @@ public class OrdersEntity {
     private Date orderDate;
     private Collection<ContractsEntity> contractsById;
     private UsersEntity usersByIdUsers;
-    private Object orderStatut;
+    private EnumOrderStatut orderStatut;
 
     @Id
     @Column(name = "ID")
@@ -45,17 +47,28 @@ public class OrdersEntity {
         this.orderDate = orderDate;
     }
 
+    @Enumerated(EnumType.STRING)
+    @Basic
+    @Column(name = "Order_Statut", nullable = false)
+    public EnumOrderStatut getOrderStatut() {
+        return orderStatut;
+    }
+
+    public void setOrderStatut(EnumOrderStatut orderStatut) {
+        this.orderStatut = orderStatut;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         OrdersEntity that = (OrdersEntity) o;
-        return id == that.id && idUsers == that.idUsers && Objects.equals(orderDate, that.orderDate);
+        return id == that.id && idUsers == that.idUsers && Objects.equals(orderDate, that.orderDate) && Objects.equals(orderStatut, that.orderStatut);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, idUsers, orderDate);
+        return Objects.hash(id, idUsers, orderDate, orderStatut);
     }
 
     @OneToMany(mappedBy = "ordersByIdOrders")
@@ -77,13 +90,4 @@ public class OrdersEntity {
         this.usersByIdUsers = usersByIdUsers;
     }
 
-    @Basic
-    @Column(name = "Order_Statut")
-    public Object getOrderStatut() {
-        return orderStatut;
-    }
-
-    public void setOrderStatut(Object orderStatut) {
-        this.orderStatut = orderStatut;
-    }
 }
