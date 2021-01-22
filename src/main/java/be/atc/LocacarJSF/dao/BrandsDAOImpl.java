@@ -1,6 +1,6 @@
 package be.atc.LocacarJSF.dao;
 
-import be.atc.LocacarJSF.dao.entities.InsurancesEntity;
+import be.atc.LocacarJSF.dao.entities.BrandsEntity;
 import org.apache.log4j.Logger;
 import utils.EMF;
 
@@ -8,12 +8,12 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import java.util.List;
 
-public class InsurancesDAOImpl implements InsurancesDAO {
+public class BrandsDAOImpl implements BrandsDAO {
 
     public static Logger log = Logger.getLogger(InsurancesDAOImpl.class);
 
     @Override
-    public boolean add(InsurancesEntity insurancesEntity) {
+    public boolean add(BrandsEntity brandsEntity) {
 
         EntityManager em = EMF.getEM();
 
@@ -21,7 +21,7 @@ public class InsurancesDAOImpl implements InsurancesDAO {
         try {
             tx = em.getTransaction();
             tx.begin();
-            em.persist(insurancesEntity);
+            em.persist(brandsEntity);
             tx.commit();
             log.info("Persist ok");
             return true;
@@ -38,22 +38,22 @@ public class InsurancesDAOImpl implements InsurancesDAO {
     }
 
     @Override
-    public boolean update(InsurancesEntity insurancesEntity) {
+    public boolean update(BrandsEntity brandsEntity) {
         return false;
     }
 
     @Override
-    public boolean delete(InsurancesEntity insurancesEntity) {
+    public boolean delete(BrandsEntity brandsEntity) {
         return false;
     }
 
     @Override
-    public List<InsurancesEntity> findAll() {
+    public List<BrandsEntity> findAll() {
         return null;
     }
 
     @Override
-    public InsurancesEntity findById(int id) {
+    public BrandsEntity findById(int id) {
         return null;
     }
 }
