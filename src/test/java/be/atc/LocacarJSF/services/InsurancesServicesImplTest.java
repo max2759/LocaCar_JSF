@@ -4,8 +4,6 @@ import be.atc.LocacarJSF.dao.entities.InsurancesEntity;
 import org.apache.log4j.Logger;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class InsurancesServicesImplTest {
 
     public static Logger log = Logger.getLogger(InsurancesServicesImplTest.class);
@@ -21,6 +19,7 @@ class InsurancesServicesImplTest {
         insurancesEntity.setActive(true);
         insurancesEntity.setDescription("Test2");
         insurancesEntity.setPrice(10);
+        insurancesEntity.setLabel("test");
 
         log.info("Set Insurances");
 
