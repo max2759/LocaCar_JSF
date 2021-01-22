@@ -1,6 +1,7 @@
 package be.atc.LocacarJSF.dao.entities;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Collection;
 import java.util.Objects;
 
@@ -23,6 +24,7 @@ public class BrandsEntity {
     }
 
     @Basic
+    @NotNull
     @Column(name = "Label")
     public String getLabel() {
         return label;
