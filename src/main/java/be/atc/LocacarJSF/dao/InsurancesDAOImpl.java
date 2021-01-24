@@ -14,7 +14,6 @@ public class InsurancesDAOImpl implements InsurancesDAO {
 
     @Override
     public boolean add(InsurancesEntity insurancesEntity) {
-
         EntityManager em = EMF.getEM();
 
         EntityTransaction tx = null;
@@ -25,10 +24,8 @@ public class InsurancesDAOImpl implements InsurancesDAO {
             tx.commit();
             log.info("Persist ok");
             return true;
-        } catch (
-                Exception ex) {
+        } catch (Exception ex) {
             if (tx != null && tx.isActive()) tx.rollback();
-
             log.info("Persist echec");
             return false;
         } finally {
@@ -39,21 +36,53 @@ public class InsurancesDAOImpl implements InsurancesDAO {
 
     @Override
     public boolean update(InsurancesEntity insurancesEntity) {
-        return false;
-    }
+        EntityManager em = EMF.getEM();
 
-    @Override
-    public boolean delete(InsurancesEntity insurancesEntity) {
-        return false;
+        EntityTransaction tx = null;
+        try {
+            tx = em.getTransaction();
+            tx.begin();
+            em.merge(insurancesEntity);
+            tx.commit();
+            log.info("Merge ok");
+            return true;
+        } catch (Exception ex) {
+            if (tx != null && tx.isActive()) tx.rollback();
+            log.info("Merge echec");
+            return false;
+        } finally {
+            em.clear();
+            em.close();
+        }
     }
 
     @Override
     public List<InsurancesEntity> findAll() {
-        return null;
+        EntityManager em = EMF.getEM();
+        try {
+            return em.createNamedQuery("Insurances.findAll",
+                    InsurancesEntity.class)
+                    .getResultList();
+        } catch (Exception ex) {
+            log.info("Liste vide");
+            return null;
+        } finally {
+            em.clear();
+            em.close();
+        }
     }
 
     @Override
     public InsurancesEntity findById(int id) {
-        return null;
+        EntityManager em = EMF.getEM();
+        try {
+            return em.find(InsurancesEntity.class, id);
+        } catch (Exception ex) {
+            log.info("Nothing");
+            return null;
+        } finally {
+            em.clear();
+            em.close();
+        }
     }
 }

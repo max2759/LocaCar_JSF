@@ -25,8 +25,7 @@ public class BrandsDAOImpl implements BrandsDAO {
             tx.commit();
             log.info("Persist ok");
             return true;
-        } catch (
-                Exception ex) {
+        } catch (Exception ex) {
             if (tx != null && tx.isActive()) tx.rollback();
 
             log.info("Persist echec");
