@@ -9,8 +9,6 @@ public interface InsurancesDAO {
 
     public boolean update(InsurancesEntity insurancesEntity);
 
-    public boolean delete(InsurancesEntity insurancesEntity);
-
     public List<InsurancesEntity> findAll();
 
     public InsurancesEntity findById(int id);

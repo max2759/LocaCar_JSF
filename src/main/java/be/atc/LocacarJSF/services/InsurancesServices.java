@@ -8,8 +8,8 @@ public interface InsurancesServices {
     public boolean add(InsurancesEntity insurancesEntity);
 
     public boolean update(InsurancesEntity insurancesEntity);
-
-    public boolean delete(InsurancesEntity insurancesEntity);
+/*
+    public boolean delete(int id);*/
 
     public List<InsurancesEntity> findAll();
 
