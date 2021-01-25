@@ -53,6 +53,7 @@ public class InsurancesEntity {
     }
 
     @Basic
+    @NotNull
     @Column(name = "Price")
     public double getPrice() {
         return price;

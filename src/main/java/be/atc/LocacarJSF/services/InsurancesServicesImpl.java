@@ -41,7 +41,7 @@ public class InsurancesServicesImpl implements InsurancesServices {
 
     @Override
     public List<InsurancesEntity> findAll() {
-        return null;
+        return insurancesDAO.findAll();
     }
 
     @Override
