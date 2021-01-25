@@ -23,7 +23,7 @@ public class InsurancesBean implements Serializable {
     private InsurancesServices insurancesServices;
     private List<InsurancesEntity> insurancesEntities;
 
-
+// post construc appelé en 1er mais aprés le constructeur si il y a
     @PostConstruct
     public void init() {
         log.info("Post Construct");
