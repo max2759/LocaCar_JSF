@@ -6,6 +6,11 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "options", schema = "locacarjsf", catalog = "")
+@NamedQueries({
+        @NamedQuery(name = "Options.findAll",
+                query = "select o from OptionsEntity o"
+        )
+})
 public class OptionsEntity {
     private int id;
     private String label;
