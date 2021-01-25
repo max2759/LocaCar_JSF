@@ -6,7 +6,6 @@ import java.util.List;
 
 public interface BrandsDAO {
 
-
     public boolean add(BrandsEntity brandsEntity);
 
     public boolean update(BrandsEntity brandsEntity);
