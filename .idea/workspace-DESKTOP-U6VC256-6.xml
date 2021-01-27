@@ -1,0 +1,496 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="LocacarJSF:war exploded" />
+    </artifacts-to-build>
+  </component>
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="f9380f46-71df-494f-9d0b-7a6ed67b4332" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/images/icons8-modifier.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/images/icons8-supprimer.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/be/atc/LocacarJSF/beans/InsurancesBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/be/atc/LocacarJSF/beans/InsurancesBean.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/index.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/composantsFxs/insurancesList.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/composantsFxs/insurancesList.xhtml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Enum" />
+        <option value="JUnit5 Test Class" />
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Rebase.Settings">
+    <option name="NEW_BASE" value="dev" />
+  </component>
+  <component name="Git.Settings">
+    <excluded-from-favorite>
+      <branch-storage>
+        <map>
+          <entry type="LOCAL">
+            <value>
+              <list>
+                <branch-info repo="$PROJECT_DIR$" source="master" />
+              </list>
+            </value>
+          </entry>
+        </map>
+      </branch-storage>
+    </excluded-from-favorite>
+    <favorite-branches>
+      <branch-storage>
+        <map>
+          <entry type="REMOTE">
+            <value>
+              <list>
+                <branch-info repo="$PROJECT_DIR$" source="origin/dev" />
+              </list>
+            </value>
+          </entry>
+        </map>
+      </branch-storage>
+    </favorite-branches>
+    <option name="PREVIOUS_COMMIT_AUTHORS">
+      <list>
+        <option value="Younes Arifi &lt;younesarifi@hotmail.com&gt;" />
+      </list>
+    </option>
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="dev" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="LogFilters">
+    <option name="FILTER_ERRORS" value="false" />
+    <option name="FILTER_WARNINGS" value="false" />
+    <option name="FILTER_INFO" value="true" />
+    <option name="FILTER_DEBUG" value="true" />
+    <option name="CUSTOM_FILTER" />
+  </component>
+  <component name="ProjectId" id="1nL76D887NfD4buv42LnjmpwKoR" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="DatabaseDriversLRU" value="mysql" />
+    <property name="JPA.DatabaseSchemaImportDialog" value="aa4467b6-36c5-47d6-a16d-37de0c881450" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="JUnit5" />
+    <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5" value="" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../../../../Quasim_Bita_TFE_300920/Application_Husson_Bita_290920/RefGenAtc" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.21724138" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="be.atc.LocacarJSF.dao" />
+      <recent name="be.atc.LocacarJSF.enums" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\kameh\OneDrive\Documents\Cours\Bac Info\3e\Projet d'integration de dev\Projet\Code\ProjetIntegration\LocacarJSF\src\main\resources" />
+      <recent name="D:\bacInfo\ProjetIntegration\src\main\webapp\META-INF" />
+      <recent name="D:\bacInfo\ProjetIntegration\src\main\java" />
+      <recent name="D:\bacInfo\ProjetIntegration\src\main\webapp" />
+    </key>
+    <key name="CreateTestDialog.Recents.Supers">
+      <recent name="" />
+    </key>
+    <key name="CreateTestDialog.RecentsKey">
+      <recent name="be.atc.LocacarJSF.services" />
+      <recent name="be.atc.LocacarJSF.dao" />
+      <recent name="be.atc.LocacarJSF.dao.entities" />
+    </key>
+    <key name="ImportMappingsDialog.RecentPackages">
+      <recent name="" />
+      <recent name="be.atc.LocacarJSF.dao.entities" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Tomcat Server.Tomcat 9.0.41">
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="InsurancesServicesImplTest.deleteInsurance_shouldBeReturnOk" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="LocacarJSF" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="be.atc.LocacarJSF.services.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="be.atc.LocacarJSF.services" />
+      <option name="MAIN_CLASS_NAME" value="be.atc.LocacarJSF.services.InsurancesServicesImplTest" />
+      <option name="METHOD_NAME" value="deleteInsurance_shouldBeReturnOk" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="InsurancesServicesImplTest.findById_shouldBeReturnEntity" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="LocacarJSF" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="be.atc.LocacarJSF.services.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="be.atc.LocacarJSF.services" />
+      <option name="MAIN_CLASS_NAME" value="be.atc.LocacarJSF.services.InsurancesServicesImplTest" />
+      <option name="METHOD_NAME" value="findById_shouldBeReturnEntity" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="InsurancesServicesImplTest.findById_shouldBeReturnNull" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="LocacarJSF" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="be.atc.LocacarJSF.services.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="be.atc.LocacarJSF.services" />
+      <option name="MAIN_CLASS_NAME" value="be.atc.LocacarJSF.services.InsurancesServicesImplTest" />
+      <option name="METHOD_NAME" value="findById_shouldBeReturnNull(int)" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="InsurancesServicesImplTest.updateInsurances_shouldReturnMergeError" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="LocacarJSF" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="be.atc.LocacarJSF.services.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="be.atc.LocacarJSF.services" />
+      <option name="MAIN_CLASS_NAME" value="be.atc.LocacarJSF.services.InsurancesServicesImplTest" />
+      <option name="METHOD_NAME" value="updateInsurances_shouldReturnMergeError" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="InsurancesServicesImplTest.updateInsurances_shouldReturnMergeOk" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="LocacarJSF" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="be.atc.LocacarJSF.services.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="be.atc.LocacarJSF.services" />
+      <option name="MAIN_CLASS_NAME" value="be.atc.LocacarJSF.services.InsurancesServicesImplTest" />
+      <option name="METHOD_NAME" value="updateInsurances_shouldReturnMergeOk" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Tomcat 9.0.41" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 9.0.41" ALTERNATIVE_JRE_ENABLED="false">
+      <option name="UPDATE_ON_FRAME_DEACTIVATION" value="true" />
+      <option name="UPDATING_POLICY" value="update-resources" />
+      <deployment>
+        <artifact name="LocacarJSF:war exploded">
+          <settings>
+            <option name="CONTEXT_PATH" value="/LocacarJSF_war_exploded" />
+          </settings>
+        </artifact>
+      </deployment>
+      <server-settings>
+        <option name="BASE_DIRECTORY_NAME" value="18be7d07-d9a9-4cd4-82ba-858666ec46de" />
+      </server-settings>
+      <predefined_log_file enabled="true" id="Tomcat" />
+      <predefined_log_file enabled="true" id="Tomcat Catalina" />
+      <predefined_log_file id="Tomcat Manager" />
+      <predefined_log_file id="Tomcat Host Manager" />
+      <predefined_log_file id="Tomcat Localhost Access" />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="58368" />
+      </RunnerSettings>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Cover">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Debug">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Profile">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Run">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <method v="2">
+        <option name="Make" enabled="true" />
+        <option name="BuildArtifacts" enabled="true">
+          <artifact name="LocacarJSF:war exploded" />
+        </option>
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="JUnit.InsurancesServicesImplTest.deleteInsurance_shouldBeReturnOk" />
+      <item itemvalue="JUnit.InsurancesServicesImplTest.findById_shouldBeReturnEntity" />
+      <item itemvalue="JUnit.InsurancesServicesImplTest.findById_shouldBeReturnNull" />
+      <item itemvalue="JUnit.InsurancesServicesImplTest.updateInsurances_shouldReturnMergeError" />
+      <item itemvalue="JUnit.InsurancesServicesImplTest.updateInsurances_shouldReturnMergeOk" />
+      <item itemvalue="Tomcat Server.Tomcat 9.0.41" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.InsurancesServicesImplTest.deleteInsurance_shouldBeReturnOk" />
+        <item itemvalue="JUnit.InsurancesServicesImplTest.findById_shouldBeReturnNull" />
+        <item itemvalue="JUnit.InsurancesServicesImplTest.updateInsurances_shouldReturnMergeOk" />
+        <item itemvalue="JUnit.InsurancesServicesImplTest.updateInsurances_shouldReturnMergeError" />
+        <item itemvalue="JUnit.InsurancesServicesImplTest.findById_shouldBeReturnEntity" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="f9380f46-71df-494f-9d0b-7a6ed67b4332" name="Default Changelist" comment="" />
+      <created>1611157341820</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1611157341820</updated>
+      <workItem from="1611157343298" duration="5008000" />
+      <workItem from="1611164306178" duration="258000" />
+      <workItem from="1611164668177" duration="205000" />
+      <workItem from="1611164882811" duration="1310000" />
+      <workItem from="1611223016957" duration="519000" />
+      <workItem from="1611223798528" duration="3848000" />
+      <workItem from="1611227661979" duration="130000" />
+      <workItem from="1611227814311" duration="7089000" />
+      <workItem from="1611248621944" duration="1182000" />
+      <workItem from="1611308143027" duration="5335000" />
+      <workItem from="1611400405724" duration="5310000" />
+      <workItem from="1611414270258" duration="1458000" />
+      <workItem from="1611418632193" duration="3716000" />
+      <workItem from="1611480859072" duration="285000" />
+      <workItem from="1611481986378" duration="18000" />
+      <workItem from="1611482506700" duration="2849000" />
+      <workItem from="1611588418221" duration="350000" />
+      <workItem from="1611588920652" duration="1281000" />
+      <workItem from="1611609154696" duration="2240000" />
+    </task>
+    <task id="LOCAL-00001" summary="YA/US-4 Create Enum for Entities&#10;Modify Object to double in Entities&#10;Add dependency validator hibernate in pom.xml">
+      <created>1611226164157</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1611226164157</updated>
+    </task>
+    <task id="LOCAL-00002" summary="YA/BUG-6 Reglage de bugs début de projet">
+      <created>1611248692791</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1611248692791</updated>
+    </task>
+    <task id="LOCAL-00003" summary="US-7">
+      <created>1611327978346</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1611327978346</updated>
+    </task>
+    <task id="LOCAL-00004" summary="US-10 Add Update, find Insurance DAO + Service&#10;+ Tests">
+      <created>1611495007808</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1611495007808</updated>
+    </task>
+    <task id="LOCAL-00005" summary="US-14. Test insurances List">
+      <created>1611588583449</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1611588583449</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <MESSAGE value="YA/US-4 Create Enum for Entities&#10;Modify Object to double in Entities&#10;Add dependency validator hibernate in pom.xml" />
+    <MESSAGE value="YA/BUG-6 Reglage de bugs début de projet" />
+    <MESSAGE value="US-7" />
+    <MESSAGE value="US-10 Add Update, find Insurance DAO + Service&#10;+ Tests" />
+    <MESSAGE value="US-14. Test insurances List" />
+    <option name="LAST_COMMIT_MESSAGE" value="US-14. Test insurances List" />
+    <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
+    <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
+    <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="140" y="91" width="1086" height="726" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1611610024741">
+      <screen x="0" y="0" width="1368" height="872" />
+    </state>
+    <state x="140" y="91" width="1086" height="726" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1368.872@0.0.1368.872" timestamp="1611610024741" />
+    <state x="490" y="120" key="#com.intellij.ide.util.MemberChooser" timestamp="1611610853107">
+      <screen x="0" y="0" width="1368" height="872" />
+    </state>
+    <state x="490" y="120" key="#com.intellij.ide.util.MemberChooser/0.0.1368.872@0.0.1368.872" timestamp="1611610853107" />
+    <state width="907" height="202" key="GridCell.Tab.0.bottom" timestamp="1611654432849">
+      <screen x="0" y="0" width="1368" height="872" />
+    </state>
+    <state width="907" height="202" key="GridCell.Tab.0.bottom/0.0.1368.872@0.0.1368.872" timestamp="1611654432849" />
+    <state width="907" height="202" key="GridCell.Tab.0.center" timestamp="1611654432849">
+      <screen x="0" y="0" width="1368" height="872" />
+    </state>
+    <state width="907" height="202" key="GridCell.Tab.0.center/0.0.1368.872@0.0.1368.872" timestamp="1611654432849" />
+    <state width="907" height="202" key="GridCell.Tab.0.left" timestamp="1611654432848">
+      <screen x="0" y="0" width="1368" height="872" />
+    </state>
+    <state width="907" height="202" key="GridCell.Tab.0.left/0.0.1368.872@0.0.1368.872" timestamp="1611654432848" />
+    <state width="907" height="202" key="GridCell.Tab.0.right" timestamp="1611654432849">
+      <screen x="0" y="0" width="1368" height="872" />
+    </state>
+    <state width="907" height="202" key="GridCell.Tab.0.right/0.0.1368.872@0.0.1368.872" timestamp="1611654432849" />
+    <state width="907" height="202" key="GridCell.Tab.1.bottom" timestamp="1611654432849">
+      <screen x="0" y="0" width="1368" height="872" />
+    </state>
+    <state width="907" height="202" key="GridCell.Tab.1.bottom/0.0.1368.872@0.0.1368.872" timestamp="1611654432849" />
+    <state width="907" height="202" key="GridCell.Tab.1.center" timestamp="1611654432849">
+      <screen x="0" y="0" width="1368" height="872" />
+    </state>
+    <state width="907" height="202" key="GridCell.Tab.1.center/0.0.1368.872@0.0.1368.872" timestamp="1611654432849" />
+    <state width="907" height="202" key="GridCell.Tab.1.left" timestamp="1611654432849">
+      <screen x="0" y="0" width="1368" height="872" />
+    </state>
+    <state width="907" height="202" key="GridCell.Tab.1.left/0.0.1368.872@0.0.1368.872" timestamp="1611654432849" />
+    <state width="907" height="202" key="GridCell.Tab.1.right" timestamp="1611654432849">
+      <screen x="0" y="0" width="1368" height="872" />
+    </state>
+    <state width="907" height="202" key="GridCell.Tab.1.right/0.0.1368.872@0.0.1368.872" timestamp="1611654432849" />
+    <state width="907" height="202" key="GridCell.Tab.2.bottom" timestamp="1611654432849">
+      <screen x="0" y="0" width="1368" height="872" />
+    </state>
+    <state width="907" height="202" key="GridCell.Tab.2.bottom/0.0.1368.872@0.0.1368.872" timestamp="1611654432849" />
+    <state width="907" height="202" key="GridCell.Tab.2.center" timestamp="1611654432849">
+      <screen x="0" y="0" width="1368" height="872" />
+    </state>
+    <state width="907" height="202" key="GridCell.Tab.2.center/0.0.1368.872@0.0.1368.872" timestamp="1611654432849" />
+    <state width="907" height="202" key="GridCell.Tab.2.left" timestamp="1611654432849">
+      <screen x="0" y="0" width="1368" height="872" />
+    </state>
+    <state width="907" height="202" key="GridCell.Tab.2.left/0.0.1368.872@0.0.1368.872" timestamp="1611654432849" />
+    <state width="907" height="202" key="GridCell.Tab.2.right" timestamp="1611654432849">
+      <screen x="0" y="0" width="1368" height="872" />
+    </state>
+    <state width="907" height="202" key="GridCell.Tab.2.right/0.0.1368.872@0.0.1368.872" timestamp="1611654432849" />
+    <state x="502" y="350" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1611609165241">
+      <screen x="0" y="0" width="1368" height="872" />
+    </state>
+    <state x="502" y="350" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1368.872@0.0.1368.872" timestamp="1611609165241" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.lang.NoClassDefFoundError" package="java.lang" />
+          <option name="timeStamp" value="5" />
+        </breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>

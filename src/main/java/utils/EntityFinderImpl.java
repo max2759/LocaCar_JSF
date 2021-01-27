@@ -73,6 +73,28 @@ public class EntityFinderImpl<T> implements EntityFinder<T>, Serializable {
         return listT;
     }
 
+    @SuppressWarnings("unchecked")
+    @Override
+    public <K, V> List<T> findByNamedQuery(String namedQuery, T t) {
+
+        List<T> listT = new ArrayList<T>();
+        Class<? extends Object> ec = t.getClass();
+
+        EntityManager em = EMF.getEM();
+        try {
+            Query query = em.createNamedQuery(namedQuery, ec);
+            listT = (List<T>) query.getResultList();
+
+            log.debug("List " + t + " size: " + listT.size());
+            log.debug("Named query " + namedQuery + " find from database: Ok");
+        } finally {
+
+            em.clear();
+            em.close();
+        }
+        return listT;
+    }
+
     @Override
     public <K, V> List<T> findByCustomQuery(String customQuery, T t, Map<K, V> param) {
 

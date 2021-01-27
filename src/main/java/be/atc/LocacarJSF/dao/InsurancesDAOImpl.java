@@ -3,12 +3,13 @@ package be.atc.LocacarJSF.dao;
 import be.atc.LocacarJSF.dao.entities.InsurancesEntity;
 import org.apache.log4j.Logger;
 import utils.EMF;
+import utils.EntityFinderImpl;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import java.util.List;
 
-public class InsurancesDAOImpl implements InsurancesDAO {
+public class InsurancesDAOImpl extends EntityFinderImpl<InsurancesEntity> implements InsurancesDAO {
 
     public static Logger log = Logger.getLogger(InsurancesDAOImpl.class);
 
@@ -58,18 +59,7 @@ public class InsurancesDAOImpl implements InsurancesDAO {
 
     @Override
     public List<InsurancesEntity> findAll() {
-        EntityManager em = EMF.getEM();
-        try {
-            return em.createNamedQuery("Insurances.findAll",
-                    InsurancesEntity.class)
-                    .getResultList();
-        } catch (Exception ex) {
-            log.info("Liste vide");
-            return null;
-        } finally {
-            em.clear();
-            em.close();
-        }
+        return this.findByNamedQuery("Insurances.findAll", new InsurancesEntity());
     }
 
     @Override

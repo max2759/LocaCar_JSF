@@ -7,34 +7,101 @@
       xmlns:cc="http://java.sun.com/jsf/composite">
 
 <cc:interface name="insurancesList"
-              displayName="#{bundle['fxs.displayName']}"
-              shortDescription="#{bundle['fxs.shortDescription']}"
+              displayName="#{bundle['fxs.insurancesList.displayName']}"
+              shortDescription="#{bundle['fxs.insurancesList.shortDescription']}"
 >
 </cc:interface>
 <cc:implementation>
-    <!-- datatable == equiavalent foreach -->
-    <h:dataTable id="outputMessage"
-                 value="#{insurancesBean.insurancesEntities}" var="i">
-        <h:column>
-            <f:facet name="header">Code</f:facet>
-            <h:outputText value="#{i.id}"></h:outputText>
-        </h:column>
-        <h:column>
-            <f:facet name="header">Titre</f:facet>
-            <h:outputText value="#{i.label}"></h:outputText>
-        </h:column>
-        <h:column>
-            <f:facet name="header">Description</f:facet>
-            <h:outputText value="#{i.description}"></h:outputText>
-        </h:column>
-        <h:column>
-            <f:facet name="header">Price</f:facet>
-            <h:outputText value="#{i.price}"></h:outputText>
-        </h:column>
-        <h:column>
-            <f:facet name="header">IsActive</f:facet>
-            <h:outputText value="#{i.active}"></h:outputText>
-        </h:column>
-    </h:dataTable>
+    <h:form>
+        <!-- datatable == equiavalent foreach -->
+        <h:dataTable id="outputMessage"
+                     value="#{insurancesBean.insurancesEntities}" var="i">
+            <h:column>
+                <f:facet name="header">Code</f:facet>
+                <h:outputText value="#{i.id}"></h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Titre</f:facet>
+                <h:outputText value="#{i.label}"></h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Description</f:facet>
+                <h:outputText value="#{i.description}"></h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Price</f:facet>
+                <h:outputText value="#{i.price}"></h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">IsActive</f:facet>
+                <h:outputText value="#{i.active}"></h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Modifier</f:facet>
+                <h:commandButton styleClass="btn btn-outline-primary btn-sm" value="Modifier"
+                                 action="#{insurancesBean.showPopupModal}">
+                    <f:param name="id" value="#{i.id}"></f:param>
+                    <f:ajax render="@all"/>
+                </h:commandButton>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Supprimer</f:facet>
+                <h:commandLink>
+                    <h:graphicImage library="images" width="35%" name="icons8-supprimer.svg"/>
+                    <f:param name="id" value="#{i.id}"></f:param>
+                </h:commandLink>
+            </h:column>
+        </h:dataTable>
+    </h:form>
+    <f:view>
+        <h:panelGroup id="popupEdit" layout="block" styleClass="popup-panel-overlay"
+                      rendered="#{insurancesBean.showPopup}">
+
+            <h:form id="formPopupEdit">
+                <div class="popup-panel">
+                    <div class="form-group">
+                        <h:outputLabel value="ID" for="idInsurances"></h:outputLabel>
+                        <h:outputText id="idInsurances" value="#{insurancesBean.insurancesEntity.id}"
+                                      styleClass="form-control"></h:outputText>
+                    </div>
+                    <div class="form-group">
+                        <h:outputLabel value="Label" for="label"></h:outputLabel>
+                        <h:inputText value="#{insurancesBean.insurancesEntity.label}" styleClass="form-control"
+                                     required="true"
+                                     requiredMessage="#{bundle['fxs.insurancesList.required']}"
+                                     id="label"></h:inputText>
+                        <h:message styleClass="alert alert-danger" role="alert" for="label"></h:message>
+                    </div>
+                    <div class="form-group">
+                        <h:outputLabel value="Description" for="description"></h:outputLabel>
+                        <h:inputTextarea id="description" styleClass="form-control" rows="3"
+                                         value="#{insurancesBean.insurancesEntity.description}"></h:inputTextarea>
+                    </div>
+                    <div class="form-group">
+                        <h:outputLabel value="Prix" for="price"></h:outputLabel>
+                        <h:inputText value="#{insurancesBean.insurancesEntity.price}" styleClass="form-control"
+                                     id="price" required="true"
+                                     requiredMessage="#{bundle['fxs.insurancesList.required']}"
+                                     converterMessage="#{bundle['fxs.insurancesList.priceError']}">
+                            <f:validator validatorId="priceValidator"/>
+                        </h:inputText>
+                        <h:message for="price" id="messageValidator" styleClass="alert alert-danger "/>
+                    </div>
+                    <span>
+                        <h:commandButton styleClass="btn btn-outline-success btn-sm" value="Save"
+                                         action="#{insurancesBean.saveEdit}">
+                            <f:ajax execute="formPopupEdit" render="@all"></f:ajax>
+                        </h:commandButton>
+                    </span>
+                    <span>
+                        <h:commandButton styleClass="btn btn-outline-dark btn-sm" value="Fermer"
+                                         action="#{insurancesBean.hidePopupModal}">
+                            <f:ajax render="@all"></f:ajax>
+                        </h:commandButton>
+                    </span>
+                </div>
+            </h:form>
+        </h:panelGroup>
+    </f:view>
 </cc:implementation>
 </html>
