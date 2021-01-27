@@ -22,6 +22,15 @@
             <f:facet name="header">Titre</f:facet>
             <h:outputText value="#{options.label}"></h:outputText>
         </h:column>
+        <h:column>
+            <f:facet name="header">Modifier</f:facet>
+            <h:form>
+                <h:inputHidden value="#{options.id}" required="true"></h:inputHidden>
+                <h:inputText value="#{options.label}" required="true"></h:inputText>
+                <h:commandButton value="valider" action="#{optionsBean.updateOption}"/>
+            </h:form>
+
+        </h:column>
     </h:dataTable>
 </cc:implementation>
 </html>
