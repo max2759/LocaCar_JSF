@@ -8,9 +8,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "insurances", schema = "locacarjsf", catalog = "")
 @NamedQueries({
-        // Recherche tous les projets
-        @NamedQuery(name = "Insurances.findAll",
-                query = "SELECT i from InsurancesEntity i ")
+        @NamedQuery(name = "Insurances.findAll", query = "SELECT i from InsurancesEntity i ")
 })
 public class InsurancesEntity {
     private int id;
