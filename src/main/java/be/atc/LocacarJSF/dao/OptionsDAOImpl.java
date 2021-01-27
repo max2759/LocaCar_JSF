@@ -5,6 +5,7 @@ import org.apache.log4j.Logger;
 import utils.EMF;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import java.util.List;
 
 public class OptionsDAOImpl implements OptionsDAO {
@@ -13,12 +14,46 @@ public class OptionsDAOImpl implements OptionsDAO {
 
     @Override
     public boolean add(OptionsEntity optionsEntity) {
-        return false;
+        EntityManager em = EMF.getEM();
+
+        EntityTransaction tx = null;
+        try {
+            tx = em.getTransaction();
+            tx.begin();
+            em.persist(optionsEntity);
+            tx.commit();
+            log.info("Persist ok");
+            return true;
+        } catch (Exception ex) {
+            if (tx != null && tx.isActive()) tx.rollback();
+            log.info("Persist echec");
+            return false;
+        } finally {
+            em.clear();
+            em.close();
+        }
     }
 
     @Override
     public boolean update(OptionsEntity optionsEntity) {
-        return false;
+        EntityManager em = EMF.getEM();
+
+        EntityTransaction tx = null;
+        try {
+            tx = em.getTransaction();
+            tx.begin();
+            em.merge(optionsEntity);
+            tx.commit();
+            log.info("Merge ok");
+            return true;
+        } catch (Exception ex) {
+            if (tx != null && tx.isActive()) tx.rollback();
+            log.info("Merge echec");
+            return false;
+        } finally {
+            em.clear();
+            em.close();
+        }
     }
 
     @Override

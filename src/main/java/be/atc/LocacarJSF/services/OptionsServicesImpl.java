@@ -12,11 +12,18 @@ public class OptionsServicesImpl implements OptionsServices {
 
     @Override
     public boolean add(OptionsEntity optionsEntity) {
+        if (optionsEntity != null) {
+            return optionsDAO.add(optionsEntity);
+        }
         return false;
     }
 
     @Override
     public boolean update(OptionsEntity optionsEntity) {
+        if (optionsEntity != null && findById(optionsEntity.getId()) != null) {
+            optionsDAO.update(optionsEntity);
+            return true;
+        }
         return false;
     }
 
@@ -27,6 +34,9 @@ public class OptionsServicesImpl implements OptionsServices {
 
     @Override
     public OptionsEntity findById(int id) {
+        if (id != 0) {
+            return optionsDAO.findById(id);
+        }
         return null;
     }
 }
