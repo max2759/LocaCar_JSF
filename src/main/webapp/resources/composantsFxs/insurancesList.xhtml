@@ -14,43 +14,51 @@
 <cc:implementation>
     <h:form>
         <!-- datatable == equiavalent foreach -->
-        <h:dataTable id="outputMessage"
+        <h:dataTable id="outputMessage" styleClass="table table-hover"
                      value="#{insurancesBean.insurancesEntities}" var="i">
             <h:column>
-                <f:facet name="header">Code</f:facet>
+                <f:facet name="header">#{bundle['fxs.insurancesList.code']}</f:facet>
                 <h:outputText value="#{i.id}"></h:outputText>
             </h:column>
             <h:column>
-                <f:facet name="header">Titre</f:facet>
+                <f:facet name="header">#{bundle['fxs.insurancesList.title']}</f:facet>
                 <h:outputText value="#{i.label}"></h:outputText>
             </h:column>
             <h:column>
-                <f:facet name="header">Description</f:facet>
+                <f:facet name="header">#{bundle['fxs.insurancesList.description']}</f:facet>
                 <h:outputText value="#{i.description}"></h:outputText>
             </h:column>
             <h:column>
-                <f:facet name="header">Price</f:facet>
-                <h:outputText value="#{i.price}"></h:outputText>
+                <f:facet name="header">#{bundle['fxs.insurancesList.price']}</f:facet>
+                <h:outputText value="#{i.price} €"></h:outputText>
             </h:column>
             <h:column>
-                <f:facet name="header">IsActive</f:facet>
-                <h:outputText value="#{i.active}"></h:outputText>
-            </h:column>
-            <h:column>
-                <f:facet name="header">Modifier</f:facet>
-                <h:commandButton styleClass="btn btn-outline-primary btn-sm" value="Modifier"
+                <f:facet name="header">#{bundle['fxs.insurancesList.edit']}</f:facet>
+                <h:commandButton styleClass="btn btn-outline-primary btn-sm"
+                                 value="#{bundle['fxs.insurancesList.edit']}"
                                  action="#{insurancesBean.showPopupModal}">
                     <f:param name="id" value="#{i.id}"></f:param>
                     <f:ajax render="@all"/>
                 </h:commandButton>
             </h:column>
+
             <h:column>
-                <f:facet name="header">Supprimer</f:facet>
-                <h:commandLink>
-                    <h:graphicImage library="images" width="35%" name="icons8-supprimer.svg"/>
+                <f:facet name="header">#{bundle['fxs.insurancesList.isActive']}</f:facet>
+                <h:commandButton id="activeInsurance" styleClass="btn btn-outline-info btn-sm"
+                                 rendered="#{i.active eq true}" value="#{bundle['fxs.insurancesList.delete']}"
+                                 onclick="return confirmer();"
+                                 action="#{insurancesBean.deleteOrActivateInsurance}">
                     <f:param name="id" value="#{i.id}"></f:param>
-                </h:commandLink>
+                    <f:ajax render="@form"/>
+                </h:commandButton>
+                <h:commandButton id="desactiveInsurance" styleClass="btn btn-outline-info btn-sm"
+                                 rendered="#{i.active eq false}" value="#{bundle['fxs.insurancesList.reactivate']}"
+                                 action="#{insurancesBean.deleteOrActivateInsurance}">
+                    <f:param name="id" value="#{i.id}"></f:param>
+                    <f:ajax render="@form"/>
+                </h:commandButton>
             </h:column>
+
         </h:dataTable>
     </h:form>
     <f:view>
