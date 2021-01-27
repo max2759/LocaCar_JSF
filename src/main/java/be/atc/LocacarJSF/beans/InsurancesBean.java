@@ -72,6 +72,26 @@ public class InsurancesBean implements Serializable {
         insurancesEntities = insurancesServices.findAll();
     }
 
+    public void deleteOrActivateInsurance() {
+        log.info("Delete or reactivate insurance");
+
+        System.out.println("id : " + getParam("id"));
+        int idInsurance = parseInt(getParam("id"));
+        InsurancesEntity insurancesEntity = insurancesServices.findById(idInsurance);
+
+        if (insurancesEntity.isActive() == true) {
+            log.info("isActive : true");
+            insurancesEntity.setActive(false);
+            log.info("isActove : update ==> False");
+        } else {
+            insurancesEntity.setActive(true);
+            log.info("isActove : update ==> True");
+        }
+        insurancesServices.update(insurancesEntity);
+        log.info("Update entité !!");
+
+        insurancesEntities = insurancesServices.findAll();
+    }
 
     // Méthode pour retourner les paramètres récupéré depuis l'url
     public String getParam(String name) {
