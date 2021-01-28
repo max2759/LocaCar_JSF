@@ -13,7 +13,9 @@
     <h:form>
         <h:outputLabel value="Connectez - vous"></h:outputLabel>
         <br/>
+        <h:outputText value="#{bundle['fxs.connexion.username']}"></h:outputText>
         <h:inputText value="#{usersBean.usersEntity.username}" required="true"></h:inputText>
+        <h:outputText value="#{bundle['fxs.connexion.password']}"></h:outputText>
         <h:inputText value="#{usersBean.usersEntity.password}" required="true"></h:inputText>
         <h:commandButton value="valider" action="#{usersBean.connexion}"/>
     </h:form>

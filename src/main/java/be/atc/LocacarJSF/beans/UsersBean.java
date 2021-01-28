@@ -28,6 +28,10 @@ public class UsersBean implements Serializable {
         log.info("je suis dans le connexion");
     }
 
+    public void inscription() {
+        log.info("inscription");
+    }
+
     public UsersEntity getUsersEntity() {
         return usersEntity;
     }

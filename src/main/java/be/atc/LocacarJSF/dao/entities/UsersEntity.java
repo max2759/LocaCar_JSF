@@ -1,8 +1,8 @@
 package be.atc.LocacarJSF.dao.entities;
 
 import javax.persistence.*;
-import java.sql.Date;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Objects;
 
 @Entity
