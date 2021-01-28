@@ -13,6 +13,12 @@ public class InsurancesDAOImpl extends EntityFinderImpl<InsurancesEntity> implem
 
     public static Logger log = Logger.getLogger(InsurancesDAOImpl.class);
 
+    /**
+     * Add entity
+     *
+     * @param insurancesEntity
+     * @return
+     */
     @Override
     public boolean add(InsurancesEntity insurancesEntity) {
         EntityManager em = EMF.getEM();
@@ -35,6 +41,12 @@ public class InsurancesDAOImpl extends EntityFinderImpl<InsurancesEntity> implem
         }
     }
 
+    /**
+     * Update entity
+     *
+     * @param insurancesEntity
+     * @return
+     */
     @Override
     public boolean update(InsurancesEntity insurancesEntity) {
         EntityManager em = EMF.getEM();
@@ -57,11 +69,22 @@ public class InsurancesDAOImpl extends EntityFinderImpl<InsurancesEntity> implem
         }
     }
 
+    /**
+     * Find all entities
+     *
+     * @return
+     */
     @Override
     public List<InsurancesEntity> findAll() {
         return this.findByNamedQuery("Insurances.findAll", new InsurancesEntity());
     }
 
+    /**
+     * find entity by id
+     *
+     * @param id
+     * @return
+     */
     @Override
     public InsurancesEntity findById(int id) {
         EntityManager em = EMF.getEM();

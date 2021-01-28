@@ -10,6 +10,12 @@ public class InsurancesServicesImpl implements InsurancesServices {
 
     InsurancesDAO insurancesDAO = new InsurancesDAOImpl();
 
+    /**
+     * Add entity
+     *
+     * @param insurancesEntity
+     * @return
+     */
     @Override
     public boolean add(InsurancesEntity insurancesEntity) {
         if (insurancesEntity != null) {
@@ -18,6 +24,12 @@ public class InsurancesServicesImpl implements InsurancesServices {
         return false;
     }
 
+    /**
+     * Update entity
+     *
+     * @param insurancesEntity
+     * @return
+     */
     @Override
     public boolean update(InsurancesEntity insurancesEntity) {
         if (insurancesEntity != null && findById(insurancesEntity.getId()) != null) {
@@ -39,11 +51,22 @@ public class InsurancesServicesImpl implements InsurancesServices {
         return false;
     }*/
 
+    /**
+     * Find all entities
+     *
+     * @return
+     */
     @Override
     public List<InsurancesEntity> findAll() {
         return insurancesDAO.findAll();
     }
 
+    /**
+     * Find entity by id
+     *
+     * @param id
+     * @return
+     */
     @Override
     public InsurancesEntity findById(int id) {
         if (id != 0) {

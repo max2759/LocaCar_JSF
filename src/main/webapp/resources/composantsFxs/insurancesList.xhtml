@@ -12,6 +12,16 @@
 >
 </cc:interface>
 <cc:implementation>
+    <br/>
+    <div>
+        <h:form>
+            <h:commandButton styleClass="btn btn-outline-primary" value="#{bundle['fxs.insurancesList.add']}"
+                             action="#{insurancesBean.showPopupModal}">
+                <f:param name="addEntity" value="addEntity"></f:param>
+            </h:commandButton>
+        </h:form>
+    </div>
+    <br/>
     <h:form>
         <!-- datatable == equiavalent foreach -->
         <h:dataTable id="outputMessage" styleClass="table table-hover"
@@ -96,13 +106,15 @@
                         <h:message for="price" id="messageValidator" styleClass="alert alert-danger "/>
                     </div>
                     <span>
-                        <h:commandButton styleClass="btn btn-outline-success btn-sm" value="Save"
+                        <h:commandButton styleClass="btn btn-outline-success btn-sm"
+                                         value="#{bundle['fxs.insurancesList.save']}"
                                          action="#{insurancesBean.saveEdit}">
                             <f:ajax execute="formPopupEdit" render="@all"></f:ajax>
                         </h:commandButton>
                     </span>
                     <span>
-                        <h:commandButton styleClass="btn btn-outline-dark btn-sm" value="Fermer"
+                        <h:commandButton styleClass="btn btn-outline-dark btn-sm"
+                                         value="#{bundle['fxs.insurancesList.close']}"
                                          action="#{insurancesBean.hidePopupModal}">
                             <f:ajax render="@all"></f:ajax>
                         </h:commandButton>
