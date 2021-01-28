@@ -22,84 +22,90 @@ public class InsurancesBean implements Serializable {
     public static Logger log = Logger.getLogger(InsurancesBean.class);
 
     private InsurancesEntity insurancesEntity;
-    private InsurancesEntity insurancesEntityModify;
     private InsurancesServices insurancesServices = new InsurancesServicesImpl();
     private List<InsurancesEntity> insurancesEntities;
 
-    private String label;
-
     private boolean showPopup;
+    private boolean addEntity;
 
-    // post construc appelé en 1er mais aprés le constructeur si il y a
+    /**
+     * PostConstruct : appelé après le constructeur.
+     * Met à jour la liste insurancesEntities
+     */
     @PostConstruct
     public void init() {
         log.info("Post Construct");
         insurancesEntities = insurancesServices.findAll();
     }
 
-
+    /**
+     * Ouvrir le popup d'edition ou d'ajout
+     */
     public void showPopupModal() {
-        log.info("Show PopupModal TRUE");
+        log.info("Show PopupModal");
         showPopup = true;
-        System.out.println("id : " + getParam("id"));
-        int idInsurance = parseInt(getParam("id"));
-        insurancesEntity = insurancesServices.findById(idInsurance);
+        if (getParam("id") != null) {
+            addEntity = false;
+            int idInsurance = parseInt(getParam("id"));
+            insurancesEntity = insurancesServices.findById(idInsurance);
+        } else {
+            addEntity = true;
+            insurancesEntity = new InsurancesEntity();
+        }
     }
 
+    /**
+     * Fermer le popup d'edition ou d'ajout
+     */
     public void hidePopupModal() {
-        log.info("Show PopupModal False");
+        log.info("Hide PopupModal ");
         showPopup = false;
     }
 
+    /**
+     * Sauvegarde l'entité ajouté ou modifié !
+     */
     public void saveEdit() {
         log.info("Save edit");
-        InsurancesEntity insurancesEntityModify = null;
-        insurancesEntityModify = insurancesServices.findById(insurancesEntity.getId());
-        insurancesEntityModify.setLabel(insurancesEntity.getLabel());
-        insurancesEntityModify.setPrice(insurancesEntity.getPrice());
-        insurancesEntityModify.setDescription(insurancesEntity.getDescription());
-        insurancesEntityModify.setActive(insurancesEntity.isActive());
-
-        log.info("id Ancienne entité : " + insurancesEntity.getId());
-        log.info("id nouvelle entité : " + insurancesEntityModify.getId());
-        log.info("label Ancienne entité : " + insurancesEntity.getLabel());
-        log.info("description Ancienne entité : " + insurancesEntity.getDescription());
-        log.info("prix Ancienne entité : " + insurancesEntity.getPrice());
-        log.info("active Ancienne entité : " + insurancesEntity.isActive());
-
-        insurancesServices.update(insurancesEntityModify);
-
-        insurancesEntities = insurancesServices.findAll();
+        if (addEntity) {
+            log.info("Add entity");
+            insurancesServices.add(insurancesEntity);
+        } else {
+            log.info("update entity");
+            insurancesServices.update(insurancesEntity);
+        }
+        init();
     }
 
+    /**
+     * Supprime ou réactive l'entité !!
+     */
     public void deleteOrActivateInsurance() {
         log.info("Delete or reactivate insurance");
 
-        System.out.println("id : " + getParam("id"));
         int idInsurance = parseInt(getParam("id"));
         InsurancesEntity insurancesEntity = insurancesServices.findById(idInsurance);
 
-        if (insurancesEntity.isActive() == true) {
-            log.info("isActive : true");
+        if (insurancesEntity.isActive()) {
             insurancesEntity.setActive(false);
-            log.info("isActove : update ==> False");
         } else {
             insurancesEntity.setActive(true);
-            log.info("isActove : update ==> True");
         }
         insurancesServices.update(insurancesEntity);
-        log.info("Update entité !!");
-
-        insurancesEntities = insurancesServices.findAll();
+        init();
     }
 
-    // Méthode pour retourner les paramètres récupéré depuis l'url
+    /**
+     * Méthode pour retourner les paramètres récupéré
+     *
+     * @param name
+     * @return
+     */
     public String getParam(String name) {
         FacesContext fc = FacesContext.getCurrentInstance();
         Map<String, String> params = fc.getExternalContext().getRequestParameterMap();
         return params.get(name);
     }
-
 
     public List<InsurancesEntity> getInsurancesEntities() {
         return insurancesEntities;
@@ -125,19 +131,11 @@ public class InsurancesBean implements Serializable {
         this.insurancesEntity = insurancesEntity;
     }
 
-    public InsurancesEntity getInsurancesEntityModify() {
-        return insurancesEntityModify;
+    public boolean isAddEntity() {
+        return addEntity;
     }
 
-    public void setInsurancesEntityModify(InsurancesEntity insurancesEntityModify) {
-        this.insurancesEntityModify = insurancesEntityModify;
-    }
-
-    public String getLabel() {
-        return label;
-    }
-
-    public void setLabel(String label) {
-        this.label = label;
+    public void setAddEntity(boolean addEntity) {
+        this.addEntity = addEntity;
     }
 }

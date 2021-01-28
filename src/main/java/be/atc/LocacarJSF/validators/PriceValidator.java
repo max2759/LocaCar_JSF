@@ -17,6 +17,14 @@ public class PriceValidator implements Validator {
 
     public static Logger log = Logger.getLogger(InsurancesBean.class);
 
+    /**
+     * Validator for Price
+     *
+     * @param context
+     * @param component
+     * @param value
+     * @throws ValidatorException
+     */
     @Override
     public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
         Pattern pattern = Pattern.compile("(\\d+\\.\\d{1,2})");
@@ -31,6 +39,11 @@ public class PriceValidator implements Validator {
 
     }
 
+    /**
+     * Return message for exception
+     *
+     * @return
+     */
     private String getMessageErrorPrice() {
         String message = "Ne peut contenir que des chiffres";
         return message;
