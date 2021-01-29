@@ -6,6 +6,9 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "cars", schema = "locacarjsf", catalog = "")
+@NamedQueries({
+        @NamedQuery(name = "Cars.findAll", query = "SELECT c from CarsEntity c "),
+})
 public class CarsEntity {
     private int id;
     private int idModels;
