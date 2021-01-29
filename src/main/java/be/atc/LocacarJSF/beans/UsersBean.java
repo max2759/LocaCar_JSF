@@ -8,6 +8,9 @@ import org.apache.log4j.Logger;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Named(value = "usersBean")
@@ -28,7 +31,29 @@ public class UsersBean implements Serializable {
         log.info("je suis dans le connexion");
     }
 
-    public void inscription() {
+    public void addUser() throws ParseException {
+
+        log.info("begin addUserBean");
+        Date currentDate = new Date();
+        SimpleDateFormat formater = new SimpleDateFormat("yyyy-mm-dd");
+        String cur = formater.format(currentDate);
+        Date curDate = formater.parse(cur);
+        System.out.println(formater.format(currentDate));
+
+        log.info("date du jour " + curDate);
+
+        usersEntity.setFirstname(usersEntity.getFirstname());
+        usersEntity.setLastname(usersEntity.getLastname());
+        usersEntity.setUsername(usersEntity.getUsername());
+        usersEntity.setPassword(usersEntity.getPassword());
+        usersEntity.setBirthdate(usersEntity.getBirthdate());
+        usersEntity.setVatNumber(usersEntity.getVatNumber());
+        usersEntity.setActive(true);
+        usersEntity.setIdRoles(1);
+        usersEntity.setRegisterDate(currentDate);
+
+        log.info("first name: " + usersEntity.getFirstname());
+        usersServices.add(usersEntity);
         log.info("inscription");
     }
 
