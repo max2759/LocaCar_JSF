@@ -85,4 +85,22 @@ public class OptionsDAOImpl implements OptionsDAO {
             em.close();
         }
     }
+
+    @Override
+    public List<OptionsEntity> findByLabel(String label) {
+        EntityManager em = EMF.getEM();
+
+        try {
+            return em.createNamedQuery("Options.findByLabel",
+                    OptionsEntity.class)
+                    .setParameter("label", label)
+                    .getResultList();
+        } catch (Exception ex) {
+            log.info("Nothing");
+            return null;
+        } finally {
+            em.clear();
+            em.close();
+        }
+    }
 }

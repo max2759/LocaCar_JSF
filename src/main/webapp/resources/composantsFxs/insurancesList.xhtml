@@ -45,7 +45,8 @@
             <h:column>
                 <f:facet name="header">#{bundle['fxs.insurancesList.edit']}</f:facet>
                 <h:commandLink action="#{insurancesBean.showPopupModal}">
-                    <h:graphicImage library="images" name="icons8-modifier.svg" width="30%"/>
+
+                <h:graphicImage library="images" name="icons8-modifier.svg" width="30%"/>
                     <f:param name="id" value="#{i.id}"></f:param>
                     <f:ajax render="@all"/>
                 </h:commandLink>

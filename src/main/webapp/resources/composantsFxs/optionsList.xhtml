@@ -4,7 +4,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:cc="http://java.sun.com/jsf/composite">
+      xmlns:cc="http://java.sun.com/jsf/composite"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
 
 <cc:interface name="optionsList"
               displayName="#{bundle['fxs.optionsList.displayName']}"
@@ -14,11 +15,13 @@
 <cc:implementation>
     <div>
         <h:form>
-            <h:commandButton styleClass="btn btn-success"
-                             value="#{bundle['fxs.optionsList.add']}"
-                             action="#{optionsBean.showPopupModal}">
+
+            <h:commandLink styleClass="btn btn-success"
+                           value="#{bundle['fxs.optionsList.add']}"
+                           action="#{optionsBean.showPopupModal}">
                 <f:param name="addOptionEntity" value="addOptionEntity"></f:param>
-            </h:commandButton>
+                <i class="fas fa-plus"></i>
+            </h:commandLink>
         </h:form>
     </div>
 
@@ -32,15 +35,18 @@
             <h:column>
                 <f:facet name="header">#{bundle['fxs.optionsList.title']}</f:facet>
                 <h:outputText value="#{options.label}"></h:outputText>
+
             </h:column>
             <h:column>
                 <f:facet name="header">#{bundle['fxs.optionsList.edit']}</f:facet>
-                <h:commandButton styleClass="btn btn-outline-primary btn-sm"
-                                 value="#{bundle['fxs.optionsList.edit']}"
-                                 action="#{optionsBean.showPopupModal}">
+
+                <h:commandLink styleClass="btn btn-outline-primary btn-sm"
+                               action="#{optionsBean.showPopupModal}">
                     <f:param name="id" value="#{options.id}"></f:param>
                     <f:ajax render="@all"/>
-                </h:commandButton>
+                    <i class="fas fa-edit"></i>
+                </h:commandLink>
+
             </h:column>
         </h:dataTable>
     </h:form>
@@ -51,6 +57,10 @@
 
             <h:form id="formPopupEdit">
                 <div class="popup-panel">
+                    <h:outputText value="#{optionsBean.success}"
+                                  style="color: green; font-weight: bold"></h:outputText>
+                    <h:outputText value="#{optionsBean.fail}"
+                                  style="color: darkred; font-weight: bold"></h:outputText>
                     <div class="form-group">
                         <h:outputLabel value="ID" for="idOptions"></h:outputLabel>
                         <h:outputText id="idOptions" value="#{optionsBean.optionsEntity.id}"
@@ -60,8 +70,10 @@
                         <h:outputLabel value="Label" for="optionLabel"></h:outputLabel>
                         <h:inputText value="#{optionsBean.optionsEntity.label}" styleClass="form-control"
                                      required="true"
+                                     pt:placeholder="Votre option ici..."
                                      requiredMessage="#{bundle['fxs.insurancesList.required']}"
-                                     id="optionLabel"></h:inputText>
+                                     id="optionLabel">
+                        </h:inputText>
                         <h:message styleClass="alert alert-danger" role="alert" for="optionLabel"></h:message>
                     </div>
 
@@ -71,6 +83,7 @@
                                          action="#{optionsBean.saveEdit}">
                             <f:ajax execute="formPopupEdit" render="@all"></f:ajax>
                         </h:commandButton>
+
                     </span>
 
                     <span>

@@ -4,6 +4,7 @@ import be.atc.LocacarJSF.dao.entities.OptionsEntity;
 import be.atc.LocacarJSF.services.OptionsServices;
 import be.atc.LocacarJSF.services.OptionsServicesImpl;
 import org.apache.log4j.Logger;
+import utils.JsfUtils;
 
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
@@ -11,6 +12,7 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import static java.lang.Integer.parseInt;
@@ -21,6 +23,8 @@ public class OptionsBean implements Serializable {
 
     private static final long serialVersionUID = -5483371744376024574L;
     public static Logger log = Logger.getLogger(OptionsBean.class);
+    Locale locale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
+
 
     private OptionsServices optionsServices = new OptionsServicesImpl();
     private OptionsEntity optionsEntity = new OptionsEntity();
@@ -28,16 +32,20 @@ public class OptionsBean implements Serializable {
 
     private boolean showPopup;
     private boolean addOptionEntity;
+    private String success;
+    private String fail;
+
 
     @PostConstruct
     public void init() {
         optionsEntities = optionsServices.findAll();
     }
 
-    /*public void addOption() {
-        optionsEntity.setLabel(optionsEntity.getLabel());
-        optionsServices.add(optionsEntity);
-    }*/
+    public void initialisationFields() {
+        success = "";
+        fail = "";
+    }
+
 
     /**
      * Ouvrir le popup d'edition ou d'ajout
@@ -59,24 +67,47 @@ public class OptionsBean implements Serializable {
      * Fermer le popup d'edition ou d'ajout
      */
     public void hidePopupModal() {
-        log.info("Hide PopupModal ");
+        log.info("Hide PopupModal");
+        initialisationFields();
         showPopup = false;
+    }
+
+    public void functionAddOption() {
+        optionsServices.add(optionsEntity);
+        success = JsfUtils.returnMessage(locale, "fxs.options.succesAdd");
+    }
+
+    public void functionUpdateOption() {
+        optionsServices.update(optionsEntity);
+        success = JsfUtils.returnMessage(locale, "fxs.options.successUpdate");
     }
 
     /**
      * Sauvegarde l'entité ajouté ou modifié !
      */
     public void saveEdit() {
+
+        List<OptionsEntity> optionsEntitiesByLabel = optionsServices.findByLabel(optionsEntity.getLabel());
+        initialisationFields();
+
         log.info("Save edit");
-        if (addOptionEntity) {
-            log.info("Add entity");
-            optionsServices.add(optionsEntity);
+        if ((addOptionEntity) && (optionsEntitiesByLabel.isEmpty())) {
+            functionAddOption();
+        } else if ((!addOptionEntity) && (optionsEntitiesByLabel.isEmpty())) {
+            functionUpdateOption();
+        } else if ((!addOptionEntity) && (optionsEntitiesByLabel.size() == 1)) {
+            OptionsEntity oe = optionsEntitiesByLabel.get(0);
+
+            if (oe.getId() == optionsEntity.getId()) {
+                functionUpdateOption();
+            } else {
+                fail = JsfUtils.returnMessage(locale, "fxs.options.errorAdd");
+            }
         } else {
-            log.info("update entity");
-            optionsServices.update(optionsEntity);
+            fail = JsfUtils.returnMessage(locale, "fxs.options.errorAdd");
         }
+
         init();
-        hidePopupModal();
     }
 
     /**
@@ -91,24 +122,11 @@ public class OptionsBean implements Serializable {
         return params.get(name);
     }
 
-//    public void updateOption() {
-//
-//        log.info("début de l'update");
-//
-//        OptionsEntity optionsEntityModify;
-//        optionsEntityModify = optionsServices.findById(optionsEntity.getId());
-//        optionsEntityModify.setLabel(optionsEntity.getLabel());
-//
-//        log.info("id Ancienne entité : " + optionsEntity.getId());
-//        log.info("id nouvelle entité : " + optionsEntityModify.getId());
-//        log.info("label Ancienne entité : " + optionsEntity.getLabel());
-//        log.info("label nouvelle entité : " + optionsEntityModify.getLabel());
-//
-//        optionsServices.update(optionsEntityModify);
-//    }
 
-
-    ///// getters and setters /////////////
+    /*
+     * Getters and Setters
+     *
+     */
 
     public OptionsEntity getOptionsEntity() {
         return optionsEntity;
@@ -140,5 +158,21 @@ public class OptionsBean implements Serializable {
 
     public void setAddOptionEntity(boolean addOptionEntity) {
         this.addOptionEntity = addOptionEntity;
+    }
+
+    public String getSuccess() {
+        return success;
+    }
+
+    public void setSuccess(String success) {
+        this.success = success;
+    }
+
+    public String getFail() {
+        return fail;
+    }
+
+    public void setFail(String fail) {
+        this.fail = fail;
     }
 }
