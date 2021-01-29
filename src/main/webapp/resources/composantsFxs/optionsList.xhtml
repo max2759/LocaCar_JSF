@@ -7,30 +7,82 @@
       xmlns:cc="http://java.sun.com/jsf/composite">
 
 <cc:interface name="optionsList"
-              displayName="#{bundle['fxs.OptionsList.displayName']}"
-              shortDescription="#{bundle['fxs.OptionsList.shortDescription']}"
+              displayName="#{bundle['fxs.optionsList.displayName']}"
+              shortDescription="#{bundle['fxs.optionsList.shortDescription']}"
 >
 </cc:interface>
 <cc:implementation>
-    <h:dataTable id="outputMessage"
-                 value="#{optionsBean.optionsEntities}" var="options">
-        <h:column>
-            <f:facet name="header">Code</f:facet>
-            <h:outputText value="#{options.id}"></h:outputText>
-        </h:column>
-        <h:column>
-            <f:facet name="header">Titre</f:facet>
-            <h:outputText value="#{options.label}"></h:outputText>
-        </h:column>
-        <h:column>
-            <f:facet name="header">Modifier</f:facet>
-            <h:form>
-                <h:inputHidden value="#{options.id}" required="true"></h:inputHidden>
-                <h:inputText value="#{options.label}" required="true"></h:inputText>
-                <h:commandButton value="valider" action="#{optionsBean.updateOption}"/>
-            </h:form>
+    <div>
+        <h:form>
+            <h:commandButton styleClass="btn btn-success"
+                             value="#{bundle['fxs.optionsList.add']}"
+                             action="#{optionsBean.showPopupModal}">
+                <f:param name="addOptionEntity" value="addOptionEntity"></f:param>
+            </h:commandButton>
+        </h:form>
+    </div>
 
-        </h:column>
-    </h:dataTable>
+    <h:form>
+        <h:dataTable id="outputMessage" styleClass="table table-hover table-responsive"
+                     value="#{optionsBean.optionsEntities}" var="options">
+            <h:column>
+                <f:facet name="header">#{bundle['fxs.optionsList.code']}</f:facet>
+                <h:outputText value="#{options.id}"></h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">#{bundle['fxs.optionsList.title']}</f:facet>
+                <h:outputText value="#{options.label}"></h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">#{bundle['fxs.optionsList.edit']}</f:facet>
+                <h:commandButton styleClass="btn btn-outline-primary btn-sm"
+                                 value="#{bundle['fxs.optionsList.edit']}"
+                                 action="#{optionsBean.showPopupModal}">
+                    <f:param name="id" value="#{options.id}"></f:param>
+                    <f:ajax render="@all"/>
+                </h:commandButton>
+            </h:column>
+        </h:dataTable>
+    </h:form>
+
+    <f:view>
+        <h:panelGroup id="popupEdit" layout="block" styleClass="popup-panel-overlay"
+                      rendered="#{optionsBean.showPopup}">
+
+            <h:form id="formPopupEdit">
+                <div class="popup-panel">
+                    <div class="form-group">
+                        <h:outputLabel value="ID" for="idOptions"></h:outputLabel>
+                        <h:outputText id="idOptions" value="#{optionsBean.optionsEntity.id}"
+                                      styleClass="form-control"></h:outputText>
+                    </div>
+                    <div class="form-group">
+                        <h:outputLabel value="Label" for="optionLabel"></h:outputLabel>
+                        <h:inputText value="#{optionsBean.optionsEntity.label}" styleClass="form-control"
+                                     required="true"
+                                     requiredMessage="#{bundle['fxs.insurancesList.required']}"
+                                     id="optionLabel"></h:inputText>
+                        <h:message styleClass="alert alert-danger" role="alert" for="optionLabel"></h:message>
+                    </div>
+
+                    <span>
+                        <h:commandButton styleClass="btn btn-outline-success btn-sm"
+                                         value="#{bundle['fxs.insurancesList.save']}"
+                                         action="#{optionsBean.saveEdit}">
+                            <f:ajax execute="formPopupEdit" render="@all"></f:ajax>
+                        </h:commandButton>
+                    </span>
+
+                    <span>
+                        <h:commandButton styleClass="btn btn-outline-dark btn-sm"
+                                         value="#{bundle['fxs.insurancesList.close']}"
+                                         action="#{optionsBean.hidePopupModal}">
+                            <f:ajax render="@all"></f:ajax>
+                        </h:commandButton>
+                    </span>
+                </div>
+            </h:form>
+        </h:panelGroup>
+    </f:view>
 </cc:implementation>
 </html>

@@ -74,6 +74,15 @@ public class OptionsDAOImpl implements OptionsDAO {
 
     @Override
     public OptionsEntity findById(int id) {
-        return null;
+        EntityManager em = EMF.getEM();
+        try {
+            return em.find(OptionsEntity.class, id);
+        } catch (Exception ex) {
+            log.info("Nothing");
+            return null;
+        } finally {
+            em.clear();
+            em.close();
+        }
     }
 }
