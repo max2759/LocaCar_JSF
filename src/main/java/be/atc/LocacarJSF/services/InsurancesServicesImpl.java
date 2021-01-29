@@ -74,4 +74,18 @@ public class InsurancesServicesImpl implements InsurancesServices {
         }
         return null;
     }
+
+    /**
+     * Find entities by label
+     *
+     * @param label
+     * @return
+     */
+    @Override
+    public List<InsurancesEntity> findByLabel(String label) {
+        if (label != null) {
+            return insurancesDAO.findByLabel(label);
+        }
+        return null;
+    }
 }

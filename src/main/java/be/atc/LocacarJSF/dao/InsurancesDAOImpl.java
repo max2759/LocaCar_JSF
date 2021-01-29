@@ -98,4 +98,22 @@ public class InsurancesDAOImpl extends EntityFinderImpl<InsurancesEntity> implem
             em.close();
         }
     }
+
+    @Override
+    public List<InsurancesEntity> findByLabel(String label) {
+        EntityManager em = EMF.getEM();
+
+        try {
+            return em.createNamedQuery("Insurances.findByLabel",
+                    InsurancesEntity.class)
+                    .setParameter("label", label)
+                    .getResultList();
+        } catch (Exception ex) {
+            log.info("Nothing");
+            return null;
+        } finally {
+            em.clear();
+            em.close();
+        }
+    }
 }

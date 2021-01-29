@@ -77,26 +77,33 @@
 
             <h:form id="formPopupEdit">
                 <div class="popup-panel">
+                    <h:outputText value="#{insurancesBean.success}"
+                                  style="color: green; font-weight: bold"></h:outputText>
+                    <h:outputText value="#{insurancesBean.fail}"
+                                  style="color: darkred; font-weight: bold"></h:outputText>
+
                     <div class="form-group">
-                        <h:outputLabel value="ID" for="idInsurances"></h:outputLabel>
+                        <h:outputLabel value="#{bundle['fxs.insurancesList.code']}" for="idInsurances"></h:outputLabel>
                         <h:outputText id="idInsurances" value="#{insurancesBean.insurancesEntity.id}"
                                       styleClass="form-control"></h:outputText>
                     </div>
                     <div class="form-group">
-                        <h:outputLabel value="Label" for="label"></h:outputLabel>
+                        <h:outputLabel value="#{bundle['fxs.insurancesList.label']}" for="label"></h:outputLabel>
                         <h:inputText value="#{insurancesBean.insurancesEntity.label}" styleClass="form-control"
                                      required="true"
                                      requiredMessage="#{bundle['fxs.insurancesList.required']}"
-                                     id="label"></h:inputText>
+                                     id="label">
+                        </h:inputText>
                         <h:message styleClass="alert alert-danger" role="alert" for="label"></h:message>
                     </div>
                     <div class="form-group">
-                        <h:outputLabel value="Description" for="description"></h:outputLabel>
+                        <h:outputLabel value="#{bundle['fxs.insurancesList.description']}"
+                                       for="description"></h:outputLabel>
                         <h:inputTextarea id="description" styleClass="form-control" rows="3"
                                          value="#{insurancesBean.insurancesEntity.description}"></h:inputTextarea>
                     </div>
                     <div class="form-group">
-                        <h:outputLabel value="Prix" for="price"></h:outputLabel>
+                        <h:outputLabel value="#{bundle['fxs.insurancesList.price']}" for="price"></h:outputLabel>
                         <h:inputText value="#{insurancesBean.insurancesEntity.price}" styleClass="form-control"
                                      id="price" required="true"
                                      requiredMessage="#{bundle['fxs.insurancesList.required']}"
