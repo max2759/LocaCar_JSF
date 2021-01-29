@@ -1,2 +1,4 @@
 target/
 /src/resources/META-INF/persistence.xml
+locacarjsf.sql
+locacarjsf2.sql
