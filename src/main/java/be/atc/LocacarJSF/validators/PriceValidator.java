@@ -2,6 +2,7 @@ package be.atc.LocacarJSF.validators;
 
 import be.atc.LocacarJSF.beans.InsurancesBean;
 import org.apache.log4j.Logger;
+import utils.JsfUtils;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
@@ -9,6 +10,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.validator.FacesValidator;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -16,6 +18,7 @@ import java.util.regex.Pattern;
 public class PriceValidator implements Validator {
 
     public static Logger log = Logger.getLogger(InsurancesBean.class);
+    Locale locale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
 
     /**
      * Validator for Price
@@ -45,7 +48,6 @@ public class PriceValidator implements Validator {
      * @return
      */
     private String getMessageErrorPrice() {
-        String message = "Ne peut contenir que des chiffres";
-        return message;
+        return JsfUtils.returnMessage(locale, "fxs.insurancesList.priceError");
     }
 }

@@ -13,4 +13,6 @@ public interface OptionsDAO {
     public List<OptionsEntity> findAll();
 
     public OptionsEntity findById(int id);
+
+    public List<OptionsEntity> findByLabel(String label);
 }

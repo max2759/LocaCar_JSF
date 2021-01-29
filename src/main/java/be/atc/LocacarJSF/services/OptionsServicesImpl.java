@@ -39,4 +39,12 @@ public class OptionsServicesImpl implements OptionsServices {
         }
         return null;
     }
+
+    @Override
+    public List<OptionsEntity> findByLabel(String label) {
+        if (label != null) {
+            return optionsDAO.findByLabel(label);
+        }
+        return null;
+    }
 }
