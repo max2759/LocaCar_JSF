@@ -13,4 +13,6 @@ public interface InsurancesDAO {
     public List<InsurancesEntity> findAll();
 
     public InsurancesEntity findById(int id);
+
+    public List<InsurancesEntity> findByLabel(String label);
 }

@@ -4,6 +4,7 @@ import be.atc.LocacarJSF.dao.entities.InsurancesEntity;
 import be.atc.LocacarJSF.services.InsurancesServices;
 import be.atc.LocacarJSF.services.InsurancesServicesImpl;
 import org.apache.log4j.Logger;
+import utils.JsfUtils;
 
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
@@ -11,6 +12,7 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import static java.lang.Integer.parseInt;
@@ -20,6 +22,7 @@ import static java.lang.Integer.parseInt;
 public class InsurancesBean implements Serializable {
     private static final long serialVersionUID = -8262263353009937764L;
     public static Logger log = Logger.getLogger(InsurancesBean.class);
+    Locale locale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
 
     private InsurancesEntity insurancesEntity;
     private InsurancesServices insurancesServices = new InsurancesServicesImpl();
@@ -27,6 +30,8 @@ public class InsurancesBean implements Serializable {
 
     private boolean showPopup;
     private boolean addEntity;
+    private String success;
+    private String fail;
 
     /**
      * PostConstruct : appelé après le constructeur.
@@ -36,6 +41,11 @@ public class InsurancesBean implements Serializable {
     public void init() {
         log.info("Post Construct");
         insurancesEntities = insurancesServices.findAll();
+    }
+
+    public void initialisationFields() {
+        success = "";
+        fail = "";
     }
 
     /**
@@ -59,20 +69,50 @@ public class InsurancesBean implements Serializable {
      */
     public void hidePopupModal() {
         log.info("Hide PopupModal ");
+        initialisationFields();
         showPopup = false;
     }
 
     /**
-     * Sauvegarde l'entité ajouté ou modifié !
+     * Repetition code for update entity
+     */
+    public void functionUpdateEntity() {
+        log.info("Update entity");
+        insurancesServices.update(insurancesEntity);
+        success = JsfUtils.returnMessage(locale, "fxs.insurances.successUpdate");
+    }
+
+    /**
+     * Repetition code for add Entity
+     */
+    public void functionAddEntity() {
+        log.info("Add entity");
+        insurancesServices.add(insurancesEntity);
+        success = JsfUtils.returnMessage(locale, "fxs.insurances.successAdd");
+    }
+
+    /**
+     * Vérifie et sauvegarde l'entité ajouté ou modifié !
      */
     public void saveEdit() {
+        List<InsurancesEntity> insurancesEntitiesTest = insurancesServices.findByLabel(insurancesEntity.getLabel());
+        initialisationFields();
         log.info("Save edit");
-        if (addEntity) {
-            log.info("Add entity");
-            insurancesServices.add(insurancesEntity);
+
+        if ((addEntity) && (insurancesEntitiesTest.isEmpty())) {
+            functionAddEntity();
+        } else if ((!addEntity) && (insurancesEntitiesTest.isEmpty())) {
+            functionUpdateEntity();
+        } else if ((!addEntity) && (insurancesEntitiesTest.size() == 1)) {
+            InsurancesEntity test = insurancesEntitiesTest.get(0);
+
+            if (test.getId() == insurancesEntity.getId()) {
+                functionUpdateEntity();
+            } else {
+                fail = JsfUtils.returnMessage(locale, "fxs.insurances.errorAdd");
+            }
         } else {
-            log.info("update entity");
-            insurancesServices.update(insurancesEntity);
+            fail = JsfUtils.returnMessage(locale, "fxs.insurances.errorAdd");
         }
         init();
     }
@@ -86,11 +126,7 @@ public class InsurancesBean implements Serializable {
         int idInsurance = parseInt(getParam("id"));
         InsurancesEntity insurancesEntity = insurancesServices.findById(idInsurance);
 
-        if (insurancesEntity.isActive()) {
-            insurancesEntity.setActive(false);
-        } else {
-            insurancesEntity.setActive(true);
-        }
+        insurancesEntity.setActive(!insurancesEntity.isActive());
         insurancesServices.update(insurancesEntity);
         init();
     }
@@ -98,8 +134,8 @@ public class InsurancesBean implements Serializable {
     /**
      * Méthode pour retourner les paramètres récupéré
      *
-     * @param name
-     * @return
+     * @param name Param form
+     * @return param(name)
      */
     public String getParam(String name) {
         FacesContext fc = FacesContext.getCurrentInstance();
@@ -137,5 +173,21 @@ public class InsurancesBean implements Serializable {
 
     public void setAddEntity(boolean addEntity) {
         this.addEntity = addEntity;
+    }
+
+    public String getSuccess() {
+        return success;
+    }
+
+    public void setSuccess(String success) {
+        this.success = success;
+    }
+
+    public String getFail() {
+        return fail;
+    }
+
+    public void setFail(String fail) {
+        this.fail = fail;
     }
 }

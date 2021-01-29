@@ -120,7 +120,7 @@ class InsurancesServicesImplTest {
         List<InsurancesEntity> insurancesEntities = insurancesServices.findAll();
         Boolean test;
 
-        if (insurancesEntities != null) {
+        if (!insurancesEntities.isEmpty()) {
             test = true;
         } else {
             test = false;
@@ -128,4 +128,29 @@ class InsurancesServicesImplTest {
 
         assertThat(test).isEqualTo(true);
     }
+
+    @Test
+    void findByLabelInsurance_shouldBeReturnEntity() {
+        List<InsurancesEntity> insurancesEntities = insurancesServices.findByLabel("test");
+        Boolean test;
+        if (insurancesEntities.isEmpty()) {
+            test = false;
+        } else {
+            test = true;
+        }
+        assertThat(test).isEqualTo(true);
+    }
+
+    @Test
+    void findByLabelInsurance_shouldBeReturnFalse() {
+        List<InsurancesEntity> insurancesEntities = insurancesServices.findByLabel("blabla");
+        Boolean test;
+        if (insurancesEntities.isEmpty()) {
+            test = false;
+        } else {
+            test = true;
+        }
+        assertThat(test).isEqualTo(false);
+    }
+
 }
