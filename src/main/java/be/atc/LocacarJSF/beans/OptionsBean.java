@@ -48,6 +48,10 @@ public class OptionsBean implements Serializable {
         return "options";
     }
 
+    /**
+     * PostConstruct : appelé après le constructeur.
+     * Met à jour la liste optionsEntities
+     */
     @PostConstruct
     public void init() {
         optionsEntities = optionsServices.findAll();
@@ -84,11 +88,17 @@ public class OptionsBean implements Serializable {
         showPopup = false;
     }
 
+    /**
+     * Repetition code for add optionEntity
+     */
     public void functionAddOption() {
         optionsServices.add(optionsEntity);
         success = JsfUtils.returnMessage(locale, "fxs.options.succesAdd");
     }
 
+    /**
+     * Repetition code for update optionEntity
+     */
     public void functionUpdateOption() {
         optionsServices.update(optionsEntity);
         success = JsfUtils.returnMessage(locale, "fxs.options.successUpdate");
