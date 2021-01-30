@@ -6,6 +6,10 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "cars_colors", schema = "locacarjsf", catalog = "")
+@NamedQueries({
+        @NamedQuery(name = "CarsColors.findAll", query = "SELECT cc FROM CarsColorsEntity cc"),
+        @NamedQuery(name = "CarsColors.findByLabel", query = "SELECT cc FROM CarsColorsEntity cc WHERE cc.label = :label")
+})
 public class CarsColorsEntity {
     private int id;
     private String label;
