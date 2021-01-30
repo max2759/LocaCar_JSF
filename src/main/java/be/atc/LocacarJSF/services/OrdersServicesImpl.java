@@ -62,4 +62,12 @@ public class OrdersServicesImpl implements OrdersServices {
         }
         return null;
     }
+
+    @Override
+    public OrdersEntity findByIdUsersAndStatusIsPending(int idUser) {
+        if (idUser != 0) {
+            return ordersDAO.findByIdUsersAndStatusIsPending(idUser);
+        }
+        return null;
+    }
 }

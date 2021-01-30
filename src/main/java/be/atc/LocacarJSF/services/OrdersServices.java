@@ -13,4 +13,5 @@ public interface OrdersServices {
 
     OrdersEntity findById(int id);
 
+    OrdersEntity findByIdUsersAndStatusIsPending(int idUser);
 }

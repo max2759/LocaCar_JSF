@@ -99,4 +99,21 @@ public class OrdersDAOImpl extends EntityFinderImpl<OrdersEntity> implements Ord
         }
     }
 
+    @Override
+    public OrdersEntity findByIdUsersAndStatusIsPending(int idUser) {
+        EntityManager em = EMF.getEM();
+        try {
+            return em.createNamedQuery("Orders.findByIdUsersAndStatusIsPending",
+                    OrdersEntity.class)
+                    .setParameter("idUser", idUser)
+                    .getSingleResult();
+        } catch (Exception ex) {
+            log.info("Nothing");
+            return null;
+        } finally {
+            em.clear();
+            em.close();
+        }
+    }
+
 }

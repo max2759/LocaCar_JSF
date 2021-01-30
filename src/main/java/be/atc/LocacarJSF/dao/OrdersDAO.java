@@ -14,4 +14,5 @@ public interface OrdersDAO {
 
     public OrdersEntity findById(int id);
 
+    OrdersEntity findByIdUsersAndStatusIsPending(int idUser);
 }

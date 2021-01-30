@@ -62,4 +62,12 @@ public class ContractsServicesImpl implements ContractsServices {
         }
         return null;
     }
+
+    @Override
+    public ContractsEntity findContractByIdOrdersAndByIdCars(int idOrder, int idCar) {
+        if ((idOrder != 0) && (idCar != 0)) {
+            return contractsDAO.findContractByIdOrdersAndByIdCars(idOrder, idCar);
+        }
+        return null;
+    }
 }
