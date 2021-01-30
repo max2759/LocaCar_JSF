@@ -34,7 +34,19 @@ public class OptionsBean implements Serializable {
     private boolean addOptionEntity;
     private String success;
     private String fail;
+    private String page;
 
+    public String getPage() {
+        return page;
+    }
+
+    public void setPage(String page) {
+        this.page = page;
+    }
+
+    public String toPageOption() {
+        return "options";
+    }
 
     @PostConstruct
     public void init() {
