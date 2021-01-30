@@ -50,7 +50,7 @@ public class UsersBean implements Serializable {
         usersEntity.setVatNumber(usersEntity.getVatNumber());
         usersEntity.setActive(true);
         usersEntity.setIdRoles(1);
-        usersEntity.setRegisterDate(currentDate);
+        usersEntity.setRegisterDate((java.sql.Date) currentDate);
 
         log.info("first name: " + usersEntity.getFirstname());
         usersServices.add(usersEntity);

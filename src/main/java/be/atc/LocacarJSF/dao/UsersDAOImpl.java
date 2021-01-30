@@ -3,12 +3,13 @@ package be.atc.LocacarJSF.dao;
 import be.atc.LocacarJSF.dao.entities.UsersEntity;
 import org.apache.log4j.Logger;
 import utils.EMF;
+import utils.EntityFinderImpl;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import java.util.List;
 
-public class UsersDAOImpl implements UsersDAO {
+public class UsersDAOImpl extends EntityFinderImpl<UsersEntity> implements UsersDAO {
 
     public static Logger log = Logger.getLogger(UsersDAOImpl.class);
 
@@ -49,11 +50,26 @@ public class UsersDAOImpl implements UsersDAO {
 
     @Override
     public List<UsersEntity> findAll() {
-        return null;
+        return this.findByNamedQuery("Users.findAll", new UsersEntity());
     }
 
+    /**
+     * find entity by id
+     *
+     * @param id
+     * @return
+     */
     @Override
     public UsersEntity findById(int id) {
-        return null;
+        EntityManager em = EMF.getEM();
+        try {
+            return em.find(UsersEntity.class, id);
+        } catch (Exception ex) {
+            log.info("Nothing");
+            return null;
+        } finally {
+            em.clear();
+            em.close();
+        }
     }
 }
