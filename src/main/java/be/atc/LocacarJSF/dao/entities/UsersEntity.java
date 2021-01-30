@@ -1,12 +1,15 @@
 package be.atc.LocacarJSF.dao.entities;
 
 import javax.persistence.*;
+import java.sql.Date;
 import java.util.Collection;
-import java.util.Date;
 import java.util.Objects;
 
 @Entity
 @Table(name = "users", schema = "locacarjsf", catalog = "")
+@NamedQueries({
+        @NamedQuery(name = "Users.findAll", query = "SELECT u from UsersEntity u"),
+})
 public class UsersEntity {
     private int id;
     private int idRoles;
