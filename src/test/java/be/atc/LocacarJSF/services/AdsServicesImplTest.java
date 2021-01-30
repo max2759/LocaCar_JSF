@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import java.util.Date;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -32,6 +33,8 @@ class AdsServicesImplTest {
 
     @Test
     void findByIdAds_shouldBeReturnEntity() {
+
+        // Mettre l'Id d'une entité existante
         AdsEntity adsEntity = adsServices.findById(1);
         Boolean test;
         if (adsEntity == null) {
@@ -69,4 +72,69 @@ class AdsServicesImplTest {
         assertThat(test).isEqualTo(true);
     }
 
+
+    @Test
+    void checkIfAdsDateEndIsGreaterThanToday_shouldBeReturnTrue() {
+        Date date = new Date();
+
+        // Mettre l'Id d'une entité qui a une date de fin supérieur à aujourd'hui
+        AdsEntity adsEntity = adsServices.findById(1);
+        Boolean test = adsEntity.getDateEnd().after(date) == true ? true : false;
+
+        assertThat(test).isEqualTo(true);
+    }
+
+    @Test
+    void checkIfAdsDateEndIsLessThanToday_shouldBeReturnFalse() {
+        Date date = new Date();
+
+        // Mettre l'Id d'une entité qui a une date de fin supérieur à aujourd'hui
+        AdsEntity adsEntity = adsServices.findById(1);
+        Boolean test = adsEntity.getDateEnd().before(date) == true ? true : false;
+
+
+        assertThat(test).isEqualTo(false);
+    }
+
+    @Test
+    void checkIfAdsIsActive_shouldBeReturnTrue() {
+        // Mettre l'Id d'une entité : isActive = true
+        AdsEntity adsEntity = adsServices.findById(1);
+        Boolean test = adsEntity.isActive() == true ? true : false;
+
+
+        assertThat(test).isEqualTo(true);
+    }
+
+    @Test
+    void checkIfAdsIsActive_ShouldBeReturnFalse() {
+
+        // Mettre l'Id d'une entité : isActive = false
+        AdsEntity adsEntity = adsServices.findById(2);
+        Boolean test = adsEntity.isActive() == true ? true : false;
+
+
+        assertThat(test).isEqualTo(false);
+    }
+
+    @Test
+    void checkIfCarsByIdCarsIsActive_shouldBeReturnTrue() {
+        // Mettre l'Id d'une entité : isActive = true
+        AdsEntity adsEntity = adsServices.findById(1);
+        Boolean test = adsEntity.getCarsByIdCars().isActive() == true ? true : false;
+
+
+        assertThat(test).isEqualTo(true);
+    }
+
+    @Test
+    void checkIfCarsByIdCarsIsActive_shouldBeReturnFalse() {
+
+        // Mettre l'Id d'une entité : isActive = false
+        AdsEntity adsEntity = adsServices.findById(2);
+        Boolean test = adsEntity.getCarsByIdCars().isActive() == true ? true : false;
+
+
+        assertThat(test).isEqualTo(false);
+    }
 }

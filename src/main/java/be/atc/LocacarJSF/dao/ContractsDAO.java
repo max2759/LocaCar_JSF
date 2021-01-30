@@ -14,4 +14,5 @@ public interface ContractsDAO {
 
     public ContractsEntity findById(int id);
 
+    ContractsEntity findContractByIdOrdersAndByIdCars(int idOrder, int idCar);
 }

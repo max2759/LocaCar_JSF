@@ -13,4 +13,5 @@ public interface ContractsServices {
 
     ContractsEntity findById(int id);
 
+    ContractsEntity findContractByIdOrdersAndByIdCars(int idOrder, int idCar);
 }
