@@ -7,9 +7,9 @@
       xmlns:cc="http://java.sun.com/jsf/composite"
       xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
 
-<cc:interface name="optionsList"
-              displayName="#{bundle['fxs.optionsList.displayName']}"
-              shortDescription="#{bundle['fxs.optionsList.shortDescription']}"
+<cc:interface name="carcolorsList"
+              displayName="#{bundle['fxs.carscolors.displayName']}"
+              shortDescription="#{bundle['fxs.carscolors.shortDescription']}"
 >
 </cc:interface>
 <cc:implementation>
@@ -18,8 +18,8 @@
 
             <h:commandLink styleClass="btn btn-success"
                            value="#{bundle['fxs.optionsList.add']}"
-                           action="#{optionsBean.showPopupModal}">
-                <f:param name="addOptionEntity" value="addOptionEntity"></f:param>
+                           action="#{carsColorsBean.showPopupModal}">
+                <f:param name="addCarsColorsEntity" value="addCarsColorsEntity"></f:param>
                 <i class="fas fa-plus"></i>
             </h:commandLink>
         </h:form>
@@ -27,22 +27,22 @@
 
     <h:form>
         <h:dataTable id="outputMessage" styleClass="table table-hover table-responsive"
-                     value="#{optionsBean.optionsEntities}" var="options">
+                     value="#{carsColorsBean.carsColorsEntities}" var="colors">
             <h:column>
                 <f:facet name="header">#{bundle['fxs.optionsList.code']}</f:facet>
-                <h:outputText value="#{options.id}"></h:outputText>
+                <h:outputText value="#{colors.id}"></h:outputText>
             </h:column>
             <h:column>
                 <f:facet name="header">#{bundle['fxs.optionsList.title']}</f:facet>
-                <h:outputText value="#{options.label}"></h:outputText>
+                <h:outputText value="#{colors.label}"></h:outputText>
 
             </h:column>
             <h:column>
                 <f:facet name="header">#{bundle['fxs.optionsList.edit']}</f:facet>
 
                 <h:commandLink styleClass="text-info"
-                               action="#{optionsBean.showPopupModal}">
-                    <f:param name="id" value="#{options.id}"></f:param>
+                               action="#{carsColorsBean.showPopupModal}">
+                    <f:param name="id" value="#{colors.id}"></f:param>
                     <f:ajax render="@all"/>
                     <i class="fas fa-edit"></i>
                 </h:commandLink>
@@ -53,34 +53,34 @@
 
     <f:view>
         <h:panelGroup id="popupEdit" layout="block" styleClass="popup-panel-overlay"
-                      rendered="#{optionsBean.showPopup}">
+                      rendered="#{carsColorsBean.showPopup}">
 
             <h:form id="formPopupEdit">
                 <div class="popup-panel">
-                    <h:outputText value="#{optionsBean.success}"
+                    <h:outputText value="#{carsColorsBean.success}"
                                   style="color: green; font-weight: bold"></h:outputText>
-                    <h:outputText value="#{optionsBean.fail}"
+                    <h:outputText value="#{carsColorsBean.fail}"
                                   style="color: darkred; font-weight: bold"></h:outputText>
                     <div class="form-group">
-                        <h:outputLabel value="ID" for="idOptions"></h:outputLabel>
-                        <h:outputText id="idOptions" value="#{optionsBean.optionsEntity.id}"
+                        <h:outputLabel value="ID" for="idCarsColors"></h:outputLabel>
+                        <h:outputText id="idCarsColors" value="#{carsColorsBean.carsColorsEntity.id}"
                                       styleClass="form-control"></h:outputText>
                     </div>
                     <div class="form-group">
-                        <h:outputLabel value="Label" for="optionLabel"></h:outputLabel>
-                        <h:inputText value="#{optionsBean.optionsEntity.label}" styleClass="form-control"
+                        <h:outputLabel value="Label" for="carsColorsLabel"></h:outputLabel>
+                        <h:inputText value="#{carsColorsBean.carsColorsEntity.label}" styleClass="form-control"
                                      required="true"
-                                     pt:placeholder="Votre option ici..."
+                                     pt:placeholder="Votre couleur ici..."
                                      requiredMessage="#{bundle['fxs.insurancesList.required']}"
-                                     id="optionLabel">
+                                     id="carsColorsLabel">
                         </h:inputText>
-                        <h:message styleClass="alert alert-danger" role="alert" for="optionLabel"></h:message>
+                        <h:message styleClass="alert alert-danger" role="alert" for="carsColorsLabel"></h:message>
                     </div>
 
                     <span>
                         <h:commandButton styleClass="btn btn-outline-success btn-sm"
                                          value="#{bundle['fxs.insurancesList.save']}"
-                                         action="#{optionsBean.saveEdit}">
+                                         action="#{carsColorsBean.saveEdit}">
                             <f:ajax execute="formPopupEdit" render="@all"></f:ajax>
                         </h:commandButton>
 
@@ -89,7 +89,7 @@
                     <span>
                         <h:commandButton styleClass="btn btn-outline-dark btn-sm"
                                          value="#{bundle['fxs.insurancesList.close']}"
-                                         action="#{optionsBean.hidePopupModal}">
+                                         action="#{carsColorsBean.hidePopupModal}">
                             <f:ajax render="@all"></f:ajax>
                         </h:commandButton>
                     </span>

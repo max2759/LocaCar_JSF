@@ -41,12 +41,12 @@ public class UsersServicesImpl implements UsersServices {
         return false;
     }
 
-
     @Override
     public List<UsersEntity> findAll() {
         log.info("findall iuserServ");
         return usersDAO.findAll();
     }
+
 
     @Override
     public UsersEntity findById(int id) {
@@ -55,5 +55,4 @@ public class UsersServicesImpl implements UsersServices {
         }
         return null;
     }
-
 }

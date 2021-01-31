@@ -3,12 +3,16 @@ package be.atc.LocacarJSF.dao.entities;
 import be.atc.LocacarJSF.enums.EnumOrderStatut;
 
 import javax.persistence.*;
-import java.sql.Date;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Objects;
 
 @Entity
 @Table(name = "orders", schema = "locacarjsf", catalog = "")
+@NamedQueries({
+        @NamedQuery(name = "Orders.findByIdUsersAndStatusIsPending", query = "SELECT o from OrdersEntity o where (o.idUsers = :idUser) and (o.orderStatut = be.atc.LocacarJSF.enums.EnumOrderStatut.Pending) "),
+        @NamedQuery(name = "Orders.findAll", query = "SELECT o from OrdersEntity o "),
+})
 public class OrdersEntity {
     private int id;
     private int idUsers;
@@ -39,6 +43,7 @@ public class OrdersEntity {
     }
 
     @Basic
+    @Temporal(value = TemporalType.DATE)
     @Column(name = "Order_Date")
     public Date getOrderDate() {
         return orderDate;

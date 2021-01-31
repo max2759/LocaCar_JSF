@@ -34,8 +34,24 @@ public class OptionsBean implements Serializable {
     private boolean addOptionEntity;
     private String success;
     private String fail;
+    private String page;
 
+    public String getPage() {
+        return page;
+    }
 
+    public void setPage(String page) {
+        this.page = page;
+    }
+
+    public String toPageOption() {
+        return "options";
+    }
+
+    /**
+     * PostConstruct : appelé après le constructeur.
+     * Met à jour la liste optionsEntities
+     */
     @PostConstruct
     public void init() {
         optionsEntities = optionsServices.findAll();
@@ -72,11 +88,17 @@ public class OptionsBean implements Serializable {
         showPopup = false;
     }
 
+    /**
+     * Repetition code for add optionEntity
+     */
     public void functionAddOption() {
         optionsServices.add(optionsEntity);
         success = JsfUtils.returnMessage(locale, "fxs.options.succesAdd");
     }
 
+    /**
+     * Repetition code for update optionEntity
+     */
     public void functionUpdateOption() {
         optionsServices.update(optionsEntity);
         success = JsfUtils.returnMessage(locale, "fxs.options.successUpdate");

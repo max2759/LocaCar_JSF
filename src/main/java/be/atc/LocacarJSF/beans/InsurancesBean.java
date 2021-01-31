@@ -3,26 +3,20 @@ package be.atc.LocacarJSF.beans;
 import be.atc.LocacarJSF.dao.entities.InsurancesEntity;
 import be.atc.LocacarJSF.services.InsurancesServices;
 import be.atc.LocacarJSF.services.InsurancesServicesImpl;
-import org.apache.log4j.Logger;
 import utils.JsfUtils;
 
 import javax.annotation.PostConstruct;
-import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.List;
-import java.util.Locale;
-import java.util.Map;
 
 import static java.lang.Integer.parseInt;
 
 @Named(value = "insurancesBean")
 @ViewScoped
-public class InsurancesBean implements Serializable {
+public class InsurancesBean extends ExtendBean implements Serializable {
     private static final long serialVersionUID = -8262263353009937764L;
-    public static Logger log = Logger.getLogger(InsurancesBean.class);
-    Locale locale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
 
     private InsurancesEntity insurancesEntity;
     private InsurancesServices insurancesServices = new InsurancesServicesImpl();
@@ -131,17 +125,6 @@ public class InsurancesBean implements Serializable {
         init();
     }
 
-    /**
-     * Méthode pour retourner les paramètres récupéré
-     *
-     * @param name Param form
-     * @return param(name)
-     */
-    public String getParam(String name) {
-        FacesContext fc = FacesContext.getCurrentInstance();
-        Map<String, String> params = fc.getExternalContext().getRequestParameterMap();
-        return params.get(name);
-    }
 
     public List<InsurancesEntity> getInsurancesEntities() {
         return insurancesEntities;

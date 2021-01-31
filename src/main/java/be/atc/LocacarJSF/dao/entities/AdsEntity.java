@@ -3,12 +3,15 @@ package be.atc.LocacarJSF.dao.entities;
 import be.atc.LocacarJSF.enums.EnumTypeAds;
 
 import javax.persistence.*;
-import java.sql.Date;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Objects;
 
 @Entity
 @Table(name = "ads", schema = "locacarjsf", catalog = "")
+@NamedQueries({
+        @NamedQuery(name = "Ads.findAll", query = "SELECT a from AdsEntity a "),
+})
 public class AdsEntity {
     private int id;
     private int idCars;
@@ -43,6 +46,7 @@ public class AdsEntity {
     }
 
     @Basic
+    @Temporal(value = TemporalType.DATE)
     @Column(name = "Date_Start")
     public Date getDateStart() {
         return dateStart;
@@ -53,6 +57,7 @@ public class AdsEntity {
     }
 
     @Basic
+    @Temporal(value = TemporalType.DATE)
     @Column(name = "Date_End")
     public Date getDateEnd() {
         return dateEnd;

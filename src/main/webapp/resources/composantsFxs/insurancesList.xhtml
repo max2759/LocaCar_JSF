@@ -24,7 +24,7 @@
     <br/>
     <h:form>
         <!-- datatable == equiavalent foreach -->
-        <h:dataTable id="outputMessage" styleClass="table table-hover"
+        <h:dataTable id="outputMessage" styleClass="table table-hover table-responsive"
                      value="#{insurancesBean.insurancesEntities}" var="i">
             <h:column>
                 <f:facet name="header">#{bundle['fxs.insurancesList.code']}</f:facet>
@@ -44,9 +44,9 @@
             </h:column>
             <h:column>
                 <f:facet name="header">#{bundle['fxs.insurancesList.edit']}</f:facet>
-                <h:commandLink action="#{insurancesBean.showPopupModal}">
+                <h:commandLink styleClass="text-info" action="#{insurancesBean.showPopupModal}">
 
-                <h:graphicImage library="images" name="icons8-modifier.svg" width="30%"/>
+                    <i class="far fa-edit"></i>
                     <f:param name="id" value="#{i.id}"></f:param>
                     <f:ajax render="@all"/>
                 </h:commandLink>
@@ -55,16 +55,18 @@
             <h:column>
                 <f:facet name="header">#{bundle['fxs.insurancesList.isActive']}</f:facet>
 
-                <h:commandLink id="activeInsurance" action="#{insurancesBean.deleteOrActivateInsurance}"
+                <h:commandLink id="activeInsurance" styleClass="text-primary"
+                               action="#{insurancesBean.deleteOrActivateInsurance}"
                                rendered="#{i.active eq true}"
                                onclick="return confirmer();">
-                    <h:graphicImage library="images" name="on.svg" width="25%"/>
+                    <i class="fas fa-toggle-on"></i>
                     <f:param name="id" value="#{i.id}"></f:param>
                     <f:ajax render="@form"/>
                 </h:commandLink>
-                <h:commandLink id="desactiveInsurance" action="#{insurancesBean.deleteOrActivateInsurance}"
+                <h:commandLink id="desactiveInsurance" styleClass="text-secondary"
+                               action="#{insurancesBean.deleteOrActivateInsurance}"
                                rendered="#{i.active eq false}">
-                    <h:graphicImage library="images" name="off.svg" width="25%"/>
+                    <i class="fas fa-toggle-off"></i>
                     <f:param name="id" value="#{i.id}"></f:param>
                     <f:ajax render="@form"/>
                 </h:commandLink>

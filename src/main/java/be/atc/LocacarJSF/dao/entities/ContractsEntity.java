@@ -1,12 +1,16 @@
 package be.atc.LocacarJSF.dao.entities;
 
 import javax.persistence.*;
-import java.sql.Date;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Objects;
 
 @Entity
 @Table(name = "contracts", schema = "locacarjsf", catalog = "")
+@NamedQueries({
+        @NamedQuery(name = "Contracts.findContractByIdOrdersAndByIdCars", query = "SELECT c from ContractsEntity c where (c.idOrders = :idOrder) and (c.idCars = :idCar)"),
+        @NamedQuery(name = "Contracts.findAll", query = "SELECT c from ContractsEntity c "),
+})
 public class ContractsEntity {
     private int id;
     private int idOrders;
@@ -63,6 +67,7 @@ public class ContractsEntity {
     }
 
     @Basic
+    @Temporal(value = TemporalType.DATE)
     @Column(name = "Date_Start")
     public Date getDateStart() {
         return dateStart;
@@ -73,6 +78,7 @@ public class ContractsEntity {
     }
 
     @Basic
+    @Temporal(value = TemporalType.DATE)
     @Column(name = "Date_End")
     public Date getDateEnd() {
         return dateEnd;
