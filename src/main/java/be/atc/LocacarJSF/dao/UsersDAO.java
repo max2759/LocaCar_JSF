@@ -6,15 +6,15 @@ import java.util.List;
 
 public interface UsersDAO {
     //appels en DB
-    boolean add(UsersEntity usersEntity);
+    public boolean add(UsersEntity usersEntity);
 
-    boolean update(UsersEntity usersEntity);
+    public boolean update(UsersEntity usersEntity);
 
-    boolean delete(UsersEntity usersEntity);
+    public boolean delete(UsersEntity usersEntity);
 
-    List<UsersEntity> findAll();
+    public List<UsersEntity> findAll();
 
-    UsersEntity findById(int id);
+    public UsersEntity findById(int id);
 
     //check password
 

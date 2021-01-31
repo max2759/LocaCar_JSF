@@ -49,7 +49,38 @@ public class UsersDAOImpl implements UsersDAO {
 
     @Override
     public List<UsersEntity> findAll() {
-        return null;
+        /*log.info("begin findAllUser");
+        EntityManager em = EMF.getEM();
+        try {
+            log.info("begin try");
+            return em.createNamedQuery("Users.findAll",
+                    UsersEntity.class)
+                    .getResultList();
+        } catch (Exception ex) {
+            log.info("Liste vide");
+            return null;
+        } finally {
+            em.clear();
+            em.close();
+        }*/
+
+        log.info("begin findAllUser");
+        EntityManager em = EMF.getEM();
+        List<UsersEntity> resultList = null;
+        try {
+            resultList = em.createNamedQuery("Users.findAll",
+                    UsersEntity.class)
+                    .getResultList();
+            if (resultList != null) {
+                log.info(resultList.size() + " results found.");
+            }
+        } catch (Exception ex) {
+            log.error(ex);
+        } finally {
+            em.clear();
+            em.close();
+        }
+        return resultList;
     }
 
     @Override

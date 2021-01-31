@@ -24,7 +24,10 @@ public class UsersServicesImpl implements UsersServices {
 
     @Override
     public boolean update(UsersEntity usersEntity) {
-
+        if (usersEntity != null && findById(usersEntity.getId()) != null) {
+            usersDAO.update(usersEntity);
+            return true;
+        }
         return false;
     }
 
@@ -38,13 +41,19 @@ public class UsersServicesImpl implements UsersServices {
         return false;
     }
 
+
     @Override
     public List<UsersEntity> findAll() {
-        return null;
+        log.info("findall iuserServ");
+        return usersDAO.findAll();
     }
 
     @Override
     public UsersEntity findById(int id) {
+        if (id != 0) {
+            return usersDAO.findById(id);
+        }
         return null;
     }
+
 }

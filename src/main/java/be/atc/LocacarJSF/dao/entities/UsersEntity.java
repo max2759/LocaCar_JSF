@@ -6,8 +6,15 @@ import java.util.Date;
 import java.util.Objects;
 
 @Entity
-@Table(name = "users", schema = "locacarjsf", catalog = "")
+@Table(name = "users", schema = "locacarjsf")
+@NamedQueries({
+        @NamedQuery(name = "Users.findAll", query = "select u from UsersEntity u")
+})
+@NamedNativeQueries({
+        @NamedNativeQuery(name = "UsersNativeFindAll", query = "select * from users")
+})
 public class UsersEntity {
+
     private int id;
     private int idRoles;
     private String firstname;
@@ -15,7 +22,7 @@ public class UsersEntity {
     private String username;
     private String password;
     private Date registerDate;
-    private Date birthdate;
+    private java.util.Date birthdate;
     private String vatNumber;
     private boolean isActive;
     private Collection<AddressesEntity> addressesById;
@@ -85,6 +92,7 @@ public class UsersEntity {
     }
 
     @Basic
+    @Temporal(value = TemporalType.DATE)
     @Column(name = "Register_Date")
     public Date getRegisterDate() {
         return registerDate;
@@ -95,6 +103,7 @@ public class UsersEntity {
     }
 
     @Basic
+    @Temporal(value = TemporalType.DATE)
     @Column(name = "Birthdate")
     public Date getBirthdate() {
         return birthdate;
