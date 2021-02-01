@@ -50,26 +50,11 @@ public class UsersDAOImpl extends EntityFinderImpl<UsersEntity> implements Users
 
     @Override
     public List<UsersEntity> findAll() {
-        return this.findByNamedQuery("Users.findAll", new UsersEntity());
+        return null;
     }
 
-    /**
-     * find entity by id
-     *
-     * @param id
-     * @return
-     */
     @Override
     public UsersEntity findById(int id) {
-        EntityManager em = EMF.getEM();
-        try {
-            return em.find(UsersEntity.class, id);
-        } catch (Exception ex) {
-            log.info("Nothing");
-            return null;
-        } finally {
-            em.clear();
-            em.close();
-        }
+        return null;
     }
 }

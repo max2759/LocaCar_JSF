@@ -11,6 +11,7 @@ import java.util.Objects;
         @NamedQuery(name = "Users.findAll", query = "SELECT u from UsersEntity u"),
 })
 public class UsersEntity {
+
     private int id;
     private int idRoles;
     private String firstname;
@@ -88,7 +89,6 @@ public class UsersEntity {
     }
 
     @Basic
-    @Temporal(value = TemporalType.DATE)
     @Column(name = "Register_Date")
     public Date getRegisterDate() {
         return registerDate;
@@ -99,7 +99,6 @@ public class UsersEntity {
     }
 
     @Basic
-    @Temporal(value = TemporalType.DATE)
     @Column(name = "Birthdate")
     public Date getBirthdate() {
         return birthdate;
