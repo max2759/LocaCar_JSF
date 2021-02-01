@@ -1,33 +1,31 @@
 package be.atc.LocacarJSF.dao;
 
-import be.atc.LocacarJSF.dao.entities.ContractsEntity;
+import be.atc.LocacarJSF.dao.entities.ContractInsurancesEntity;
 import org.apache.log4j.Logger;
 import utils.EMF;
-import utils.EntityFinderImpl;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
-import java.util.List;
 
-public class ContractsDAOImpl extends EntityFinderImpl<ContractsEntity> implements ContractsDAO {
+public class ContractInsurancesDAOImpl implements ContractInsurancesDAO {
 
-    public static Logger log = Logger.getLogger(ContractsDAOImpl.class);
+    public static Logger log = Logger.getLogger(ContractInsurancesDAOImpl.class);
 
     /**
      * Add entity
      *
-     * @param contractsEntity
+     * @param contractInsurancesEntity
      * @return
      */
     @Override
-    public boolean add(ContractsEntity contractsEntity) {
+    public boolean add(ContractInsurancesEntity contractInsurancesEntity) {
         EntityManager em = EMF.getEM();
 
         EntityTransaction tx = null;
         try {
             tx = em.getTransaction();
             tx.begin();
-            em.persist(contractsEntity);
+            em.persist(contractInsurancesEntity);
             tx.commit();
             log.info("Persist ok");
             return true;
@@ -44,18 +42,18 @@ public class ContractsDAOImpl extends EntityFinderImpl<ContractsEntity> implemen
     /**
      * Update entity
      *
-     * @param contractsEntity
+     * @param contractInsurancesEntity
      * @return
      */
     @Override
-    public boolean update(ContractsEntity contractsEntity) {
+    public boolean update(ContractInsurancesEntity contractInsurancesEntity) {
         EntityManager em = EMF.getEM();
 
         EntityTransaction tx = null;
         try {
             tx = em.getTransaction();
             tx.begin();
-            em.merge(contractsEntity);
+            em.merge(contractInsurancesEntity);
             tx.commit();
             log.info("Merge ok");
             return true;
@@ -85,7 +83,7 @@ public class ContractsDAOImpl extends EntityFinderImpl<ContractsEntity> implemen
             tx = em.getTransaction();
             tx.begin();
 
-            ContractsEntity c = findById(id);
+            ContractInsurancesEntity c = findById(id);
             em.remove(em.merge(c));
 
             tx.commit();
@@ -103,26 +101,16 @@ public class ContractsDAOImpl extends EntityFinderImpl<ContractsEntity> implemen
     }
 
     /**
-     * Find all entities
-     *
-     * @return
-     */
-    @Override
-    public List<ContractsEntity> findAll() {
-        return this.findByNamedQuery("Contracts.findAll", new ContractsEntity());
-    }
-
-    /**
      * find entity by id
      *
      * @param id
      * @return
      */
     @Override
-    public ContractsEntity findById(int id) {
+    public ContractInsurancesEntity findById(int id) {
         EntityManager em = EMF.getEM();
         try {
-            return em.find(ContractsEntity.class, id);
+            return em.find(ContractInsurancesEntity.class, id);
         } catch (Exception ex) {
             log.info("Nothing");
             return null;
@@ -131,23 +119,4 @@ public class ContractsDAOImpl extends EntityFinderImpl<ContractsEntity> implemen
             em.close();
         }
     }
-
-    @Override
-    public ContractsEntity findContractByIdOrdersAndByIdCars(int idOrder, int idCar) {
-        EntityManager em = EMF.getEM();
-        try {
-            return em.createNamedQuery("Contracts.findContractByIdOrdersAndByIdCars",
-                    ContractsEntity.class)
-                    .setParameter("idOrder", idOrder)
-                    .setParameter("idCar", idCar)
-                    .getSingleResult();
-        } catch (Exception ex) {
-            log.info("Nothing");
-            return null;
-        } finally {
-            em.clear();
-            em.close();
-        }
-    }
-
 }
