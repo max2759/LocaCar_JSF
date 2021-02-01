@@ -55,4 +55,12 @@ public class UsersServicesImpl implements UsersServices {
         }
         return null;
     }
+
+    @Override
+    public List<UsersEntity> findByUsername(String username) {
+        if (username != null) {
+            return usersDAO.findByUsername(username);
+        }
+        return null;
+    }
 }
