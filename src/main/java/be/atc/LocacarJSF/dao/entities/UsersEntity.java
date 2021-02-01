@@ -9,6 +9,7 @@ import java.util.Objects;
 @Table(name = "users", schema = "locacarjsf", catalog = "")
 @NamedQueries({
         @NamedQuery(name = "Users.findAll", query = "SELECT u from UsersEntity u"),
+        @NamedQuery(name = "Users.findByUsername", query = "SELECT u from UsersEntity u where u.username = :username")
 })
 public class UsersEntity {
 

@@ -16,6 +16,8 @@ public interface UsersDAO {
 
     public UsersEntity findById(int id);
 
+    public List<UsersEntity> findByUsername(String username);
+
     //check password
 
 }

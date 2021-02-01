@@ -18,4 +18,6 @@ public interface UsersServices {
 
     public UsersEntity findById(int id);
 
+    public List<UsersEntity> findByUsername(String username);
+
 }
