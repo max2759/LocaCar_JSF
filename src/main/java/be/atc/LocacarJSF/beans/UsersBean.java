@@ -4,27 +4,48 @@ import be.atc.LocacarJSF.dao.entities.UsersEntity;
 import be.atc.LocacarJSF.services.UsersServices;
 import be.atc.LocacarJSF.services.UsersServicesImpl;
 import org.apache.log4j.Logger;
+import utils.JsfUtils;
 
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+
+import static java.lang.Integer.parseInt;
 
 @Named(value = "usersBean")
-@RequestScoped
+@SessionScoped
 public class UsersBean implements Serializable {
     private static final long serialVersionUID = -8262263353009937764L;
     public static Logger log = Logger.getLogger(UsersBean.class);
+    Locale locale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
 
     private UsersEntity usersEntity = new UsersEntity();
     private UsersServices usersServices = new UsersServicesImpl();
     private List<UsersEntity> usersEntities;
 
+
+    private boolean showPopup;
+    private String success;
+    private String fail;
+    private boolean editUsersEntity;
+    private boolean addUserEntity;
+
     public void init() {
+        log.info("init() - start");
         usersEntities = usersServices.findAll();
+        //  log.info("Initialization done : "+usersEntities != null ? usersEntities.size() : 0+" results found.");
+    }
+
+    public void initialisationFields() {
+        success = "";
+        fail = "";
     }
 
     public void connexion() {
@@ -57,6 +78,103 @@ public class UsersBean implements Serializable {
         log.info("inscription");
     }
 
+    /**
+     * Ouvrir le popup d'edition ou d'ajout
+     */
+    public void showPopupModal() {
+        log.info("Show PopupModal");
+        showPopup = true;
+        if (getParam("id") != null) {
+            editUsersEntity = false;
+            int idUsers = parseInt(getParam("id"));
+            usersEntity = usersServices.findById(idUsers);
+        } else {
+            editUsersEntity = true;
+            usersEntity = new UsersEntity();
+        }
+    }
+
+    /**
+     * Fermer le popup d'edition ou d'ajout
+     */
+    public void hidePopupModal() {
+        log.info("Hide PopupModal");
+        initialisationFields();
+        showPopup = false;
+    }
+
+
+    /**
+     * Sauvegarde l'entité modifiée
+     */
+    public void saveEdit() {
+
+        List<UsersEntity> usersEntitiesByLabel = usersServices.findByUsername(usersEntity.getUsername());
+        initialisationFields();
+
+        log.info("Save edit");
+        if ((addUserEntity) && (usersEntitiesByLabel.isEmpty())) {
+            functionAddUser();
+        } else if ((!addUserEntity) && (usersEntitiesByLabel.isEmpty())) {
+            functionUpdateUser();
+        } else if ((!addUserEntity) && (usersEntitiesByLabel.size() == 1)) {
+            UsersEntity oe = usersEntitiesByLabel.get(0);
+
+            if (oe.getId() == usersEntity.getId()) {
+                functionUpdateUser();
+            } else {
+                fail = JsfUtils.returnMessage(locale, "fxs.users.errorAdd");
+            }
+        } else {
+            fail = JsfUtils.returnMessage(locale, "fxs.users.errorAdd");
+        }
+
+        init();
+    }
+
+    /**
+     * Repetition code for add userEntity
+     */
+    public void functionAddUser() {
+        usersServices.add(usersEntity);
+        success = JsfUtils.returnMessage(locale, "fxs.users.succesAdd");
+    }
+
+    /**
+     * Repetition code for update UserEntity
+     */
+    public void functionUpdateUser() {
+        usersServices.update(usersEntity);
+        success = JsfUtils.returnMessage(locale, "fxs.Users.successUpdate");
+    }
+
+
+    /**
+     * Méthode pour retourner les paramètres récupéré
+     *
+     * @param name
+     * @return
+     */
+    public String getParam(String name) {
+        FacesContext fc = FacesContext.getCurrentInstance();
+        Map<String, String> params = fc.getExternalContext().getRequestParameterMap();
+        return params.get(name);
+    }
+
+
+    /////////////////////////
+    /// getter and setter ///
+    /////////////////////////
+
+
+    public boolean isAddUserEntity() {
+        return addUserEntity;
+    }
+
+    public void setAddUserEntity(boolean addUserEntity) {
+        this.addUserEntity = addUserEntity;
+    }
+
     public UsersEntity getUsersEntity() {
         return usersEntity;
     }
@@ -65,20 +183,44 @@ public class UsersBean implements Serializable {
         this.usersEntity = usersEntity;
     }
 
-    public UsersServices getUsersServices() {
-        return usersServices;
-    }
-
-    public void setUsersServices(UsersServices usersServices) {
-        this.usersServices = usersServices;
-    }
-
     public List<UsersEntity> getUsersEntities() {
         return usersEntities;
     }
 
     public void setUsersEntities(List<UsersEntity> usersEntities) {
         this.usersEntities = usersEntities;
+    }
+
+    public boolean isShowPopup() {
+        return showPopup;
+    }
+
+    public void setShowPopup(boolean showPopup) {
+        this.showPopup = showPopup;
+    }
+
+    public boolean isEditUsersEntity() {
+        return editUsersEntity;
+    }
+
+    public void setEditUsersEntity(boolean addUserEntity) {
+        this.editUsersEntity = editUsersEntity;
+    }
+
+    public String getSuccess() {
+        return success;
+    }
+
+    public void setSuccess(String success) {
+        this.success = success;
+    }
+
+    public String getFail() {
+        return fail;
+    }
+
+    public void setFail(String fail) {
+        this.fail = fail;
     }
 
     //verif mdp, ...

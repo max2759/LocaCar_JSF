@@ -9,8 +9,10 @@ import java.util.Objects;
 @Table(name = "users", schema = "locacarjsf", catalog = "")
 @NamedQueries({
         @NamedQuery(name = "Users.findAll", query = "SELECT u from UsersEntity u"),
+        @NamedQuery(name = "Users.findByUsername", query = "SELECT u from UsersEntity u where u.username = :username")
 })
 public class UsersEntity {
+
     private int id;
     private int idRoles;
     private String firstname;
@@ -88,7 +90,6 @@ public class UsersEntity {
     }
 
     @Basic
-    @Temporal(value = TemporalType.DATE)
     @Column(name = "Register_Date")
     public Date getRegisterDate() {
         return registerDate;
@@ -99,7 +100,6 @@ public class UsersEntity {
     }
 
     @Basic
-    @Temporal(value = TemporalType.DATE)
     @Column(name = "Birthdate")
     public Date getBirthdate() {
         return birthdate;

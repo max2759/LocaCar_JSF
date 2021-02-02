@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:cc="http://java.sun.com/jsf/composite"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+
+<cc:interface name="usersList"
+              displayName="#{bundle['fxs.usersList.displayName']}"
+              shortDescription="#{bundle['fxs.usersList.shortDescription']}"
+>
+</cc:interface>
+<cc:implementation>
+    <div>
+        <h:form>
+            <h:commandLink styleClass="btn btn-success"
+                           value="#{bundle['fxs.usersList.edit']}"
+                           action="#{usersBean.showPopupModal}">
+                <f:param name="editUserEntity" value="editUserEntity"></f:param>
+                <i class="fas fa-plus"></i>
+            </h:commandLink>
+        </h:form>
+    </div>
+
+    <h:form>
+        <h:dataTable id="outputMessage" styleClass="table table-hover table-responsive"
+                     value="#{usersBean.usersEntities}" var="user">
+
+            <h:column>
+                <f:facet name="header">#{bundle['fxs.connexion.username']}</f:facet>
+                <h:outputText value="#{user.username}"></h:outputText>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">#{bundle['fxs.register.firstName']}</f:facet>
+                <h:outputText value="#{user.firstname}"></h:outputText>
+            </h:column>
+
+            <h:column>
+                <!-- bouton edit -->
+                <f:facet name="header">#{bundle['fxs.usersList.edit']}</f:facet>
+                <!-- appel de showmodalPopup -->
+                <h:commandLink styleClass="btn btn-outline-primary btn-sm"
+                               action="#{usersBean.showPopupModal}">
+                    <f:param name="id" value="#{user.id}"></f:param>
+                    <f:ajax render="@all"/>
+                    <i class="fas fa-edit"></i>
+                </h:commandLink>
+            </h:column>
+
+        </h:dataTable>
+    </h:form>
+
+
+    <!-- affichage du modal -->
+    <f:view>
+        <h:panelGroup id="popupEdit" layout="block" styleClass="popup-panel-overlay"
+                      rendered="#{usersBean.showPopup}">
+
+            <h:form id="formPopupEdit">
+                <div class="popup-panel">
+                    <h:outputText value="#{usersBean.success}"
+                                  style="color: green; font-weight: bold"></h:outputText>
+                    <h:outputText value="#{usersBean.fail}"
+                                  style="color: darkred; font-weight: bold"></h:outputText>
+                    <div class="form-group">
+                        <h:outputLabel value="ID" for="idUsers"></h:outputLabel>
+                        <h:outputText id="idUsers" value="#{usersBean.usersEntity.id}"
+                                      styleClass="form-control"></h:outputText>
+                    </div>
+                    <div class="form-group">
+                        <h:outputLabel value="username" for="userName"></h:outputLabel>
+                        <h:inputText value="#{usersBean.usersEntity.username}" styleClass="form-control"
+                                     required="true"
+                                     pt:placeholder="Votre user ici..."
+                                     requiredMessage="#{bundle['fxs.insurancesList.required']}"
+                                     id="userName">
+                        </h:inputText>
+                        <h:message styleClass="alert alert-danger" role="alert" for="userName"></h:message>
+                    </div>
+
+                    <span>
+                        <h:commandButton styleClass="btn btn-outline-success btn-sm"
+                                         value="#{bundle['fxs.insurancesList.save']}"
+                                         action="#{usersBean.saveEdit}">
+                            <f:ajax execute="formPopupEdit" render="@all"></f:ajax>
+                        </h:commandButton>
+
+                    </span>
+
+                    <span>
+                        <h:commandButton styleClass="btn btn-outline-dark btn-sm"
+                                         value="#{bundle['fxs.insurancesList.close']}"
+                                         action="#{usersBean.hidePopupModal}">
+                            <f:ajax render="@all"></f:ajax>
+                        </h:commandButton>
+                    </span>
+                </div>
+            </h:form>
+        </h:panelGroup>
+    </f:view>
+</cc:implementation>
+</html>

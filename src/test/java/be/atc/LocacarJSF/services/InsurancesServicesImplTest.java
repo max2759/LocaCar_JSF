@@ -41,9 +41,9 @@ class InsurancesServicesImplTest {
         insurancesEntity.setPrice(10);
         insurancesEntity.setLabel("test3");
 
-        Boolean test = insurancesServices.add(insurancesEntity);
+        insurancesServices.add(insurancesEntity);
 
-        assertThat(test).isEqualTo(true);
+
     }
 
     @Test
