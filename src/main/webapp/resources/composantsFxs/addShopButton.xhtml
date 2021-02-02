@@ -13,11 +13,13 @@
 </cc:interface>
 <cc:implementation>
     <br/>
+    <h:outputText value="#{ordersBean.success}" style="color: green; font-weight: bold"></h:outputText>
+    <h:outputText value="#{ordersBean.fail}" style="color: red; font-weight: bold"></h:outputText>
     <h:form>
         <h:commandLink action="#{ordersBean.addShop}">
             Add Shop
-            <f:param name="idAds" value="3"></f:param>
-            <f:param name="idAssurance" value="1"></f:param>
+            <f:param name="idAds" value="4"></f:param>
+            <f:param name="idAssurance" value="2"></f:param>
         </h:commandLink>
     </h:form>
     <br/>

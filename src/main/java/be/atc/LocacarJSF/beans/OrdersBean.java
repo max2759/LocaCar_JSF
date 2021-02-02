@@ -8,7 +8,9 @@ import be.atc.LocacarJSF.services.AdsServices;
 import be.atc.LocacarJSF.services.AdsServicesImpl;
 import be.atc.LocacarJSF.services.OrdersServices;
 import be.atc.LocacarJSF.services.OrdersServicesImpl;
+import utils.JsfUtils;
 
+import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -22,7 +24,7 @@ public class OrdersBean extends ExtendBean implements Serializable {
     private static final long serialVersionUID = -5251107202124824837L;
 
     // Remplacer par l'utilisateur
-    int idUser = 3;
+    int idUser = 1;
 
     // Remplacer par le prix final
     double finalPrice = 32300;
@@ -36,8 +38,21 @@ public class OrdersBean extends ExtendBean implements Serializable {
     private OrdersEntity ordersEntity;
     private OrdersServices ordersServices = new OrdersServicesImpl();
 
+    private String success;
+    private String fail;
+
     @Inject
     private ContractsBean contractsBean;
+
+    /**
+     * Method post construct
+     */
+    @PostConstruct
+    public void init() {
+        log.info("Post Construct");
+        success = "";
+        fail = "";
+    }
 
     /**
      * Add shop, call functions
@@ -50,17 +65,23 @@ public class OrdersBean extends ExtendBean implements Serializable {
         adsEntity = adsServices.findById(parseInt(getParam("idAds")));
 
         // Check if ads is active, car is active, and dateEnd is not less than today. If true : find Orders By Id Users and Status is Pending, if null, create order. Else use the order
-        ordersEntity = checkAdsActiveCarActiveDateEnd() == true ? findOrders_ByIdUsers_andStatusIsPending() : null;
+        if (checkAdsActiveCarActiveDateEnd()) {
+            ordersEntity = findOrders_ByIdUsers_andStatusIsPending();
 
-        if (ordersEntity == null) {
-            log.info("Aucun Orders n'est trouvé");
-            createOrders();
+            if (ordersEntity == null) {
+                log.info("Aucun Orders n'est trouvé");
+                createOrders();
+            }
+
+            String testSaleOrLeasing = checkIfSaleOrLeasing();
+            log.info("Order est : " + testSaleOrLeasing);
+
+            if (contractsBean.createContract(ordersEntity.getId(), adsEntity, finalPrice, null, testSaleOrLeasing, idAssurance)) {
+                success = JsfUtils.returnMessage(getLocale(), "fxs.addShopButton.addShopSuccess");
+            }
+        } else {
+            fail = JsfUtils.returnMessage(getLocale(), "fxs.addShopButton.adsOrVehiculeError");
         }
-
-        String testSaleOrLeasing = checkIfSaleOrLeasing();
-        log.info("Order est : " + testSaleOrLeasing);
-
-        contractsBean.createContract(ordersEntity.getId(), adsEntity, finalPrice, null, testSaleOrLeasing, idAssurance);
     }
 
     /**
@@ -107,5 +128,19 @@ public class OrdersBean extends ExtendBean implements Serializable {
         ordersServices.add(ordersEntity);
     }
 
+    public String getSuccess() {
+        return success;
+    }
 
+    public void setSuccess(String success) {
+        this.success = success;
+    }
+
+    public String getFail() {
+        return fail;
+    }
+
+    public void setFail(String fail) {
+        this.fail = fail;
+    }
 }

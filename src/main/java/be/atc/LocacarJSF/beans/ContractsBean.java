@@ -51,10 +51,14 @@ public class ContractsBean extends ExtendBean implements Serializable {
             contractsEntity.setIdContractType(1);
         } else {
             contractsEntity.setIdContractType(2);
-            contractInsurancesBean.createContractInsurances(contractsEntity.getId(), idAssurance);
         }
 
-        return contractsServices.add(contractsEntity);
+        Boolean test = contractsServices.add(contractsEntity);
+
+        if (test && typeAds.equalsIgnoreCase("Leasing")) {
+            test = contractInsurancesBean.createContractInsurances(contractsEntity.getId(), idAssurance);
+        }
+        return test;
     }
 
     /**
