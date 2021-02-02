@@ -39,6 +39,14 @@ public class ContractsServicesImpl implements ContractsServices {
         return false;
     }
 
+    @Override
+    public boolean delete(int id) {
+        if (id != 0) {
+            return contractsDAO.delete(id);
+        }
+        return false;
+    }
+
     /**
      * Find all entities
      *

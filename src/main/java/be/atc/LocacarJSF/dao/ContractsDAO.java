@@ -10,6 +10,8 @@ public interface ContractsDAO {
 
     public boolean update(ContractsEntity contractsEntity);
 
+    public boolean delete(int id);
+
     public List<ContractsEntity> findAll();
 
     public ContractsEntity findById(int id);

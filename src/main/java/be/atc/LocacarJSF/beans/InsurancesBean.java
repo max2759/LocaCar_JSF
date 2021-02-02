@@ -73,7 +73,7 @@ public class InsurancesBean extends ExtendBean implements Serializable {
     public void functionUpdateEntity() {
         log.info("Update entity");
         insurancesServices.update(insurancesEntity);
-        success = JsfUtils.returnMessage(locale, "fxs.insurances.successUpdate");
+        success = JsfUtils.returnMessage(getLocale(), "fxs.insurances.successUpdate");
     }
 
     /**
@@ -82,7 +82,7 @@ public class InsurancesBean extends ExtendBean implements Serializable {
     public void functionAddEntity() {
         log.info("Add entity");
         insurancesServices.add(insurancesEntity);
-        success = JsfUtils.returnMessage(locale, "fxs.insurances.successAdd");
+        success = JsfUtils.returnMessage(getLocale(), "fxs.insurances.successAdd");
     }
 
     /**
@@ -103,10 +103,10 @@ public class InsurancesBean extends ExtendBean implements Serializable {
             if (test.getId() == insurancesEntity.getId()) {
                 functionUpdateEntity();
             } else {
-                fail = JsfUtils.returnMessage(locale, "fxs.insurances.errorAdd");
+                fail = JsfUtils.returnMessage(getLocale(), "fxs.insurances.errorAdd");
             }
         } else {
-            fail = JsfUtils.returnMessage(locale, "fxs.insurances.errorAdd");
+            fail = JsfUtils.returnMessage(getLocale(), "fxs.insurances.errorAdd");
         }
         init();
     }

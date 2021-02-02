@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:cc="http://java.sun.com/jsf/composite">
+
+<cc:interface name="addShopButton"
+              displayName="#{bundle['fxs.addShopButton.displayName']}"
+              shortDescription="#{bundle['fxs.addShopButton.shortDescription']}"
+>
+</cc:interface>
+<cc:implementation>
+    <br/>
+    <h:outputText value="#{ordersBean.success}" style="color: green; font-weight: bold"></h:outputText>
+    <h:outputText value="#{ordersBean.fail}" style="color: red; font-weight: bold"></h:outputText>
+    <h:form>
+        <h:commandLink action="#{ordersBean.addShop}">
+            Add Shop
+            <f:param name="idAds" value="4"></f:param>
+            <f:param name="idAssurance" value="2"></f:param>
+        </h:commandLink>
+    </h:form>
+    <br/>
+</cc:implementation>
+</html>

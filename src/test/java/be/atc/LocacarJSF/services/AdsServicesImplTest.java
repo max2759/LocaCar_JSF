@@ -79,7 +79,7 @@ class AdsServicesImplTest {
 
         // Mettre l'Id d'une entité qui a une date de fin supérieur à aujourd'hui
         AdsEntity adsEntity = adsServices.findById(1);
-        Boolean test = adsEntity.getDateEnd().after(date) == true ? true : false;
+        Boolean test = !adsEntity.getDateEnd().before(date) == true ? true : false;
 
         assertThat(test).isEqualTo(true);
     }

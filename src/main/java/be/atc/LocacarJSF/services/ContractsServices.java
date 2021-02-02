@@ -9,6 +9,8 @@ public interface ContractsServices {
 
     boolean update(ContractsEntity contractsEntity);
 
+    public boolean delete(int id);
+
     List<ContractsEntity> findAll();
 
     ContractsEntity findById(int id);
