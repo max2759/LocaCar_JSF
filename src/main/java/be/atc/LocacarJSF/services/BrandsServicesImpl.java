@@ -27,7 +27,7 @@ public class BrandsServicesImpl implements BrandsServices {
 
     @Override
     public List<BrandsEntity> findAll() {
-        return null;
+        return brandsDAO.findAll();
     }
 
     @Override

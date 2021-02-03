@@ -13,13 +13,12 @@ import javax.inject.Named;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 import static java.lang.Integer.parseInt;
 
 @Named(value = "carsColorsBean")
 @ViewScoped
-public class CarsColorsBean implements Serializable {
+public class CarsColorsBean extends ExtendBean implements Serializable {
 
     private static final long serialVersionUID = 7509083962687295321L;
     public static Logger log = Logger.getLogger(CarsColorsBean.class);
@@ -130,18 +129,6 @@ public class CarsColorsBean implements Serializable {
         }
 
         init();
-    }
-
-    /**
-     * Méthode pour retourner les paramètres récupéré
-     *
-     * @param name
-     * @return
-     */
-    public String getParam(String name) {
-        FacesContext fc = FacesContext.getCurrentInstance();
-        Map<String, String> params = fc.getExternalContext().getRequestParameterMap();
-        return params.get(name);
     }
 
 

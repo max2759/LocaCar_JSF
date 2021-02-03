@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:cc="http://java.sun.com/jsf/composite"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+
+<cc:interface name="modelsList"
+              displayName="#{bundle['fxs.modelsList.displayName']}"
+              shortDescription="#{bundle['fxs.modelsList.shortDescription']}"
+>
+</cc:interface>
+<cc:implementation>
+    <div>
+        <h:form>
+
+            <h:commandLink styleClass="btn btn-success"
+                           value="#{bundle['fxs.optionsList.add']}"
+                           action="#{modelsBean.showPopupModal}">
+                <f:param name="addModelsEntity" value="addModelsEntity"></f:param>
+                <i class="fas fa-plus"></i>
+            </h:commandLink>
+        </h:form>
+    </div>
+
+    <h:form>
+        <!-- datatable == equiavalent foreach -->
+        <h:dataTable id="outputMessage" styleClass="table table-hover table-responsive"
+                     value="#{modelsBean.modelsEntities}" var="models">
+            <h:column>
+                <f:facet name="header">#{bundle['fxs.insurancesList.code']}</f:facet>
+                <h:outputText value="#{models.id}"></h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">#{bundle['fxs.models.label']}</f:facet>
+                <h:outputText value="#{models.label}"></h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">#{bundle['fxs.models.brands']}</f:facet>
+                <h:outputText value="#{models.brandsByIdBrands.label}"></h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">#{bundle['fxs.insurancesList.edit']}</f:facet>
+                <h:commandLink styleClass="text-info" action="#{modelsBean.showPopupModal}">
+
+                    <i class="far fa-edit"></i>
+                    <f:param name="id" value="#{models.id}"></f:param>
+                    <f:ajax render="@all"/>
+                </h:commandLink>
+            </h:column>
+
+        </h:dataTable>
+    </h:form>
+
+    <f:view>
+        <h:panelGroup id="popupEdit" layout="block" styleClass="popup-panel-overlay"
+                      rendered="#{modelsBean.showPopup}">
+
+            <h:form id="formPopupEdit">
+                <div class="popup-panel">
+                    <h:outputText value="#{modelsBean.success}"
+                                  style="color: green; font-weight: bold"></h:outputText>
+                    <h:outputText value="#{modelsBean.fail}"
+                                  style="color: darkred; font-weight: bold"></h:outputText>
+                    <div class="form-group">
+                        <h:outputLabel value="ID" for="idModels"></h:outputLabel>
+                        <h:outputText id="idModels" value="#{modelsBean.modelsEntity.id}"
+                                      styleClass="form-control"></h:outputText>
+                    </div>
+                    <div class="form-group">
+                        <h:outputLabel value="Modèle" for="modelsLabel"></h:outputLabel>
+                        <h:inputText value="#{modelsBean.modelsEntity.label}" styleClass="form-control"
+                                     required="true"
+                                     pt:placeholder="Ajouter un modèle"
+                                     requiredMessage="#{bundle['fxs.insurancesList.required']}"
+                                     id="modelsLabel">
+                        </h:inputText>
+                        <h:message styleClass="alert alert-danger" role="alert" for="modelsLabel"></h:message>
+                    </div>
+
+                    <div class="form-group">
+                        <h:selectOneMenu value="#{modelsBean.modelsEntity.idBrands}" id="type" required="true"
+                                         requiredMessage="Choisissez une marque">
+                            <f:selectItem itemValue="" itemLabel=""></f:selectItem>
+                            <f:selectItems value="#{modelsBean.brandsItems}"></f:selectItems>
+                        </h:selectOneMenu>
+                    </div>
+
+                    <span>
+                        <h:commandButton styleClass="btn btn-outline-success btn-sm"
+                                         value="#{bundle['fxs.insurancesList.save']}"
+                                         action="#{modelsBean.saveEdit}">
+                            <f:ajax execute="formPopupEdit" render="@all"></f:ajax>
+                        </h:commandButton>
+
+                    </span>
+
+                    <span>
+                        <h:commandButton styleClass="btn btn-outline-dark btn-sm"
+                                         value="#{bundle['fxs.insurancesList.close']}"
+                                         action="#{modelsBean.hidePopupModal}">
+                            <f:ajax render="@all"></f:ajax>
+                        </h:commandButton>
+                    </span>
+                </div>
+            </h:form>
+        </h:panelGroup>
+    </f:view>
+</cc:implementation>
+</html>

@@ -22,7 +22,7 @@
         <setting name="provider-name" value="EclipseLink" />
         <datasource-mapping>
           <factory-entry name="default" value="aa4467b6-36c5-47d6-a16d-37de0c881450" />
-          <factory-entry name="locacarjsf" value="53bcce37-9845-4db0-bda4-197d0853e4fc" />
+          <factory-entry name="locacarjsf" value="5c1a2a96-969e-48cf-a0cb-1365ca73f5d4" />
         </datasource-mapping>
         <naming-strategy-map />
         <deploymentDescriptor name="persistence.xml" url="file://$MODULE_DIR$/src/main/resources/META-INF/persistence.xml" />
