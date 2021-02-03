@@ -48,7 +48,18 @@ public class BrandsDAOImpl implements BrandsDAO {
 
     @Override
     public List<BrandsEntity> findAll() {
-        return null;
+        EntityManager em = EMF.getEM();
+        try {
+            return em.createNamedQuery("brands.findAll",
+                    BrandsEntity.class)
+                    .getResultList();
+        } catch (Exception ex) {
+            log.info("Liste vide");
+            return null;
+        } finally {
+            em.clear();
+            em.close();
+        }
     }
 
     @Override
