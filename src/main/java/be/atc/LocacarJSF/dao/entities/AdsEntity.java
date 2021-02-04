@@ -14,7 +14,7 @@ import java.util.Objects;
 })
 public class AdsEntity {
     private int id;
-    private int idCars;
+
     private Date dateStart;
     private Date dateEnd;
     private String label;
@@ -33,16 +33,6 @@ public class AdsEntity {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    @Basic
-    @Column(name = "ID_Cars")
-    public int getIdCars() {
-        return idCars;
-    }
-
-    public void setIdCars(int idCars) {
-        this.idCars = idCars;
     }
 
     @Basic
@@ -113,16 +103,16 @@ public class AdsEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AdsEntity adsEntity = (AdsEntity) o;
-        return id == adsEntity.id && Objects.equals(price, adsEntity.price) && idCars == adsEntity.idCars && isActive == adsEntity.isActive && Objects.equals(dateStart, adsEntity.dateStart) && Objects.equals(dateEnd, adsEntity.dateEnd) && Objects.equals(typeAds, adsEntity.typeAds) && Objects.equals(label, adsEntity.label);
+        return id == adsEntity.id && Objects.equals(price, adsEntity.price) && isActive == adsEntity.isActive && Objects.equals(dateStart, adsEntity.dateStart) && Objects.equals(dateEnd, adsEntity.dateEnd) && Objects.equals(typeAds, adsEntity.typeAds) && Objects.equals(label, adsEntity.label);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, price, idCars, dateStart, dateEnd, typeAds, label, isActive);
+        return Objects.hash(id, price, dateStart, dateEnd, typeAds, label, isActive);
     }
 
     @ManyToOne
-    @JoinColumn(name = "ID_Cars", referencedColumnName = "ID", insertable = false, updatable = false, nullable = false)
+    @JoinColumn(name = "ID_Cars", referencedColumnName = "ID", nullable = false)
     public CarsEntity getCarsByIdCars() {
         return carsByIdCars;
     }

@@ -13,6 +13,7 @@
 >
 </cc:interface>
 <cc:implementation>
+
     <div>
         <h:form>
 
@@ -27,7 +28,7 @@
 
     <h:form>
         <!-- datatable == equiavalent foreach -->
-        <h:dataTable id="outputMessage" styleClass="table table-hover table-responsive"
+        <h:dataTable id="outputMessage" styleClass="table table-hover table-responsive mytable"
                      value="#{modelsBean.modelsEntities}" var="models">
             <h:column>
                 <f:facet name="header">#{bundle['fxs.insurancesList.code']}</f:facet>
@@ -80,19 +81,11 @@
                         <h:message styleClass="alert alert-danger" role="alert" for="modelsLabel"></h:message>
                     </div>
 
-                    <div class="form-group">
-                        <h:selectOneMenu value="#{modelsBean.modelsEntity.idBrands}" id="type" required="true"
-                                         requiredMessage="Choisissez une marque">
-                            <f:selectItem itemValue="" itemLabel=""></f:selectItem>
-                            <f:selectItems value="#{modelsBean.brandsItems}"></f:selectItems>
-                        </h:selectOneMenu>
-                    </div>
-
                     <span>
                         <h:commandButton styleClass="btn btn-outline-success btn-sm"
                                          value="#{bundle['fxs.insurancesList.save']}"
                                          action="#{modelsBean.saveEdit}">
-                            <f:ajax execute="formPopupEdit" render="@all"></f:ajax>
+
                         </h:commandButton>
 
                     </span>

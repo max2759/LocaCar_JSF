@@ -29,6 +29,7 @@ public class BrandsBean implements Serializable {
         brandsEntities = brandsServices.findAll();
     }
 
+
     ////// Getters and setters
 
     public BrandsServices getBrandsServices() {

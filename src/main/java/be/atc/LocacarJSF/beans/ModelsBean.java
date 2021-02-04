@@ -1,7 +1,6 @@
 package be.atc.LocacarJSF.beans;
 
 
-import be.atc.LocacarJSF.dao.entities.BrandsEntity;
 import be.atc.LocacarJSF.dao.entities.ModelsEntity;
 import be.atc.LocacarJSF.services.BrandsServices;
 import be.atc.LocacarJSF.services.BrandsServicesImpl;
@@ -16,7 +15,6 @@ import javax.faces.model.SelectItem;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -61,13 +59,13 @@ public class ModelsBean extends ExtendBean implements Serializable {
      */
     @PostConstruct
     public void init() {
-        brandsItems = new ArrayList<>();
+        /*brandsItems = new ArrayList<>();
 
         List<BrandsEntity> brandsItemList = brandsServices.findAll();
 
         for (BrandsEntity brandsEntity : brandsItemList) {
             brandsItems.add(new SelectItem(brandsEntity.getId(), brandsEntity.getLabel()));
-        }
+        }*/
 
         modelsEntities = modelsServices.findAll();
     }
@@ -125,6 +123,7 @@ public class ModelsBean extends ExtendBean implements Serializable {
      */
     public void saveEdit() {
 
+        log.info("début de sauvegarde");
         List<ModelsEntity> modelsEntityList = modelsServices.findByLabel(modelsEntity.getLabel());
         initialisationFields();
 
