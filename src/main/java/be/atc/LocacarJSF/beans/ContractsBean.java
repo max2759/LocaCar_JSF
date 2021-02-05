@@ -75,8 +75,8 @@ public class ContractsBean extends ExtendBean implements Serializable {
      */
     protected ContractsEntity findContractByIdOrders_and_byIdCars() {
         log.info("id order : " + ordersBean.getOrdersEntity().getId());
-        log.info("id Car : " + adsBean.getAdsEntity().getIdCars());
-        return contractsServices.findContractByIdOrdersAndByIdCars(ordersBean.getOrdersEntity().getId(), adsBean.getAdsEntity().getIdCars());
+        log.info("id Car : " + adsBean.getAdsEntity().getCarsByIdCars().getId());
+        return contractsServices.findContractByIdOrdersAndByIdCars(ordersBean.getOrdersEntity().getId(), adsBean.getAdsEntity().getCarsByIdCars().getId());
     }
 
     protected List<ContractsEntity> findAllContractsByIdOrder(int idOrder) {

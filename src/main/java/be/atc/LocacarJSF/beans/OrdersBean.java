@@ -52,6 +52,7 @@ public class OrdersBean extends ExtendBean implements Serializable {
     @PostConstruct
     public void init() {
         log.info("Post Construct");
+        fieldsInitialization();
         findOrderAndfindContracts();
     }
 
@@ -69,7 +70,6 @@ public class OrdersBean extends ExtendBean implements Serializable {
      */
     public void addShop() {
         init();
-        fieldsInitialization();
         log.info("AdsEntity id : " + adsBean.getAdsEntity().getId());
 
         if (ordersEntity == null) {
@@ -82,6 +82,7 @@ public class OrdersBean extends ExtendBean implements Serializable {
         } else {
             fail = JsfUtils.returnMessage(getLocale(), "fxs.addShopButton.addShopError");
         }
+        findOrderAndfindContracts();
     }
 
     /**
