@@ -15,6 +15,11 @@
             <div class="container">
                 <h2>#{bundle['fxs.ads.title']}</h2>
                 <fxs:adsList id="displayadsList"></fxs:adsList>
+
+                <h:form enctype="mulmtipart/form-data">
+                    <h:inputFile value="#{carsBean.file}"/>
+                    <h:commandButton value="Upload" action="#{carsBean.upload}"/>
+                </h:form>
             </div>
         </h:body>
     </ui:define>

@@ -81,6 +81,20 @@
                         <h:message styleClass="alert alert-danger" role="alert" for="modelsLabel"></h:message>
                     </div>
 
+
+                    <h:panelGroup styleClass="form-group">
+
+                        <h:selectOneMenu id="brandsDisplay" styleClass="form-group"
+                                         value="#{modelsBean.modelsEntity.brandsByIdBrands}"
+                                         converter="brandsConverter">
+                            <f:selectItem itemValue="#{null}" itemLabel=""/>
+                            <f:selectItems value="#{brandsBean.brandsEntities}" var="brands"
+                                           itemValue="#{brands}"
+                                           itemLabel="#{brands.label}"/>
+                            <h:message for="brandsDisplay"/>
+                        </h:selectOneMenu>
+                    </h:panelGroup>
+
                     <span>
                         <h:commandButton styleClass="btn btn-outline-success btn-sm"
                                          value="#{bundle['fxs.insurancesList.save']}"

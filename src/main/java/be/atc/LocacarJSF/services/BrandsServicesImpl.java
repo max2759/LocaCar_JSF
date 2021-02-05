@@ -32,6 +32,19 @@ public class BrandsServicesImpl implements BrandsServices {
 
     @Override
     public BrandsEntity findById(int id) {
+        if (id != 0) {
+            return brandsDAO.findById(id);
+        }
         return null;
     }
+
+    @Override
+    public BrandsEntity findByLabel(String label) {
+        if (label != null) {
+            return brandsDAO.findByLabel(label);
+        }
+        return null;
+    }
+
+
 }

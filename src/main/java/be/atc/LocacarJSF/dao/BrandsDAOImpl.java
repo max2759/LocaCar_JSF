@@ -64,6 +64,32 @@ public class BrandsDAOImpl implements BrandsDAO {
 
     @Override
     public BrandsEntity findById(int id) {
-        return null;
+        EntityManager em = EMF.getEM();
+        try {
+            return em.find(BrandsEntity.class, id);
+        } catch (Exception ex) {
+            log.info("Nothing");
+            return null;
+        } finally {
+            em.clear();
+            em.close();
+        }
+    }
+
+    @Override
+    public BrandsEntity findByLabel(String label) {
+        EntityManager em = EMF.getEM();
+        try {
+            return em.createNamedQuery("brands.findByLabel",
+                    BrandsEntity.class)
+                    .setParameter("label", label)
+                    .getSingleResult();
+        } catch (Exception ex) {
+            log.info("Entité vide");
+            return null;
+        } finally {
+            em.clear();
+            em.close();
+        }
     }
 }

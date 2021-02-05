@@ -12,7 +12,7 @@ import java.util.List;
 
 @Named(value = "brandsBean")
 @ViewScoped
-public class BrandsBean implements Serializable {
+public class BrandsBean extends ExtendBean implements Serializable {
 
     private static final long serialVersionUID = -7131593542829187292L;
 
@@ -26,6 +26,7 @@ public class BrandsBean implements Serializable {
      */
     @PostConstruct
     public void init() {
+        log.info("Init brands");
         brandsEntities = brandsServices.findAll();
     }
 
