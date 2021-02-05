@@ -7,12 +7,10 @@ import org.apache.log4j.Logger;
 import utils.JsfUtils;
 
 import javax.annotation.PostConstruct;
-import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.List;
-import java.util.Locale;
 
 import static java.lang.Integer.parseInt;
 
@@ -22,7 +20,6 @@ public class CarsColorsBean extends ExtendBean implements Serializable {
 
     private static final long serialVersionUID = 7509083962687295321L;
     public static Logger log = Logger.getLogger(CarsColorsBean.class);
-    Locale locale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
     private CarsColorsServices carsColorsServices = new CarsColorsServicesImpl();
     private CarsColorsEntity carsColorsEntity = new CarsColorsEntity();
     private List<CarsColorsEntity> carsColorsEntities;
@@ -92,7 +89,7 @@ public class CarsColorsBean extends ExtendBean implements Serializable {
      */
     public void functionAddOption() {
         carsColorsServices.add(carsColorsEntity);
-        success = JsfUtils.returnMessage(locale, "fxs.carsColors.succesAdd");
+        success = JsfUtils.returnMessage(getLocale(), "fxs.carsColors.succesAdd");
     }
 
     /**
@@ -100,7 +97,7 @@ public class CarsColorsBean extends ExtendBean implements Serializable {
      */
     public void functionUpdateOption() {
         carsColorsServices.update(carsColorsEntity);
-        success = JsfUtils.returnMessage(locale, "fxs.carsColors.successUpdate");
+        success = JsfUtils.returnMessage(getLocale(), "fxs.carsColors.successUpdate");
     }
 
     /**
@@ -122,10 +119,10 @@ public class CarsColorsBean extends ExtendBean implements Serializable {
             if (ce.getId() == carsColorsEntity.getId()) {
                 functionUpdateOption();
             } else {
-                fail = JsfUtils.returnMessage(locale, "fxs.carsColors.errorAdd");
+                fail = JsfUtils.returnMessage(getLocale(), "fxs.carsColors.errorAdd");
             }
         } else {
-            fail = JsfUtils.returnMessage(locale, "fxs.carsColors.errorAdd");
+            fail = JsfUtils.returnMessage(getLocale(), "fxs.carsColors.errorAdd");
         }
 
         init();

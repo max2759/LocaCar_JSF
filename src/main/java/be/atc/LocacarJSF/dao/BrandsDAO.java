@@ -15,4 +15,6 @@ public interface BrandsDAO {
     public List<BrandsEntity> findAll();
 
     public BrandsEntity findById(int id);
+
+    public BrandsEntity findByLabel(String label);
 }
