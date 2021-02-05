@@ -3,10 +3,9 @@ package be.atc.LocacarJSF.beans;
 import be.atc.LocacarJSF.dao.entities.AdsEntity;
 import be.atc.LocacarJSF.services.AdsServices;
 import be.atc.LocacarJSF.services.AdsServicesImpl;
-import org.apache.log4j.Logger;
 
 import javax.annotation.PostConstruct;
-import javax.faces.view.ViewScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.List;
@@ -14,14 +13,13 @@ import java.util.List;
 import static java.lang.Integer.parseInt;
 
 @Named(value = "adsBean")
-@ViewScoped
+@SessionScoped
 public class AdsBean extends ExtendBean implements Serializable {
-
     private static final long serialVersionUID = -6795998607327751632L;
-    public static Logger log = Logger.getLogger(AdsBean.class);
 
-    private AdsServices adsServices = new AdsServicesImpl();
-    private AdsEntity adsEntity = new AdsEntity();
+    AdsServices adsServices = new AdsServicesImpl();
+    AdsEntity adsEntity;
+
     private List<AdsEntity> adsEntities;
 
     private boolean showPopup;
@@ -128,5 +126,6 @@ public class AdsBean extends ExtendBean implements Serializable {
     public void setAddAdsEntity(boolean addAdsEntity) {
         this.addAdsEntity = addAdsEntity;
     }
+
 
 }

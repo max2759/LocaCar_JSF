@@ -148,6 +148,9 @@ public class UsersBean implements Serializable {
         success = JsfUtils.returnMessage(locale, "fxs.Users.successUpdate");
     }
 
+    protected UsersEntity findUserById(int idUser) {
+        return usersServices.findById(idUser);
+    }
 
     /**
      * Méthode pour retourner les paramètres récupéré

@@ -6,7 +6,7 @@ import be.atc.LocacarJSF.services.InsurancesServicesImpl;
 import utils.JsfUtils;
 
 import javax.annotation.PostConstruct;
-import javax.faces.view.ViewScoped;
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.List;
@@ -14,7 +14,7 @@ import java.util.List;
 import static java.lang.Integer.parseInt;
 
 @Named(value = "insurancesBean")
-@ViewScoped
+@ApplicationScoped
 public class InsurancesBean extends ExtendBean implements Serializable {
     private static final long serialVersionUID = -8262263353009937764L;
 
@@ -51,7 +51,7 @@ public class InsurancesBean extends ExtendBean implements Serializable {
         if (getParam("id") != null) {
             addEntity = false;
             int idInsurance = parseInt(getParam("id"));
-            insurancesEntity = insurancesServices.findById(idInsurance);
+            insurancesEntity = findInsuranceById(idInsurance);
         } else {
             addEntity = true;
             insurancesEntity = new InsurancesEntity();
@@ -118,11 +118,15 @@ public class InsurancesBean extends ExtendBean implements Serializable {
         log.info("Delete or reactivate insurance");
 
         int idInsurance = parseInt(getParam("id"));
-        InsurancesEntity insurancesEntity = insurancesServices.findById(idInsurance);
+        InsurancesEntity insurancesEntity = findInsuranceById(idInsurance);
 
         insurancesEntity.setActive(!insurancesEntity.isActive());
         insurancesServices.update(insurancesEntity);
         init();
+    }
+
+    public InsurancesEntity findInsuranceById(int idInsurance) {
+        return insurancesServices.findById(idInsurance);
     }
 
 

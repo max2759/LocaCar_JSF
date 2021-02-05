@@ -10,12 +10,11 @@ import java.util.Objects;
 @Entity
 @Table(name = "orders", schema = "locacarjsf", catalog = "")
 @NamedQueries({
-        @NamedQuery(name = "Orders.findByIdUsersAndStatusIsPending", query = "SELECT o from OrdersEntity o where (o.idUsers = :idUser) and (o.orderStatut = be.atc.LocacarJSF.enums.EnumOrderStatut.Pending) "),
+        @NamedQuery(name = "Orders.findByIdUsersAndStatusIsPending", query = "SELECT o from OrdersEntity o where (o.usersByIdUsers.id = :idUser) and (o.orderStatut = be.atc.LocacarJSF.enums.EnumOrderStatut.Pending) "),
         @NamedQuery(name = "Orders.findAll", query = "SELECT o from OrdersEntity o "),
 })
 public class OrdersEntity {
     private int id;
-    private int idUsers;
     private Date orderDate;
     private Collection<ContractsEntity> contractsById;
     private UsersEntity usersByIdUsers;
@@ -30,16 +29,6 @@ public class OrdersEntity {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    @Basic
-    @Column(name = "ID_Users")
-    public int getIdUsers() {
-        return idUsers;
-    }
-
-    public void setIdUsers(int idUsers) {
-        this.idUsers = idUsers;
     }
 
     @Basic
@@ -69,12 +58,12 @@ public class OrdersEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         OrdersEntity that = (OrdersEntity) o;
-        return id == that.id && idUsers == that.idUsers && Objects.equals(orderDate, that.orderDate) && Objects.equals(orderStatut, that.orderStatut);
+        return id == that.id && Objects.equals(orderDate, that.orderDate) && Objects.equals(orderStatut, that.orderStatut);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, idUsers, orderDate, orderStatut);
+        return Objects.hash(id, orderDate, orderStatut);
     }
 
     @OneToMany(mappedBy = "ordersByIdOrders")
@@ -87,7 +76,7 @@ public class OrdersEntity {
     }
 
     @ManyToOne
-    @JoinColumn(name = "ID_Users", referencedColumnName = "id", insertable = false, updatable = false, nullable = false)
+    @JoinColumn(name = "ID_Users", referencedColumnName = "id", nullable = false)
     public UsersEntity getUsersByIdUsers() {
         return usersByIdUsers;
     }

@@ -119,4 +119,21 @@ public class ContractInsurancesDAOImpl implements ContractInsurancesDAO {
             em.close();
         }
     }
+
+    @Override
+    public ContractInsurancesEntity findByIdContract(int idContract) {
+        EntityManager em = EMF.getEM();
+        try {
+            return em.createNamedQuery("ContractInsurances.findByIdContract",
+                    ContractInsurancesEntity.class)
+                    .setParameter("idContract", idContract)
+                    .getSingleResult();
+        } catch (Exception ex) {
+            log.info("Nothing");
+            return null;
+        } finally {
+            em.clear();
+            em.close();
+        }
+    }
 }

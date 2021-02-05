@@ -4,6 +4,7 @@ import be.atc.LocacarJSF.dao.InsurancesDAO;
 import be.atc.LocacarJSF.dao.InsurancesDAOImpl;
 import be.atc.LocacarJSF.dao.entities.InsurancesEntity;
 
+import java.util.Collections;
 import java.util.List;
 
 public class InsurancesServicesImpl implements InsurancesServices {
@@ -86,6 +87,6 @@ public class InsurancesServicesImpl implements InsurancesServices {
         if (label != null) {
             return insurancesDAO.findByLabel(label);
         }
-        return null;
+        return Collections.emptyList();
     }
 }

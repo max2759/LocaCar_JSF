@@ -6,6 +6,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 class ContractsServicesImplTest {
@@ -38,6 +40,7 @@ class ContractsServicesImplTest {
 
         Boolean test = contractsEntity == null ? false : true;
 
+        log.info("Le test vaut : " + test);
         assertThat(test).isEqualTo(false);
     }
 
@@ -46,13 +49,56 @@ class ContractsServicesImplTest {
         log.info("Recherche si contract existant dans une commande");
 
         // L'id order et l'id Cars doivent correspondre à un enregistrement en db
-        int idOrder = 2;
+        int idOrder = 38;
         int idCars = 3;
 
         ContractsEntity contractsEntity = contractsServices.findContractByIdOrdersAndByIdCars(idOrder, idCars);
 
         Boolean test = contractsEntity == null ? false : true;
 
+        log.info("Le test vaut : " + test);
         assertThat(test).isEqualTo(true);
+    }
+
+    @Test
+    public void findAllContract_byIdOrder_shouldBeReturnTrue() {
+        // Mettre l'id Order valide d'un utilisateur
+        int idOrder = 3;
+
+        List<ContractsEntity> contractsEntityList = contractsServices.findAllContractsByIdOrder(idOrder);
+
+        boolean test = contractsEntityList.isEmpty() ? false : true;
+
+        log.info("Le test vaut : " + test);
+        assertThat(test).isEqualTo(true);
+
+    }
+
+    @Test
+    public void findAllContract_byIdOrder_shouldBeReturnFalse() {
+        // Mettre l'id Order non valide d'un utilisateur
+        int idOrder = 99999;
+
+        List<ContractsEntity> contractsEntityList = contractsServices.findAllContractsByIdOrder(idOrder);
+
+        boolean test = contractsEntityList.isEmpty() ? false : true;
+
+        log.info("Le test vaut : " + test);
+        assertThat(test).isEqualTo(false);
+
+    }
+
+    @Test
+    public void findAllContract_byIdOrderEqual0_shouldBeReturnFalse() {
+        // Mettre l'id Order non valide d'un utilisateur
+        int idOrder = 0;
+
+        List<ContractsEntity> contractsEntityList = contractsServices.findAllContractsByIdOrder(idOrder);
+
+        boolean test = contractsEntityList.isEmpty() ? false : true;
+
+        log.info("Le test vaut : " + test);
+        assertThat(test).isEqualTo(false);
+
     }
 }

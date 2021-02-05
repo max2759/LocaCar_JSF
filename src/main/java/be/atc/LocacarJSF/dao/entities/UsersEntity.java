@@ -90,6 +90,7 @@ public class UsersEntity {
     }
 
     @Basic
+    @Temporal(value = TemporalType.DATE)
     @Column(name = "Register_Date")
     public Date getRegisterDate() {
         return registerDate;
@@ -100,6 +101,7 @@ public class UsersEntity {
     }
 
     @Basic
+    @Temporal(value = TemporalType.DATE)
     @Column(name = "Birthdate")
     public Date getBirthdate() {
         return birthdate;

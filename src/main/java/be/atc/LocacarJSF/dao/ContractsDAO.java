@@ -6,15 +6,17 @@ import java.util.List;
 
 public interface ContractsDAO {
 
-    public boolean add(ContractsEntity contractsEntity);
+    boolean add(ContractsEntity contractsEntity);
 
-    public boolean update(ContractsEntity contractsEntity);
+    boolean update(ContractsEntity contractsEntity);
 
-    public boolean delete(int id);
+    boolean delete(int id);
 
-    public List<ContractsEntity> findAll();
+    List<ContractsEntity> findAll();
 
-    public ContractsEntity findById(int id);
+    ContractsEntity findById(int id);
 
     ContractsEntity findContractByIdOrdersAndByIdCars(int idOrder, int idCar);
+
+    List<ContractsEntity> findAllContractsByIdOrder(int idOrder);
 }
