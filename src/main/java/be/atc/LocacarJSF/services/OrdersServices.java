@@ -4,6 +4,9 @@ import be.atc.LocacarJSF.dao.entities.OrdersEntity;
 
 import java.util.List;
 
+/**
+ * @author Younes - Arifi
+ */
 public interface OrdersServices {
     boolean add(OrdersEntity ordersEntity);
 

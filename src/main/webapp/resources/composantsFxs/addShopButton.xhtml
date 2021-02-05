@@ -28,6 +28,9 @@
             <h:message for="adsEntity"/>
         </h:inputText>
         <br/>
+        <h:outputLabel value="Nombres d'années pour le leasing"></h:outputLabel>
+        <h:inputText value="#{contractsBean.timeLeasing}"></h:inputText>
+        <br/>
         <h:outputLabel value="Id Assurance : "></h:outputLabel>
         <h:inputText value="#{insurancesBean.insurancesEntity}" id="insuranceEntity">
             <f:converter

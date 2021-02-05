@@ -4,6 +4,9 @@ import be.atc.LocacarJSF.dao.entities.ContractsEntity;
 
 import java.util.List;
 
+/**
+ * @author Younes - Arifi
+ */
 public interface ContractsDAO {
 
     boolean add(ContractsEntity contractsEntity);

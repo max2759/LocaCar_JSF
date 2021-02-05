@@ -4,6 +4,10 @@ import be.atc.LocacarJSF.dao.ContractInsurancesDAO;
 import be.atc.LocacarJSF.dao.ContractInsurancesDAOImpl;
 import be.atc.LocacarJSF.dao.entities.ContractInsurancesEntity;
 
+
+/**
+ * @author Younes - Arifi
+ */
 public class ContractInsurancesServicesImpl implements ContractInsurancesServices {
 
     ContractInsurancesDAO contractInsurancesDAO = new ContractInsurancesDAOImpl();

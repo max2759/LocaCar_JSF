@@ -10,6 +10,9 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 
+/**
+ * @author Younes - Arifi
+ */
 @Named(value = "contractInsurancesBean")
 @SessionScoped
 public class ContractInsurancesBean extends ExtendBean implements Serializable {

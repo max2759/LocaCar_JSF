@@ -1,7 +1,5 @@
 package be.atc.LocacarJSF.beans;
 
-import be.atc.LocacarJSF.dao.entities.ContractInsurancesEntity;
-import be.atc.LocacarJSF.dao.entities.ContractsEntity;
 import be.atc.LocacarJSF.dao.entities.OrdersEntity;
 import be.atc.LocacarJSF.enums.EnumOrderStatut;
 import be.atc.LocacarJSF.services.OrdersServices;
@@ -14,10 +12,11 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
+/**
+ * @author Younes - Arifi
+ * Orders Bean
+ */
 @Named(value = "ordersBean")
 @SessionScoped
 public class OrdersBean extends ExtendBean implements Serializable {
@@ -25,15 +24,11 @@ public class OrdersBean extends ExtendBean implements Serializable {
 
     // Remplacer par dateEnd Leasing
     Date dateEnd = null;
-    Map<Integer, ContractInsurancesEntity> hmContractInsurances = new HashMap<Integer, ContractInsurancesEntity>();
     // Remplacer par l'utilisateur
     private int idUser = 2;
 
     private OrdersEntity ordersEntity;
     private OrdersServices ordersServices = new OrdersServicesImpl();
-    // Remplacer par le prix final
-    private double finalPrice;
-    private List<ContractsEntity> contractsEntities;
 
     private String success;
     private String fail;
@@ -92,13 +87,13 @@ public class OrdersBean extends ExtendBean implements Serializable {
 
         ordersEntity = findOrders_ByIdUsers_andStatusIsPending();
         if (ordersEntity != null) {
-            findAllContracts();
+            contractsBean.findAllContracts(ordersEntity.getId());
         }
     }
-
-    /**
+    /*
+     *//**
      * find all contracts : if contract == leasing, find insurance contract !
-     */
+     *//*
     public void findAllContracts() {
         contractsEntities = contractsBean.findAllContractsByIdOrder(ordersEntity.getId());
         for (ContractsEntity c : contractsEntities)
@@ -106,7 +101,7 @@ public class OrdersBean extends ExtendBean implements Serializable {
                 ContractInsurancesEntity contractInsurancesEntity = contractInsurancesBean.findContractInsurancesByIdContract(c.getId());
                 hmContractInsurances.put(c.getId(), contractInsurancesEntity);
             }
-    }
+    }*/
 
     /**
      * Find orders By IdUsers and status is pending
@@ -146,14 +141,6 @@ public class OrdersBean extends ExtendBean implements Serializable {
         this.fail = fail;
     }
 
-    public Map<Integer, ContractInsurancesEntity> getHmContractInsurances() {
-        return hmContractInsurances;
-    }
-
-    public void setHmContractInsurances(Map<Integer, ContractInsurancesEntity> hmContractInsurances) {
-        this.hmContractInsurances = hmContractInsurances;
-    }
-
     public int getIdUser() {
         return idUser;
     }
@@ -178,19 +165,4 @@ public class OrdersBean extends ExtendBean implements Serializable {
         this.dateEnd = dateEnd;
     }
 
-    public double getFinalPrice() {
-        return finalPrice;
-    }
-
-    public void setFinalPrice(double finalPrice) {
-        this.finalPrice = finalPrice;
-    }
-
-    public List<ContractsEntity> getContractsEntities() {
-        return contractsEntities;
-    }
-
-    public void setContractsEntities(List<ContractsEntity> contractsEntities) {
-        this.contractsEntities = contractsEntities;
-    }
 }

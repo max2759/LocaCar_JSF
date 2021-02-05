@@ -15,6 +15,10 @@ import javax.faces.convert.ConverterException;
 import javax.faces.convert.FacesConverter;
 import java.util.Locale;
 
+/**
+ * @author Younes - Arifi
+ * Insurance Converter
+ */
 @FacesConverter(value = "insuranceConverter")
 public class InsuranceConverter implements Converter {
 

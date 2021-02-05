@@ -14,6 +14,9 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * @author Younes - Arifi
+ */
 @FacesValidator("priceValidator")
 public class PriceValidator implements Validator {
 

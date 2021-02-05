@@ -13,14 +13,15 @@
 </cc:interface>
 <cc:implementation>
     <h:dataTable id="outputMessage" styleClass="table table-hover table-responsive"
-                 value="#{ordersBean.contractsEntities}" var="c">
+                 value="#{contractsBean.contractsEntities}" var="c">
         <h:column>
             <f:facet name="header">Véhicule</f:facet>
             <h:outputText value="#{c.carsByIdCars.modelsByIdModels.brandsByIdBrands.label} "></h:outputText>
             <h:outputText value="#{c.carsByIdCars.modelsByIdModels.label} "></h:outputText>
             <h:outputText value="#{c.carsByIdCars.releaseYear}"></h:outputText>
             <br/>
-            <h:outputText value="#{ordersBean.hmContractInsurances[c.id].insurancesByIdInsurance.label}"></h:outputText>
+            <h:outputText
+                    value="#{contractsBean.hmContractInsurances[c.id].insurancesByIdInsurance.label}"></h:outputText>
         </h:column>
         <h:column>
             <f:facet name="header">Prix</f:facet>

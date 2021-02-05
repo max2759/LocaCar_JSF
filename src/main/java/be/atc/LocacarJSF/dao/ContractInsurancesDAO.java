@@ -2,6 +2,9 @@ package be.atc.LocacarJSF.dao;
 
 import be.atc.LocacarJSF.dao.entities.ContractInsurancesEntity;
 
+/**
+ * @author Younes - Arifi
+ */
 public interface ContractInsurancesDAO {
 
     boolean add(ContractInsurancesEntity contractInsurancesEntity);
