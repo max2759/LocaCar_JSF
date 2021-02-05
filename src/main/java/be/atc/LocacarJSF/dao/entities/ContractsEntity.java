@@ -8,14 +8,12 @@ import java.util.Objects;
 @Entity
 @Table(name = "contracts", schema = "locacarjsf", catalog = "")
 @NamedQueries({
-        @NamedQuery(name = "Contracts.findContractByIdOrdersAndByIdCars", query = "SELECT c from ContractsEntity c where (c.idOrders = :idOrder) and (c.idCars = :idCar)"),
+        @NamedQuery(name = "Contracts.findContractByIdOrdersAndByIdCars", query = "SELECT c from ContractsEntity c where (c.ordersByIdOrders.id = :idOrder) and (c.carsByIdCars.id = :idCar)"),
         @NamedQuery(name = "Contracts.findAll", query = "SELECT c from ContractsEntity c "),
+        @NamedQuery(name = "Contracts.findAllContractsByIdOrder", query = "SELECT c from ContractsEntity c where c.ordersByIdOrders.id = :idOrder"),
 })
 public class ContractsEntity {
     private int id;
-    private int idOrders;
-    private int idCars;
-    private int idContractType;
     private Date dateStart;
     private Date dateEnd;
     private boolean choiceEndLeasing;
@@ -34,36 +32,6 @@ public class ContractsEntity {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    @Basic
-    @Column(name = "ID_Orders")
-    public int getIdOrders() {
-        return idOrders;
-    }
-
-    public void setIdOrders(int idOrders) {
-        this.idOrders = idOrders;
-    }
-
-    @Basic
-    @Column(name = "ID_Cars")
-    public int getIdCars() {
-        return idCars;
-    }
-
-    public void setIdCars(int idCars) {
-        this.idCars = idCars;
-    }
-
-    @Basic
-    @Column(name = "ID_Contract_Type")
-    public int getIdContractType() {
-        return idContractType;
-    }
-
-    public void setIdContractType(int idContractType) {
-        this.idContractType = idContractType;
     }
 
     @Basic
@@ -103,12 +71,12 @@ public class ContractsEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ContractsEntity that = (ContractsEntity) o;
-        return id == that.id && idOrders == that.idOrders && idCars == that.idCars && idContractType == that.idContractType && choiceEndLeasing == that.choiceEndLeasing && Objects.equals(dateStart, that.dateStart) && Objects.equals(dateEnd, that.dateEnd);
+        return id == that.id && choiceEndLeasing == that.choiceEndLeasing && Objects.equals(dateStart, that.dateStart) && Objects.equals(dateEnd, that.dateEnd);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, idOrders, idCars, idContractType, dateStart, dateEnd, choiceEndLeasing);
+        return Objects.hash(id, dateStart, dateEnd, choiceEndLeasing);
     }
 
     @OneToMany(mappedBy = "contractsByIdContract")
@@ -121,7 +89,7 @@ public class ContractsEntity {
     }
 
     @ManyToOne
-    @JoinColumn(name = "ID_Orders", referencedColumnName = "id", insertable = false, updatable = false, nullable = false)
+    @JoinColumn(name = "ID_Orders", referencedColumnName = "id", nullable = false)
     public OrdersEntity getOrdersByIdOrders() {
         return ordersByIdOrders;
     }
@@ -131,7 +99,7 @@ public class ContractsEntity {
     }
 
     @ManyToOne
-    @JoinColumn(name = "ID_Cars", referencedColumnName = "id", insertable = false, updatable = false, nullable = false)
+    @JoinColumn(name = "ID_Cars", referencedColumnName = "id", nullable = false)
     public CarsEntity getCarsByIdCars() {
         return carsByIdCars;
     }
@@ -141,7 +109,7 @@ public class ContractsEntity {
     }
 
     @ManyToOne
-    @JoinColumn(name = "ID_Contract_Type", referencedColumnName = "id", insertable = false, updatable = false, nullable = false)
+    @JoinColumn(name = "ID_Contract_Type", referencedColumnName = "id", nullable = false)
     public ContractTypesEntity getContractTypesByIdContractType() {
         return contractTypesByIdContractType;
     }

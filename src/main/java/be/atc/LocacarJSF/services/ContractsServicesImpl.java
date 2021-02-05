@@ -4,6 +4,7 @@ import be.atc.LocacarJSF.dao.ContractsDAO;
 import be.atc.LocacarJSF.dao.ContractsDAOImpl;
 import be.atc.LocacarJSF.dao.entities.ContractsEntity;
 
+import java.util.Collections;
 import java.util.List;
 
 public class ContractsServicesImpl implements ContractsServices {
@@ -77,5 +78,13 @@ public class ContractsServicesImpl implements ContractsServices {
             return contractsDAO.findContractByIdOrdersAndByIdCars(idOrder, idCar);
         }
         return null;
+    }
+
+    @Override
+    public List<ContractsEntity> findAllContractsByIdOrder(int idOrder) {
+        if (idOrder != 0) {
+            return contractsDAO.findAllContractsByIdOrder(idOrder);
+        }
+        return Collections.emptyList();
     }
 }

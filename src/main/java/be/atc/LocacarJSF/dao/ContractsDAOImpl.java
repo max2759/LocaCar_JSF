@@ -150,4 +150,21 @@ public class ContractsDAOImpl extends EntityFinderImpl<ContractsEntity> implemen
         }
     }
 
+    @Override
+    public List<ContractsEntity> findAllContractsByIdOrder(int idOrder) {
+        EntityManager em = EMF.getEM();
+        try {
+            return em.createNamedQuery("Contracts.findAllContractsByIdOrder",
+                    ContractsEntity.class)
+                    .setParameter("idOrder", idOrder)
+                    .getResultList();
+        } catch (Exception ex) {
+            log.info("Nothing");
+            return null;
+        } finally {
+            em.clear();
+            em.close();
+        }
+    }
+
 }

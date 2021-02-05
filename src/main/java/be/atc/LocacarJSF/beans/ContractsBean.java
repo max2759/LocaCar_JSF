@@ -1,62 +1,69 @@
 package be.atc.LocacarJSF.beans;
 
-import be.atc.LocacarJSF.dao.entities.AdsEntity;
 import be.atc.LocacarJSF.dao.entities.ContractsEntity;
+import be.atc.LocacarJSF.enums.EnumTypeAds;
 import be.atc.LocacarJSF.services.ContractsServices;
 import be.atc.LocacarJSF.services.ContractsServicesImpl;
 
-import javax.faces.view.ViewScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
-import java.util.Date;
+import java.util.List;
 
 @Named(value = "contractsBean")
-@ViewScoped
+@SessionScoped
 public class ContractsBean extends ExtendBean implements Serializable {
     private static final long serialVersionUID = -2375526727476678004L;
 
     ContractsServices contractsServices = new ContractsServicesImpl();
     ContractsEntity contractsEntity;
+    List<ContractsEntity> contractsEntities;
+
+
+    // Remplacer par le prix final
+    private double finalPrice;
 
     @Inject
     private ContractInsurancesBean contractInsurancesBean;
+    @Inject
+    private ContractTypesBean contractTypesBean;
+    @Inject
+    private OrdersBean ordersBean;
+    @Inject
+    private AdsBean adsBean;
+    @Inject
+    private InsurancesBean insurancesBean;
 
     /**
      * Create contract
      *
-     * @param idOrder
-     * @param adsEntity
-     * @param finalPrice
-     * @param dateEnd
-     * @param typeAds
-     * @param idAssurance
      * @return True or false
      */
-    protected boolean createContract(int idOrder, AdsEntity adsEntity, double finalPrice, Date dateEnd, String typeAds, int idAssurance) {
-        contractsEntity = findContractByIdOrders_and_byIdCars(idOrder, adsEntity.getIdCars());
+    protected boolean createContract() {
+        contractsEntity = findContractByIdOrders_and_byIdCars();
 
         if (contractsEntity != null) {
             return false;
         }
 
         contractsEntity = new ContractsEntity();
-        contractsEntity.setIdOrders(idOrder);
-        contractsEntity.setIdCars(adsEntity.getIdCars());
+        contractsEntity.setOrdersByIdOrders(ordersBean.getOrdersEntity());
+        contractsEntity.setCarsByIdCars(adsBean.getAdsEntity().getCarsByIdCars());
         contractsEntity.setDateStart(getDate());
-        contractsEntity.setDateEnd(dateEnd);
-        contractsEntity.setFinalPrice(finalPrice);
+        contractsEntity.setDateEnd(ordersBean.getDateEnd());
+        contractsEntity.setFinalPrice(ordersBean.getFinalPrice());
         contractsEntity.setChoiceEndLeasing(true);
-        if (typeAds.equalsIgnoreCase("Sale")) {
-            contractsEntity.setIdContractType(1);
+        if (adsBean.getAdsEntity().getTypeAds() == EnumTypeAds.Sale) {
+            contractsEntity.setContractTypesByIdContractType(contractTypesBean.findContractTypesById(1));
         } else {
-            contractsEntity.setIdContractType(2);
+            contractsEntity.setContractTypesByIdContractType(contractTypesBean.findContractTypesById(2));
         }
 
         Boolean test = contractsServices.add(contractsEntity);
 
-        if (test && typeAds.equalsIgnoreCase("Leasing")) {
-            test = contractInsurancesBean.createContractInsurances(contractsEntity.getId(), idAssurance);
+        if (test && adsBean.getAdsEntity().getTypeAds() == EnumTypeAds.Leasing) {
+            test = contractInsurancesBean.createContractInsurances(insurancesBean.getInsurancesEntity());
         }
         return test;
     }
@@ -64,11 +71,31 @@ public class ContractsBean extends ExtendBean implements Serializable {
     /**
      * Find Contract by idOrders and by idCars
      *
-     * @param idOrder idOrder
-     * @param idCars  idCar
      * @return True or false
      */
-    protected ContractsEntity findContractByIdOrders_and_byIdCars(int idOrder, int idCars) {
-        return contractsServices.findContractByIdOrdersAndByIdCars(idOrder, idCars);
+    protected ContractsEntity findContractByIdOrders_and_byIdCars() {
+        log.info("id order : " + ordersBean.getOrdersEntity().getId());
+        log.info("id Car : " + adsBean.getAdsEntity().getIdCars());
+        return contractsServices.findContractByIdOrdersAndByIdCars(ordersBean.getOrdersEntity().getId(), adsBean.getAdsEntity().getIdCars());
+    }
+
+    protected List<ContractsEntity> findAllContractsByIdOrder(int idOrder) {
+        return contractsServices.findAllContractsByIdOrder(idOrder);
+    }
+
+    public ContractsEntity getContractsEntity() {
+        return contractsEntity;
+    }
+
+    public void setContractsEntity(ContractsEntity contractsEntity) {
+        this.contractsEntity = contractsEntity;
+    }
+
+    public List<ContractsEntity> getContractsEntities() {
+        return contractsEntities;
+    }
+
+    public void setContractsEntities(List<ContractsEntity> contractsEntities) {
+        this.contractsEntities = contractsEntities;
     }
 }

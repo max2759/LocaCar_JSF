@@ -1,6 +1,7 @@
 package be.atc.LocacarJSF.services;
 
 import be.atc.LocacarJSF.dao.entities.OrdersEntity;
+import be.atc.LocacarJSF.dao.entities.UsersEntity;
 import org.apache.log4j.Logger;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -37,6 +38,7 @@ class OrdersServicesImplTest {
 
         Boolean test = ordersEntity == null ? false : true;
 
+        log.info("Le test vaut : " + test);
         assertThat(test).isEqualTo(true);
     }
 
@@ -47,10 +49,14 @@ class OrdersServicesImplTest {
         // Utiliser une entity : qui n'a pas une order_status = Pending
         int idUser = 2;
 
-        OrdersEntity ordersEntity = ordersServices.findByIdUsersAndStatusIsPending(idUser);
+        UsersServices usersServices = new UsersServicesImpl();
+        UsersEntity usersEntity = usersServices.findById(idUser);
+
+        OrdersEntity ordersEntity = ordersServices.findByIdUsersAndStatusIsPending(usersEntity.getId());
 
         Boolean test = ordersEntity == null ? false : true;
 
+        log.info("Le test vaut : " + test);
         assertThat(test).isEqualTo(false);
     }
 }

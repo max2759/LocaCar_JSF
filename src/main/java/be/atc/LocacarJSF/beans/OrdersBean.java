@@ -1,48 +1,50 @@
 package be.atc.LocacarJSF.beans;
 
-import be.atc.LocacarJSF.dao.entities.AdsEntity;
+import be.atc.LocacarJSF.dao.entities.ContractInsurancesEntity;
+import be.atc.LocacarJSF.dao.entities.ContractsEntity;
 import be.atc.LocacarJSF.dao.entities.OrdersEntity;
 import be.atc.LocacarJSF.enums.EnumOrderStatut;
-import be.atc.LocacarJSF.enums.EnumTypeAds;
-import be.atc.LocacarJSF.services.AdsServices;
-import be.atc.LocacarJSF.services.AdsServicesImpl;
 import be.atc.LocacarJSF.services.OrdersServices;
 import be.atc.LocacarJSF.services.OrdersServicesImpl;
 import utils.JsfUtils;
 
 import javax.annotation.PostConstruct;
-import javax.faces.view.ViewScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
-
-import static java.lang.Integer.parseInt;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Named(value = "ordersBean")
-@ViewScoped
+@SessionScoped
 public class OrdersBean extends ExtendBean implements Serializable {
     private static final long serialVersionUID = -5251107202124824837L;
 
+    // Remplacer par dateEnd Leasing
+    Date dateEnd = null;
+    Map<Integer, ContractInsurancesEntity> hmContractInsurances = new HashMap<Integer, ContractInsurancesEntity>();
     // Remplacer par l'utilisateur
-    int idUser = 1;
+    private int idUser = 2;
 
-    // Remplacer par le prix final
-    double finalPrice = 32300;
-
-    // Remplacer par le type d'assurance
-    int idAssurance;
-
-
-    private AdsEntity adsEntity;
-    private AdsServices adsServices = new AdsServicesImpl();
     private OrdersEntity ordersEntity;
     private OrdersServices ordersServices = new OrdersServicesImpl();
+    // Remplacer par le prix final
+    private double finalPrice;
+    private List<ContractsEntity> contractsEntities;
 
     private String success;
     private String fail;
-
+    @Inject
+    private AdsBean adsBean;
     @Inject
     private ContractsBean contractsBean;
+    @Inject
+    private ContractInsurancesBean contractInsurancesBean;
+    @Inject
+    private UsersBean usersBean;
 
     /**
      * Method post construct
@@ -50,6 +52,14 @@ public class OrdersBean extends ExtendBean implements Serializable {
     @PostConstruct
     public void init() {
         log.info("Post Construct");
+        findOrderAndfindContracts();
+    }
+
+    /**
+     * Initialization fields
+     */
+    public void fieldsInitialization() {
+        log.info("Field initialization !");
         success = "";
         fail = "";
     }
@@ -58,40 +68,43 @@ public class OrdersBean extends ExtendBean implements Serializable {
      * Add shop, call functions
      */
     public void addShop() {
-        log.info("Add Shop ! idAds : " + getParam("idAds"));
-        idAssurance = parseInt(getParam("idAssurance"));
-        log.info("Add Shop ! idAssurance : " + idAssurance);
+        init();
+        fieldsInitialization();
+        log.info("AdsEntity id : " + adsBean.getAdsEntity().getId());
 
-        adsEntity = adsServices.findById(parseInt(getParam("idAds")));
+        if (ordersEntity == null) {
+            log.info("Aucun Orders n'est trouvé");
+            createOrders();
+        }
 
-        // Check if ads is active, car is active, and dateEnd is not less than today. If true : find Orders By Id Users and Status is Pending, if null, create order. Else use the order
-        if (checkAdsActiveCarActiveDateEnd()) {
-            ordersEntity = findOrders_ByIdUsers_andStatusIsPending();
-
-            if (ordersEntity == null) {
-                log.info("Aucun Orders n'est trouvé");
-                createOrders();
-            }
-
-            String testSaleOrLeasing = checkIfSaleOrLeasing();
-            log.info("Order est : " + testSaleOrLeasing);
-
-            if (contractsBean.createContract(ordersEntity.getId(), adsEntity, finalPrice, null, testSaleOrLeasing, idAssurance)) {
-                success = JsfUtils.returnMessage(getLocale(), "fxs.addShopButton.addShopSuccess");
-            }
+        if (contractsBean.createContract()) {
+            success = JsfUtils.returnMessage(getLocale(), "fxs.addShopButton.addShopSuccess");
         } else {
-            fail = JsfUtils.returnMessage(getLocale(), "fxs.addShopButton.adsOrVehiculeError");
+            fail = JsfUtils.returnMessage(getLocale(), "fxs.addShopButton.addShopError");
         }
     }
 
     /**
-     * Check if : ads is active, car is active and dateEnd is not less than today.
-     *
-     * @return true or false
+     * Find order : if not null, find all contracts if contract == leasing, find insurance contract !
      */
-    protected boolean checkAdsActiveCarActiveDateEnd() {
-        log.info("Check : Ads is Active, Car is active and DateEnd not before Today ?");
-        return (adsEntity.isActive() == true) && (adsEntity.getCarsByIdCars().isActive() == true) && (!adsEntity.getDateEnd().before(getDate())) ? true : false;
+    public void findOrderAndfindContracts() {
+
+        ordersEntity = findOrders_ByIdUsers_andStatusIsPending();
+        if (ordersEntity != null) {
+            findAllContracts();
+        }
+    }
+
+    /**
+     * find all contracts : if contract == leasing, find insurance contract !
+     */
+    public void findAllContracts() {
+        contractsEntities = contractsBean.findAllContractsByIdOrder(ordersEntity.getId());
+        for (ContractsEntity c : contractsEntities)
+            if (c.getContractTypesByIdContractType().getLabel().equalsIgnoreCase("Leasing")) {
+                ContractInsurancesEntity contractInsurancesEntity = contractInsurancesBean.findContractInsurancesByIdContract(c.getId());
+                hmContractInsurances.put(c.getId(), contractInsurancesEntity);
+            }
     }
 
     /**
@@ -104,28 +117,16 @@ public class OrdersBean extends ExtendBean implements Serializable {
         return ordersServices.findByIdUsersAndStatusIsPending(idUser);
     }
 
-    /**
-     * Check if Type ads is : Sale or Leasing
-     *
-     * @return
-     */
-    protected String checkIfSaleOrLeasing() {
-        if (adsEntity.getTypeAds() == EnumTypeAds.Sale) {
-            return "Sale";
-        } else {
-            return "Leasing";
-        }
-    }
 
     /**
      * Create Order !
      */
-    protected void createOrders() {
+    protected boolean createOrders() {
         ordersEntity = new OrdersEntity();
-        ordersEntity.setIdUsers(idUser);
+        ordersEntity.setUsersByIdUsers(usersBean.findUserById(idUser));
         ordersEntity.setOrderDate(getDate());
         ordersEntity.setOrderStatut(EnumOrderStatut.Pending);
-        ordersServices.add(ordersEntity);
+        return ordersServices.add(ordersEntity);
     }
 
     public String getSuccess() {
@@ -142,5 +143,53 @@ public class OrdersBean extends ExtendBean implements Serializable {
 
     public void setFail(String fail) {
         this.fail = fail;
+    }
+
+    public Map<Integer, ContractInsurancesEntity> getHmContractInsurances() {
+        return hmContractInsurances;
+    }
+
+    public void setHmContractInsurances(Map<Integer, ContractInsurancesEntity> hmContractInsurances) {
+        this.hmContractInsurances = hmContractInsurances;
+    }
+
+    public int getIdUser() {
+        return idUser;
+    }
+
+    public void setIdUser(int idUser) {
+        this.idUser = idUser;
+    }
+
+    public OrdersEntity getOrdersEntity() {
+        return ordersEntity;
+    }
+
+    public void setOrdersEntity(OrdersEntity ordersEntity) {
+        this.ordersEntity = ordersEntity;
+    }
+
+    public Date getDateEnd() {
+        return dateEnd;
+    }
+
+    public void setDateEnd(Date dateEnd) {
+        this.dateEnd = dateEnd;
+    }
+
+    public double getFinalPrice() {
+        return finalPrice;
+    }
+
+    public void setFinalPrice(double finalPrice) {
+        this.finalPrice = finalPrice;
+    }
+
+    public List<ContractsEntity> getContractsEntities() {
+        return contractsEntities;
+    }
+
+    public void setContractsEntities(List<ContractsEntity> contractsEntities) {
+        this.contractsEntities = contractsEntities;
     }
 }

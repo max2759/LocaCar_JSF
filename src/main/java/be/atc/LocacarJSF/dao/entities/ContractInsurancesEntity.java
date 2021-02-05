@@ -5,10 +5,11 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "contract_insurances", schema = "locacarjsf", catalog = "")
+@NamedQueries({
+        @NamedQuery(name = "ContractInsurances.findByIdContract", query = "SELECT ci from ContractInsurancesEntity ci where ci.contractsByIdContract.id = :idContract"),
+})
 public class ContractInsurancesEntity {
     private int id;
-    private int idContract;
-    private int idInsurance;
     private ContractsEntity contractsByIdContract;
     private InsurancesEntity insurancesByIdInsurance;
 
@@ -23,41 +24,21 @@ public class ContractInsurancesEntity {
         this.id = id;
     }
 
-    @Basic
-    @Column(name = "ID_Contract")
-    public int getIdContract() {
-        return idContract;
-    }
-
-    public void setIdContract(int idContract) {
-        this.idContract = idContract;
-    }
-
-    @Basic
-    @Column(name = "ID_Insurance")
-    public int getIdInsurance() {
-        return idInsurance;
-    }
-
-    public void setIdInsurance(int idInsurance) {
-        this.idInsurance = idInsurance;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ContractInsurancesEntity that = (ContractInsurancesEntity) o;
-        return id == that.id && idContract == that.idContract && idInsurance == that.idInsurance;
+        return id == that.id;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, idContract, idInsurance);
+        return Objects.hash(id);
     }
 
     @ManyToOne
-    @JoinColumn(name = "ID_Contract", referencedColumnName = "id", insertable = false, updatable = false, nullable = false)
+    @JoinColumn(name = "ID_Contract", referencedColumnName = "id", nullable = false)
     public ContractsEntity getContractsByIdContract() {
         return contractsByIdContract;
     }
@@ -67,7 +48,7 @@ public class ContractInsurancesEntity {
     }
 
     @ManyToOne
-    @JoinColumn(name = "ID_Insurance", referencedColumnName = "id", insertable = false, updatable = false, nullable = false)
+    @JoinColumn(name = "ID_Insurance", referencedColumnName = "id", nullable = false)
     public InsurancesEntity getInsurancesByIdInsurance() {
         return insurancesByIdInsurance;
     }

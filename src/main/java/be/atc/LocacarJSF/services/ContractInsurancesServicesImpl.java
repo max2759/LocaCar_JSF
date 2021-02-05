@@ -58,4 +58,12 @@ public class ContractInsurancesServicesImpl implements ContractInsurancesService
         }
         return null;
     }
+
+    @Override
+    public ContractInsurancesEntity findByIdContract(int idContract) {
+        if (idContract != 0) {
+            return contractInsurancesDAO.findByIdContract(idContract);
+        }
+        return null;
+    }
 }
