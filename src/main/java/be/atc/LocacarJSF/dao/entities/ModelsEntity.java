@@ -6,9 +6,13 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "models", schema = "locacarjsf", catalog = "")
+@NamedQueries({
+        @NamedQuery(name = "Models.findAll", query = "SELECT m FROM ModelsEntity m"),
+        @NamedQuery(name = "Models.findByLabel", query = "SELECT m from ModelsEntity m where m.label = :label")
+})
 public class ModelsEntity {
     private int id;
-    private int idBrands;
+
     private String label;
     private Collection<CarsEntity> carsById;
     private BrandsEntity brandsByIdBrands;
@@ -24,15 +28,6 @@ public class ModelsEntity {
         this.id = id;
     }
 
-    @Basic
-    @Column(name = "ID_Brands")
-    public int getIdBrands() {
-        return idBrands;
-    }
-
-    public void setIdBrands(int idBrands) {
-        this.idBrands = idBrands;
-    }
 
     @Basic
     @Column(name = "Label")
@@ -49,12 +44,12 @@ public class ModelsEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ModelsEntity that = (ModelsEntity) o;
-        return id == that.id && idBrands == that.idBrands && Objects.equals(label, that.label);
+        return id == that.id && Objects.equals(label, that.label);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, idBrands, label);
+        return Objects.hash(id, label);
     }
 
     @OneToMany(mappedBy = "modelsByIdModels")
@@ -67,7 +62,7 @@ public class ModelsEntity {
     }
 
     @ManyToOne
-    @JoinColumn(name = "ID_Brands", referencedColumnName = "id", insertable = false, updatable = false, nullable = false)
+    @JoinColumn(name = "ID_Brands", referencedColumnName = "id", nullable = false)
     public BrandsEntity getBrandsByIdBrands() {
         return brandsByIdBrands;
     }
