@@ -7,6 +7,9 @@ import utils.EMF;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 
+/**
+ * @author Younes - Arifi
+ */
 public class ContractInsurancesDAOImpl implements ContractInsurancesDAO {
 
     public static Logger log = Logger.getLogger(ContractInsurancesDAOImpl.class);

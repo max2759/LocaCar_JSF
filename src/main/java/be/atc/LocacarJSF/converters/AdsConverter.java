@@ -15,6 +15,10 @@ import javax.faces.convert.ConverterException;
 import javax.faces.convert.FacesConverter;
 import java.util.Locale;
 
+/**
+ * @author Younes - Arifi
+ * Ads Converter
+ */
 @FacesConverter(value = "adsConverter")
 public class AdsConverter implements Converter {
 

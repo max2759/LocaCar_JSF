@@ -1,5 +1,6 @@
 package be.atc.LocacarJSF.beans;
 
+import be.atc.LocacarJSF.dao.entities.ContractInsurancesEntity;
 import be.atc.LocacarJSF.dao.entities.ContractsEntity;
 import be.atc.LocacarJSF.enums.EnumTypeAds;
 import be.atc.LocacarJSF.services.ContractsServices;
@@ -9,8 +10,14 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+/**
+ * @author Younes - Arifi
+ * Contract Bean
+ */
 @Named(value = "contractsBean")
 @SessionScoped
 public class ContractsBean extends ExtendBean implements Serializable {
@@ -19,6 +26,8 @@ public class ContractsBean extends ExtendBean implements Serializable {
     ContractsServices contractsServices = new ContractsServicesImpl();
     ContractsEntity contractsEntity;
     List<ContractsEntity> contractsEntities;
+
+    Map<Integer, ContractInsurancesEntity> hmContractInsurances = new HashMap<Integer, ContractInsurancesEntity>();
 
 
     // Remplacer par le prix final
@@ -34,6 +43,7 @@ public class ContractsBean extends ExtendBean implements Serializable {
     private AdsBean adsBean;
     @Inject
     private InsurancesBean insurancesBean;
+    private int timeLeasing;
 
     /**
      * Create contract
@@ -47,12 +57,14 @@ public class ContractsBean extends ExtendBean implements Serializable {
             return false;
         }
 
+        calculFinalPriceContract();
+
         contractsEntity = new ContractsEntity();
         contractsEntity.setOrdersByIdOrders(ordersBean.getOrdersEntity());
         contractsEntity.setCarsByIdCars(adsBean.getAdsEntity().getCarsByIdCars());
         contractsEntity.setDateStart(getDate());
         contractsEntity.setDateEnd(ordersBean.getDateEnd());
-        contractsEntity.setFinalPrice(ordersBean.getFinalPrice());
+        contractsEntity.setFinalPrice(finalPrice);
         contractsEntity.setChoiceEndLeasing(true);
         if (adsBean.getAdsEntity().getTypeAds() == EnumTypeAds.Sale) {
             contractsEntity.setContractTypesByIdContractType(contractTypesBean.findContractTypesById(1));
@@ -66,6 +78,25 @@ public class ContractsBean extends ExtendBean implements Serializable {
             test = contractInsurancesBean.createContractInsurances(insurancesBean.getInsurancesEntity());
         }
         return test;
+    }
+
+    /**
+     * find all contracts : if contract == leasing, find insurance contract !
+     */
+    public void findAllContracts(int idOrder) {
+        contractsEntities = findAllContractsByIdOrder(idOrder);
+        for (ContractsEntity c : contractsEntities)
+            if (c.getContractTypesByIdContractType().getLabel().equalsIgnoreCase("Leasing")) {
+                ContractInsurancesEntity contractInsurancesEntity = contractInsurancesBean.findContractInsurancesByIdContract(c.getId());
+                hmContractInsurances.put(c.getId(), contractInsurancesEntity);
+            }
+    }
+
+    /**
+     * Calcul FinalPrice in Contract !!
+     */
+    public void calculFinalPriceContract() {
+        this.finalPrice = adsBean.getAdsEntity().getTypeAds() == EnumTypeAds.Leasing ? (adsBean.getAdsEntity().getPrice() + (insurancesBean.getInsurancesEntity().getPrice() * timeLeasing * 12)) : (adsBean.getAdsEntity().getPrice());
     }
 
     /**
@@ -97,5 +128,29 @@ public class ContractsBean extends ExtendBean implements Serializable {
 
     public void setContractsEntities(List<ContractsEntity> contractsEntities) {
         this.contractsEntities = contractsEntities;
+    }
+
+    public Map<Integer, ContractInsurancesEntity> getHmContractInsurances() {
+        return hmContractInsurances;
+    }
+
+    public void setHmContractInsurances(Map<Integer, ContractInsurancesEntity> hmContractInsurances) {
+        this.hmContractInsurances = hmContractInsurances;
+    }
+
+    public double getFinalPrice() {
+        return finalPrice;
+    }
+
+    public void setFinalPrice(double finalPrice) {
+        this.finalPrice = finalPrice;
+    }
+
+    public int getTimeLeasing() {
+        return timeLeasing;
+    }
+
+    public void setTimeLeasing(int timeLeasing) {
+        this.timeLeasing = timeLeasing;
     }
 }

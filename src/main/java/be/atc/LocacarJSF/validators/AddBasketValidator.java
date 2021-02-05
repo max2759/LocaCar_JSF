@@ -14,6 +14,9 @@ import javax.faces.validator.ValidatorException;
 import java.util.Date;
 import java.util.Locale;
 
+/**
+ * @author Younes - Arifi
+ */
 @FacesValidator("addBasketValidator")
 public class AddBasketValidator implements Validator {
 

@@ -6,6 +6,10 @@ import be.atc.LocacarJSF.dao.entities.ContractTypesEntity;
 
 import java.util.List;
 
+
+/**
+ * @author Younes - Arifi
+ */
 public class ContractTypesServicesImpl implements ContractTypesServices {
 
     ContractTypesDAO contractTypesDAO = new ContractTypesDAOImpl();

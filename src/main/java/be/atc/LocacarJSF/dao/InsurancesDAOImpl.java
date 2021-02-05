@@ -9,6 +9,10 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import java.util.List;
 
+
+/**
+ * @author Younes - Arifi
+ */
 public class InsurancesDAOImpl extends EntityFinderImpl<InsurancesEntity> implements InsurancesDAO {
 
     public static Logger log = Logger.getLogger(InsurancesDAOImpl.class);

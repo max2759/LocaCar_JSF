@@ -4,6 +4,9 @@ import be.atc.LocacarJSF.dao.entities.InsurancesEntity;
 
 import java.util.List;
 
+/**
+ * @author Younes - Arifi
+ */
 public interface InsurancesDAO {
 
     public boolean add(InsurancesEntity insurancesEntity);

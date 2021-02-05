@@ -7,6 +7,10 @@ import be.atc.LocacarJSF.dao.entities.InsurancesEntity;
 import java.util.Collections;
 import java.util.List;
 
+
+/**
+ * @author Younes - Arifi
+ */
 public class InsurancesServicesImpl implements InsurancesServices {
 
     InsurancesDAO insurancesDAO = new InsurancesDAOImpl();

@@ -13,6 +13,10 @@ import java.util.List;
 
 import static java.lang.Integer.parseInt;
 
+/**
+ * @author Younes - Arifi
+ * Insurances Bean
+ */
 @Named(value = "insurancesBean")
 @ApplicationScoped
 public class InsurancesBean extends ExtendBean implements Serializable {

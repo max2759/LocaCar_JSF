@@ -7,6 +7,10 @@ import be.atc.LocacarJSF.services.ContractTypesServicesImpl;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Named;
 
+/**
+ * @author Younes - Arifi
+ * contractTypesBean
+ */
 @Named(value = "contractTypesBean")
 @ApplicationScoped
 public class ContractTypesBean extends ExtendBean {
