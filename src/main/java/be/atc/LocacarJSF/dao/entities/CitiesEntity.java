@@ -8,7 +8,6 @@ import java.util.Objects;
 @Table(name = "cities", schema = "locacarjsf", catalog = "")
 public class CitiesEntity {
     private int id;
-    private int idCountries;
     private String region;
     private int postalCode;
     private String label;
@@ -26,15 +25,6 @@ public class CitiesEntity {
         this.id = id;
     }
 
-    @Basic
-    @Column(name = "ID_Countries")
-    public int getIdCountries() {
-        return idCountries;
-    }
-
-    public void setIdCountries(int idCountries) {
-        this.idCountries = idCountries;
-    }
 
     @Basic
     @Column(name = "Region")
@@ -71,12 +61,12 @@ public class CitiesEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CitiesEntity that = (CitiesEntity) o;
-        return id == that.id && idCountries == that.idCountries && postalCode == that.postalCode && Objects.equals(region, that.region) && Objects.equals(label, that.label);
+        return id == that.id && postalCode == that.postalCode && Objects.equals(region, that.region) && Objects.equals(label, that.label);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, idCountries, region, postalCode, label);
+        return Objects.hash(id, region, postalCode, label);
     }
 
     @OneToMany(mappedBy = "citiesByIdCities")
@@ -89,7 +79,7 @@ public class CitiesEntity {
     }
 
     @ManyToOne
-    @JoinColumn(name = "ID_Countries", referencedColumnName = "id", insertable = false, updatable = false, nullable = false)
+    @JoinColumn(name = "ID_Countries", referencedColumnName = "id", nullable = false)
     public CountriesEntity getCountriesByIdCountries() {
         return countriesByIdCountries;
     }

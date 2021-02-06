@@ -8,8 +8,12 @@ import utils.JsfUtils;
 
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -36,6 +40,9 @@ public class UsersBean implements Serializable {
     private String fail;
     private boolean editUsersEntity;
     private boolean addUserEntity;
+    @Inject
+    private RolesBean rolesBean;
+    private List<UsersEntity> empty;
 
     public void init() {
         log.info("init() - start");
@@ -48,11 +55,43 @@ public class UsersBean implements Serializable {
         fail = "";
     }
 
-    public void connexion() {
+    public void connexion() throws NoSuchAlgorithmException {
+
+        String username = usersEntity.getUsername();
+        String password = usersEntity.getPassword();
+        MessageDigest digest = MessageDigest.getInstance("SHA-256");
+///
+        byte[] hash = digest.digest(password.getBytes(StandardCharsets.UTF_8));
+        // convertir bytes en hexadécimal
+        StringBuilder s = new StringBuilder();
+        for (byte b : hash) {
+            s.append(Integer.toString((b & 0xff) + 0x100, 16).substring(1));
+        }
+        System.out.println(s.toString());
+        String hashPass = s.toString();
+
+
+////
+        UsersEntity usersByUsernameAndPassword = usersServices.findByUsernameAndPassword(username, hashPass);
+        log.info(usersByUsernameAndPassword);
+        log.info("username recup + pass:" + username + " " + hashPass);
+        if (usersByUsernameAndPassword != null) {
+            log.info("existe");
+        } else {
+            log.info("existe pas");
+        }
+
+
         log.info("je suis dans le connexion");
+
     }
 
-    public void addUser() throws ParseException {
+
+    /**
+     * @throws ParseException
+     * @throws NoSuchAlgorithmException
+     */
+    public void addUser() throws ParseException, NoSuchAlgorithmException {
 
         log.info("begin addUserBean");
         Date currentDate = new Date();
@@ -63,17 +102,32 @@ public class UsersBean implements Serializable {
 
         log.info("date du jour " + curDate);
 
+        String password = usersEntity.getPassword();
+        MessageDigest digest = MessageDigest.getInstance("SHA-256");
+        byte[] hash = digest.digest(password.getBytes(StandardCharsets.UTF_8));
+        // convertir bytes en hexadécimal
+        StringBuilder s = new StringBuilder();
+        for (byte b : hash) {
+            s.append(Integer.toString((b & 0xff) + 0x100, 16).substring(1));
+        }
+        System.out.println(s.toString());
+        String hashPass = s.toString();
+
+
+        log.info("mdp: " + hash);
+
         usersEntity.setFirstname(usersEntity.getFirstname());
         usersEntity.setLastname(usersEntity.getLastname());
         usersEntity.setUsername(usersEntity.getUsername());
-        usersEntity.setPassword(usersEntity.getPassword());
+        usersEntity.setPassword(hashPass);
         usersEntity.setBirthdate(usersEntity.getBirthdate());
         usersEntity.setVatNumber(usersEntity.getVatNumber());
         usersEntity.setActive(true);
-        usersEntity.setIdRoles(1);
         usersEntity.setRegisterDate(currentDate);
+        usersEntity.setRolesByIdRoles(rolesBean.findById(1));
 
         log.info("first name: " + usersEntity.getFirstname());
+        log.info("num de reole: " + rolesBean.findById(1));
         usersServices.add(usersEntity);
         log.info("inscription");
     }
@@ -110,17 +164,14 @@ public class UsersBean implements Serializable {
     public void saveEdit() {
 
         List<UsersEntity> usersEntitiesByLabel = usersServices.findByUsername(usersEntity.getUsername());
-        initialisationFields();
 
         log.info("Save edit");
-        if ((addUserEntity) && (usersEntitiesByLabel.isEmpty())) {
-            functionAddUser();
-        } else if ((!addUserEntity) && (usersEntitiesByLabel.isEmpty())) {
+        if ((usersEntitiesByLabel.isEmpty())) {
             functionUpdateUser();
-        } else if ((!addUserEntity) && (usersEntitiesByLabel.size() == 1)) {
-            UsersEntity oe = usersEntitiesByLabel.get(0);
+        } else if ((usersEntitiesByLabel.size() == 1)) {
+            UsersEntity ue = usersEntitiesByLabel.get(0);
 
-            if (oe.getId() == usersEntity.getId()) {
+            if (ue.getId() == usersEntity.getId()) {
                 functionUpdateUser();
             } else {
                 fail = JsfUtils.returnMessage(locale, "fxs.users.errorAdd");
@@ -206,7 +257,7 @@ public class UsersBean implements Serializable {
         return editUsersEntity;
     }
 
-    public void setEditUsersEntity(boolean addUserEntity) {
+    public void setEditUsersEntity(boolean editUserEntity) {
         this.editUsersEntity = editUsersEntity;
     }
 

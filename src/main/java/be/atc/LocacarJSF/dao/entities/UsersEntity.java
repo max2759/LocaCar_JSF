@@ -9,12 +9,12 @@ import java.util.Objects;
 @Table(name = "users", schema = "locacarjsf", catalog = "")
 @NamedQueries({
         @NamedQuery(name = "Users.findAll", query = "SELECT u from UsersEntity u"),
-        @NamedQuery(name = "Users.findByUsername", query = "SELECT u from UsersEntity u where u.username = :username")
+        @NamedQuery(name = "Users.findByUsername", query = "SELECT u from UsersEntity u where u.username = :username"),
+        @NamedQuery(name = "Users.connexion", query = "SELECT u from UsersEntity u where u.username = :username and u.password = :password")
 })
 public class UsersEntity {
 
     private int id;
-    private int idRoles;
     private String firstname;
     private String lastname;
     private String username;
@@ -39,15 +39,6 @@ public class UsersEntity {
         this.id = id;
     }
 
-    @Basic
-    @Column(name = "ID_Roles")
-    public int getIdRoles() {
-        return idRoles;
-    }
-
-    public void setIdRoles(int idRoles) {
-        this.idRoles = idRoles;
-    }
 
     @Basic
     @Column(name = "Firstname")
@@ -136,12 +127,12 @@ public class UsersEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         UsersEntity that = (UsersEntity) o;
-        return id == that.id && idRoles == that.idRoles && isActive == that.isActive && Objects.equals(firstname, that.firstname) && Objects.equals(lastname, that.lastname) && Objects.equals(username, that.username) && Objects.equals(password, that.password) && Objects.equals(registerDate, that.registerDate) && Objects.equals(birthdate, that.birthdate) && Objects.equals(vatNumber, that.vatNumber);
+        return id == that.id && isActive == that.isActive && Objects.equals(firstname, that.firstname) && Objects.equals(lastname, that.lastname) && Objects.equals(username, that.username) && Objects.equals(password, that.password) && Objects.equals(registerDate, that.registerDate) && Objects.equals(birthdate, that.birthdate) && Objects.equals(vatNumber, that.vatNumber);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, idRoles, firstname, lastname, username, password, registerDate, birthdate, vatNumber, isActive);
+        return Objects.hash(id, firstname, lastname, username, password, registerDate, birthdate, vatNumber, isActive);
     }
 
     @OneToMany(mappedBy = "usersByIdUsers")
@@ -163,7 +154,7 @@ public class UsersEntity {
     }
 
     @ManyToOne
-    @JoinColumn(name = "ID_Roles", referencedColumnName = "id", insertable = false, updatable = false, nullable = false)
+    @JoinColumn(name = "ID_Roles", referencedColumnName = "id", nullable = false)
     public RolesEntity getRolesByIdRoles() {
         return rolesByIdRoles;
     }

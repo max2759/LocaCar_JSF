@@ -12,8 +12,6 @@ public interface RolesServices {
 
     public boolean delete(RolesEntity rolesEntity);
 
-    public boolean connexion(RolesEntity rolesEntit);
-
     public List<RolesEntity> findAll();
 
     public RolesEntity findById(int id);

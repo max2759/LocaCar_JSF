@@ -7,8 +7,6 @@ import java.util.Objects;
 @Table(name = "addresses", schema = "locacarjsf", catalog = "")
 public class AddressesEntity {
     private int id;
-    private int idCities;
-    private int idUsers;
     private String street;
     private String number;
     private String box;
@@ -24,26 +22,6 @@ public class AddressesEntity {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    @Basic
-    @Column(name = "ID_Cities")
-    public int getIdCities() {
-        return idCities;
-    }
-
-    public void setIdCities(int idCities) {
-        this.idCities = idCities;
-    }
-
-    @Basic
-    @Column(name = "ID_Users")
-    public int getIdUsers() {
-        return idUsers;
-    }
-
-    public void setIdUsers(int idUsers) {
-        this.idUsers = idUsers;
     }
 
     @Basic
@@ -81,16 +59,16 @@ public class AddressesEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AddressesEntity that = (AddressesEntity) o;
-        return id == that.id && idCities == that.idCities && idUsers == that.idUsers && Objects.equals(street, that.street) && Objects.equals(number, that.number) && Objects.equals(box, that.box);
+        return id == that.id && Objects.equals(street, that.street) && Objects.equals(number, that.number) && Objects.equals(box, that.box);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, idCities, idUsers, street, number, box);
+        return Objects.hash(id, street, number, box);
     }
 
     @ManyToOne
-    @JoinColumn(name = "ID_Cities", referencedColumnName = "ID", insertable = false, updatable = false, nullable = false)
+    @JoinColumn(name = "ID_Cities", referencedColumnName = "ID", nullable = false)
     public CitiesEntity getCitiesByIdCities() {
         return citiesByIdCities;
     }
@@ -100,7 +78,7 @@ public class AddressesEntity {
     }
 
     @ManyToOne
-    @JoinColumn(name = "ID_Users", referencedColumnName = "ID", insertable = false, updatable = false, nullable = false)
+    @JoinColumn(name = "ID_Users", referencedColumnName = "ID", nullable = false)
     public UsersEntity getUsersByIdUsers() {
         return usersByIdUsers;
     }

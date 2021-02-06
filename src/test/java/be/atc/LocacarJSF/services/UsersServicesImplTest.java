@@ -8,6 +8,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -28,6 +30,30 @@ class UsersServicesImplTest {
     public void undefUsers() {
         log.info("Appel après chaque test");
         usersServices = null;
+    }
+
+    @Test
+    void add() {
+        Date currentDate = new Date();
+        SimpleDateFormat formater = new SimpleDateFormat("yyyy-mm-dd");
+
+        log.info("debut du test");
+        UsersEntity usersEntity = new UsersEntity();
+        UsersServices usersServices = new UsersServicesImpl();
+
+        usersEntity.setFirstname("Belgique");
+        usersEntity.setLastname("toto");
+        usersEntity.setActive(true);
+        usersEntity.setPassword("pass");
+        usersEntity.setRegisterDate(currentDate);
+        usersEntity.setBirthdate(currentDate);
+
+
+        Boolean test = usersServices.add(usersEntity);
+
+        log.info(test);
+        assertThat(test).isEqualTo(false);
+        log.info("fin du test");
     }
 
     @Test
@@ -69,4 +95,15 @@ class UsersServicesImplTest {
         assertThat(test).isEqualTo(true);
     }
 
+    @Test
+    void findByUsernameAndPassword() {
+        UsersEntity usersEntity = usersServices.findByUsernameAndPassword("lolo", "lolo");
+        boolean test;
+        if (usersEntity != null) {
+            test = true;
+        } else {
+            test = false;
+        }
+        assertThat(test).isEqualTo(true);
+    }
 }
