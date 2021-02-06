@@ -12,27 +12,32 @@
 >
 </cc:interface>
 <cc:implementation>
-    <h:dataTable id="outputMessage" styleClass="table table-hover table-responsive"
-                 value="#{contractsBean.contractsEntities}" var="c">
-        <h:column>
-            <f:facet name="header">Véhicule</f:facet>
-            <h:outputText value="#{c.carsByIdCars.modelsByIdModels.brandsByIdBrands.label} "></h:outputText>
-            <h:outputText value="#{c.carsByIdCars.modelsByIdModels.label} "></h:outputText>
-            <h:outputText value="#{c.carsByIdCars.releaseYear}"></h:outputText>
-            <br/>
-            <h:outputText
-                    value="#{contractsBean.hmContractInsurances[c.id].insurancesByIdInsurance.label}"></h:outputText>
-        </h:column>
-        <h:column>
-            <f:facet name="header">Prix</f:facet>
-            <h:outputText value="#{c.finalPrice}"></h:outputText>
-        </h:column>
-        <h:column>
-            <f:facet name="header">Contract Type</f:facet>
-            <h:outputText value="#{c.contractTypesByIdContractType.label}"></h:outputText>
-        </h:column>
+    <h:panelGroup rendered="#{ordersBean.showBasket}">
+        <h:dataTable id="outputMessage" styleClass="table table-hover table-responsive"
+                     value="#{contractsBean.contractsEntities}" var="c">
+            <h:column>
+                <f:facet name="header">Véhicule</f:facet>
+                <h:outputText value="#{c.carsByIdCars.modelsByIdModels.brandsByIdBrands.label} "></h:outputText>
+                <h:outputText value="#{c.carsByIdCars.modelsByIdModels.label} "></h:outputText>
+                <h:outputText value="#{c.carsByIdCars.releaseYear}"></h:outputText>
+                <br/>
+                <h:outputText
+                        value="#{contractsBean.hmContractInsurances[c.id].insurancesByIdInsurance.label}"></h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Prix</f:facet>
+                <h:outputText value="#{c.finalPrice}"></h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Contract Type</f:facet>
+                <h:outputText value="#{c.contractTypesByIdContractType.label}"></h:outputText>
+            </h:column>
 
-    </h:dataTable>
+        </h:dataTable>
+    </h:panelGroup>
+    <h:panelGroup rendered="#{!ordersBean.showBasket}">
+        <h:outputText value="#{bundle['fxs.basket.empty']}"></h:outputText>
+    </h:panelGroup>
     <br/>
 </cc:implementation>
 </html>
