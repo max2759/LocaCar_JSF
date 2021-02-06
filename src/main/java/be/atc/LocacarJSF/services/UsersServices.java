@@ -12,12 +12,14 @@ public interface UsersServices {
 
     public boolean delete(UsersEntity usersEntity);
 
-    public boolean connexion(UsersEntity usersEntit);
+    public boolean connexion(UsersEntity usersEntity);
 
     public List<UsersEntity> findAll();
 
     public UsersEntity findById(int id);
 
     public List<UsersEntity> findByUsername(String username);
+
+    public UsersEntity findByUsernameAndPassword(String username, String password);
 
 }

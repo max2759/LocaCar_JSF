@@ -115,7 +115,24 @@ public class UsersDAOImpl implements UsersDAO {
             em.close();
         }
 
+    }
 
+    public UsersEntity findByUsernameAndPassword(String username, String password) {
+        EntityManager em = EMF.getEM();
+
+        try {
+            return em.createNamedQuery("Users.connexion",
+                    UsersEntity.class)
+                    .setParameter("username", username)
+                    .setParameter("password", password)
+                    .getSingleResult();
+        } catch (Exception ex) {
+            log.info("Nothing");
+            return null;
+        } finally {
+            em.clear();
+            em.close();
+        }
     }
 
 }

@@ -12,12 +12,16 @@ public class RolesBean implements Serializable {
     private static final long serialVersionUID = -8262263353009937764L;
     public static Logger log = Logger.getLogger(RolesBean.class);
 
-    private RolesEntity rolesEntity = new RolesEntity();
+    private RolesEntity rolesEntity;
     private RolesServices rolesServices = new RolesServicesImpl();
     private List<RolesEntity> rolesEntities;
 
     public void init() {
         rolesEntities = rolesServices.findAll();
+    }
+
+    public RolesEntity findById(int id) {
+        return rolesServices.findById(id);
     }
 
     public RolesEntity getRolesEntity() {

@@ -37,7 +37,7 @@ public class UsersServicesImpl implements UsersServices {
     }
 
     @Override
-    public boolean connexion(UsersEntity usersEntit) {
+    public boolean connexion(UsersEntity usersEntity) {
         return false;
     }
 
@@ -63,4 +63,14 @@ public class UsersServicesImpl implements UsersServices {
         }
         return null;
     }
+
+    @Override
+    public UsersEntity findByUsernameAndPassword(String username, String password) {
+        if (username != null && password != null) {
+            return usersDAO.findByUsernameAndPassword(username, password);
+        }
+        return null;
+    }
+
+
 }
