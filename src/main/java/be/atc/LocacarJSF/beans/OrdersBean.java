@@ -1,5 +1,6 @@
 package be.atc.LocacarJSF.beans;
 
+import be.atc.LocacarJSF.dao.entities.ContractsEntity;
 import be.atc.LocacarJSF.dao.entities.OrdersEntity;
 import be.atc.LocacarJSF.enums.EnumOrderStatut;
 import be.atc.LocacarJSF.services.OrdersServices;
@@ -12,6 +13,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author Younes - Arifi
@@ -30,6 +32,7 @@ public class OrdersBean extends ExtendBean implements Serializable {
     private OrdersEntity ordersEntity;
     private OrdersServices ordersServices = new OrdersServicesImpl();
 
+    boolean showBasket;
     private String success;
     private String fail;
     @Inject
@@ -40,6 +43,7 @@ public class OrdersBean extends ExtendBean implements Serializable {
     private ContractInsurancesBean contractInsurancesBean;
     @Inject
     private UsersBean usersBean;
+    private double priceOrder;
 
     /**
      * Method post construct
@@ -49,6 +53,7 @@ public class OrdersBean extends ExtendBean implements Serializable {
         log.info("Post Construct");
         fieldsInitialization();
         findOrderAndfindContracts();
+        calculatePriceOrder();
     }
 
     /**
@@ -81,6 +86,17 @@ public class OrdersBean extends ExtendBean implements Serializable {
     }
 
     /**
+     * Method calculate Price Order
+     */
+    public void calculatePriceOrder() {
+        List<ContractsEntity> contractsEntities = contractsBean.findAllContractsByIdOrder(ordersEntity.getId());
+        for (ContractsEntity c : contractsEntities
+        ) {
+            this.priceOrder += c.getFinalPrice();
+        }
+    }
+
+    /**
      * Find order : if not null, find all contracts if contract == leasing, find insurance contract !
      */
     public void findOrderAndfindContracts() {
@@ -88,20 +104,11 @@ public class OrdersBean extends ExtendBean implements Serializable {
         ordersEntity = findOrders_ByIdUsers_andStatusIsPending();
         if (ordersEntity != null) {
             contractsBean.findAllContracts(ordersEntity.getId());
+            showBasket = true;
+        } else {
+            showBasket = false;
         }
     }
-    /*
-     *//**
-     * find all contracts : if contract == leasing, find insurance contract !
-     *//*
-    public void findAllContracts() {
-        contractsEntities = contractsBean.findAllContractsByIdOrder(ordersEntity.getId());
-        for (ContractsEntity c : contractsEntities)
-            if (c.getContractTypesByIdContractType().getLabel().equalsIgnoreCase("Leasing")) {
-                ContractInsurancesEntity contractInsurancesEntity = contractInsurancesBean.findContractInsurancesByIdContract(c.getId());
-                hmContractInsurances.put(c.getId(), contractInsurancesEntity);
-            }
-    }*/
 
     /**
      * Find orders By IdUsers and status is pending
@@ -165,4 +172,19 @@ public class OrdersBean extends ExtendBean implements Serializable {
         this.dateEnd = dateEnd;
     }
 
+    public boolean isShowBasket() {
+        return showBasket;
+    }
+
+    public void setShowBasket(boolean showBasket) {
+        this.showBasket = showBasket;
+    }
+
+    public double getPriceOrder() {
+        return priceOrder;
+    }
+
+    public void setPriceOrder(double priceOrder) {
+        this.priceOrder = priceOrder;
+    }
 }

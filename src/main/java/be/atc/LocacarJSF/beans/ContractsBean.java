@@ -85,11 +85,12 @@ public class ContractsBean extends ExtendBean implements Serializable {
      */
     public void findAllContracts(int idOrder) {
         contractsEntities = findAllContractsByIdOrder(idOrder);
-        for (ContractsEntity c : contractsEntities)
+        for (ContractsEntity c : contractsEntities) {
             if (c.getContractTypesByIdContractType().getLabel().equalsIgnoreCase("Leasing")) {
                 ContractInsurancesEntity contractInsurancesEntity = contractInsurancesBean.findContractInsurancesByIdContract(c.getId());
                 hmContractInsurances.put(c.getId(), contractInsurancesEntity);
             }
+        }
     }
 
     /**
