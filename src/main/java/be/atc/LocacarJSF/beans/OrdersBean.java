@@ -53,7 +53,6 @@ public class OrdersBean extends ExtendBean implements Serializable {
         log.info("Post Construct");
         fieldsInitialization();
         findOrderAndfindContracts();
-        calculatePriceOrder();
     }
 
     /**
@@ -103,6 +102,7 @@ public class OrdersBean extends ExtendBean implements Serializable {
 
         ordersEntity = findOrders_ByIdUsers_andStatusIsPending();
         if (ordersEntity != null) {
+            calculatePriceOrder();
             contractsBean.findAllContracts(ordersEntity.getId());
             showBasket = true;
         } else {
