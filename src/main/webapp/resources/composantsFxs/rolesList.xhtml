@@ -7,44 +7,40 @@
       xmlns:cc="http://java.sun.com/jsf/composite"
       xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
 
-<cc:interface name="usersList"
-              displayName="#{bundle['fxs.usersList.displayName']}"
-              shortDescription="#{bundle['fxs.usersList.shortDescription']}"
+<cc:interface name="rolesList"
+              displayName="#{bundle['fxs.rolesList.displayName']}"
+              shortDescription="#{bundle['fxs.rolesList.shortDescription']}"
 >
 </cc:interface>
 <cc:implementation>
-    <div>
-        <h:form>
-            <h:commandLink styleClass="btn btn-success"
-                           value="#{bundle['fxs.usersList.edit']}"
-                           action="#{usersBean.showPopupModal}">
-                <f:param name="editUserEntity" value="editUserEntity"></f:param>
-                <i class="fas fa-plus"></i>
-            </h:commandLink>
-        </h:form>
-    </div>
+
+    <h:form>
+
+        <h:commandLink styleClass="btn btn-success"
+                       value="#{bundle['fxs.optionsList.add']}"
+                       action="#{optionsBean.showPopupModal}">
+            <f:param name="addRoleEntity" value="addRoleEntity"></f:param>
+            <i class="fas fa-plus"></i>
+        </h:commandLink>
+    </h:form>
 
     <h:form>
         <h:dataTable id="outputMessage" styleClass="table table-hover table-responsive"
-                     value="#{usersBean.usersEntities}" var="user">
+                     value="#{rolesBean.rolesEntities}" var="role">
 
             <h:column>
-                <f:facet name="header">#{bundle['fxs.connexion.username']}</f:facet>
-                <h:outputText value="#{user.username}"></h:outputText>
+                <f:facet name="header">#{bundle['fxs.connexion.label']}</f:facet>
+                <h:outputText value="#{role.label}"></h:outputText>
             </h:column>
 
-            <h:column>
-                <f:facet name="header">#{bundle['fxs.register.firstName']}</f:facet>
-                <h:outputText value="#{user.firstname}"></h:outputText>
-            </h:column>
 
             <h:column>
                 <!-- bouton edit -->
-                <f:facet name="header">#{bundle['fxs.usersList.edit']}</f:facet>
+                <f:facet name="header">#{bundle['fxs.rolesList.edit']}</f:facet>
                 <!-- appel de showmodalPopup -->
                 <h:commandLink styleClass="btn btn-outline-primary btn-sm"
-                               action="#{usersBean.showPopupModal}">
-                    <f:param name="id" value="#{user.id}"></f:param>
+                               action="#{rolesBean.showPopupModal}">
+                    <f:param name="id" value="#{role.id}"></f:param>
                     <f:ajax render="@all"/>
                     <i class="fas fa-edit"></i>
                 </h:commandLink>
@@ -57,36 +53,38 @@
     <!-- affichage du modal -->
     <f:view>
         <h:panelGroup id="popupEdit" layout="block" styleClass="popup-panel-overlay"
-                      rendered="#{usersBean.showPopup}">
+                      rendered="#{rolesBean.showPopup}">
 
             <h:form id="formPopupEdit">
+
                 <div class="popup-panel">
-                    <h:outputText value="#{usersBean.success}"
+                    <h:outputText value="#{rolesBean.success}"
                                   style="color: green; font-weight: bold"></h:outputText>
-                    <h:outputText value="#{usersBean.fail}"
+                    <h:outputText value="#{rolesBean.fail}"
                                   style="color: darkred; font-weight: bold"></h:outputText>
 
                     <div class="form-group">
-                        <h:outputLabel value="ID" for="idUsers"></h:outputLabel>
-                        <h:outputText id="idUsers" value="#{usersBean.usersEntity.id}"
+                        <h:outputLabel value="ID" for="idRoles"></h:outputLabel>
+                        <h:outputText id="idRoles" value="#{rolesBean.rolesEntity.id}"
                                       styleClass="form-control"></h:outputText>
                     </div>
 
                     <div class="form-group">
-                        <h:outputLabel value="username" for="userName"></h:outputLabel>
-                        <h:inputText value="#{usersBean.usersEntity.username}" styleClass="form-control"
+                        <h:outputLabel value="label" for="label"></h:outputLabel>
+                        <h:inputText value="#{rolesBean.rolesEntity.label}" styleClass="form-control"
                                      required="true"
-                                     pt:placeholder="Votre user ici..."
+                                     pt:placeholder="Votre role ici..."
                                      requiredMessage="#{bundle['fxs.insurancesList.required']}"
-                                     id="userName">
+                                     id="label">
                         </h:inputText>
-                        <h:message styleClass="alert alert-danger" role="alert" for="userName"></h:message>
+                        <h:message styleClass="alert alert-danger" role="alert" for="label"></h:message>
                     </div>
 
+                    <!-- button save edit -->
                     <span>
                         <h:commandButton styleClass="btn btn-outline-success btn-sm"
                                          value="#{bundle['fxs.insurancesList.save']}"
-                                         action="#{usersBean.saveEdit}">
+                                         action="#{rolesBean.saveEdit}">
                             <f:ajax execute="formPopupEdit" render="@all"></f:ajax>
                         </h:commandButton>
 
@@ -95,7 +93,7 @@
                     <span>
                         <h:commandButton styleClass="btn btn-outline-dark btn-sm"
                                          value="#{bundle['fxs.insurancesList.close']}"
-                                         action="#{usersBean.hidePopupModal}">
+                                         action="#{rolesBean.hidePopupModal}">
                             <f:ajax render="@all"></f:ajax>
                         </h:commandButton>
                     </span>

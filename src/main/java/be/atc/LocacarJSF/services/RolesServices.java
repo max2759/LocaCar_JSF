@@ -15,4 +15,6 @@ public interface RolesServices {
     public List<RolesEntity> findAll();
 
     public RolesEntity findById(int id);
+
+    public List<RolesEntity> findByLabel(String label);
 }
