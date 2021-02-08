@@ -102,6 +102,8 @@ public class UsersDAOImpl implements UsersDAO {
     public List<UsersEntity> findByUsername(String username) {
         EntityManager em = EMF.getEM();
 
+        log.info("username in DAO : " + username);
+
         try {
             return em.createNamedQuery("Users.findByUsername",
                     UsersEntity.class)

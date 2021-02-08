@@ -6,6 +6,10 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "roles", schema = "locacarjsf", catalog = "")
+@NamedQueries({
+        @NamedQuery(name = "Roles.findAll", query = "SELECT r from RolesEntity r"),
+        @NamedQuery(name = "Roles.findByLabel", query = "SELECT r from RolesEntity r where r.label = :label"),
+})
 public class RolesEntity {
     private int id;
     private String label;
