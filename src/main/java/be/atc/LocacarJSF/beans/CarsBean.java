@@ -1,6 +1,7 @@
 package be.atc.LocacarJSF.beans;
 
 
+import be.atc.LocacarJSF.dao.entities.CarsEntity;
 import be.atc.LocacarJSF.services.CarsServices;
 import be.atc.LocacarJSF.services.CarsServicesImpl;
 
@@ -14,7 +15,11 @@ import java.util.Scanner;
 @Named(value = "carsBean")
 @RequestScoped
 public class CarsBean extends ExtendBean implements Serializable {
+
     private static final long serialVersionUID = -293903106522268390L;
+
+    private CarsEntity carsEntity;
+
 
     CarsServices carsServices = new CarsServicesImpl();
 
@@ -33,5 +38,14 @@ public class CarsBean extends ExtendBean implements Serializable {
 
     public void setFile(Part file) {
         this.file = file;
+    }
+
+
+    public CarsEntity getCarsEntity() {
+        return carsEntity;
+    }
+
+    public void setCarsEntity(CarsEntity carsEntity) {
+        this.carsEntity = carsEntity;
     }
 }

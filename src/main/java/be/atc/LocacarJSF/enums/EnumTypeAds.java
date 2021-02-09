@@ -4,3 +4,4 @@ public enum EnumTypeAds {
     Sale,
     Leasing,
 }
+
