@@ -110,33 +110,76 @@
                         <h:outputText id="idCarsColors" value="#{carsColorsBean.carsColorsEntity.id}"
                                       styleClass="form-control"></h:outputText>
                     </div>
-                    <div class="form-group">
-                        <h:outputLabel value="Label" for="carsColorsLabel"></h:outputLabel>
-                        <h:inputText value="#{carsColorsBean.carsColorsEntity.label}" styleClass="form-control"
-                                     required="true"
-                                     pt:placeholder="Votre couleur ici..."
-                                     requiredMessage="#{bundle['fxs.insurancesList.required']}"
-                                     id="carsColorsLabel">
-                        </h:inputText>
-                        <h:message styleClass="alert alert-danger" role="alert" for="carsColorsLabel"></h:message>
-                    </div>
 
-                    <span>
+                    <h:panelGroup class="form-group">
+                        <h:outputLabel value="ID de la voiture" for="adsIdCars"></h:outputLabel>
+                        <h:inputText value="#{carsBean.carsEntity}" styleClass="form-control"
+                                     required="true"
+                                     pt:placeholder="ID cars"
+                                     requiredMessage="#{bundle['fxs.insurancesList.required']}"
+                                     id="adsIdCars">
+                            <f:converter converterId="carsConverter"/>
+                        </h:inputText>
+                        <h:message styleClass="alert alert-danger" role="alert" for="adsIdCars"></h:message>
+                    </h:panelGroup>
+
+                    <h:panelGroup class="form-group">
+                        <h:outputLabel value="Titre de l'annonce" for="adsLabel"></h:outputLabel>
+                        <h:inputText value="#{adsBean.adsEntity.label}" styleClass="form-control"
+                                     required="true"
+                                     pt:placeholder="Votre titre ici..."
+                                     requiredMessage="#{bundle['fxs.insurancesList.required']}"
+                                     id="adsLabel">
+                        </h:inputText>
+                        <h:message styleClass="alert alert-danger" role="alert" for="adsLabel"></h:message>
+                    </h:panelGroup>
+
+
+                    <h:panelGroup class="form-group">
+                        <h:outputLabel value="#{bundle['fxs.insurancesList.price']}" for="adsPrice"></h:outputLabel>
+                        <h:inputText value="#{adsBean.adsEntity.price}" styleClass="form-control"
+                                     id="adsPrice" required="true"
+                                     requiredMessage="#{bundle['fxs.insurancesList.required']}"
+                                     converterMessage="#{bundle['fxs.insurancesList.priceError']}">
+                            <f:validator validatorId="priceValidator"/>
+                        </h:inputText>
+                        <h:message for="adsPrice" id="messageValidator" styleClass="alert alert-danger "/>
+                    </h:panelGroup>
+
+                    <h:panelGroup styleClass="form-group">
+
+                        <h:selectOneMenu id="typeAdsDisplay" styleClass="form-group"
+                                         value="#{adsBean.adsEntity.typeAds}">
+                            <f:selectItems value="#{adsBean.enumTypes}"/>
+                            <h:message for="typeAdsDisplay"/>
+                            <f:ajax render="@all"/>
+                        </h:selectOneMenu>
+                    </h:panelGroup>
+
+                    <h:panelGroup id="showInsurance"
+                                  rendered="#{adsBean.adsEntity.typeAds eq 'Leasing' ? true : false}">
+                        <h:selectOneMenu id="insuranceId" styleClass="form-group">
+                            <f:selectItems value="#{insurancesBean.insurancesEntities}" var="insurance"
+                                           itemValue="#{insurance}"
+                                           itemLabel="#{insurance.label}"/>
+                            <h:message for="insuranceId"/>
+                        </h:selectOneMenu>
+                    </h:panelGroup>
+
+
+                    <h:panelGroup styleClass="form-group">
                         <h:commandButton styleClass="btn btn-outline-success btn-sm"
                                          value="#{bundle['fxs.insurancesList.save']}"
-                                         action="#{carsColorsBean.saveEdit}">
+                                         action="#{adsBean.addAds}">
                             <f:ajax execute="formPopupEdit" render="@all"></f:ajax>
                         </h:commandButton>
 
-                    </span>
-
-                    <span>
                         <h:commandButton styleClass="btn btn-outline-dark btn-sm"
                                          value="#{bundle['fxs.insurancesList.close']}"
                                          action="#{adsBean.hidePopupModal}">
                             <f:ajax render="@all"></f:ajax>
                         </h:commandButton>
-                    </span>
+                    </h:panelGroup>
                 </div>
             </h:form>
         </h:panelGroup>

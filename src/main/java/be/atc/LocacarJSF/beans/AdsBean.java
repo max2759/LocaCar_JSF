@@ -1,13 +1,18 @@
 package be.atc.LocacarJSF.beans;
 
 import be.atc.LocacarJSF.dao.entities.AdsEntity;
+import be.atc.LocacarJSF.enums.EnumTypeAds;
 import be.atc.LocacarJSF.services.AdsServices;
 import be.atc.LocacarJSF.services.AdsServicesImpl;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 
 import static java.lang.Integer.parseInt;
@@ -17,10 +22,19 @@ import static java.lang.Integer.parseInt;
 public class AdsBean extends ExtendBean implements Serializable {
     private static final long serialVersionUID = -6795998607327751632L;
 
-    AdsServices adsServices = new AdsServicesImpl();
-    AdsEntity adsEntity;
+    Date out = Date.from(ldt.atZone(ZoneId.systemDefault()).toInstant());
+    LocalDateTime outEnd = ldt.plusMonths(1);
+    private AdsEntity adsEntity;
+    private AdsServices adsServices = new AdsServicesImpl();
+    private Date dateStart = getDate();
+    LocalDateTime ldt = LocalDateTime.ofInstant(dateStart.toInstant(), ZoneId.systemDefault());
+    private Date dateEnd = Date.from(outEnd.atZone(ZoneId.systemDefault()).toInstant());
+
 
     private List<AdsEntity> adsEntities;
+
+    @Inject
+    private CarsBean carsBean;
 
     private boolean showPopup;
     private boolean addAdsEntity;
@@ -36,6 +50,7 @@ public class AdsBean extends ExtendBean implements Serializable {
     @PostConstruct
     public void init() {
         adsEntities = adsServices.findAll();
+
     }
 
     public void initialisationFields() {
@@ -68,6 +83,35 @@ public class AdsBean extends ExtendBean implements Serializable {
         showPopup = false;
     }
 
+    /**
+     * Récupérer les valeurs de l'enum EnumTypeAds
+     *
+     * @return enumTypes
+     */
+    public EnumTypeAds[] getEnumTypes() {
+        return EnumTypeAds.values();
+    }
+
+    /**
+     * @return
+     */
+    public boolean createAds() {
+        return adsServices.add(adsEntity);
+    }
+
+    public void addAds() {
+        initialisationFields();
+        log.info("Sauvegarde");
+
+        adsEntity.setCarsByIdCars(carsBean.getCarsEntity());
+        adsEntity.setDateStart(dateStart);
+        adsEntity.setDateEnd(dateEnd);
+        adsEntity.setActive(true);
+
+        createAds();
+
+        init();
+    }
 
     /////// Getters and Setters
 
@@ -125,6 +169,23 @@ public class AdsBean extends ExtendBean implements Serializable {
 
     public void setAddAdsEntity(boolean addAdsEntity) {
         this.addAdsEntity = addAdsEntity;
+    }
+
+
+    public Date getDateStart() {
+        return dateStart;
+    }
+
+    public void setDateStart(Date dateStart) {
+        this.dateStart = dateStart;
+    }
+
+    public Date getDateEnd() {
+        return dateEnd;
+    }
+
+    public void setDateEnd(Date dateEnd) {
+        this.dateEnd = dateEnd;
     }
 
 
