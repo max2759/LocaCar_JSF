@@ -77,26 +77,41 @@
                     <h:outputText value="#{contractInsurancesBean.fail}"
                                   style="color: darkred; font-weight: bold"></h:outputText>
                     <br/>
-                    <h:outputText
-                            value="#{contractInsurancesBean.contractInsurancesEntity.insurancesByIdInsurance}"></h:outputText>
-
+                    <h:outputLabel value="#{bundle['fxs.basket.insuranceActual']}"></h:outputLabel>
                     <br/>
-                    <h:selectOneMenu id="insuranceId" styleClass="form-group"
+                    <h:outputText styleClass="font-weight-bold"
+                                  value="#{contractInsurancesBean.contractInsurancesEntity.insurancesByIdInsurance.label}"></h:outputText>
+                    <br/>
+                    <h:outputLabel
+                            value="#{bundle['fxs.basket.leasingTimeAcutal']} A CALCULER #{bundle['fxs.basket.month']}"></h:outputLabel>
+                    <br/><br/>
+                    <h:outputText styleClass="font-weight-bold" value="#{bundle['fxs.basket.editing']}"></h:outputText>
+                    <br/>
+                    <h:outputLabel value="#{bundle['fxs.basket.choiceInsurance']}"></h:outputLabel>
+                    <h:selectOneMenu id="insuranceId" styleClass="form-check"
                                      value="#{insurancesBean.insurancesEntity}"
                                      converter="contractInsurancesConverter">
                         <f:ajax render="@all"></f:ajax>
                         <f:selectItems value="#{insurancesBean.insurancesEntities}" var="insurance"
                                        itemValue="#{insurance}"
                                        itemLabel="#{insurance.label}"/>
-                        <h:message for="insuranceId"/>
+                        <h:message styleClass="alert-danger" for="insuranceId"/>
                     </h:selectOneMenu>
                     <br/>
-                    <h:outputLabel value="Nombres d'années pour le leasing"></h:outputLabel>
-                    <h:inputText value="#{contractsBean.timeLeasing}"></h:inputText>
+                    <h:outputLabel value="#{bundle['fxs.basket.leasingTime']}&nbsp;"></h:outputLabel>
+                    <h:selectOneMenu styleClass="form-check" value="#{contractsBean.timeLeasing}" id="leasingTime"
+                                     required="true"
+                                     validator="leasingTimeValidator">
+                        <f:selectItem itemValue="36" itemLabel="#{bundle['fxs.basket.36Month']}"></f:selectItem>
+                        <f:selectItem itemValue="48" itemLabel="#{bundle['fxs.basket.48Month']}"></f:selectItem>
+                        <f:selectItem itemValue="60" itemLabel="#{bundle['fxs.basket.60Month']}"></f:selectItem>
+                        <h:message styleClass="alert-danger" for="leasingTime"/>
+                    </h:selectOneMenu>
                     <br/>
                     <h:commandButton styleClass="btn btn-outline-success btn-sm"
                                      action="#{contractInsurancesBean.saveEdit}"
                                      value="#{bundle['save']}">
+                        <f:ajax execute="formPopupEdit" render="@all"></f:ajax>
                     </h:commandButton>
                     <h:commandButton styleClass="btn btn-outline-dark btn-sm"
                                      value="#{bundle['close']}"
