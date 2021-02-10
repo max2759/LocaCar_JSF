@@ -13,31 +13,99 @@
 </cc:interface>
 <cc:implementation>
     <h:panelGroup rendered="#{ordersBean.showBasket}">
-        <h:dataTable id="outputMessage" styleClass="table table-hover table-responsive"
+        <h:dataTable id="outputMessage" styleClass="table table-hover"
                      value="#{contractsBean.contractsEntities}" var="c">
             <h:column>
-                <f:facet name="header">Véhicule</f:facet>
-                <h:outputText value="#{c.carsByIdCars.modelsByIdModels.brandsByIdBrands.label} "></h:outputText>
-                <h:outputText value="#{c.carsByIdCars.modelsByIdModels.label} "></h:outputText>
+                <h:outputText styleClass="font-weight-bold"
+                              value="#{c.carsByIdCars.modelsByIdModels.brandsByIdBrands.label} "></h:outputText>
+                <h:outputText styleClass="font-weight-bold"
+                              value="#{c.carsByIdCars.modelsByIdModels.label} "></h:outputText>
                 <h:outputText value="#{c.carsByIdCars.releaseYear}"></h:outputText>
                 <br/>
-                <h:outputText
-                        value="#{contractsBean.hmContractInsurances[c.id].insurancesByIdInsurance.label}"></h:outputText>
+                <h:outputText value="#{c.carsByIdCars.carsTypesByIdCarsTypes.label} "></h:outputText>
+                <h:outputText value="#{c.carsByIdCars.carsGearboxByIdCarsGearBox.label} "></h:outputText>
+                <h:outputText value="#{c.carsByIdCars.carsFuelsByIdCarsFuels.label}"></h:outputText>
+                <h:outputText value=", #{c.carsByIdCars.kilometer} km"></h:outputText>
+                <br/>
+                <h:outputText styleClass="font-weight-light"
+                              value="#{contractsBean.hmContractInsurances[c.id].insurancesByIdInsurance.label}"></h:outputText>
+                <h:form>
+                    <h:panelGroup id="panelGroupEdit"
+                                  rendered="#{c.contractTypesByIdContractType.label eq 'Leasing' ? true : false}">
+                        &nbsp;&nbsp;
+                        <h:commandLink styleClass="text-info" action="#{contractInsurancesBean.showPopupModal}">
+                            <i class="far fa-edit"> </i>
+                            <f:param name="idContract" value="#{c.id}"></f:param>
+                            <f:ajax render="@all"/>
+                        </h:commandLink>
+                    </h:panelGroup>
+                    <h:panelGroup id="panelGroupDelete">
+                        &nbsp;&nbsp;
+                        <h:commandLink styleClass="text-danger">
+                            <i class="far fa-trash-alt"></i>
+                            <f:param name="idContract" value="#{c.id}"></f:param>
+                        </h:commandLink>
+                    </h:panelGroup>
+                </h:form>
             </h:column>
             <h:column>
-                <f:facet name="header">Prix</f:facet>
-                <h:outputText value="#{c.finalPrice}"></h:outputText>
-            </h:column>
-            <h:column>
-                <f:facet name="header">Contract Type</f:facet>
-                <h:outputText value="#{c.contractTypesByIdContractType.label}"></h:outputText>
+                <f:facet name="header">#{bundle['fxs.basket.price']}</f:facet>
+                <h:outputText styleClass="font-weight-bold" value="#{c.finalPrice} €"></h:outputText>
+                <br/>
+                <h:outputText value="(#{bundle['fxs.basket.insuranceIncluded']})"></h:outputText>
             </h:column>
 
         </h:dataTable>
     </h:panelGroup>
+    <h:panelGroup>
+        <h:outputText value="#{bundle['fxs.basket.totalPrice']} "></h:outputText>
+        <h:outputText styleClass="font-weight-bold" value="#{ordersBean.priceOrder}€"></h:outputText>
+    </h:panelGroup>
     <h:panelGroup rendered="#{!ordersBean.showBasket}">
         <h:outputText value="#{bundle['fxs.basket.empty']}"></h:outputText>
     </h:panelGroup>
-    <br/>
+
+
+    <f:view>
+        <h:panelGroup id="popupEdit" layout="block" styleClass="popup-panel-overlay"
+                      rendered="#{contractInsurancesBean.showPopup}">
+
+            <h:form id="formPopupEdit">
+                <div class="popup-panel">
+                    <h:outputText value="#{contractInsurancesBean.success}"
+                                  style="color: green; font-weight: bold"></h:outputText>
+                    <h:outputText value="#{contractInsurancesBean.fail}"
+                                  style="color: darkred; font-weight: bold"></h:outputText>
+                    <br/>
+                    <h:outputText
+                            value="#{contractInsurancesBean.contractInsurancesEntity.insurancesByIdInsurance}"></h:outputText>
+
+                    <br/>
+                    <h:selectOneMenu id="insuranceId" styleClass="form-group"
+                                     value="#{insurancesBean.insurancesEntity}"
+                                     converter="contractInsurancesConverter">
+                        <f:ajax render="@all"></f:ajax>
+                        <f:selectItems value="#{insurancesBean.insurancesEntities}" var="insurance"
+                                       itemValue="#{insurance}"
+                                       itemLabel="#{insurance.label}"/>
+                        <h:message for="insuranceId"/>
+                    </h:selectOneMenu>
+                    <br/>
+                    <h:outputLabel value="Nombres d'années pour le leasing"></h:outputLabel>
+                    <h:inputText value="#{contractsBean.timeLeasing}"></h:inputText>
+                    <br/>
+                    <h:commandButton styleClass="btn btn-outline-success btn-sm"
+                                     action="#{contractInsurancesBean.saveEdit}"
+                                     value="#{bundle['save']}">
+                    </h:commandButton>
+                    <h:commandButton styleClass="btn btn-outline-dark btn-sm"
+                                     value="#{bundle['close']}"
+                                     action="#{contractInsurancesBean.hidePopupModal}">
+                        <f:ajax render="@all"></f:ajax>
+                    </h:commandButton>
+                </div>
+            </h:form>
+        </h:panelGroup>
+    </f:view>
 </cc:implementation>
 </html>

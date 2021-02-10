@@ -38,7 +38,7 @@ public class CarsEntity {
 
 
     @Basic
-    @Column(name = "Release_Year")
+    @Column(name = "Release_Year", nullable = false)
     public int getReleaseYear() {
         return releaseYear;
     }
@@ -48,7 +48,7 @@ public class CarsEntity {
     }
 
     @Basic
-    @Column(name = "HorsePower")
+    @Column(name = "HorsePower", nullable = false)
     public int getHorsePower() {
         return horsePower;
     }
@@ -58,7 +58,7 @@ public class CarsEntity {
     }
 
     @Basic
-    @Column(name = "Kilometer")
+    @Column(name = "Kilometer", nullable = false)
     public int getKilometer() {
         return kilometer;
     }

@@ -21,7 +21,9 @@ public class ContractsEntity {
     private OrdersEntity ordersByIdOrders;
     private CarsEntity carsByIdCars;
     private ContractTypesEntity contractTypesByIdContractType;
+    private double carPrice;
     private double finalPrice;
+    private int leasingTerm;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,7 +38,7 @@ public class ContractsEntity {
 
     @Basic
     @Temporal(value = TemporalType.DATE)
-    @Column(name = "Date_Start")
+    @Column(name = "Date_Start", nullable = false)
     public Date getDateStart() {
         return dateStart;
     }
@@ -119,7 +121,7 @@ public class ContractsEntity {
     }
 
     @Basic
-    @Column(name = "Final_Price")
+    @Column(name = "Final_Price", nullable = false)
     public double getFinalPrice() {
         return finalPrice;
     }
@@ -127,4 +129,25 @@ public class ContractsEntity {
     public void setFinalPrice(double finalPrice) {
         this.finalPrice = finalPrice;
     }
+
+    @Basic
+    @Column(name = "Car_Price", nullable = false)
+    public double getCarPrice() {
+        return carPrice;
+    }
+
+    public void setCarPrice(double carPrice) {
+        this.carPrice = carPrice;
+    }
+
+    @Basic
+    @Column(name = "Leasing_Term", nullable = false)
+    public int getLeasingTerm() {
+        return leasingTerm;
+    }
+
+    public void setLeasingTerm(int leasingTerm) {
+        this.leasingTerm = leasingTerm;
+    }
+
 }

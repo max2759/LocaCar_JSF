@@ -33,7 +33,7 @@ public class OrdersEntity {
 
     @Basic
     @Temporal(value = TemporalType.DATE)
-    @Column(name = "Order_Date")
+    @Column(name = "Order_Date", nullable = false)
     public Date getOrderDate() {
         return orderDate;
     }

@@ -41,7 +41,7 @@ public class UsersEntity {
 
 
     @Basic
-    @Column(name = "Firstname")
+    @Column(name = "Firstname", nullable = false)
     public String getFirstname() {
         return firstname;
     }
@@ -51,7 +51,7 @@ public class UsersEntity {
     }
 
     @Basic
-    @Column(name = "Lastname")
+    @Column(name = "Lastname", nullable = false)
     public String getLastname() {
         return lastname;
     }
@@ -61,7 +61,7 @@ public class UsersEntity {
     }
 
     @Basic
-    @Column(name = "Username")
+    @Column(name = "Username", nullable = false, unique = true)
     public String getUsername() {
         return username;
     }
@@ -71,7 +71,7 @@ public class UsersEntity {
     }
 
     @Basic
-    @Column(name = "Password")
+    @Column(name = "Password", nullable = false)
     public String getPassword() {
         return password;
     }
@@ -82,7 +82,7 @@ public class UsersEntity {
 
     @Basic
     @Temporal(value = TemporalType.DATE)
-    @Column(name = "Register_Date")
+    @Column(name = "Register_Date", nullable = false)
     public Date getRegisterDate() {
         return registerDate;
     }
@@ -93,7 +93,7 @@ public class UsersEntity {
 
     @Basic
     @Temporal(value = TemporalType.DATE)
-    @Column(name = "Birthdate")
+    @Column(name = "Birthdate", nullable = false)
     public Date getBirthdate() {
         return birthdate;
     }
