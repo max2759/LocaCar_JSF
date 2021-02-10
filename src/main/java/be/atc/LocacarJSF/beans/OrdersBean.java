@@ -12,7 +12,6 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -24,8 +23,6 @@ import java.util.List;
 public class OrdersBean extends ExtendBean implements Serializable {
     private static final long serialVersionUID = -5251107202124824837L;
 
-    // Remplacer par dateEnd Leasing
-    Date dateEnd = null;
     // Remplacer par l'utilisateur
     private int idUser = 2;
 
@@ -35,8 +32,6 @@ public class OrdersBean extends ExtendBean implements Serializable {
     boolean showBasket;
     private String success;
     private String fail;
-    @Inject
-    private AdsBean adsBean;
     @Inject
     private ContractsBean contractsBean;
     @Inject
@@ -66,8 +61,6 @@ public class OrdersBean extends ExtendBean implements Serializable {
      */
     public void addShop() {
         init();
-        log.info("AdsEntity id : " + adsBean.getAdsEntity().getId());
-
         if (ordersEntity == null) {
             log.info("Aucun Orders n'est trouvé");
             createOrders();
@@ -97,7 +90,6 @@ public class OrdersBean extends ExtendBean implements Serializable {
      * Find order : if not null, find all contracts if contract == leasing, find insurance contract !
      */
     public void findOrderAndfindContracts() {
-
         ordersEntity = findOrders_ByIdUsers_andStatusIsPending();
         if (ordersEntity != null) {
             calculatePriceOrder();
@@ -114,7 +106,6 @@ public class OrdersBean extends ExtendBean implements Serializable {
      * @return OrdersEntity or null
      */
     protected OrdersEntity findOrders_ByIdUsers_andStatusIsPending() {
-        log.info(("Recherche d'Order, par Id Users et Orders.Status == Pending"));
         return ordersServices.findByIdUsersAndStatusIsPending(idUser);
     }
 
@@ -160,14 +151,6 @@ public class OrdersBean extends ExtendBean implements Serializable {
 
     public void setOrdersEntity(OrdersEntity ordersEntity) {
         this.ordersEntity = ordersEntity;
-    }
-
-    public Date getDateEnd() {
-        return dateEnd;
-    }
-
-    public void setDateEnd(Date dateEnd) {
-        this.dateEnd = dateEnd;
     }
 
     public boolean isShowBasket() {

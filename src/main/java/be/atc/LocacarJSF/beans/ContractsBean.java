@@ -73,22 +73,18 @@ public class ContractsBean extends ExtendBean implements Serializable {
         }
 
         boolean test = contractsServices.add(contractsEntity);
-
         if (test && adsBean.getAdsEntity().getTypeAds() == EnumTypeAds.Leasing) {
             test = contractInsurancesBean.createContractInsurances(insurancesBean.getInsurancesEntity());
         }
         return test;
     }
 
-    public void updateContract(ContractsEntity contractsEntity) {
-        log.info("Contract id : " + contractsEntity.getId());
-        log.info("Time Leasing 1 " + timeLeasing);
-        log.info("Insurance id : " + insurancesBean.getInsurancesEntity().getId());
+    protected boolean updateContract(ContractsEntity contractsEntity) {
         finalPrice = contractsEntity.getCarPrice() + (insurancesBean.getInsurancesEntity().getPrice() * this.getTimeLeasing());
         calculateDateEndContract();
         contractsEntity.setDateEnd(dateEnd);
         contractsEntity.setFinalPrice(finalPrice);
-        contractsServices.update(contractsEntity);
+        return contractsServices.update(contractsEntity);
     }
 
     /**
@@ -117,7 +113,6 @@ public class ContractsBean extends ExtendBean implements Serializable {
     protected void calculateDateEndContract() {
         int year = timeLeasing / 12;
         Calendar c = Calendar.getInstance();
-        log.info("Date start : " + getDate());
         c.setTime(getDate());
         c.add(Calendar.YEAR, year);
         dateEnd = c.getTime();
@@ -129,8 +124,6 @@ public class ContractsBean extends ExtendBean implements Serializable {
      * @return True or false
      */
     protected ContractsEntity findContractByIdOrders_and_byIdCars() {
-        log.info("id order : " + ordersBean.getOrdersEntity().getId());
-        log.info("id Car : " + adsBean.getAdsEntity().getCarsByIdCars().getId());
         return contractsServices.findContractByIdOrdersAndByIdCars(ordersBean.getOrdersEntity().getId(), adsBean.getAdsEntity().getCarsByIdCars().getId());
     }
 

@@ -54,30 +54,33 @@ public class ContractInsurancesBean extends ExtendBean implements Serializable {
             int idContract = parseInt(getParam("idContract"));
             contractInsurancesEntity = contractInsurancesServices.findByIdContract(idContract);
         }
-        log.info("Contract Insurances Entity : " + contractInsurancesEntity.getId());
-        log.info("Contract Insurances Entity Insurance : " + contractInsurancesEntity.getInsurancesByIdInsurance().getLabel());
     }
 
     /**
      * Repetition code for update entity
      */
-    public void functionUpdateEntity() {
+    protected boolean functionUpdateEntity() {
         log.info("Update entity");
         contractInsurancesEntity.setInsurancesByIdInsurance(insurancesBean.getInsurancesEntity());
         contractInsurancesEntity.setInsurancePrice(insurancesBean.getInsurancesEntity().getPrice());
-        contractInsurancesServices.update(contractInsurancesEntity);
-        success = JsfUtils.returnMessage(getLocale(), "successUpdate");
+        return contractInsurancesServices.update(contractInsurancesEntity);
     }
 
     /**
      * check and save entity
      */
     public void saveEdit() {
-        log.info("Contract Insurances Entity : " + contractInsurancesEntity.getId());
-        log.info("Contract Insurances Entity Insurance : " + contractInsurancesEntity.getInsurancesByIdInsurance().getLabel());
-        functionUpdateEntity();
-
-        contractsBean.updateContract(contractInsurancesEntity.getContractsByIdContract());
+        boolean test = functionUpdateEntity();
+        if (test == true) {
+            test = contractsBean.updateContract(contractInsurancesEntity.getContractsByIdContract());
+        }
+        if (test == true) {
+            fail = "";
+            success = JsfUtils.returnMessage(getLocale(), "successUpdate");
+        } else {
+            success = "";
+            fail = JsfUtils.returnMessage(getLocale(), "errorUpdate");
+        }
         ordersBean.init();
     }
 
