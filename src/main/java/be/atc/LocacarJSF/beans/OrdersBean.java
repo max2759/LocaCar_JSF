@@ -31,7 +31,7 @@ public class OrdersBean extends ExtendBean implements Serializable {
 
     private OrdersEntity ordersEntity;
     private OrdersServices ordersServices = new OrdersServicesImpl();
-
+    private double priceOrder;
     boolean showBasket;
     private String success;
     private String fail;
@@ -40,10 +40,7 @@ public class OrdersBean extends ExtendBean implements Serializable {
     @Inject
     private ContractsBean contractsBean;
     @Inject
-    private ContractInsurancesBean contractInsurancesBean;
-    @Inject
     private UsersBean usersBean;
-    private double priceOrder;
 
     /**
      * Method post construct

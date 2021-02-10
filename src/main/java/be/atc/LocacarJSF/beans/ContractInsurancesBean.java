@@ -36,6 +36,9 @@ public class ContractInsurancesBean extends ExtendBean implements Serializable {
     @Inject
     private InsurancesBean insurancesBean;
 
+    /**
+     * Initialisation fields
+     */
     public void initialisationFields() {
         success = "";
         fail = "";
@@ -87,11 +90,16 @@ public class ContractInsurancesBean extends ExtendBean implements Serializable {
         showPopup = false;
     }
 
+    /**
+     * Create new Entity
+     *
+     * @param insurancesEntity
+     * @return
+     */
     protected boolean createContractInsurances(InsurancesEntity insurancesEntity) {
         log.info("Create new Contract Assurance for Leasing !");
 
         contractInsurancesEntity = new ContractInsurancesEntity();
-
         contractInsurancesEntity.setContractsByIdContract(contractsBean.getContractsEntity());
         contractInsurancesEntity.setInsurancesByIdInsurance(insurancesEntity);
         contractInsurancesEntity.setInsurancePrice(insurancesEntity.getPrice());
@@ -99,6 +107,12 @@ public class ContractInsurancesBean extends ExtendBean implements Serializable {
         return contractInsurancesServices.add(contractInsurancesEntity);
     }
 
+    /**
+     * Find contract insurance by idContract
+     *
+     * @param idContract
+     * @return
+     */
     protected ContractInsurancesEntity findContractInsurancesByIdContract(int idContract) {
         return contractInsurancesServices.findByIdContract(idContract);
     }

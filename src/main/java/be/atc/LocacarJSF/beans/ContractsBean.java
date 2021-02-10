@@ -10,9 +10,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author Younes - Arifi
@@ -31,6 +29,7 @@ public class ContractsBean extends ExtendBean implements Serializable {
 
     // Remplacer par le prix final
     private double finalPrice;
+    Date dateEnd;
 
     @Inject
     private ContractInsurancesBean contractInsurancesBean;
@@ -57,14 +56,14 @@ public class ContractsBean extends ExtendBean implements Serializable {
         }
 
         calculFinalPriceContract();
+        calculateDateEndContract();
 
         contractsEntity = new ContractsEntity();
         contractsEntity.setOrdersByIdOrders(ordersBean.getOrdersEntity());
         contractsEntity.setCarsByIdCars(adsBean.getAdsEntity().getCarsByIdCars());
         contractsEntity.setDateStart(getDate());
-        contractsEntity.setDateEnd(ordersBean.getDateEnd());
+        contractsEntity.setDateEnd(dateEnd);
         contractsEntity.setCarPrice(adsBean.getAdsEntity().getPrice());
-        contractsEntity.setLeasingTerm(timeLeasing);
         contractsEntity.setFinalPrice(finalPrice);
         contractsEntity.setChoiceEndLeasing(true);
         if (adsBean.getAdsEntity().getTypeAds() == EnumTypeAds.Sale) {
@@ -86,7 +85,8 @@ public class ContractsBean extends ExtendBean implements Serializable {
         log.info("Time Leasing 1 " + timeLeasing);
         log.info("Insurance id : " + insurancesBean.getInsurancesEntity().getId());
         finalPrice = contractsEntity.getCarPrice() + (insurancesBean.getInsurancesEntity().getPrice() * this.getTimeLeasing());
-        contractsEntity.setLeasingTerm(timeLeasing);
+        calculateDateEndContract();
+        contractsEntity.setDateEnd(dateEnd);
         contractsEntity.setFinalPrice(finalPrice);
         contractsServices.update(contractsEntity);
     }
@@ -109,6 +109,18 @@ public class ContractsBean extends ExtendBean implements Serializable {
      */
     public void calculFinalPriceContract() {
         this.finalPrice = adsBean.getAdsEntity().getTypeAds() == EnumTypeAds.Leasing ? (adsBean.getAdsEntity().getPrice() + (insurancesBean.getInsurancesEntity().getPrice() * timeLeasing)) : (adsBean.getAdsEntity().getPrice());
+    }
+
+    /**
+     * Calcul date end for contract
+     */
+    protected void calculateDateEndContract() {
+        int year = timeLeasing / 12;
+        Calendar c = Calendar.getInstance();
+        log.info("Date start : " + getDate());
+        c.setTime(getDate());
+        c.add(Calendar.YEAR, year);
+        dateEnd = c.getTime();
     }
 
     /**
@@ -164,5 +176,13 @@ public class ContractsBean extends ExtendBean implements Serializable {
 
     public void setTimeLeasing(int timeLeasing) {
         this.timeLeasing = timeLeasing;
+    }
+
+    public Date getDateEnd() {
+        return dateEnd;
+    }
+
+    public void setDateEnd(Date dateEnd) {
+        this.dateEnd = dateEnd;
     }
 }
