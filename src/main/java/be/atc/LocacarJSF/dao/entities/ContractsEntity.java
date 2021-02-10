@@ -23,7 +23,6 @@ public class ContractsEntity {
     private ContractTypesEntity contractTypesByIdContractType;
     private double carPrice;
     private double finalPrice;
-    private int leasingTerm;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -139,15 +138,4 @@ public class ContractsEntity {
     public void setCarPrice(double carPrice) {
         this.carPrice = carPrice;
     }
-
-    @Basic
-    @Column(name = "Leasing_Term", nullable = false)
-    public int getLeasingTerm() {
-        return leasingTerm;
-    }
-
-    public void setLeasingTerm(int leasingTerm) {
-        this.leasingTerm = leasingTerm;
-    }
-
 }
