@@ -7,8 +7,6 @@ import java.util.Objects;
 @Table(name = "cars_options", schema = "locacarjsf", catalog = "")
 public class CarsOptionsEntity {
     private int id;
-    private int idOptions;
-    private int idCars;
     private OptionsEntity optionsByIdOptions;
     private CarsEntity carsByIdCars;
 
@@ -23,37 +21,17 @@ public class CarsOptionsEntity {
         this.id = id;
     }
 
-    @Basic
-    @Column(name = "ID_Options")
-    public int getIdOptions() {
-        return idOptions;
-    }
-
-    public void setIdOptions(int idOptions) {
-        this.idOptions = idOptions;
-    }
-
-    @Basic
-    @Column(name = "ID_Cars")
-    public int getIdCars() {
-        return idCars;
-    }
-
-    public void setIdCars(int idCars) {
-        this.idCars = idCars;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CarsOptionsEntity that = (CarsOptionsEntity) o;
-        return id == that.id && idOptions == that.idOptions && idCars == that.idCars;
+        return id == that.id;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, idOptions, idCars);
+        return Objects.hash(id);
     }
 
     @ManyToOne

@@ -88,6 +88,7 @@ public class OrdersBean extends ExtendBean implements Serializable {
      * Method calculate Price Order
      */
     public void calculatePriceOrder() {
+        this.priceOrder = 0;
         List<ContractsEntity> contractsEntities = contractsBean.findAllContractsByIdOrder(ordersEntity.getId());
         for (ContractsEntity c : contractsEntities
         ) {

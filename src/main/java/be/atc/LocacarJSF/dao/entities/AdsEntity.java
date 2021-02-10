@@ -37,7 +37,7 @@ public class AdsEntity {
 
     @Basic
     @Temporal(value = TemporalType.DATE)
-    @Column(name = "Date_Start")
+    @Column(name = "Date_Start", nullable = false)
     public Date getDateStart() {
         return dateStart;
     }
@@ -48,7 +48,7 @@ public class AdsEntity {
 
     @Basic
     @Temporal(value = TemporalType.DATE)
-    @Column(name = "Date_End")
+    @Column(name = "Date_End", nullable = false)
     public Date getDateEnd() {
         return dateEnd;
     }
@@ -58,7 +58,7 @@ public class AdsEntity {
     }
 
     @Basic
-    @Column(name = "Label")
+    @Column(name = "Label", nullable = false)
     public String getLabel() {
         return label;
     }
@@ -68,7 +68,7 @@ public class AdsEntity {
     }
 
     @Basic
-    @Column(name = "Price")
+    @Column(name = "Price", nullable = false)
     public double getPrice() {
         return price;
     }

@@ -11,8 +11,6 @@ public interface InsurancesServices {
     boolean add(InsurancesEntity insurancesEntity);
 
     boolean update(InsurancesEntity insurancesEntity);
-/*
-    boolean delete(int id);*/
 
     List<InsurancesEntity> findAll();
 
