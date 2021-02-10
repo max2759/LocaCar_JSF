@@ -32,7 +32,7 @@ public class InsurancesEntity {
 
     @Basic
     @NotNull
-    @Column(name = "Label")
+    @Column(name = "Label", nullable = false, unique = true)
     public String getLabel() {
         return label;
     }
@@ -53,7 +53,7 @@ public class InsurancesEntity {
 
     @Basic
     @NotNull
-    @Column(name = "Price")
+    @Column(name = "Price", nullable = false)
     public double getPrice() {
         return price;
     }

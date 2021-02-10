@@ -23,7 +23,7 @@ public class CountriesEntity {
     }
 
     @Basic
-    @Column(name = "Label")
+    @Column(name = "Label", nullable = false)
     public String getLabel() {
         return label;
     }

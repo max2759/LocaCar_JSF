@@ -10,9 +10,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author Younes - Arifi
@@ -29,9 +27,9 @@ public class ContractsBean extends ExtendBean implements Serializable {
 
     Map<Integer, ContractInsurancesEntity> hmContractInsurances = new HashMap<Integer, ContractInsurancesEntity>();
 
-
     // Remplacer par le prix final
     private double finalPrice;
+    Date dateEnd;
 
     @Inject
     private ContractInsurancesBean contractInsurancesBean;
@@ -58,12 +56,14 @@ public class ContractsBean extends ExtendBean implements Serializable {
         }
 
         calculFinalPriceContract();
+        calculateDateEndContract();
 
         contractsEntity = new ContractsEntity();
         contractsEntity.setOrdersByIdOrders(ordersBean.getOrdersEntity());
         contractsEntity.setCarsByIdCars(adsBean.getAdsEntity().getCarsByIdCars());
         contractsEntity.setDateStart(getDate());
-        contractsEntity.setDateEnd(ordersBean.getDateEnd());
+        contractsEntity.setDateEnd(dateEnd);
+        contractsEntity.setCarPrice(adsBean.getAdsEntity().getPrice());
         contractsEntity.setFinalPrice(finalPrice);
         contractsEntity.setChoiceEndLeasing(true);
         if (adsBean.getAdsEntity().getTypeAds() == EnumTypeAds.Sale) {
@@ -72,12 +72,19 @@ public class ContractsBean extends ExtendBean implements Serializable {
             contractsEntity.setContractTypesByIdContractType(contractTypesBean.findContractTypesById(2));
         }
 
-        Boolean test = contractsServices.add(contractsEntity);
-
+        boolean test = contractsServices.add(contractsEntity);
         if (test && adsBean.getAdsEntity().getTypeAds() == EnumTypeAds.Leasing) {
             test = contractInsurancesBean.createContractInsurances(insurancesBean.getInsurancesEntity());
         }
         return test;
+    }
+
+    protected boolean updateContract(ContractsEntity contractsEntity) {
+        finalPrice = contractsEntity.getCarPrice() + (insurancesBean.getInsurancesEntity().getPrice() * this.getTimeLeasing());
+        calculateDateEndContract();
+        contractsEntity.setDateEnd(dateEnd);
+        contractsEntity.setFinalPrice(finalPrice);
+        return contractsServices.update(contractsEntity);
     }
 
     /**
@@ -97,7 +104,18 @@ public class ContractsBean extends ExtendBean implements Serializable {
      * Calcul FinalPrice in Contract !!
      */
     public void calculFinalPriceContract() {
-        this.finalPrice = adsBean.getAdsEntity().getTypeAds() == EnumTypeAds.Leasing ? (adsBean.getAdsEntity().getPrice() + (insurancesBean.getInsurancesEntity().getPrice() * timeLeasing * 12)) : (adsBean.getAdsEntity().getPrice());
+        this.finalPrice = adsBean.getAdsEntity().getTypeAds() == EnumTypeAds.Leasing ? (adsBean.getAdsEntity().getPrice() + (insurancesBean.getInsurancesEntity().getPrice() * timeLeasing)) : (adsBean.getAdsEntity().getPrice());
+    }
+
+    /**
+     * Calcul date end for contract
+     */
+    protected void calculateDateEndContract() {
+        int year = timeLeasing / 12;
+        Calendar c = Calendar.getInstance();
+        c.setTime(getDate());
+        c.add(Calendar.YEAR, year);
+        dateEnd = c.getTime();
     }
 
     /**
@@ -106,8 +124,6 @@ public class ContractsBean extends ExtendBean implements Serializable {
      * @return True or false
      */
     protected ContractsEntity findContractByIdOrders_and_byIdCars() {
-        log.info("id order : " + ordersBean.getOrdersEntity().getId());
-        log.info("id Car : " + adsBean.getAdsEntity().getCarsByIdCars().getId());
         return contractsServices.findContractByIdOrdersAndByIdCars(ordersBean.getOrdersEntity().getId(), adsBean.getAdsEntity().getCarsByIdCars().getId());
     }
 
@@ -153,5 +169,13 @@ public class ContractsBean extends ExtendBean implements Serializable {
 
     public void setTimeLeasing(int timeLeasing) {
         this.timeLeasing = timeLeasing;
+    }
+
+    public Date getDateEnd() {
+        return dateEnd;
+    }
+
+    public void setDateEnd(Date dateEnd) {
+        this.dateEnd = dateEnd;
     }
 }

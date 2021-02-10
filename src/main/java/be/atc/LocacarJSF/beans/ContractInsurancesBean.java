@@ -4,11 +4,14 @@ import be.atc.LocacarJSF.dao.entities.ContractInsurancesEntity;
 import be.atc.LocacarJSF.dao.entities.InsurancesEntity;
 import be.atc.LocacarJSF.services.ContractInsurancesServices;
 import be.atc.LocacarJSF.services.ContractInsurancesServicesImpl;
+import utils.JsfUtils;
 
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
+
+import static java.lang.Integer.parseInt;
 
 /**
  * @author Younes - Arifi
@@ -22,20 +25,97 @@ public class ContractInsurancesBean extends ExtendBean implements Serializable {
     ContractInsurancesServices contractInsurancesServices = new ContractInsurancesServicesImpl();
     ContractInsurancesEntity contractInsurancesEntity;
 
+    String success;
+    String fail;
+    private boolean showPopup;
+
     @Inject
     private ContractsBean contractsBean;
+    @Inject
+    private OrdersBean ordersBean;
+    @Inject
+    private InsurancesBean insurancesBean;
 
+    /**
+     * Initialisation fields
+     */
+    public void initialisationFields() {
+        success = "";
+        fail = "";
+    }
+
+    /**
+     * Open popup when edit
+     */
+    public void showPopupModal() {
+        log.info("Show PopupModal");
+        showPopup = true;
+        if (getParam("idContract") != null) {
+            int idContract = parseInt(getParam("idContract"));
+            contractInsurancesEntity = contractInsurancesServices.findByIdContract(idContract);
+        }
+    }
+
+    /**
+     * Repetition code for update entity
+     */
+    protected boolean functionUpdateEntity() {
+        log.info("Update entity");
+        contractInsurancesEntity.setInsurancesByIdInsurance(insurancesBean.getInsurancesEntity());
+        contractInsurancesEntity.setInsurancePrice(insurancesBean.getInsurancesEntity().getPrice());
+        return contractInsurancesServices.update(contractInsurancesEntity);
+    }
+
+    /**
+     * check and save entity
+     */
+    public void saveEdit() {
+        boolean test = functionUpdateEntity();
+        if (test == true) {
+            test = contractsBean.updateContract(contractInsurancesEntity.getContractsByIdContract());
+        }
+        if (test == true) {
+            fail = "";
+            success = JsfUtils.returnMessage(getLocale(), "successUpdate");
+        } else {
+            success = "";
+            fail = JsfUtils.returnMessage(getLocale(), "errorUpdate");
+        }
+        ordersBean.init();
+    }
+
+    /**
+     * Close popup
+     */
+    public void hidePopupModal() {
+        log.info("Hide PopupModal ");
+        initialisationFields();
+        showPopup = false;
+    }
+
+    /**
+     * Create new Entity
+     *
+     * @param insurancesEntity
+     * @return
+     */
     protected boolean createContractInsurances(InsurancesEntity insurancesEntity) {
         log.info("Create new Contract Assurance for Leasing !");
 
         contractInsurancesEntity = new ContractInsurancesEntity();
-
         contractInsurancesEntity.setContractsByIdContract(contractsBean.getContractsEntity());
         contractInsurancesEntity.setInsurancesByIdInsurance(insurancesEntity);
+        contractInsurancesEntity.setInsurancePrice(insurancesEntity.getPrice());
 
         return contractInsurancesServices.add(contractInsurancesEntity);
     }
 
+    /**
+     * Find contract insurance by idContract
+     *
+     * @param idContract
+     * @return
+     */
     protected ContractInsurancesEntity findContractInsurancesByIdContract(int idContract) {
         return contractInsurancesServices.findByIdContract(idContract);
     }
@@ -47,4 +127,29 @@ public class ContractInsurancesBean extends ExtendBean implements Serializable {
     public void setContractInsurancesEntity(ContractInsurancesEntity contractInsurancesEntity) {
         this.contractInsurancesEntity = contractInsurancesEntity;
     }
+
+    public boolean isShowPopup() {
+        return showPopup;
+    }
+
+    public void setShowPopup(boolean showPopup) {
+        this.showPopup = showPopup;
+    }
+
+    public String getSuccess() {
+        return success;
+    }
+
+    public void setSuccess(String success) {
+        this.success = success;
+    }
+
+    public String getFail() {
+        return fail;
+    }
+
+    public void setFail(String fail) {
+        this.fail = fail;
+    }
 }
+

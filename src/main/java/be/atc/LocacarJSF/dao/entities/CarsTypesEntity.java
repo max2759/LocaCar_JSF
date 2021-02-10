@@ -30,7 +30,7 @@ public class CarsTypesEntity {
     }
 
     @Basic
-    @Column(name = "Label")
+    @Column(name = "Label", nullable = false, unique = true)
     public String getLabel() {
         return label;
     }
@@ -40,7 +40,7 @@ public class CarsTypesEntity {
     }
 
     @Basic
-    @Column(name = "Seats_Numbers")
+    @Column(name = "Seats_Numbers", nullable = false)
     public int getSeatsNumbers() {
         return seatsNumbers;
     }
@@ -50,7 +50,7 @@ public class CarsTypesEntity {
     }
 
     @Basic
-    @Column(name = "Doors_Numbers")
+    @Column(name = "Doors_Numbers", nullable = false)
     public int getDoorsNumbers() {
         return doorsNumbers;
     }

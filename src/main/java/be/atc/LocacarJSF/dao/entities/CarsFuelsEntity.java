@@ -27,7 +27,7 @@ public class CarsFuelsEntity {
     }
 
     @Basic
-    @Column(name = "Label")
+    @Column(name = "Label", nullable = false, unique = true)
     public String getLabel() {
         return label;
     }
