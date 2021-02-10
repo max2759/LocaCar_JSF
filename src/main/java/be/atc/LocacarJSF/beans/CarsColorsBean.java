@@ -105,7 +105,7 @@ public class CarsColorsBean extends ExtendBean implements Serializable {
      */
     public void saveEdit() {
 
-        List<CarsColorsEntity> carsColorsEntityList = carsColorsServices.findByLabel(carsColorsEntity.getLabel());
+        List<CarsColorsEntity> carsColorsEntityList = carsColorsServices.findByLabelList(carsColorsEntity.getLabel());
         initialisationFields();
 
         log.info("Save edit");

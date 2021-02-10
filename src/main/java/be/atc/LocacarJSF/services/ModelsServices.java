@@ -15,4 +15,8 @@ public interface ModelsServices {
     public ModelsEntity findById(int id);
 
     public List<ModelsEntity> findByLabel(String label);
+
+    public ModelsEntity findByLabelEntity(String label);
+
+    List<ModelsEntity> findModelsByBrandsId(int brandsID);
 }

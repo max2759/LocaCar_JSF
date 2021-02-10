@@ -20,17 +20,19 @@ import static java.lang.Integer.parseInt;
 @Named(value = "adsBean")
 @SessionScoped
 public class AdsBean extends ExtendBean implements Serializable {
+
     private static final long serialVersionUID = -6795998607327751632L;
 
+    private Date dateStart = getDate();
+
+    LocalDateTime ldt = LocalDateTime.ofInstant(dateStart.toInstant(), ZoneId.systemDefault());
     Date out = Date.from(ldt.atZone(ZoneId.systemDefault()).toInstant());
     LocalDateTime outEnd = ldt.plusMonths(1);
-    private AdsEntity adsEntity;
-    private AdsServices adsServices = new AdsServicesImpl();
-    private Date dateStart = getDate();
-    LocalDateTime ldt = LocalDateTime.ofInstant(dateStart.toInstant(), ZoneId.systemDefault());
+
     private Date dateEnd = Date.from(outEnd.atZone(ZoneId.systemDefault()).toInstant());
 
-
+    private AdsEntity adsEntity;
+    private AdsServices adsServices = new AdsServicesImpl();
     private List<AdsEntity> adsEntities;
 
     @Inject

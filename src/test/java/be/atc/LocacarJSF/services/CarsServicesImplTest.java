@@ -16,7 +16,6 @@ class CarsServicesImplTest {
 
     public static Logger log = Logger.getLogger(CarsServicesImplTest.class);
 
-
     private CarsServices carsServices;
 
     @BeforeEach
@@ -30,6 +29,7 @@ class CarsServicesImplTest {
         log.info("Appel après chaque test");
         carsServices = null;
     }
+
 
     @Test
     void findByIdCar_shouldBeReturnEntity() {

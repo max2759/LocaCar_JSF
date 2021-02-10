@@ -1,8 +1,8 @@
 package be.atc.LocacarJSF.converters;
 
-import be.atc.LocacarJSF.dao.entities.BrandsEntity;
-import be.atc.LocacarJSF.services.BrandsServices;
-import be.atc.LocacarJSF.services.BrandsServicesImpl;
+import be.atc.LocacarJSF.dao.entities.CarsTypesEntity;
+import be.atc.LocacarJSF.services.CarsTypesServices;
+import be.atc.LocacarJSF.services.CarsTypesServicesImpl;
 import utils.JsfUtils;
 
 import javax.faces.application.FacesMessage;
@@ -13,26 +13,23 @@ import javax.faces.convert.ConverterException;
 import javax.faces.convert.FacesConverter;
 import java.util.Locale;
 
-@FacesConverter("brandsConverter")
-public class BrandsConverter implements Converter {
+@FacesConverter("carTypesConverter")
+public class CarsTypesConverter implements Converter {
 
-    BrandsServices brandsServices = new BrandsServicesImpl();
+    CarsTypesServices carsTypesServices = new CarsTypesServicesImpl();
     private Locale locale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
 
-
     @Override
-    public BrandsEntity getAsObject(FacesContext facesContext, UIComponent uiComponent, String value) {
+    public Object getAsObject(FacesContext facesContext, UIComponent uiComponent, String value) {
 
-        BrandsEntity brandsEntity;
+        CarsTypesEntity carsTypesEntity;
 
         if (value != null) {
-            brandsEntity = brandsServices.findByLabel(value);
-            return brandsEntity;
+            carsTypesEntity = carsTypesServices.findByLabel(value);
+            return carsTypesEntity;
         } else {
             throw new ConverterException(new FacesMessage(JsfUtils.returnMessage(locale, "fxs.brandsConverter.error")));
         }
-
-
     }
 
     @Override

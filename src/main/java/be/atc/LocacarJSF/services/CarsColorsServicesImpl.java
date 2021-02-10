@@ -41,9 +41,17 @@ public class CarsColorsServicesImpl implements CarsColorsServices {
     }
 
     @Override
-    public List<CarsColorsEntity> findByLabel(String label) {
+    public CarsColorsEntity findByLabel(String label) {
         if (label != null) {
             return carsColorsDAO.findByLabel(label);
+        }
+        return null;
+    }
+
+    @Override
+    public List<CarsColorsEntity> findByLabelList(String label) {
+        if (label != null) {
+            return carsColorsDAO.findByLabelList(label);
         }
         return null;
     }
