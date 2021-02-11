@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -75,22 +75,22 @@ class AdsServicesImplTest {
 
     @Test
     void checkIfAdsDateEndIsGreaterThanToday_shouldBeReturnTrue() {
-        Date date = new Date();
+        LocalDateTime date = LocalDateTime.now();
 
         // Mettre l'Id d'une entité qui a une date de fin supérieur à aujourd'hui
-        AdsEntity adsEntity = adsServices.findById(1);
-        Boolean test = !adsEntity.getDateEnd().before(date) == true ? true : false;
+        AdsEntity adsEntity = adsServices.findById(5);
+        Boolean test = !adsEntity.getDateEnd().isBefore(date) == true ? true : false;
 
         assertThat(test).isEqualTo(true);
     }
 
     @Test
     void checkIfAdsDateEndIsLessThanToday_shouldBeReturnFalse() {
-        Date date = new Date();
+        LocalDateTime date = LocalDateTime.now();
 
-        // Mettre l'Id d'une entité qui a une date de fin supérieur à aujourd'hui
-        AdsEntity adsEntity = adsServices.findById(1);
-        Boolean test = adsEntity.getDateEnd().before(date) == true ? true : false;
+        // Mettre l'Id d'une entité qui a une date de fin inférieur à aujourd'hui
+        AdsEntity adsEntity = adsServices.findById(6);
+        Boolean test = adsEntity.getDateEnd().isBefore(date) == true ? true : false;
 
 
         assertThat(test).isEqualTo(false);
@@ -99,7 +99,7 @@ class AdsServicesImplTest {
     @Test
     void checkIfAdsIsActive_shouldBeReturnTrue() {
         // Mettre l'Id d'une entité : isActive = true
-        AdsEntity adsEntity = adsServices.findById(1);
+        AdsEntity adsEntity = adsServices.findById(5);
         Boolean test = adsEntity.isActive() == true ? true : false;
 
 
@@ -110,7 +110,7 @@ class AdsServicesImplTest {
     void checkIfAdsIsActive_ShouldBeReturnFalse() {
 
         // Mettre l'Id d'une entité : isActive = false
-        AdsEntity adsEntity = adsServices.findById(2);
+        AdsEntity adsEntity = adsServices.findById(6);
         Boolean test = adsEntity.isActive() == true ? true : false;
 
 

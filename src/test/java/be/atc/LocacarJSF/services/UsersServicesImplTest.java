@@ -9,7 +9,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -34,7 +34,7 @@ class UsersServicesImplTest {
 
     @Test
     void add() {
-        Date currentDate = new Date();
+        LocalDateTime currentDate = LocalDateTime.now();
         SimpleDateFormat formater = new SimpleDateFormat("yyyy-mm-dd");
 
         log.info("debut du test");

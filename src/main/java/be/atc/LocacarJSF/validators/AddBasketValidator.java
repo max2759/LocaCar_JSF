@@ -11,7 +11,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.validator.FacesValidator;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.Locale;
 
 /**
@@ -34,11 +34,11 @@ public class AddBasketValidator implements Validator {
     @Override
     public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
 
-        Date date = new Date();
+        LocalDateTime date = LocalDateTime.now();
 
         AdsEntity adsEntity = (AdsEntity) value;
 
-        Boolean test = (adsEntity.isActive() == true) && (adsEntity.getCarsByIdCars().isActive() == true) && (!adsEntity.getDateEnd().before(date)) ? true : false;
+        Boolean test = (adsEntity.isActive() == true) && (adsEntity.getCarsByIdCars().isActive() == true) && (!adsEntity.getDateEnd().isBefore(date)) ? true : false;
 
         log.info("Validator : ads active, car active, dateEnd !");
 

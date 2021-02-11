@@ -1,8 +1,8 @@
 package be.atc.LocacarJSF.dao.entities;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.Date;
 import java.util.Objects;
 
 @Entity
@@ -19,8 +19,8 @@ public class UsersEntity {
     private String lastname;
     private String username;
     private String password;
-    private Date registerDate;
-    private Date birthdate;
+    private LocalDateTime registerDate;
+    private LocalDateTime birthdate;
     private String vatNumber;
     private boolean isActive;
     private Collection<AddressesEntity> addressesById;
@@ -81,24 +81,22 @@ public class UsersEntity {
     }
 
     @Basic
-    @Temporal(value = TemporalType.DATE)
     @Column(name = "Register_Date", nullable = false)
-    public Date getRegisterDate() {
+    public LocalDateTime getRegisterDate() {
         return registerDate;
     }
 
-    public void setRegisterDate(Date registerDate) {
+    public void setRegisterDate(LocalDateTime registerDate) {
         this.registerDate = registerDate;
     }
 
     @Basic
-    @Temporal(value = TemporalType.DATE)
     @Column(name = "Birthdate", nullable = false)
-    public Date getBirthdate() {
+    public LocalDateTime getBirthdate() {
         return birthdate;
     }
 
-    public void setBirthdate(Date birthdate) {
+    public void setBirthdate(LocalDateTime birthdate) {
         this.birthdate = birthdate;
     }
 

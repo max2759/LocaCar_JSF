@@ -16,6 +16,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -94,7 +95,7 @@ public class UsersBean implements Serializable {
     public void addUser() throws ParseException, NoSuchAlgorithmException {
 
         log.info("begin addUserBean");
-        Date currentDate = new Date();
+        LocalDateTime currentDate = LocalDateTime.now();
         SimpleDateFormat formater = new SimpleDateFormat("yyyy-mm-dd");
         String cur = formater.format(currentDate);
         Date curDate = formater.parse(cur);

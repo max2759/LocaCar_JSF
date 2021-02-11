@@ -10,7 +10,10 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
-import java.util.*;
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author Younes - Arifi
@@ -29,7 +32,7 @@ public class ContractsBean extends ExtendBean implements Serializable {
 
     // Remplacer par le prix final
     private double finalPrice;
-    Date dateEnd;
+    LocalDateTime dateEnd;
 
     @Inject
     private ContractInsurancesBean contractInsurancesBean;
@@ -111,11 +114,7 @@ public class ContractsBean extends ExtendBean implements Serializable {
      * Calcul date end for contract
      */
     protected void calculateDateEndContract() {
-        int year = timeLeasing / 12;
-        Calendar c = Calendar.getInstance();
-        c.setTime(getDate());
-        c.add(Calendar.YEAR, year);
-        dateEnd = c.getTime();
+        dateEnd = LocalDateTime.now().plusMonths(timeLeasing);
     }
 
     /**
@@ -171,11 +170,11 @@ public class ContractsBean extends ExtendBean implements Serializable {
         this.timeLeasing = timeLeasing;
     }
 
-    public Date getDateEnd() {
+    public LocalDateTime getDateEnd() {
         return dateEnd;
     }
 
-    public void setDateEnd(Date dateEnd) {
+    public void setDateEnd(LocalDateTime dateEnd) {
         this.dateEnd = dateEnd;
     }
 }

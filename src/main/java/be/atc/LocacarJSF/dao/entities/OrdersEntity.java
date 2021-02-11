@@ -3,8 +3,8 @@ package be.atc.LocacarJSF.dao.entities;
 import be.atc.LocacarJSF.enums.EnumOrderStatut;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.Date;
 import java.util.Objects;
 
 @Entity
@@ -15,7 +15,7 @@ import java.util.Objects;
 })
 public class OrdersEntity {
     private int id;
-    private Date orderDate;
+    private LocalDateTime orderDate;
     private Collection<ContractsEntity> contractsById;
     private UsersEntity usersByIdUsers;
     private EnumOrderStatut orderStatut;
@@ -32,13 +32,12 @@ public class OrdersEntity {
     }
 
     @Basic
-    @Temporal(value = TemporalType.DATE)
     @Column(name = "Order_Date", nullable = false)
-    public Date getOrderDate() {
+    public LocalDateTime getOrderDate() {
         return orderDate;
     }
 
-    public void setOrderDate(Date orderDate) {
+    public void setOrderDate(LocalDateTime orderDate) {
         this.orderDate = orderDate;
     }
 

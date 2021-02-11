@@ -1,8 +1,8 @@
 package be.atc.LocacarJSF.dao.entities;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.Date;
 import java.util.Objects;
 
 @Entity
@@ -14,8 +14,8 @@ import java.util.Objects;
 })
 public class ContractsEntity {
     private int id;
-    private Date dateStart;
-    private Date dateEnd;
+    private LocalDateTime dateStart;
+    private LocalDateTime dateEnd;
     private boolean choiceEndLeasing;
     private Collection<ContractInsurancesEntity> contractInsurancesById;
     private OrdersEntity ordersByIdOrders;
@@ -36,24 +36,22 @@ public class ContractsEntity {
     }
 
     @Basic
-    @Temporal(value = TemporalType.DATE)
     @Column(name = "Date_Start", nullable = false)
-    public Date getDateStart() {
+    public LocalDateTime getDateStart() {
         return dateStart;
     }
 
-    public void setDateStart(Date dateStart) {
+    public void setDateStart(LocalDateTime dateStart) {
         this.dateStart = dateStart;
     }
 
     @Basic
-    @Temporal(value = TemporalType.DATE)
     @Column(name = "Date_End")
-    public Date getDateEnd() {
+    public LocalDateTime getDateEnd() {
         return dateEnd;
     }
 
-    public void setDateEnd(Date dateEnd) {
+    public void setDateEnd(LocalDateTime dateEnd) {
         this.dateEnd = dateEnd;
     }
 
