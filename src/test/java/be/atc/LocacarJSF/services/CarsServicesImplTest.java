@@ -33,7 +33,7 @@ class CarsServicesImplTest {
 
     @Test
     void findByIdCar_shouldBeReturnEntity() {
-        CarsEntity carsEntity = carsServices.findById(1);
+        CarsEntity carsEntity = carsServices.findById(5);
         Boolean test;
         if (carsEntity == null) {
             test = false;

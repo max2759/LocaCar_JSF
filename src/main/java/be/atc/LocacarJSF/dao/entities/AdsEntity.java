@@ -3,8 +3,8 @@ package be.atc.LocacarJSF.dao.entities;
 import be.atc.LocacarJSF.enums.EnumTypeAds;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.Date;
 import java.util.Objects;
 
 @Entity
@@ -15,8 +15,8 @@ import java.util.Objects;
 public class AdsEntity {
     private int id;
 
-    private Date dateStart;
-    private Date dateEnd;
+    private LocalDateTime dateStart;
+    private LocalDateTime dateEnd;
     private String label;
     private boolean isActive;
     private CarsEntity carsByIdCars;
@@ -36,24 +36,22 @@ public class AdsEntity {
     }
 
     @Basic
-    @Temporal(value = TemporalType.DATE)
     @Column(name = "Date_Start", nullable = false)
-    public Date getDateStart() {
+    public LocalDateTime getDateStart() {
         return dateStart;
     }
 
-    public void setDateStart(Date dateStart) {
+    public void setDateStart(LocalDateTime dateStart) {
         this.dateStart = dateStart;
     }
 
     @Basic
-    @Temporal(value = TemporalType.DATE)
     @Column(name = "Date_End", nullable = false)
-    public Date getDateEnd() {
+    public LocalDateTime getDateEnd() {
         return dateEnd;
     }
 
-    public void setDateEnd(Date dateEnd) {
+    public void setDateEnd(LocalDateTime dateEnd) {
         this.dateEnd = dateEnd;
     }
 
