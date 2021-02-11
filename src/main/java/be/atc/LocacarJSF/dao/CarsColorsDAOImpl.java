@@ -111,6 +111,7 @@ public class CarsColorsDAOImpl implements CarsColorsDAO {
         try {
             return em.createNamedQuery("CarsColors.findByLabel",
                     CarsColorsEntity.class)
+                    .setParameter("label", label)
                     .getResultList();
         } catch (Exception ex) {
             log.info("Nothing");
