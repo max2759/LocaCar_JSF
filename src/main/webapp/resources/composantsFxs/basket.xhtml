@@ -12,7 +12,13 @@
 >
 </cc:interface>
 <cc:implementation>
-    <h:panelGroup rendered="#{ordersBean.showBasket}">
+    <h:panelGroup id="basketPanelGroup" rendered="#{ordersBean.showBasket}">
+
+        <h:outputText value="#{contractsBean.success}"
+                      style="color: green; font-weight: bold"></h:outputText>
+        <h:outputText value="#{contractsBean.fail}"
+                      style="color: darkred; font-weight: bold"></h:outputText>
+        <br/>
         <h:dataTable id="outputMessage" styleClass="table table-hover"
                      value="#{contractsBean.contractsEntities}" var="c">
             <h:column>
@@ -41,9 +47,10 @@
                     </h:panelGroup>
                     <h:panelGroup id="panelGroupDelete">
                         &nbsp;&nbsp;
-                        <h:commandLink styleClass="text-danger">
+                        <h:commandLink styleClass="text-danger" action="#{contractsBean.deleteContract}">
                             <i class="far fa-trash-alt"></i>
                             <f:param name="idContract" value="#{c.id}"></f:param>
+                            <f:ajax render="@all"/>
                         </h:commandLink>
                     </h:panelGroup>
                 </h:form>

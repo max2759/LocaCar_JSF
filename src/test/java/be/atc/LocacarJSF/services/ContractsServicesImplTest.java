@@ -100,5 +100,7 @@ class ContractsServicesImplTest {
         log.info("Le test vaut : " + test);
         assertThat(test).isEqualTo(false);
 
+
     }
+
 }

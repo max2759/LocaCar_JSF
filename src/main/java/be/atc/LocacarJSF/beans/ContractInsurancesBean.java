@@ -1,6 +1,7 @@
 package be.atc.LocacarJSF.beans;
 
 import be.atc.LocacarJSF.dao.entities.ContractInsurancesEntity;
+import be.atc.LocacarJSF.dao.entities.ContractsEntity;
 import be.atc.LocacarJSF.dao.entities.InsurancesEntity;
 import be.atc.LocacarJSF.services.ContractInsurancesServices;
 import be.atc.LocacarJSF.services.ContractInsurancesServicesImpl;
@@ -118,6 +119,17 @@ public class ContractInsurancesBean extends ExtendBean implements Serializable {
      */
     protected ContractInsurancesEntity findContractInsurancesByIdContract(int idContract) {
         return contractInsurancesServices.findByIdContract(idContract);
+    }
+
+    /**
+     * Delete contract insurance for leasing
+     *
+     * @param contractsEntity
+     * @return
+     */
+    protected boolean deleteContractInsurance(ContractsEntity contractsEntity) {
+        contractInsurancesEntity = contractInsurancesServices.findByIdContract(contractsEntity.getId());
+        return contractInsurancesEntity != null ? contractInsurancesServices.delete(contractInsurancesEntity.getId()) : false;
     }
 
     public ContractInsurancesEntity getContractInsurancesEntity() {
