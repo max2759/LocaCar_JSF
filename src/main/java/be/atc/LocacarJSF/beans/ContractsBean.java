@@ -5,7 +5,9 @@ import be.atc.LocacarJSF.dao.entities.ContractsEntity;
 import be.atc.LocacarJSF.enums.EnumTypeAds;
 import be.atc.LocacarJSF.services.ContractsServices;
 import be.atc.LocacarJSF.services.ContractsServicesImpl;
+import utils.JsfUtils;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -33,6 +35,8 @@ public class ContractsBean extends ExtendBean implements Serializable {
     // Remplacer par le prix final
     private double finalPrice;
     LocalDateTime dateEnd;
+    String success;
+    String fail;
 
     @Inject
     private ContractInsurancesBean contractInsurancesBean;
@@ -45,6 +49,19 @@ public class ContractsBean extends ExtendBean implements Serializable {
     @Inject
     private InsurancesBean insurancesBean;
     private int timeLeasing;
+
+    @PostConstruct
+    public void init() {
+        initialisationFields();
+    }
+
+    /**
+     * Initialisation fields
+     */
+    public void initialisationFields() {
+        success = "";
+        fail = "";
+    }
 
     /**
      * Create contract
@@ -126,6 +143,37 @@ public class ContractsBean extends ExtendBean implements Serializable {
         return contractsServices.findContractByIdOrdersAndByIdCars(ordersBean.getOrdersEntity().getId(), adsBean.getAdsEntity().getCarsByIdCars().getId());
     }
 
+
+    /**
+     * Method to delete contract
+     */
+    public void deleteContract() {
+        contractsEntity = contractsServices.findById(Integer.parseInt(getParam("idContract")));
+
+        if (contractsEntity == null) {
+            success = "";
+            fail = JsfUtils.returnMessage(getLocale(), "failDelete");
+            return;
+        }
+
+        boolean test = true;
+        if (contractsEntity.getContractTypesByIdContractType().getLabel().equalsIgnoreCase("Leasing")) {
+            test = contractInsurancesBean.deleteContractInsurance(contractsEntity);
+        }
+        if (test) {
+            test = contractsServices.delete(contractsEntity.getId());
+        }
+
+        if (test) {
+            fail = "";
+            success = JsfUtils.returnMessage(getLocale(), "successDelete");
+        } else {
+            success = "";
+            fail = JsfUtils.returnMessage(getLocale(), "failDelete");
+        }
+        ordersBean.init();
+    }
+
     protected List<ContractsEntity> findAllContractsByIdOrder(int idOrder) {
         return contractsServices.findAllContractsByIdOrder(idOrder);
     }
@@ -176,5 +224,21 @@ public class ContractsBean extends ExtendBean implements Serializable {
 
     public void setDateEnd(LocalDateTime dateEnd) {
         this.dateEnd = dateEnd;
+    }
+
+    public String getSuccess() {
+        return success;
+    }
+
+    public void setSuccess(String success) {
+        this.success = success;
+    }
+
+    public String getFail() {
+        return fail;
+    }
+
+    public void setFail(String fail) {
+        this.fail = fail;
     }
 }
