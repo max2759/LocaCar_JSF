@@ -38,7 +38,6 @@ public class CarsBean extends ExtendBean implements Serializable {
     public void addCar() {
         log.info("Début ajout voiture");
 
-        carsEntity.setCarsPicturesByIdCarsPictures(picturesBean.getCarsPicturesEntity());
         carsEntity.setActive(true);
 
         carsServices.add(carsEntity);

@@ -22,9 +22,9 @@ public class CarsEntity {
     private CarsGearboxEntity carsGearboxByIdCarsGearBox;
     private CarsFuelsEntity carsFuelsByIdCarsFuels;
     private CarsColorsEntity carsColorsByIdCarsColors;
-    private CarsPicturesEntity carsPicturesByIdCarsPictures;
     private Collection<CarsOptionsEntity> carsOptionsById;
     private Collection<ContractsEntity> contractsById;
+    private Collection<CarsPicturesEntity> carsPicturesById;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,7 +36,6 @@ public class CarsEntity {
     public void setId(int id) {
         this.id = id;
     }
-
 
     @Basic
     @Column(name = "Release_Year", nullable = false)
@@ -150,16 +149,6 @@ public class CarsEntity {
         this.carsColorsByIdCarsColors = carsColorsByIdCarsColors;
     }
 
-    @ManyToOne
-    @JoinColumn(name = "ID_Cars_Pictures", referencedColumnName = "id", nullable = false)
-    public CarsPicturesEntity getCarsPicturesByIdCarsPictures() {
-        return carsPicturesByIdCarsPictures;
-    }
-
-    public void setCarsPicturesByIdCarsPictures(CarsPicturesEntity carsPicturesByIdCarsPictures) {
-        this.carsPicturesByIdCarsPictures = carsPicturesByIdCarsPictures;
-    }
-
     @OneToMany(mappedBy = "carsByIdCars")
     public Collection<CarsOptionsEntity> getCarsOptionsById() {
         return carsOptionsById;
@@ -176,5 +165,14 @@ public class CarsEntity {
 
     public void setContractsById(Collection<ContractsEntity> contractsById) {
         this.contractsById = contractsById;
+    }
+
+    @OneToMany(mappedBy = "carsByIdCars")
+    public Collection<CarsPicturesEntity> getCarsPicturesById() {
+        return carsPicturesById;
+    }
+
+    public void setCarsPicturesById(Collection<CarsPicturesEntity> carsPicturesById) {
+        this.carsPicturesById = carsPicturesById;
     }
 }
