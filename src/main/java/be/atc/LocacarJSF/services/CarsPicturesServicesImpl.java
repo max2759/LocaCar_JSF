@@ -11,6 +11,23 @@ public class CarsPicturesServicesImpl implements CarsPicturesServices {
     CarsPicturesDAO carsPicturesDAO = new CarsPicturesDAOImpl();
 
     @Override
+    public boolean add(CarsPicturesEntity carsPicturesEntity) {
+        if (carsPicturesEntity != null) {
+            return carsPicturesDAO.add(carsPicturesEntity);
+        }
+        return false;
+    }
+
+    @Override
+    public boolean update(CarsPicturesEntity carsPicturesEntity) {
+        if (carsPicturesEntity != null && findById(carsPicturesEntity.getId()) != null) {
+            carsPicturesDAO.update(carsPicturesEntity);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
     public List<CarsPicturesEntity> findAll() {
         return carsPicturesDAO.findAll();
     }

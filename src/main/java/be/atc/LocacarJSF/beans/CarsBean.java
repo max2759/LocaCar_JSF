@@ -9,11 +9,8 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.servlet.http.Part;
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
-import java.util.Scanner;
 
 @Named(value = "carsBean")
 @RequestScoped
@@ -24,8 +21,6 @@ public class CarsBean extends ExtendBean implements Serializable {
     private CarsEntity carsEntity;
     private CarsServices carsServices = new CarsServicesImpl();
     private List<CarsEntity> carsEntities;
-
-    private Part file;
 
     @Inject
     private PicturesBean picturesBean;
@@ -38,13 +33,7 @@ public class CarsBean extends ExtendBean implements Serializable {
     public void init() {
         carsEntity = new CarsEntity();
         carsEntities = carsServices.findAll();
-
     }
-
-    public void upload() throws IOException {
-        Scanner scanner = new Scanner(file.getInputStream());
-    }
-
 
     public void addCar() {
         log.info("Début ajout voiture");
@@ -58,14 +47,6 @@ public class CarsBean extends ExtendBean implements Serializable {
     }
 
     /// getter and setters
-
-    public Part getFile() {
-        return file;
-    }
-
-    public void setFile(Part file) {
-        this.file = file;
-    }
 
     public CarsEntity getCarsEntity() {
         return carsEntity;
