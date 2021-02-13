@@ -112,7 +112,9 @@
                                              required="true"
                                              pt:placeholder="Votre option ici..."
                                              requiredMessage="#{bundle['fxs.insurancesList.required']}"
-                                             id="releaseYear">
+                                             id="releaseYear"
+                                             converter="localDateTimeConverter"
+                                >
                                 </h:inputText>
                             </div>
                         </h:panelGroup>
