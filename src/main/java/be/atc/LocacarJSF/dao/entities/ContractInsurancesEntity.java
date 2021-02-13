@@ -12,6 +12,7 @@ public class ContractInsurancesEntity {
     private int id;
     private ContractsEntity contractsByIdContract;
     private InsurancesEntity insurancesByIdInsurance;
+    private double insurancePrice;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -55,5 +56,15 @@ public class ContractInsurancesEntity {
 
     public void setInsurancesByIdInsurance(InsurancesEntity insurancesByIdInsurance) {
         this.insurancesByIdInsurance = insurancesByIdInsurance;
+    }
+
+    @Basic
+    @Column(name = "Insurance_Price", nullable = false)
+    public double getInsurancePrice() {
+        return insurancePrice;
+    }
+
+    public void setInsurancePrice(double insurancePrice) {
+        this.insurancePrice = insurancePrice;
     }
 }

@@ -8,7 +8,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "brands", schema = "locacarjsf", catalog = "")
 @NamedQueries({
-        @NamedQuery(name = "brands.findAll", query = "SELECT b FROM BrandsEntity b"),
+        @NamedQuery(name = "brands.findAll", query = "SELECT b FROM BrandsEntity b order by b.label ASC"),
         @NamedQuery(name = "brands.findByLabel", query = "SELECT b FROM BrandsEntity b where b.label = :label")
 })
 public class BrandsEntity {
@@ -29,7 +29,7 @@ public class BrandsEntity {
 
     @Basic
     @NotNull
-    @Column(name = "Label")
+    @Column(name = "Label", nullable = false, unique = true)
     public String getLabel() {
         return label;
     }

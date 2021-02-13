@@ -56,7 +56,7 @@ class BrandsServicesImplTest {
     @Test
     public void findByLabel_shouldReturnTrue() {
 
-        BrandsEntity brandsEntityList = brandsServices.findByLabel("Ford");
+        BrandsEntity brandsEntityList = brandsServices.findByLabel("Opel");
         Boolean test = brandsEntityList == null ? false : true;
         assertThat(test).isEqualTo(true);
     }

@@ -5,11 +5,14 @@ import be.atc.LocacarJSF.dao.entities.ContractsEntity;
 import be.atc.LocacarJSF.enums.EnumTypeAds;
 import be.atc.LocacarJSF.services.ContractsServices;
 import be.atc.LocacarJSF.services.ContractsServicesImpl;
+import utils.JsfUtils;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,9 +32,11 @@ public class ContractsBean extends ExtendBean implements Serializable {
 
     Map<Integer, ContractInsurancesEntity> hmContractInsurances = new HashMap<Integer, ContractInsurancesEntity>();
 
-
     // Remplacer par le prix final
     private double finalPrice;
+    LocalDateTime dateEnd;
+    String success;
+    String fail;
 
     @Inject
     private ContractInsurancesBean contractInsurancesBean;
@@ -44,6 +49,19 @@ public class ContractsBean extends ExtendBean implements Serializable {
     @Inject
     private InsurancesBean insurancesBean;
     private int timeLeasing;
+
+    @PostConstruct
+    public void init() {
+        initialisationFields();
+    }
+
+    /**
+     * Initialisation fields
+     */
+    public void initialisationFields() {
+        success = "";
+        fail = "";
+    }
 
     /**
      * Create contract
@@ -58,12 +76,14 @@ public class ContractsBean extends ExtendBean implements Serializable {
         }
 
         calculFinalPriceContract();
+        calculateDateEndContract();
 
         contractsEntity = new ContractsEntity();
         contractsEntity.setOrdersByIdOrders(ordersBean.getOrdersEntity());
         contractsEntity.setCarsByIdCars(adsBean.getAdsEntity().getCarsByIdCars());
         contractsEntity.setDateStart(getDate());
-        contractsEntity.setDateEnd(ordersBean.getDateEnd());
+        contractsEntity.setDateEnd(dateEnd);
+        contractsEntity.setCarPrice(adsBean.getAdsEntity().getPrice());
         contractsEntity.setFinalPrice(finalPrice);
         contractsEntity.setChoiceEndLeasing(true);
         if (adsBean.getAdsEntity().getTypeAds() == EnumTypeAds.Sale) {
@@ -72,12 +92,19 @@ public class ContractsBean extends ExtendBean implements Serializable {
             contractsEntity.setContractTypesByIdContractType(contractTypesBean.findContractTypesById(2));
         }
 
-        Boolean test = contractsServices.add(contractsEntity);
-
+        boolean test = contractsServices.add(contractsEntity);
         if (test && adsBean.getAdsEntity().getTypeAds() == EnumTypeAds.Leasing) {
             test = contractInsurancesBean.createContractInsurances(insurancesBean.getInsurancesEntity());
         }
         return test;
+    }
+
+    protected boolean updateContract(ContractsEntity contractsEntity) {
+        finalPrice = contractsEntity.getCarPrice() + (insurancesBean.getInsurancesEntity().getPrice() * this.getTimeLeasing());
+        calculateDateEndContract();
+        contractsEntity.setDateEnd(dateEnd);
+        contractsEntity.setFinalPrice(finalPrice);
+        return contractsServices.update(contractsEntity);
     }
 
     /**
@@ -97,7 +124,14 @@ public class ContractsBean extends ExtendBean implements Serializable {
      * Calcul FinalPrice in Contract !!
      */
     public void calculFinalPriceContract() {
-        this.finalPrice = adsBean.getAdsEntity().getTypeAds() == EnumTypeAds.Leasing ? (adsBean.getAdsEntity().getPrice() + (insurancesBean.getInsurancesEntity().getPrice() * timeLeasing * 12)) : (adsBean.getAdsEntity().getPrice());
+        this.finalPrice = adsBean.getAdsEntity().getTypeAds() == EnumTypeAds.Leasing ? (adsBean.getAdsEntity().getPrice() + (insurancesBean.getInsurancesEntity().getPrice() * timeLeasing)) : (adsBean.getAdsEntity().getPrice());
+    }
+
+    /**
+     * Calcul date end for contract
+     */
+    protected void calculateDateEndContract() {
+        dateEnd = LocalDateTime.now().plusMonths(timeLeasing);
     }
 
     /**
@@ -106,9 +140,38 @@ public class ContractsBean extends ExtendBean implements Serializable {
      * @return True or false
      */
     protected ContractsEntity findContractByIdOrders_and_byIdCars() {
-        log.info("id order : " + ordersBean.getOrdersEntity().getId());
-        log.info("id Car : " + adsBean.getAdsEntity().getCarsByIdCars().getId());
         return contractsServices.findContractByIdOrdersAndByIdCars(ordersBean.getOrdersEntity().getId(), adsBean.getAdsEntity().getCarsByIdCars().getId());
+    }
+
+
+    /**
+     * Method to delete contract
+     */
+    public void deleteContract() {
+        contractsEntity = contractsServices.findById(Integer.parseInt(getParam("idContract")));
+
+        if (contractsEntity == null) {
+            success = "";
+            fail = JsfUtils.returnMessage(getLocale(), "failDelete");
+            return;
+        }
+
+        boolean test = true;
+        if (contractsEntity.getContractTypesByIdContractType().getLabel().equalsIgnoreCase("Leasing")) {
+            test = contractInsurancesBean.deleteContractInsurance(contractsEntity);
+        }
+        if (test) {
+            test = contractsServices.delete(contractsEntity.getId());
+        }
+
+        if (test) {
+            fail = "";
+            success = JsfUtils.returnMessage(getLocale(), "successDelete");
+        } else {
+            success = "";
+            fail = JsfUtils.returnMessage(getLocale(), "failDelete");
+        }
+        ordersBean.init();
     }
 
     protected List<ContractsEntity> findAllContractsByIdOrder(int idOrder) {
@@ -153,5 +216,29 @@ public class ContractsBean extends ExtendBean implements Serializable {
 
     public void setTimeLeasing(int timeLeasing) {
         this.timeLeasing = timeLeasing;
+    }
+
+    public LocalDateTime getDateEnd() {
+        return dateEnd;
+    }
+
+    public void setDateEnd(LocalDateTime dateEnd) {
+        this.dateEnd = dateEnd;
+    }
+
+    public String getSuccess() {
+        return success;
+    }
+
+    public void setSuccess(String success) {
+        this.success = success;
+    }
+
+    public String getFail() {
+        return fail;
+    }
+
+    public void setFail(String fail) {
+        this.fail = fail;
     }
 }

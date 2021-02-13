@@ -11,8 +11,6 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.Date;
 import java.util.List;
 
 import static java.lang.Integer.parseInt;
@@ -20,19 +18,21 @@ import static java.lang.Integer.parseInt;
 @Named(value = "adsBean")
 @SessionScoped
 public class AdsBean extends ExtendBean implements Serializable {
+
     private static final long serialVersionUID = -6795998607327751632L;
 
-    private Date dateStart = getDate();
-    LocalDateTime ldt = LocalDateTime.ofInstant(dateStart.toInstant(), ZoneId.systemDefault());
+    private LocalDateTime dateStart = LocalDateTime.now();
 
+    /*
+    LocalDateTime ldt = LocalDateTime.ofInstant(dateStart.toInstant(), ZoneId.systemDefault());
     Date out = Date.from(ldt.atZone(ZoneId.systemDefault()).toInstant());
     LocalDateTime outEnd = ldt.plusMonths(1);
+    */
+    //private LocalDateTime dateEnd = Date.from(outEnd.atZone(ZoneId.systemDefault()).toInstant());
+    private LocalDateTime dateEnd = dateStart.plusMonths(1);
+
     private AdsEntity adsEntity;
     private AdsServices adsServices = new AdsServicesImpl();
-
-    private Date dateEnd = Date.from(outEnd.atZone(ZoneId.systemDefault()).toInstant());
-
-
     private List<AdsEntity> adsEntities;
 
     @Inject
@@ -174,19 +174,19 @@ public class AdsBean extends ExtendBean implements Serializable {
     }
 
 
-    public Date getDateStart() {
+    public LocalDateTime getDateStart() {
         return dateStart;
     }
 
-    public void setDateStart(Date dateStart) {
+    public void setDateStart(LocalDateTime dateStart) {
         this.dateStart = dateStart;
     }
 
-    public Date getDateEnd() {
+    public LocalDateTime getDateEnd() {
         return dateEnd;
     }
 
-    public void setDateEnd(Date dateEnd) {
+    public void setDateEnd(LocalDateTime dateEnd) {
         this.dateEnd = dateEnd;
     }
 

@@ -103,4 +103,40 @@ public class ModelsDAOImpl implements ModelsDAO {
             em.close();
         }
     }
+
+    @Override
+    public ModelsEntity findByLabelEntity(String label) {
+        EntityManager em = EMF.getEM();
+
+        try {
+            return em.createNamedQuery("Models.findByLabel",
+                    ModelsEntity.class)
+                    .setParameter("label", label)
+                    .getSingleResult();
+        } catch (Exception ex) {
+            log.info("Nothing");
+            return null;
+        } finally {
+            em.clear();
+            em.close();
+        }
+    }
+
+    @Override
+    public List<ModelsEntity> findModelsByBrandsId(int brandsID) {
+        EntityManager em = EMF.getEM();
+
+        try {
+            return em.createNamedQuery("Models.findModelsByBrands",
+                    ModelsEntity.class)
+                    .setParameter("idBrands", brandsID)
+                    .getResultList();
+        } catch (Exception ex) {
+            log.info("Nothing");
+            return null;
+        } finally {
+            em.clear();
+            em.close();
+        }
+    }
 }

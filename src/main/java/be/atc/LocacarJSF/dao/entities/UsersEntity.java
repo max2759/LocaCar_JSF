@@ -1,8 +1,8 @@
 package be.atc.LocacarJSF.dao.entities;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.Date;
 import java.util.Objects;
 
 @Entity
@@ -19,8 +19,8 @@ public class UsersEntity {
     private String lastname;
     private String username;
     private String password;
-    private Date registerDate;
-    private Date birthdate;
+    private LocalDateTime registerDate;
+    private LocalDateTime birthdate;
     private String vatNumber;
     private boolean isActive;
     private Collection<AddressesEntity> addressesById;
@@ -41,7 +41,7 @@ public class UsersEntity {
 
 
     @Basic
-    @Column(name = "Firstname")
+    @Column(name = "Firstname", nullable = false)
     public String getFirstname() {
         return firstname;
     }
@@ -51,7 +51,7 @@ public class UsersEntity {
     }
 
     @Basic
-    @Column(name = "Lastname")
+    @Column(name = "Lastname", nullable = false)
     public String getLastname() {
         return lastname;
     }
@@ -61,7 +61,7 @@ public class UsersEntity {
     }
 
     @Basic
-    @Column(name = "Username")
+    @Column(name = "Username", nullable = false, unique = true)
     public String getUsername() {
         return username;
     }
@@ -71,7 +71,7 @@ public class UsersEntity {
     }
 
     @Basic
-    @Column(name = "Password")
+    @Column(name = "Password", nullable = false)
     public String getPassword() {
         return password;
     }
@@ -81,24 +81,22 @@ public class UsersEntity {
     }
 
     @Basic
-    @Temporal(value = TemporalType.DATE)
-    @Column(name = "Register_Date")
-    public Date getRegisterDate() {
+    @Column(name = "Register_Date", nullable = false)
+    public LocalDateTime getRegisterDate() {
         return registerDate;
     }
 
-    public void setRegisterDate(Date registerDate) {
+    public void setRegisterDate(LocalDateTime registerDate) {
         this.registerDate = registerDate;
     }
 
     @Basic
-    @Temporal(value = TemporalType.DATE)
-    @Column(name = "Birthdate")
-    public Date getBirthdate() {
+    @Column(name = "Birthdate", nullable = false)
+    public LocalDateTime getBirthdate() {
         return birthdate;
     }
 
-    public void setBirthdate(Date birthdate) {
+    public void setBirthdate(LocalDateTime birthdate) {
         this.birthdate = birthdate;
     }
 

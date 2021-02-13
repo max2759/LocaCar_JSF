@@ -1,6 +1,7 @@
 package be.atc.LocacarJSF.dao.entities;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Objects;
 
@@ -11,7 +12,7 @@ import java.util.Objects;
 })
 public class CarsEntity {
     private int id;
-    private int releaseYear;
+    private LocalDateTime releaseYear;
     private int horsePower;
     private int kilometer;
     private boolean isActive;
@@ -38,17 +39,17 @@ public class CarsEntity {
 
 
     @Basic
-    @Column(name = "Release_Year")
-    public int getReleaseYear() {
+    @Column(name = "Release_Year", nullable = false)
+    public LocalDateTime getReleaseYear() {
         return releaseYear;
     }
 
-    public void setReleaseYear(int releaseYear) {
+    public void setReleaseYear(LocalDateTime releaseYear) {
         this.releaseYear = releaseYear;
     }
 
     @Basic
-    @Column(name = "HorsePower")
+    @Column(name = "HorsePower", nullable = false)
     public int getHorsePower() {
         return horsePower;
     }
@@ -58,7 +59,7 @@ public class CarsEntity {
     }
 
     @Basic
-    @Column(name = "Kilometer")
+    @Column(name = "Kilometer", nullable = false)
     public int getKilometer() {
         return kilometer;
     }

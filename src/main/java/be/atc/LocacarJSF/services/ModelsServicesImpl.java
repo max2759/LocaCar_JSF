@@ -4,6 +4,7 @@ import be.atc.LocacarJSF.dao.ModelsDAO;
 import be.atc.LocacarJSF.dao.ModelsDAOImpl;
 import be.atc.LocacarJSF.dao.entities.ModelsEntity;
 
+import java.util.Collections;
 import java.util.List;
 
 public class ModelsServicesImpl implements ModelsServices {
@@ -46,5 +47,21 @@ public class ModelsServicesImpl implements ModelsServices {
             return modelsDAO.findByLabel(label);
         }
         return null;
+    }
+
+    @Override
+    public ModelsEntity findByLabelEntity(String label) {
+        if (label != null) {
+            return modelsDAO.findByLabelEntity(label);
+        }
+        return null;
+    }
+
+    @Override
+    public List<ModelsEntity> findModelsByBrandsId(int brandsID) {
+        if (brandsID != 0) {
+            return modelsDAO.findModelsByBrandsId(brandsID);
+        }
+        return Collections.emptyList();
     }
 }

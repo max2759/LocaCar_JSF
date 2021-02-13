@@ -14,5 +14,7 @@ public interface CarsColorsServices {
 
     public CarsColorsEntity findById(int id);
 
-    public List<CarsColorsEntity> findByLabel(String label);
+    public CarsColorsEntity findByLabel(String label);
+
+    public List<CarsColorsEntity> findByLabelList(String label);
 }

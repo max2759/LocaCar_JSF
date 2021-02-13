@@ -29,7 +29,7 @@ public class BrandsConverter implements Converter {
             brandsEntity = brandsServices.findByLabel(value);
             return brandsEntity;
         } else {
-            throw new ConverterException(new FacesMessage(JsfUtils.returnMessage(locale, "fxs.addShopButton.adsError")));
+            throw new ConverterException(new FacesMessage(JsfUtils.returnMessage(locale, "fxs.brandsConverter.error")));
         }
 
 

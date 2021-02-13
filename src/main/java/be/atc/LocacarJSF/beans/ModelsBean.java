@@ -11,8 +11,8 @@ import utils.JsfUtils;
 
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
-import javax.faces.model.SelectItem;
 import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.List;
@@ -33,10 +33,13 @@ public class ModelsBean extends ExtendBean implements Serializable {
     private BrandsServices brandsServices = new BrandsServicesImpl();
 
     private List<ModelsEntity> modelsEntities;
-    private List<SelectItem> brandsItems;
+
+    @Inject
+    private BrandsBean brandsBean;
 
     private boolean showPopup;
     private boolean addModelsEntity;
+    private boolean showModel;
     private String success;
     private String fail;
     private String page;
@@ -59,15 +62,9 @@ public class ModelsBean extends ExtendBean implements Serializable {
      */
     @PostConstruct
     public void init() {
-        /*brandsItems = new ArrayList<>();
-
-        List<BrandsEntity> brandsItemList = brandsServices.findAll();
-
-        for (BrandsEntity brandsEntity : brandsItemList) {
-            brandsItems.add(new SelectItem(brandsEntity.getId(), brandsEntity.getLabel()));
-        }*/
-
+        showModel = false;
         modelsEntities = modelsServices.findAll();
+
     }
 
 
@@ -147,6 +144,11 @@ public class ModelsBean extends ExtendBean implements Serializable {
         init();
     }
 
+    public void findModelsByBrands() {
+        modelsEntities = modelsServices.findModelsByBrandsId(modelsEntity.getBrandsByIdBrands().getId());
+        showModel = true;
+    }
+
     //////Getters and setters
 
     public ModelsServices getModelsServices() {
@@ -205,11 +207,11 @@ public class ModelsBean extends ExtendBean implements Serializable {
         this.fail = fail;
     }
 
-    public List<SelectItem> getBrandsItems() {
-        return brandsItems;
+    public boolean isShowModel() {
+        return showModel;
     }
 
-    public void setBrandsItems(List<SelectItem> brandsItems) {
-        this.brandsItems = brandsItems;
+    public void setShowModel(boolean showModel) {
+        this.showModel = showModel;
     }
 }

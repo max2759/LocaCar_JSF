@@ -47,7 +47,7 @@ public class InsurancesBean extends ExtendBean implements Serializable {
     }
 
     /**
-     * Ouvrir le popup d'edition ou d'ajout
+     * Open popup when edit or add
      */
     public void showPopupModal() {
         log.info("Show PopupModal");
@@ -63,7 +63,7 @@ public class InsurancesBean extends ExtendBean implements Serializable {
     }
 
     /**
-     * Fermer le popup d'edition ou d'ajout
+     * Close popup
      */
     public void hidePopupModal() {
         log.info("Hide PopupModal ");
@@ -90,7 +90,7 @@ public class InsurancesBean extends ExtendBean implements Serializable {
     }
 
     /**
-     * Vérifie et sauvegarde l'entité ajouté ou modifié !
+     * check and save entity
      */
     public void saveEdit() {
         List<InsurancesEntity> insurancesEntitiesTest = insurancesServices.findByLabel(insurancesEntity.getLabel());
@@ -116,7 +116,7 @@ public class InsurancesBean extends ExtendBean implements Serializable {
     }
 
     /**
-     * Supprime ou réactive l'entité !!
+     * Delete or reactive Entity
      */
     public void deleteOrActivateInsurance() {
         log.info("Delete or reactivate insurance");

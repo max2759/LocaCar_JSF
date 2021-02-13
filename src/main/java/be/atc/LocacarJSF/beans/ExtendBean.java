@@ -3,7 +3,7 @@ package be.atc.LocacarJSF.beans;
 import org.apache.log4j.Logger;
 
 import javax.faces.context.FacesContext;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.Locale;
 import java.util.Map;
 
@@ -16,7 +16,7 @@ public abstract class ExtendBean {
 
     private Locale locale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
 
-    private Date date = new Date();
+    private LocalDateTime date = LocalDateTime.now();
     /**
      * Méthode pour retourner les paramètres récupéré
      *
@@ -29,11 +29,11 @@ public abstract class ExtendBean {
         return params.get(name);
     }
 
-    public Date getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 

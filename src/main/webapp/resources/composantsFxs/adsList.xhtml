@@ -33,6 +33,11 @@
                 <h:outputText value="#{ads.id}"></h:outputText>
             </h:column>
             <h:column>
+                <f:facet name="header">Image</f:facet>
+                <h:graphicImage
+                        value="A:\\Applications\\Drive\\Work\\IntelliJ\\uploads\\#{ads.carsByIdCars.carsPicturesByIdCarsPictures.label}"/>
+            </h:column>
+            <h:column>
                 <f:facet name="header">#{bundle['fxs.optionsList.title']}</f:facet>
                 <h:outputText value="#{ads.label}"></h:outputText>
             </h:column>
@@ -71,7 +76,8 @@
             </h:column>
             <h:column>
                 <f:facet name="header">Année</f:facet>
-                <h:outputText value="#{ads.carsByIdCars.releaseYear}"></h:outputText>
+                <h:outputText value="#{ads.carsByIdCars.releaseYear}" converter="localDateTimeConverter">
+                </h:outputText>
             </h:column>
             <h:column>
                 <f:facet name="header">Kilométrage</f:facet>
@@ -133,7 +139,6 @@
                         </h:inputText>
                         <h:message styleClass="alert alert-danger" role="alert" for="adsLabel"></h:message>
                     </h:panelGroup>
-
 
                     <h:panelGroup class="form-group">
                         <h:outputLabel value="#{bundle['fxs.insurancesList.price']}" for="adsPrice"></h:outputLabel>

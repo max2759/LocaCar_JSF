@@ -87,7 +87,25 @@ public class CarsColorsDAOImpl implements CarsColorsDAO {
     }
 
     @Override
-    public List<CarsColorsEntity> findByLabel(String label) {
+    public CarsColorsEntity findByLabel(String label) {
+        EntityManager em = EMF.getEM();
+
+        try {
+            return em.createNamedQuery("CarsColors.findByLabel",
+                    CarsColorsEntity.class)
+                    .setParameter("label", label)
+                    .getSingleResult();
+        } catch (Exception ex) {
+            log.info("Nothing");
+            return null;
+        } finally {
+            em.clear();
+            em.close();
+        }
+    }
+
+    @Override
+    public List<CarsColorsEntity> findByLabelList(String label) {
         EntityManager em = EMF.getEM();
 
         try {

@@ -47,7 +47,7 @@ class OrdersServicesImplTest {
         log.info(("Recherche d'Order, par Id Users et Orders.Status == Pending"));
 
         // Utiliser une entity : qui n'a pas une order_status = Pending
-        int idUser = 2;
+        int idUser = 5;
 
         UsersServices usersServices = new UsersServicesImpl();
         UsersEntity usersEntity = usersServices.findById(idUser);

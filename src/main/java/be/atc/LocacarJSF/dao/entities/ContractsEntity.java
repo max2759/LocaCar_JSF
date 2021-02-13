@@ -1,8 +1,8 @@
 package be.atc.LocacarJSF.dao.entities;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.Date;
 import java.util.Objects;
 
 @Entity
@@ -14,13 +14,14 @@ import java.util.Objects;
 })
 public class ContractsEntity {
     private int id;
-    private Date dateStart;
-    private Date dateEnd;
+    private LocalDateTime dateStart;
+    private LocalDateTime dateEnd;
     private boolean choiceEndLeasing;
     private Collection<ContractInsurancesEntity> contractInsurancesById;
     private OrdersEntity ordersByIdOrders;
     private CarsEntity carsByIdCars;
     private ContractTypesEntity contractTypesByIdContractType;
+    private double carPrice;
     private double finalPrice;
 
     @Id
@@ -35,24 +36,22 @@ public class ContractsEntity {
     }
 
     @Basic
-    @Temporal(value = TemporalType.DATE)
-    @Column(name = "Date_Start")
-    public Date getDateStart() {
+    @Column(name = "Date_Start", nullable = false)
+    public LocalDateTime getDateStart() {
         return dateStart;
     }
 
-    public void setDateStart(Date dateStart) {
+    public void setDateStart(LocalDateTime dateStart) {
         this.dateStart = dateStart;
     }
 
     @Basic
-    @Temporal(value = TemporalType.DATE)
     @Column(name = "Date_End")
-    public Date getDateEnd() {
+    public LocalDateTime getDateEnd() {
         return dateEnd;
     }
 
-    public void setDateEnd(Date dateEnd) {
+    public void setDateEnd(LocalDateTime dateEnd) {
         this.dateEnd = dateEnd;
     }
 
@@ -119,12 +118,22 @@ public class ContractsEntity {
     }
 
     @Basic
-    @Column(name = "Final_Price")
+    @Column(name = "Final_Price", nullable = false)
     public double getFinalPrice() {
         return finalPrice;
     }
 
     public void setFinalPrice(double finalPrice) {
         this.finalPrice = finalPrice;
+    }
+
+    @Basic
+    @Column(name = "Car_Price", nullable = false)
+    public double getCarPrice() {
+        return carPrice;
+    }
+
+    public void setCarPrice(double carPrice) {
+        this.carPrice = carPrice;
     }
 }

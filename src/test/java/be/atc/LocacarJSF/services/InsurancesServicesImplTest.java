@@ -138,7 +138,7 @@ class InsurancesServicesImplTest {
 
     @Test
     void findByLabelInsurance_shouldBeReturnEntity() {
-        List<InsurancesEntity> insurancesEntities = insurancesServices.findByLabel("test");
+        List<InsurancesEntity> insurancesEntities = insurancesServices.findByLabel("Full omnium");
         Boolean test;
         if (insurancesEntities.isEmpty()) {
             test = false;
@@ -176,5 +176,4 @@ class InsurancesServicesImplTest {
         log.info("Le test vaut : " + test);
         assertThat(test).isEqualTo(false);
     }
-
 }

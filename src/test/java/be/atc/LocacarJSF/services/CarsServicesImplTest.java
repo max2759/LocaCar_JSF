@@ -16,7 +16,6 @@ class CarsServicesImplTest {
 
     public static Logger log = Logger.getLogger(CarsServicesImplTest.class);
 
-
     private CarsServices carsServices;
 
     @BeforeEach
@@ -31,9 +30,10 @@ class CarsServicesImplTest {
         carsServices = null;
     }
 
+
     @Test
     void findByIdCar_shouldBeReturnEntity() {
-        CarsEntity carsEntity = carsServices.findById(1);
+        CarsEntity carsEntity = carsServices.findById(5);
         Boolean test;
         if (carsEntity == null) {
             test = false;
