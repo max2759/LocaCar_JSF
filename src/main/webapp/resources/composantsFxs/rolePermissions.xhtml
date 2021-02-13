@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:cc="http://java.sun.com/jsf/composite"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+
+<cc:interface name="rolePermissions"
+              displayName="#{bundle['fxs.rolesList.displayName']}"
+              shortDescription="#{bundle['fxs.rolesList.shortDescription']}"
+>
+</cc:interface>
+<cc:implementation>
+
+    <!-- LIST -->
+    <h:form>
+
+        <h:commandLink styleClass="btn btn-success"
+                       value="#{bundle['fxs.optionsList.add']}"
+                       action="#{rolesPermissionsBean.showPopupModalAdd}">
+            <f:param name="addRolesPermissionsEntity" value="addRolesPermissionsEntity"></f:param>
+            <i class="fas fa-plus"></i>
+        </h:commandLink>
+    </h:form>
+
+    <h:form>
+        <h:dataTable id="outputMessage" styleClass="table table-hover table-responsive"
+                     value="#{rolesPermissionsBean.rolesPermissionsEntities}" var="roleP">
+
+            <h:column>
+                <f:facet name="header">#{bundle['fxs.rolePerm.idRole']}</f:facet>
+                <h:outputText value="#{roleP.rolesByIdRoles.label}"></h:outputText>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">#{bundle['fxs.rolePezrm.idPerm']}</f:facet>
+                <h:outputText value="#{roleP.permissionsByIdPermissions.label}"></h:outputText>
+            </h:column>
+
+            <h:column>
+                <!-- bouton edit -->
+                <f:facet name="header">#{bundle['fxs.rolesList.edit']}</f:facet>
+                <!-- appel de showmodalPopup -->
+                <h:commandLink styleClass="btn btn-outline-primary btn-sm"
+                               action="#{rolesPermissionsBean.showPopupModalEdit}">
+                    <f:param name="idRolePerm" value="#{roleP.id}"></f:param>
+                    <f:ajax render="@all"/>
+                    <i class="fas fa-edit"></i>
+                </h:commandLink>
+            </h:column>
+
+        </h:dataTable>
+    </h:form>
+
+
+    <!-- affichage du modal edit -->
+    <f:view>
+        <h:panelGroup id="popupEdit" layout="block" styleClass="popup-panel-overlay"
+                      rendered="#{rolesPermissionsBean.showPopupEdit}">
+
+            <h:form id="formPopupEdit">
+                <div class="popup-panel">
+                    <h:outputText value="#{rolesPermissionsBean.success}"
+                                  style="color: green; font-weight: bold"></h:outputText>
+                    <h:outputText value="#{rolesPermissionsBean.fail}"
+                                  style="color: darkred; font-weight: bold"></h:outputText>
+
+                    <div class="form-group">
+                        <h:outputLabel value="ID" for="idRolesPerm"></h:outputLabel>
+                        <h:outputText id="idRolesPerm" value="#{rolesPermissionsBean.rolesPermissionsEntity.id}"
+                                      styleClass="form-control"></h:outputText>
+                    </div>
+
+                    <div class="form-group">
+                        <h:outputLabel value="idPermissionEdit" for="idRoleEdit"></h:outputLabel>
+                        <h:inputText value="#{rolesPermissionsBean.rolesPermissionsEntity.rolesByIdRoles}"
+                                     styleClass="form-control"
+                                     required="true"
+                                     pt:placeholder="Votre rôle à editer ici..."
+                                     requiredMessage="#{bundle['fxs.insurancesList.required']}"
+                                     id="idRoleEdit">
+                            <f:converter converterId="rolesPConverter"/>
+                        </h:inputText>
+                        <h:message styleClass="alert alert-danger" role="alert" for="idRoleEdit"></h:message>
+                    </div>
+
+                    <div class="form-group">
+                        <h:outputLabel value="idPermissionEdit" for="idPermissionEdit"></h:outputLabel>
+                        <h:inputText value="#{rolesPermissionsBean.rolesPermissionsEntity.permissionsByIdPermissions}"
+                                     styleClass="form-control"
+                                     required="true"
+                                     pt:placeholder="Votre permission à editer ici..."
+                                     requiredMessage="#{bundle['fxs.insurancesList.required']}"
+                                     id="idPermissionEdit">
+                            <f:converter converterId="rPermissionsConverter"/>
+                        </h:inputText>
+                        <h:message styleClass="alert alert-danger" role="alert" for="idPermissionEdit"></h:message>
+                    </div>
+
+                    <!-- button save edit -->
+                    <span>
+                        <h:commandButton styleClass="btn btn-outline-success btn-sm"
+                                         value="#{bundle['fxs.users.edit']}"
+                                         action="#{rolesPermissionsBean.saveEdit}">
+                            <f:ajax execute="formPopupEdit" render="@all"></f:ajax>
+                        </h:commandButton>
+
+                    </span>
+
+                    <span>
+                        <h:commandButton styleClass="btn btn-outline-dark btn-sm"
+                                         value="#{bundle['fxs.insurancesList.close']}"
+                                         action="#{rolesPermissionsBean.hidePopupModal}">
+                            <f:ajax render="@all"></f:ajax>
+                        </h:commandButton>
+                    </span>
+                </div>
+            </h:form>
+        </h:panelGroup>
+    </f:view>
+
+    <!-- test add rolePerm -->
+    <f:view>
+        <h:panelGroup id="popupAdd" layout="block" styleClass="popup-panel-overlay"
+                      rendered="#{rolesPermissionsBean.showPopupAdd}">
+
+            <h:form id="formPopupAdd">
+                <div class="popup-panel">
+                    <h:outputText value="#{rolesPermissionsBean.success}"
+                                  style="color: green; font-weight: bold"></h:outputText>
+                    <h:outputText value="#{rolesPermissionsBean.fail}"
+                                  style="color: darkred; font-weight: bold"></h:outputText>
+
+                    <div class="form-group">
+                        <h:outputLabel value="ID" for="idRolesPermissions"></h:outputLabel>
+                        <h:outputText id="idRolesPermissions" value="#{rolesPermissionsBean.rolesPermissionsEntity.id}"
+                                      styleClass="form-control"></h:outputText>
+                    </div>
+
+                    <div class="form-group">
+                        <h:outputLabel value="idRole" for="idRoleAdd"></h:outputLabel>
+                        <h:inputText value="#{rolesPermissionsBean.rolesPermissionsEntity.rolesByIdRoles}"
+                                     styleClass="form-control"
+                                     required="true"
+                                     pt:placeholder="Votre role à créer ici..."
+                                     requiredMessage="#{bundle['fxs.insurancesList.required']}"
+                                     id="idRoleAdd">
+                            <f:converter converterId="rolesPConverter"/>
+                        </h:inputText>
+                        <h:message styleClass="alert alert-danger" role="alert" for="idRoleAdd"></h:message>
+                    </div>
+
+
+                    <div class="form-group">
+                        <h:outputLabel value="idRole" for="idPermissionAdd"></h:outputLabel>
+                        <h:inputText value="#{rolesPermissionsBean.rolesPermissionsEntity.permissionsByIdPermissions}"
+                                     styleClass="form-control"
+                                     required="true"
+                                     pt:placeholder="Votre permission à créer ici..."
+                                     requiredMessage="#{bundle['fxs.insurancesList.required']}"
+                                     id="idPermissionAdd">
+                            <f:converter converterId="rPermissionsConverter"/>
+                        </h:inputText>
+                        <h:message styleClass="alert alert-danger" role="alert" for="idPermissionAdd"></h:message>
+                    </div>
+
+                    <!-- button save add -->
+                    <span>
+                        <h:commandButton styleClass="btn btn-outline-success btn-sm"
+                                         value="#{bundle['fxs.insurancesList.save']}"
+                                         action="#{rolesPermissionsBean.add}">
+                            <f:ajax execute="formPopupAdd" render="@all"></f:ajax>
+                        </h:commandButton>
+
+                    </span>
+
+                    <span>
+                        <h:commandButton styleClass="btn btn-outline-dark btn-sm"
+                                         value="#{bundle['fxs.insurancesList.close']}"
+                                         action="#{rolesPermissionsBean.hidePopupModal}">
+                            <f:ajax render="@all"></f:ajax>
+                        </h:commandButton>
+                    </span>
+                </div>
+            </h:form>
+        </h:panelGroup>
+    </f:view>
+
+
+</cc:implementation>
+</html>

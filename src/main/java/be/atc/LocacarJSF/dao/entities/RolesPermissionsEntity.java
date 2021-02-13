@@ -5,6 +5,10 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "roles_permissions", schema = "locacarjsf", catalog = "")
+@NamedQueries({
+        @NamedQuery(name = "RolesPermissions.findAll", query = "SELECT r from RolesPermissionsEntity r"),
+        @NamedQuery(name = "RolesPermissions.findByIDRoles", query = "SELECT r from RolesPermissionsEntity r where r.rolesByIdRoles.id = :idRoles"),
+})
 public class RolesPermissionsEntity {
     private int id;
     private RolesEntity rolesByIdRoles;
@@ -35,7 +39,7 @@ public class RolesPermissionsEntity {
     }
 
     @ManyToOne
-    @JoinColumn(name = "ID_Roles", referencedColumnName = "id", insertable = false, updatable = false, nullable = false)
+    @JoinColumn(name = "ID_Roles", referencedColumnName = "id", nullable = false)
     public RolesEntity getRolesByIdRoles() {
         return rolesByIdRoles;
     }
@@ -45,7 +49,7 @@ public class RolesPermissionsEntity {
     }
 
     @ManyToOne
-    @JoinColumn(name = "ID_Permissions", referencedColumnName = "id", insertable = false, updatable = false, nullable = false)
+    @JoinColumn(name = "ID_Permissions", referencedColumnName = "id", nullable = false)
     public PermissionsEntity getPermissionsByIdPermissions() {
         return permissionsByIdPermissions;
     }
