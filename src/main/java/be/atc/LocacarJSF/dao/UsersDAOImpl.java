@@ -39,6 +39,7 @@ public class UsersDAOImpl implements UsersDAO {
 
     @Override
     public boolean update(UsersEntity usersEntity) {
+        log.info("begin update DAO");
         EntityManager em = EMF.getEM();
 
         EntityTransaction tx = null;
