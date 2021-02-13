@@ -64,10 +64,34 @@
 
         </h:dataTable>
     </h:panelGroup>
+
     <h:panelGroup>
-        <h:outputText value="#{bundle['fxs.basket.totalPrice']} "></h:outputText>
-        <h:outputText styleClass="font-weight-bold" value="#{ordersBean.priceOrder}€"></h:outputText>
     </h:panelGroup>
+    <div class="container">
+        <div class="row">
+            <div class="col-8 align-self-lg-center text-xl-right font-weight-bolder">
+                <h:outputFormat value="#{bundle['fxs.basket.totalPrice']} "></h:outputFormat>
+            </div>
+            <div class="col-4">
+                <h:outputText styleClass="font-weight-bold" value="#{ordersBean.priceOrder}€"></h:outputText>
+            </div>
+        </div>
+
+        <h:form>
+            <div class="row">
+                <div class="col-md-6 offset-md-0">
+                    <h:commandButton styleClass="btn btn-danger"
+                                     value="#{bundle['fxs.basket.clearBasket']}"></h:commandButton>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 offset-md-8">
+                    <h:commandButton styleClass="btn btn-success"
+                                     value="#{bundle['fxs.basket.validate']}"></h:commandButton>
+                </div>
+            </div>
+        </h:form>
+    </div>
     <h:panelGroup rendered="#{!ordersBean.showBasket}">
         <h:outputText value="#{bundle['fxs.basket.empty']}"></h:outputText>
     </h:panelGroup>

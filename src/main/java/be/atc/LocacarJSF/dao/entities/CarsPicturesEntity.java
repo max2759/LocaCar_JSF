@@ -1,7 +1,6 @@
 package be.atc.LocacarJSF.dao.entities;
 
 import javax.persistence.*;
-import java.util.Collection;
 import java.util.Objects;
 
 @Entity
@@ -13,7 +12,7 @@ import java.util.Objects;
 public class CarsPicturesEntity {
     private int id;
     private String label;
-    private Collection<CarsEntity> carsById;
+    private CarsEntity carsByIdCars;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,12 +48,13 @@ public class CarsPicturesEntity {
         return Objects.hash(id, label);
     }
 
-    @OneToMany(mappedBy = "carsPicturesByIdCarsPictures")
-    public Collection<CarsEntity> getCarsById() {
-        return carsById;
+    @ManyToOne
+    @JoinColumn(name = "ID_Cars", referencedColumnName = "ID", nullable = false)
+    public CarsEntity getCarsByIdCars() {
+        return carsByIdCars;
     }
 
-    public void setCarsById(Collection<CarsEntity> carsById) {
-        this.carsById = carsById;
+    public void setCarsByIdCars(CarsEntity carsByIdCars) {
+        this.carsByIdCars = carsByIdCars;
     }
 }
