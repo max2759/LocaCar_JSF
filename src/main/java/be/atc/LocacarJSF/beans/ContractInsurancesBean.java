@@ -41,6 +41,7 @@ public class ContractInsurancesBean extends ExtendBean implements Serializable {
      * Initialisation fields
      */
     public void initialisationFields() {
+        log.info("ContractInsurancesBean : initialisationFields");
         success = "";
         fail = "";
     }
@@ -49,7 +50,7 @@ public class ContractInsurancesBean extends ExtendBean implements Serializable {
      * Open popup when edit
      */
     public void showPopupModal() {
-        log.info("Show PopupModal");
+        log.info("ContractInsurancesBean : showPopupModal");
         showPopup = true;
         if (getParam("idContract") != null) {
             int idContract = parseInt(getParam("idContract"));
@@ -61,7 +62,7 @@ public class ContractInsurancesBean extends ExtendBean implements Serializable {
      * Repetition code for update entity
      */
     protected boolean functionUpdateEntity() {
-        log.info("Update entity");
+        log.info("ContractInsurancesBean : functionUpdateEntity");
         contractInsurancesEntity.setInsurancesByIdInsurance(insurancesBean.getInsurancesEntity());
         contractInsurancesEntity.setInsurancePrice(insurancesBean.getInsurancesEntity().getPrice());
         return contractInsurancesServices.update(contractInsurancesEntity);
@@ -71,6 +72,7 @@ public class ContractInsurancesBean extends ExtendBean implements Serializable {
      * check and save entity
      */
     public void saveEdit() {
+        log.info("ContractInsurancesBean : saveEdit");
         boolean test = functionUpdateEntity();
         if (test == true) {
             test = contractsBean.updateContract(contractInsurancesEntity.getContractsByIdContract());
@@ -89,7 +91,7 @@ public class ContractInsurancesBean extends ExtendBean implements Serializable {
      * Close popup
      */
     public void hidePopupModal() {
-        log.info("Hide PopupModal ");
+        log.info("ContractInsurancesBean : hidePopupModal");
         initialisationFields();
         showPopup = false;
     }
@@ -101,7 +103,7 @@ public class ContractInsurancesBean extends ExtendBean implements Serializable {
      * @return
      */
     protected boolean createContractInsurances(InsurancesEntity insurancesEntity) {
-        log.info("Create new Contract Assurance for Leasing !");
+        log.info("ContractInsurancesBean : createContractInsurances");
 
         contractInsurancesEntity = new ContractInsurancesEntity();
         contractInsurancesEntity.setContractsByIdContract(contractsBean.getContractsEntity());
@@ -118,6 +120,7 @@ public class ContractInsurancesBean extends ExtendBean implements Serializable {
      * @return
      */
     protected ContractInsurancesEntity findContractInsurancesByIdContract(int idContract) {
+        log.info("ContractInsurancesBean : findContractInsurancesByIdContract");
         return contractInsurancesServices.findByIdContract(idContract);
     }
 
@@ -128,6 +131,7 @@ public class ContractInsurancesBean extends ExtendBean implements Serializable {
      * @return
      */
     protected boolean deleteContractInsurance(ContractsEntity contractsEntity) {
+        log.info("ContractInsurancesBean : deleteContractInsurance");
         contractInsurancesEntity = contractInsurancesServices.findByIdContract(contractsEntity.getId());
         return contractInsurancesEntity != null ? contractInsurancesServices.delete(contractInsurancesEntity.getId()) : false;
     }
