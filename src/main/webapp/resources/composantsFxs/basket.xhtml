@@ -12,13 +12,19 @@
 >
 </cc:interface>
 <cc:implementation>
-    <h:panelGroup id="basketPanelGroup" rendered="#{ordersBean.showBasket}">
 
-        <h:outputText value="#{contractsBean.success}"
-                      style="color: green; font-weight: bold"></h:outputText>
-        <h:outputText value="#{contractsBean.fail}"
-                      style="color: darkred; font-weight: bold"></h:outputText>
-        <br/>
+    <h:outputText value="#{contractsBean.success}"
+                  style="color: green; font-weight: bold"></h:outputText>
+    <h:outputText value="#{contractsBean.fail}"
+                  style="color: darkred; font-weight: bold"></h:outputText>
+    <br/>
+    <h:outputText value="#{ordersBean.success}"
+                  style="color: green; font-weight: bold"></h:outputText>
+    <h:outputText value="#{ordersBean.fail}"
+                  style="color: darkred; font-weight: bold"></h:outputText>
+    <br/>
+    <h:panelGroup id="basketPanelGroup" rendered="#{contractsBean.showBasket}">
+
         <h:dataTable id="outputMessage" styleClass="table table-hover"
                      value="#{contractsBean.contractsEntities}" var="c">
             <h:column>
@@ -35,6 +41,11 @@
                 <br/>
                 <h:outputText styleClass="font-weight-light"
                               value="#{contractsBean.hmContractInsurances[c.id].insurancesByIdInsurance.label}"></h:outputText>
+                <br/>
+                <h:panelGroup rendered="#{!c.carsByIdCars.active}">
+                    <h:outputText styleClass="alert-danger"
+                                  value="#{bundle['fxs.basket.vehiculeNotAvailable']}"></h:outputText>
+                </h:panelGroup>
                 <h:form>
                     <h:panelGroup id="panelGroupEdit"
                                   rendered="#{c.contractTypesByIdContractType.label eq 'Leasing' ? true : false}">
@@ -58,41 +69,43 @@
             <h:column>
                 <f:facet name="header">#{bundle['fxs.basket.price']}</f:facet>
                 <h:outputText styleClass="font-weight-bold" value="#{c.finalPrice} €"></h:outputText>
-                <br/>
-                <h:outputText value="(#{bundle['fxs.basket.insuranceIncluded']})"></h:outputText>
+                <h:panelGroup rendered="#{c.contractTypesByIdContractType.label eq 'Leasing' ? true : false}">
+                    <br/>
+                    <h:outputText styleClass="alert-info"
+                                  value="(#{bundle['fxs.basket.insuranceIncluded']})"></h:outputText>
+                </h:panelGroup>
             </h:column>
 
         </h:dataTable>
-    </h:panelGroup>
+        <div class="container">
+            <div class="row">
+                <div class="col-8 align-self-lg-center text-xl-right font-weight-bolder">
+                    <h:outputFormat value="#{bundle['fxs.basket.totalPrice']} "></h:outputFormat>
+                </div>
+                <div class="col-4">
+                    <h:outputText styleClass="font-weight-bold" value="#{ordersBean.priceOrder}€"></h:outputText>
+                </div>
+            </div>
 
-    <h:panelGroup>
-    </h:panelGroup>
-    <div class="container">
-        <div class="row">
-            <div class="col-8 align-self-lg-center text-xl-right font-weight-bolder">
-                <h:outputFormat value="#{bundle['fxs.basket.totalPrice']} "></h:outputFormat>
-            </div>
-            <div class="col-4">
-                <h:outputText styleClass="font-weight-bold" value="#{ordersBean.priceOrder}€"></h:outputText>
-            </div>
+            <h:form>
+                <div class="row">
+                    <div class="col-md-6 offset-md-0">
+                        <h:commandButton styleClass="btn btn-danger"
+                                         value="#{bundle['fxs.basket.clearBasket']}"
+                                         action="#{contractsBean.clearBasket}"></h:commandButton>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 offset-md-8">
+                        <h:commandButton styleClass="btn btn-success"
+                                         value="#{bundle['fxs.basket.validate']}"
+                                         action="#{ordersBean.validateOrder}"></h:commandButton>
+                    </div>
+                </div>
+            </h:form>
         </div>
-
-        <h:form>
-            <div class="row">
-                <div class="col-md-6 offset-md-0">
-                    <h:commandButton styleClass="btn btn-danger"
-                                     value="#{bundle['fxs.basket.clearBasket']}"></h:commandButton>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6 offset-md-8">
-                    <h:commandButton styleClass="btn btn-success"
-                                     value="#{bundle['fxs.basket.validate']}"></h:commandButton>
-                </div>
-            </div>
-        </h:form>
-    </div>
-    <h:panelGroup rendered="#{!ordersBean.showBasket}">
+    </h:panelGroup>
+    <h:panelGroup rendered="#{!contractsBean.showBasket}">
         <h:outputText value="#{bundle['fxs.basket.empty']}"></h:outputText>
     </h:panelGroup>
 
@@ -153,5 +166,10 @@
             </h:form>
         </h:panelGroup>
     </f:view>
+
+
+    <h:form>
+        <h:commandButton value="Deconnexion" actionListener="#{logoutBean.loginTest}"></h:commandButton>
+    </h:form>
 </cc:implementation>
 </html>

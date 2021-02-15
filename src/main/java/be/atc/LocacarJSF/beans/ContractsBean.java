@@ -1,5 +1,6 @@
 package be.atc.LocacarJSF.beans;
 
+import be.atc.LocacarJSF.dao.entities.CarsEntity;
 import be.atc.LocacarJSF.dao.entities.ContractInsurancesEntity;
 import be.atc.LocacarJSF.dao.entities.ContractsEntity;
 import be.atc.LocacarJSF.enums.EnumTypeAds;
@@ -13,6 +14,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,11 +34,12 @@ public class ContractsBean extends ExtendBean implements Serializable {
 
     Map<Integer, ContractInsurancesEntity> hmContractInsurances = new HashMap<Integer, ContractInsurancesEntity>();
 
-    // Remplacer par le prix final
     private double finalPrice;
     LocalDateTime dateEnd;
     String success;
     String fail;
+    boolean showBasket;
+    private int timeLeasing;
 
     @Inject
     private ContractInsurancesBean contractInsurancesBean;
@@ -48,10 +51,12 @@ public class ContractsBean extends ExtendBean implements Serializable {
     private AdsBean adsBean;
     @Inject
     private InsurancesBean insurancesBean;
-    private int timeLeasing;
+    @Inject
+    private CarsBean carsBean;
 
     @PostConstruct
     public void init() {
+        log.info("ContractsBean Post Construct!");
         initialisationFields();
     }
 
@@ -59,8 +64,21 @@ public class ContractsBean extends ExtendBean implements Serializable {
      * Initialisation fields
      */
     public void initialisationFields() {
+        log.info("ContractsBean initialisationFields!");
         success = "";
         fail = "";
+    }
+
+    /**
+     * Method initialization after Validation basket
+     */
+    protected void initializationAfterValidation() {
+        contractsEntity = null;
+        contractsEntities = Collections.emptyList();
+        hmContractInsurances = new HashMap<Integer, ContractInsurancesEntity>();
+        finalPrice = 0;
+        showBasket = false;
+        timeLeasing = 0;
     }
 
     /**
@@ -69,6 +87,7 @@ public class ContractsBean extends ExtendBean implements Serializable {
      * @return True or false
      */
     protected boolean createContract() {
+        log.info("ContractsBean createContract!");
         contractsEntity = findContractByIdOrders_and_byIdCars();
 
         if (contractsEntity != null) {
@@ -99,7 +118,14 @@ public class ContractsBean extends ExtendBean implements Serializable {
         return test;
     }
 
+    /**
+     * Method for update contract !
+     *
+     * @param contractsEntity
+     * @return
+     */
     protected boolean updateContract(ContractsEntity contractsEntity) {
+        log.info("ContractsBean updateContract!");
         finalPrice = contractsEntity.getCarPrice() + (insurancesBean.getInsurancesEntity().getPrice() * this.getTimeLeasing());
         calculateDateEndContract();
         contractsEntity.setDateEnd(dateEnd);
@@ -108,15 +134,39 @@ public class ContractsBean extends ExtendBean implements Serializable {
     }
 
     /**
+     * Method for validate Contracts !
+     */
+    protected void validateContractsOrder() {
+        for (ContractsEntity c : contractsEntities) {
+            CarsEntity carsEntity = carsBean.setActiveCarFalse(c.getCarsByIdCars());
+            carsBean.updateCar(carsEntity);
+
+
+            log.info("contractEntity.getDateStart() : " + c.getDateStart());
+            c.setDateStart(getDate());
+
+            log.info("contractEntity.getDateStart( : )" + c.getDateStart());
+            c.setDateEnd(getDate());
+            contractsServices.update(c);
+        }
+    }
+
+    /**
      * find all contracts : if contract == leasing, find insurance contract !
      */
     public void findAllContracts(int idOrder) {
+        log.info("ContractsBean findAllContracts!");
         contractsEntities = findAllContractsByIdOrder(idOrder);
-        for (ContractsEntity c : contractsEntities) {
-            if (c.getContractTypesByIdContractType().getLabel().equalsIgnoreCase("Leasing")) {
-                ContractInsurancesEntity contractInsurancesEntity = contractInsurancesBean.findContractInsurancesByIdContract(c.getId());
-                hmContractInsurances.put(c.getId(), contractInsurancesEntity);
+        if (!contractsEntities.isEmpty()) {
+            showBasket = true;
+            for (ContractsEntity c : contractsEntities) {
+                if (c.getContractTypesByIdContractType().getLabel().equalsIgnoreCase("Leasing")) {
+                    ContractInsurancesEntity contractInsurancesEntity = contractInsurancesBean.findContractInsurancesByIdContract(c.getId());
+                    hmContractInsurances.put(c.getId(), contractInsurancesEntity);
+                }
             }
+        } else {
+            showBasket = false;
         }
     }
 
@@ -124,6 +174,7 @@ public class ContractsBean extends ExtendBean implements Serializable {
      * Calcul FinalPrice in Contract !!
      */
     public void calculFinalPriceContract() {
+        log.info("ContractsBean calculFinalPriceContract!");
         this.finalPrice = adsBean.getAdsEntity().getTypeAds() == EnumTypeAds.Leasing ? (adsBean.getAdsEntity().getPrice() + (insurancesBean.getInsurancesEntity().getPrice() * timeLeasing)) : (adsBean.getAdsEntity().getPrice());
     }
 
@@ -131,6 +182,7 @@ public class ContractsBean extends ExtendBean implements Serializable {
      * Calcul date end for contract
      */
     protected void calculateDateEndContract() {
+        log.info("ContractsBean calculateDateEndContract!");
         dateEnd = LocalDateTime.now().plusMonths(timeLeasing);
     }
 
@@ -140,6 +192,7 @@ public class ContractsBean extends ExtendBean implements Serializable {
      * @return True or false
      */
     protected ContractsEntity findContractByIdOrders_and_byIdCars() {
+        log.info("ContractsBean findContractByIdOrders_and_byIdCars!");
         return contractsServices.findContractByIdOrdersAndByIdCars(ordersBean.getOrdersEntity().getId(), adsBean.getAdsEntity().getCarsByIdCars().getId());
     }
 
@@ -148,6 +201,7 @@ public class ContractsBean extends ExtendBean implements Serializable {
      * Method to delete contract
      */
     public void deleteContract() {
+        log.info("ContractsBean deleteContract!");
         contractsEntity = contractsServices.findById(Integer.parseInt(getParam("idContract")));
 
         if (contractsEntity == null) {
@@ -174,7 +228,32 @@ public class ContractsBean extends ExtendBean implements Serializable {
         ordersBean.init();
     }
 
+    /**
+     * Clear Basket. Delete all contracts
+     */
+    public void clearBasket() {
+        log.info("ContractsBean clearBasket!");
+        log.info(contractsEntities);
+
+        for (ContractsEntity c : contractsEntities
+        ) {
+            if (c.getContractTypesByIdContractType().getLabel().equalsIgnoreCase("Leasing")) {
+                contractInsurancesBean.deleteContractInsurance(c);
+            }
+            contractsServices.delete(c.getId());
+        }
+        success = JsfUtils.returnMessage(getLocale(), "successDelete");
+        ordersBean.findOrderAndfindContracts();
+    }
+
+    /**
+     * Find All Contracts By Id Order
+     *
+     * @param idOrder
+     * @return
+     */
     protected List<ContractsEntity> findAllContractsByIdOrder(int idOrder) {
+        log.info("ContractsBean findAllContractsByIdOrder!");
         return contractsServices.findAllContractsByIdOrder(idOrder);
     }
 
@@ -240,5 +319,13 @@ public class ContractsBean extends ExtendBean implements Serializable {
 
     public void setFail(String fail) {
         this.fail = fail;
+    }
+
+    public boolean isShowBasket() {
+        return showBasket;
+    }
+
+    public void setShowBasket(boolean showBasket) {
+        this.showBasket = showBasket;
     }
 }

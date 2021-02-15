@@ -45,6 +45,26 @@ public class CarsBean extends ExtendBean implements Serializable {
 
     }
 
+    /**
+     * Set active => False
+     *
+     * @param c
+     * @return
+     */
+    protected CarsEntity setActiveCarFalse(CarsEntity c) {
+        c.setActive(!c.isActive());
+        return c;
+    }
+
+    /**
+     * Update CarEntity
+     *
+     * @param c
+     * @return
+     */
+    protected boolean updateCar(CarsEntity c) {
+        return carsServices.update(c);
+    }
     /// getter and setters
 
     public CarsEntity getCarsEntity() {

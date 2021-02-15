@@ -8,6 +8,7 @@ import java.util.Locale;
 import java.util.Map;
 
 /**
+ * @author Younes - Arifi
  * Class abstract.
  */
 public abstract class ExtendBean {

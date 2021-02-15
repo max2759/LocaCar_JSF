@@ -12,7 +12,6 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * @author Younes - Arifi
@@ -24,12 +23,11 @@ public class OrdersBean extends ExtendBean implements Serializable {
     private static final long serialVersionUID = -5251107202124824837L;
 
     // Remplacer par l'utilisateur
-    private int idUser = 5;
+    private int idUser;
 
     private OrdersEntity ordersEntity;
     private OrdersServices ordersServices = new OrdersServicesImpl();
     private double priceOrder;
-    boolean showBasket;
     private String success;
     private String fail;
     @Inject
@@ -42,7 +40,7 @@ public class OrdersBean extends ExtendBean implements Serializable {
      */
     @PostConstruct
     public void init() {
-        log.info("Post Construct");
+        log.info("OrdersBean : Post Construct");
         fieldsInitialization();
         findOrderAndfindContracts();
     }
@@ -51,24 +49,35 @@ public class OrdersBean extends ExtendBean implements Serializable {
      * Initialization fields
      */
     public void fieldsInitialization() {
-        log.info("Field initialization !");
+        log.info("OrdersBean : Field initialization !");
         success = "";
         fail = "";
+    }
+
+    /**
+     * Method initialization after Validation basket
+     */
+    protected void initializationAfterValidation() {
+        ordersEntity = null;
+        priceOrder = 0;
     }
 
     /**
      * Add shop, call functions
      */
     public void addShop() {
+        log.info("OrdersBean : AddShop");
         init();
         if (ordersEntity == null) {
-            log.info("Aucun Orders n'est trouvé");
+            log.info("OrdersBean : Aucun Orders n'est trouvé");
             createOrders();
         }
 
         if (contractsBean.createContract()) {
+            fail = "";
             success = JsfUtils.returnMessage(getLocale(), "fxs.addShopButton.addShopSuccess");
         } else {
+            success = "";
             fail = JsfUtils.returnMessage(getLocale(), "fxs.addShopButton.addShopError");
         }
         findOrderAndfindContracts();
@@ -78,9 +87,9 @@ public class OrdersBean extends ExtendBean implements Serializable {
      * Method calculate Price Order
      */
     public void calculatePriceOrder() {
+        log.info("OrdersBean : calculatePriceOrder!");
         this.priceOrder = 0;
-        List<ContractsEntity> contractsEntities = contractsBean.findAllContractsByIdOrder(ordersEntity.getId());
-        for (ContractsEntity c : contractsEntities
+        for (ContractsEntity c : contractsBean.getContractsEntities()
         ) {
             this.priceOrder += c.getFinalPrice();
         }
@@ -90,13 +99,49 @@ public class OrdersBean extends ExtendBean implements Serializable {
      * Find order : if not null, find all contracts if contract == leasing, find insurance contract !
      */
     public void findOrderAndfindContracts() {
+        log.info("OrdersBean : findOrderAndfindContracts!");
         ordersEntity = findOrders_ByIdUsers_andStatusIsPending();
         if (ordersEntity != null) {
-            calculatePriceOrder();
             contractsBean.findAllContracts(ordersEntity.getId());
-            showBasket = true;
+            calculatePriceOrder();
+        }
+    }
+
+    /**
+     * Validate Order
+     */
+    public void validateOrder() {
+        log.info("OrdersBean :validateOrder");
+        contractsBean.findAllContracts(ordersEntity.getId());
+        if (contractsBean.getContractsEntities().isEmpty()) {
+            log.info("ContractsEntities is empty");
+            return;
+        }
+        boolean test = false;
+        for (ContractsEntity contractEntity : contractsBean.getContractsEntities()) {
+            log.info(contractEntity.getCarsByIdCars().isActive());
+            if (contractEntity.getCarsByIdCars().isActive()) {
+                test = true;
+            } else {
+                test = false;
+                break;
+            }
+        }
+        if (test) {
+            log.info("Test ok ");
+            ordersEntity.setOrderStatut(EnumOrderStatut.Validate);
+            ordersEntity.setOrderDate(getDate());
+
+            contractsBean.validateContractsOrder();
+
+            ordersServices.update(ordersEntity);
+
+            initializationAfterValidation();
+            contractsBean.initializationAfterValidation();
+
         } else {
-            showBasket = false;
+            success = "";
+            fail = JsfUtils.returnMessage(getLocale(), "fail");
         }
     }
 
@@ -106,6 +151,7 @@ public class OrdersBean extends ExtendBean implements Serializable {
      * @return OrdersEntity or null
      */
     protected OrdersEntity findOrders_ByIdUsers_andStatusIsPending() {
+        log.info("OrdersBean : findOrders_ByIdUsers_andStatusIsPending!");
         return ordersServices.findByIdUsersAndStatusIsPending(idUser);
     }
 
@@ -114,6 +160,7 @@ public class OrdersBean extends ExtendBean implements Serializable {
      * Create Order !
      */
     protected boolean createOrders() {
+        log.info("OrdersBean : createOrders!");
         ordersEntity = new OrdersEntity();
         ordersEntity.setUsersByIdUsers(usersBean.findUserById(idUser));
         ordersEntity.setOrderDate(getDate());
@@ -151,14 +198,6 @@ public class OrdersBean extends ExtendBean implements Serializable {
 
     public void setOrdersEntity(OrdersEntity ordersEntity) {
         this.ordersEntity = ordersEntity;
-    }
-
-    public boolean isShowBasket() {
-        return showBasket;
-    }
-
-    public void setShowBasket(boolean showBasket) {
-        this.showBasket = showBasket;
     }
 
     public double getPriceOrder() {
