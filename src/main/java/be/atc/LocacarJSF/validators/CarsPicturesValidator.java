@@ -49,7 +49,7 @@ public class CarsPicturesValidator implements Validator {
         log.info("Extension = " + ext);
 
 
-        if (fileSizeInMB < 1) {
+        if (fileSizeInMB < 5) {
             if (!file.getContentType().equals("image/jpeg") && !file.getContentType().equals("image/png")) {
                 log.info("L'image n'est pas au bon format");
                 throw new ValidatorException(new FacesMessage(getMessageError()));
