@@ -48,4 +48,13 @@ public class CarsPicturesServicesImpl implements CarsPicturesServices {
         }
         return Collections.emptyList();
     }
+
+    @Override
+    public CarsPicturesEntity findByLabel(String label) {
+
+        if (label != null) {
+            return carsPicturesDAO.findByLabel(label);
+        }
+        return null;
+    }
 }
