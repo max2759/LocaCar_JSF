@@ -35,11 +35,12 @@ public class ContractsBean extends ExtendBean implements Serializable {
     Map<Integer, ContractInsurancesEntity> hmContractInsurances = new HashMap<Integer, ContractInsurancesEntity>();
 
     private double finalPrice;
-    LocalDateTime dateEnd;
-    String success;
-    String fail;
-    boolean showBasket;
+    private LocalDateTime dateEnd;
+    private String success;
+    private String fail;
+    private boolean showBasket;
     private int timeLeasing;
+    private int cptContracts;
 
     @Inject
     private ContractInsurancesBean contractInsurancesBean;
@@ -246,6 +247,10 @@ public class ContractsBean extends ExtendBean implements Serializable {
         ordersBean.findOrderAndfindContracts();
     }
 
+    protected void countContractsByIdOrder(int idOrder) {
+        cptContracts = (int) contractsServices.countContractsByIdOrder(idOrder);
+    }
+
     /**
      * Find All Contracts By Id Order
      *
@@ -327,5 +332,13 @@ public class ContractsBean extends ExtendBean implements Serializable {
 
     public void setShowBasket(boolean showBasket) {
         this.showBasket = showBasket;
+    }
+
+    public int getCptContracts() {
+        return cptContracts;
+    }
+
+    public void setCptContracts(int cptContracts) {
+        this.cptContracts = cptContracts;
     }
 }

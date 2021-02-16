@@ -91,4 +91,12 @@ public class ContractsServicesImpl implements ContractsServices {
         }
         return Collections.emptyList();
     }
+
+    @Override
+    public Number countContractsByIdOrder(int idOrder) {
+        if (idOrder != 0) {
+            return contractsDAO.countContractsByIdOrder(idOrder);
+        }
+        return 0;
+    }
 }

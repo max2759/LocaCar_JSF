@@ -104,18 +104,21 @@ public class OrdersBean extends ExtendBean implements Serializable {
         if (ordersEntity != null) {
             contractsBean.findAllContracts(ordersEntity.getId());
             calculatePriceOrder();
+            if (idUser != 0) {
+                contractsBean.countContractsByIdOrder(getOrdersEntity().getId());
+            }
         }
     }
 
     /**
      * Validate Order
      */
-    public void validateOrder() {
+    public String validateOrder() {
         log.info("OrdersBean :validateOrder");
         contractsBean.findAllContracts(ordersEntity.getId());
         if (contractsBean.getContractsEntities().isEmpty()) {
             log.info("ContractsEntities is empty");
-            return;
+            return "index";
         }
         boolean test = false;
         for (ContractsEntity contractEntity : contractsBean.getContractsEntities()) {
@@ -138,10 +141,12 @@ public class OrdersBean extends ExtendBean implements Serializable {
 
             initializationAfterValidation();
             contractsBean.initializationAfterValidation();
-
+            return "insurances";
         } else {
             success = "";
             fail = JsfUtils.returnMessage(getLocale(), "fail");
+
+            return "index";
         }
     }
 

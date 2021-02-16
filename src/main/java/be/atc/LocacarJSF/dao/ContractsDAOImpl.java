@@ -171,4 +171,20 @@ public class ContractsDAOImpl extends EntityFinderImpl<ContractsEntity> implemen
         }
     }
 
+    @Override
+    public Number countContractsByIdOrder(int idOrder) {
+        EntityManager em = EMF.getEM();
+        try {
+            return ((Number) em.createNamedQuery("Contracts.countContractsByIdOrder")
+                    .setParameter("idOrder", idOrder)
+                    .getSingleResult()).intValue();
+        } catch (Exception ex) {
+            log.info("Nothing");
+            return null;
+        } finally {
+            em.clear();
+            em.close();
+        }
+    }
+
 }

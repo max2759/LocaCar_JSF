@@ -17,8 +17,6 @@
                     <f:ajax render="@all"></f:ajax>
                 </h:commandButton>
             </h:form>
-            <h:outputText value="Total panier : "></h:outputText>
-            <fxs:priceOrder id="priceOrder"></fxs:priceOrder>
         </f:view>
 
 
@@ -37,6 +35,14 @@
                                                                 action="#{carsColorsBean.toPageColors}"/></li>
                             <li class="nav-item"><h:commandLink styleClass="nav-link" value="Models"
                                                                 action="#{modelsBean.toPageModels}"/></li>
+                            <li class="nav-item">
+                                <fxs:countContracts id="countContracts"></fxs:countContracts>
+                                <h:link outcome="basket">
+                                    <i class="fas fa-shopping-cart"></i>
+                                </h:link>
+                                <br/>
+                                <fxs:priceOrder id="priceOrder"></fxs:priceOrder>
+                            </li>
                         </ul>
                     </f:ajax>
                 </h:form>
