@@ -1,14 +1,18 @@
 package be.atc.LocacarJSF.converters;
 
+import utils.JsfUtils;
+
+import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
+import javax.faces.convert.ConverterException;
 import javax.faces.convert.FacesConverter;
 import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.temporal.ChronoField;
+import java.util.Locale;
 
 /**
  * Converter pour afficher correctement les dates en format Jour/mois/année
@@ -18,6 +22,9 @@ import java.time.temporal.ChronoField;
 
 @FacesConverter(value = "localDateTimeConverter")
 public class LocalDateTimeConverter implements Converter {
+
+    private Locale locale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
+
 
     private static DateTimeFormatter DATE_FORMAT =
             new DateTimeFormatterBuilder().appendPattern("dd/MM/yyyy[ [HH][:mm][:ss][.SSS]]")
@@ -29,8 +36,13 @@ public class LocalDateTimeConverter implements Converter {
     @Override
     public Object getAsObject(FacesContext context, UIComponent component, String value) {
 
-        ZonedDateTime nowLocalDateTime = ZonedDateTime.now();
-        return LocalDateTime.parse(value, DATE_FORMAT);
+        if (value != null) {
+            /*ZonedDateTime nowLocalDateTime = ZonedDateTime.now();*/
+            return LocalDateTime.parse(value, DATE_FORMAT);
+        } else {
+            throw new ConverterException(new FacesMessage(JsfUtils.returnMessage(locale, "fxs.modelsConverter.error")));
+        }
+
     }
 
     @Override

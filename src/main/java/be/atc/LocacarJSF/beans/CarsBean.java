@@ -42,7 +42,10 @@ public class CarsBean extends ExtendBean implements Serializable {
 
         carsServices.add(carsEntity);
 
+    }
 
+    public CarsEntity findCarsById(int idCars) {
+        return carsServices.findById(idCars);
     }
 
     /// getter and setters

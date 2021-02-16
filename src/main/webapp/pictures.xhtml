@@ -12,9 +12,12 @@
         </h:head>
         <h:body>
             <h:form enctype="multipart/form-data">
-                <h:inputFile value="#{picturesBean.file}">
-                    <f:ajax listener="#{picturesBean.save}"/>
+                <h:inputFile value="#{picturesBean.file}" id="picturesInput" required="true"
+                             requiredMessage="Ajouter une image">
+                    <f:validator validatorId="carsPicturesValidator"/>
                 </h:inputFile>
+                <h:message for="picturesInput" id="picturesInputMessages" styleClass="alert alert-danger"/>
+                <h:commandButton action="#{picturesBean.save}" value="ajouter"/>
             </h:form>
         </h:body>
     </ui:define>

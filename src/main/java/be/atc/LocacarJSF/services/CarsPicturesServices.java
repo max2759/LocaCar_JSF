@@ -13,4 +13,6 @@ public interface CarsPicturesServices {
     public List<CarsPicturesEntity> findAll();
 
     public CarsPicturesEntity findById(int id);
+
+    public List<CarsPicturesEntity> findByCarsId(int id);
 }

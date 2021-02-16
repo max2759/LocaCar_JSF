@@ -4,6 +4,7 @@ import be.atc.LocacarJSF.dao.CarsPicturesDAO;
 import be.atc.LocacarJSF.dao.CarsPicturesDAOImpl;
 import be.atc.LocacarJSF.dao.entities.CarsPicturesEntity;
 
+import java.util.Collections;
 import java.util.List;
 
 public class CarsPicturesServicesImpl implements CarsPicturesServices {
@@ -38,5 +39,13 @@ public class CarsPicturesServicesImpl implements CarsPicturesServices {
             return carsPicturesDAO.findById(id);
         }
         return null;
+    }
+
+    @Override
+    public List<CarsPicturesEntity> findByCarsId(int id) {
+        if (id != 0) {
+            return carsPicturesDAO.findByCarsId(id);
+        }
+        return Collections.emptyList();
     }
 }
