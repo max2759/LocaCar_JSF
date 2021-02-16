@@ -103,4 +103,31 @@ class ContractsServicesImplTest {
 
     }
 
+    @Test
+    void countContractsByIdOrder_shouldReturnTrue() {
+        // mettre une idOrder valide
+        int idOrder = 53;
+
+        int i = (int) contractsServices.countContractsByIdOrder(idOrder);
+
+        boolean test = i > 0 ? true : false;
+
+        log.info("Le test vaut : " + test + " et il y a " + i + " contracts");
+        assertThat(test).isEqualTo(true);
+
+    }
+
+    @Test
+    void countContractsByIdOrder_shouldReturnFalse() {
+        // mettre une idOrder invalide
+        int idOrder = 0;
+
+        int i = (int) contractsServices.countContractsByIdOrder(idOrder);
+
+        boolean test = i > 0 ? true : false;
+
+        log.info("Le test vaut : " + test + " et il y a " + i + " contracts");
+        assertThat(test).isEqualTo(false);
+
+    }
 }

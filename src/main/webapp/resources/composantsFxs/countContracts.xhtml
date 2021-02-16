@@ -5,12 +5,12 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:cc="http://java.sun.com/jsf/composite">
 
-<cc:interface name="priceOrder"
-              displayName="#{bundle['fxs.priceOrder.displayName']}"
-              shortDescription="#{bundle['fxs.priceOrder.displayName']}"
+<cc:interface name="countContracts"
+              displayName="countContracts"
+              shortDescription="countContracts"
 >
 </cc:interface>
 <cc:implementation>
-    <h:outputText value="#{ordersBean.priceOrder} €"></h:outputText>
+    <h:outputText value="#{contractsBean.cptContracts}"></h:outputText>
 </cc:implementation>
 </html>

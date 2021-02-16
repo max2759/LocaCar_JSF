@@ -21,4 +21,6 @@ public interface ContractsServices {
     ContractsEntity findContractByIdOrdersAndByIdCars(int idOrder, int idCar);
 
     List<ContractsEntity> findAllContractsByIdOrder(int idOrder);
+
+    Number countContractsByIdOrder(int idOrder);
 }

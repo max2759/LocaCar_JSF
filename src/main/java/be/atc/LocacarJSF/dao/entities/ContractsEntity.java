@@ -10,6 +10,7 @@ import java.util.Objects;
 @NamedQueries({
         @NamedQuery(name = "Contracts.findContractByIdOrdersAndByIdCars", query = "SELECT c from ContractsEntity c where (c.ordersByIdOrders.id = :idOrder) and (c.carsByIdCars.id = :idCar)"),
         @NamedQuery(name = "Contracts.findAll", query = "SELECT c from ContractsEntity c "),
+        @NamedQuery(name = "Contracts.countContractsByIdOrder", query = "SELECT COUNT(c) from ContractsEntity c where c.ordersByIdOrders.id = :idOrder"),
         @NamedQuery(name = "Contracts.findAllContractsByIdOrder", query = "SELECT c from ContractsEntity c where c.ordersByIdOrders.id = :idOrder"),
 })
 public class ContractsEntity {

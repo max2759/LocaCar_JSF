@@ -56,9 +56,9 @@
                             <f:ajax render="@all"/>
                         </h:commandLink>
                     </h:panelGroup>
-                    <h:panelGroup id="panelGroupDelete">
-                        &nbsp;&nbsp;
-                        <h:commandLink styleClass="text-danger" action="#{contractsBean.deleteContract}">
+                    <h:panelGroup id="panelGroupDelete"> &nbsp;&nbsp;
+                        <h:commandLink styleClass="text-danger" action="#{contractsBean.deleteContract}"
+                                       onclick="return confirmer();">
                             <i class="far fa-trash-alt"></i>
                             <f:param name="idContract" value="#{c.id}"></f:param>
                             <f:ajax render="@all"/>
@@ -92,7 +92,8 @@
                     <div class="col-md-6 offset-md-0">
                         <h:commandButton styleClass="btn btn-danger"
                                          value="#{bundle['fxs.basket.clearBasket']}"
-                                         action="#{contractsBean.clearBasket}"></h:commandButton>
+                                         action="#{contractsBean.clearBasket}"
+                                         onclick="return confirmer();"></h:commandButton>
                     </div>
                 </div>
                 <div class="row">
@@ -125,9 +126,6 @@
                     <br/>
                     <h:outputText styleClass="font-weight-bold"
                                   value="#{contractInsurancesBean.contractInsurancesEntity.insurancesByIdInsurance.label}"></h:outputText>
-                    <br/>
-                    <h:outputLabel
-                            value="#{bundle['fxs.basket.leasingTimeAcutal']} A CALCULER #{bundle['fxs.basket.month']}"></h:outputLabel>
                     <br/><br/>
                     <h:outputText styleClass="font-weight-bold" value="#{bundle['fxs.basket.editing']}"></h:outputText>
                     <br/>
