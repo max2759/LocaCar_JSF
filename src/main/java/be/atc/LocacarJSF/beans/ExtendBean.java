@@ -13,7 +13,7 @@ import java.util.Map;
  */
 public abstract class ExtendBean {
 
-    public static Logger log = Logger.getLogger(InsurancesBean.class);
+    public static Logger log = Logger.getLogger(ExtendBean.class);
 
     private Locale locale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
 

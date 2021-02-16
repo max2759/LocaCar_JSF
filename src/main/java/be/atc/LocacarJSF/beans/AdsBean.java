@@ -1,6 +1,7 @@
 package be.atc.LocacarJSF.beans;
 
 import be.atc.LocacarJSF.dao.entities.AdsEntity;
+import be.atc.LocacarJSF.dao.entities.CarsPicturesEntity;
 import be.atc.LocacarJSF.enums.EnumTypeAds;
 import be.atc.LocacarJSF.services.AdsServices;
 import be.atc.LocacarJSF.services.AdsServicesImpl;
@@ -35,8 +36,13 @@ public class AdsBean extends ExtendBean implements Serializable {
     private AdsServices adsServices = new AdsServicesImpl();
     private List<AdsEntity> adsEntities;
 
+    private List<CarsPicturesEntity> carsPicturesEntityList;
+
     @Inject
     private CarsBean carsBean;
+
+    @Inject
+    private PicturesBean picturesBean;
 
     private boolean showPopup;
     private boolean addAdsEntity;
@@ -52,7 +58,9 @@ public class AdsBean extends ExtendBean implements Serializable {
     @PostConstruct
     public void init() {
         adsEntities = adsServices.findAll();
-
+        for (AdsEntity img : adsEntities) {
+            carsPicturesEntityList = picturesBean.findPictures(img.getCarsByIdCars().getId());
+        }
     }
 
     public void initialisationFields() {
@@ -190,5 +198,11 @@ public class AdsBean extends ExtendBean implements Serializable {
         this.dateEnd = dateEnd;
     }
 
+    public List<CarsPicturesEntity> getCarsPicturesEntityList() {
+        return carsPicturesEntityList;
+    }
 
+    public void setCarsPicturesEntityList(List<CarsPicturesEntity> carsPicturesEntityList) {
+        this.carsPicturesEntityList = carsPicturesEntityList;
+    }
 }

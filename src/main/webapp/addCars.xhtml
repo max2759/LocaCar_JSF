@@ -148,18 +148,6 @@
                             </div>
                         </h:panelGroup>
 
-                        <h:panelGroup class="form-group">
-                            <h:outputLabel value="ID de l'image" for="pictureTest"></h:outputLabel>
-                            <h:inputText value="#{picturesBean.carsPicturesEntity}" styleClass="form-control"
-                                         required="true"
-                                         pt:placeholder="ID picture"
-                                         requiredMessage="#{bundle['fxs.insurancesList.required']}"
-                                         id="pictureTest">
-                                <f:converter converterId="carsPicturesConverter"/>
-                            </h:inputText>
-                            <h:message styleClass="alert alert-danger" role="alert" for="pictureTest"></h:message>
-                        </h:panelGroup>
-
                         <h:panelGroup>
                             <h:commandButton styleClass="btn btn-outline-success btn-sm"
                                              value="#{bundle['fxs.insurancesList.save']}"
