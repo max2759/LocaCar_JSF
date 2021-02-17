@@ -42,6 +42,7 @@ public class PicturesBean extends ExtendBean implements Serializable {
     private Part file;
 
 
+
     /**
      * PostConstruct : appelé après le constructeur.
      * Met à jour CarsPicturesEntity
@@ -53,7 +54,6 @@ public class PicturesBean extends ExtendBean implements Serializable {
 
     /**
      * Save file
-     *
      * @throws ServletException
      * @throws IOException
      */
@@ -89,7 +89,6 @@ public class PicturesBean extends ExtendBean implements Serializable {
 
     /**
      * Copy files to upload folder
-     *
      * @param fileName
      * @throws IOException
      */
@@ -104,7 +103,6 @@ public class PicturesBean extends ExtendBean implements Serializable {
 
     /**
      * Upload file to db
-     *
      * @param fileName
      */
     private void upload(String fileName) {
@@ -116,6 +114,7 @@ public class PicturesBean extends ExtendBean implements Serializable {
     }
 
     /**
+     *
      * @param idCars
      * @return list of CarsPicturesEntity
      */

@@ -11,6 +11,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -28,6 +29,7 @@ public class OptionsBean extends ExtendBean implements Serializable {
     private OptionsServices optionsServices = new OptionsServicesImpl();
     private OptionsEntity optionsEntity = new OptionsEntity();
     private List<OptionsEntity> optionsEntities;
+    private List<OptionsEntity> optionsEntityList = new ArrayList<>();
 
     private boolean showPopup;
     private boolean addOptionEntity;
@@ -183,5 +185,13 @@ public class OptionsBean extends ExtendBean implements Serializable {
 
     public void setFail(String fail) {
         this.fail = fail;
+    }
+
+    public List<OptionsEntity> getOptionsEntityList() {
+        return optionsEntityList;
+    }
+
+    public void setOptionsEntityList(List<OptionsEntity> optionsEntityList) {
+        this.optionsEntityList = optionsEntityList;
     }
 }
