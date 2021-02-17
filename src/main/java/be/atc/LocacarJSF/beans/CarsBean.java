@@ -2,6 +2,9 @@ package be.atc.LocacarJSF.beans;
 
 
 import be.atc.LocacarJSF.dao.entities.CarsEntity;
+import be.atc.LocacarJSF.dao.entities.CarsOptionsEntity;
+import be.atc.LocacarJSF.services.CarsOptionsServices;
+import be.atc.LocacarJSF.services.CarsOptionsServicesImpl;
 import be.atc.LocacarJSF.services.CarsServices;
 import be.atc.LocacarJSF.services.CarsServicesImpl;
 
@@ -20,10 +23,18 @@ public class CarsBean extends ExtendBean implements Serializable {
 
     private CarsEntity carsEntity;
     private CarsServices carsServices = new CarsServicesImpl();
+    private CarsOptionsEntity carsOptionsEntity;
+    private CarsOptionsServices carsOptionsServices = new CarsOptionsServicesImpl();
     private List<CarsEntity> carsEntities;
 
     @Inject
     private PicturesBean picturesBean;
+
+    @Inject
+    private OptionsBean optionsBean;
+
+    @Inject
+    private CarsOptionsBean carsOptionsBean;
 
     /**
      * PostConstruct : appelé après le constructeur.
@@ -39,10 +50,10 @@ public class CarsBean extends ExtendBean implements Serializable {
         log.info("Début ajout voiture");
 
         carsEntity.setActive(true);
-
         carsServices.add(carsEntity);
-
+        carsOptionsBean.addOptionsToCarsOptions(carsEntity);
     }
+
 
     public CarsEntity findCarsById(int idCars) {
         return carsServices.findById(idCars);
@@ -68,6 +79,7 @@ public class CarsBean extends ExtendBean implements Serializable {
     protected boolean updateCar(CarsEntity c) {
         return carsServices.update(c);
     }
+
     /// getter and setters
 
     public CarsEntity getCarsEntity() {

@@ -5,6 +5,9 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "cars_options", schema = "locacarjsf", catalog = "")
+@NamedQueries({
+        @NamedQuery(name = "carsOptions.findAll", query = "SELECT co from CarsOptionsEntity co"),
+})
 public class CarsOptionsEntity {
     private int id;
     private OptionsEntity optionsByIdOptions;
@@ -35,7 +38,7 @@ public class CarsOptionsEntity {
     }
 
     @ManyToOne
-    @JoinColumn(name = "ID_Options", referencedColumnName = "id", insertable = false, updatable = false, nullable = false)
+    @JoinColumn(name = "ID_Options", referencedColumnName = "id", nullable = false)
     public OptionsEntity getOptionsByIdOptions() {
         return optionsByIdOptions;
     }
@@ -45,7 +48,7 @@ public class CarsOptionsEntity {
     }
 
     @ManyToOne
-    @JoinColumn(name = "ID_Cars", referencedColumnName = "id", insertable = false, updatable = false, nullable = false)
+    @JoinColumn(name = "ID_Cars", referencedColumnName = "id", nullable = false)
     public CarsEntity getCarsByIdCars() {
         return carsByIdCars;
     }
