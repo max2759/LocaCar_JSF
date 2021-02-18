@@ -120,4 +120,55 @@ public class OrdersDAOImpl extends EntityFinderImpl<OrdersEntity> implements Ord
         }
     }
 
+    @Override
+    public List<OrdersEntity> findAllByIdUsersAndStatusIsValidateOrCanceled(int idUser) {
+        EntityManager em = EMF.getEM();
+        try {
+            return em.createNamedQuery("Orders.findAllByIdUsersAndStatusIsValidateOrCanceled",
+                    OrdersEntity.class)
+                    .setParameter("idUser", idUser)
+                    .getResultList();
+        } catch (Exception ex) {
+            log.info("Nothing");
+            return null;
+        } finally {
+            em.clear();
+            em.close();
+        }
+    }
+
+    @Override
+    public List<OrdersEntity> findAllByUsernameUsersAndStatusIsValidateOrCanceled(String username) {
+        EntityManager em = EMF.getEM();
+        try {
+            return em.createNamedQuery("Orders.findAllByUsernameUsersAndStatusIsValidateOrCanceled",
+                    OrdersEntity.class)
+                    .setParameter("username", username)
+                    .getResultList();
+        } catch (Exception ex) {
+            log.info("Nothing");
+            return null;
+        } finally {
+            em.clear();
+            em.close();
+        }
+    }
+
+    @Override
+    public List<OrdersEntity> findAllByIdOrderAndStatusIsValidateOrCanceled(int idOrder) {
+        EntityManager em = EMF.getEM();
+        try {
+            return em.createNamedQuery("Orders.findAllByIdOrderAndStatusIsValidateOrCanceled",
+                    OrdersEntity.class)
+                    .setParameter("idOrder", idOrder)
+                    .getResultList();
+        } catch (Exception ex) {
+            log.info("Nothing");
+            return null;
+        } finally {
+            em.clear();
+            em.close();
+        }
+    }
+
 }

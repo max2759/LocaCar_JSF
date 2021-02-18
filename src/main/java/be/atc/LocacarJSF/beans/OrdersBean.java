@@ -12,6 +12,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * @author Younes - Arifi
@@ -30,6 +31,8 @@ public class OrdersBean extends ExtendBean implements Serializable {
     private double priceOrder;
     private String success;
     private String fail;
+    private String requestOrdersList;
+    private List<OrdersEntity> ordersEntities;
     @Inject
     private ContractsBean contractsBean;
     @Inject
@@ -43,6 +46,20 @@ public class OrdersBean extends ExtendBean implements Serializable {
         log.info("OrdersBean : Post Construct");
         fieldsInitialization();
         findOrderAndfindContracts();
+    }
+
+    /**
+     * Find order : if not null, find all contracts if contract == leasing, find insurance contract !
+     */
+    public void findOrderAndfindContracts() {
+        log.info("OrdersBean : findOrderAndfindContracts!");
+        ordersEntity = findOrders_ByIdUsers_andStatusIsPending();
+        if (ordersEntity != null) {
+            contractsBean.findAllContracts(ordersEntity.getId());
+            calculatePriceOrder();
+            contractsBean.countContractsByIdOrder(getOrdersEntity().getId());
+
+        }
     }
 
     /**
@@ -95,20 +112,6 @@ public class OrdersBean extends ExtendBean implements Serializable {
         }
     }
 
-    /**
-     * Find order : if not null, find all contracts if contract == leasing, find insurance contract !
-     */
-    public void findOrderAndfindContracts() {
-        log.info("OrdersBean : findOrderAndfindContracts!");
-        ordersEntity = findOrders_ByIdUsers_andStatusIsPending();
-        if (ordersEntity != null) {
-            contractsBean.findAllContracts(ordersEntity.getId());
-            calculatePriceOrder();
-            if (idUser != 0) {
-                contractsBean.countContractsByIdOrder(getOrdersEntity().getId());
-            }
-        }
-    }
 
     /**
      * Validate Order
@@ -141,6 +144,7 @@ public class OrdersBean extends ExtendBean implements Serializable {
 
             initializationAfterValidation();
             contractsBean.initializationAfterValidation();
+            contractsBean.setCptContracts(0);
             return "insurances";
         } else {
             success = "";
@@ -148,6 +152,45 @@ public class OrdersBean extends ExtendBean implements Serializable {
 
             return "index";
         }
+    }
+
+    public void findOrderCanceledOrValidate() {
+        log.info("OrdersBean : findOrderCanceledOrValidate");
+        log.info("requestOrdersList : " + requestOrdersList);
+        if ((!findOrdersCanceledOrValidateByIdOrder()) && (!findOrdersCanceledOrValidateByIdUser()) && (!findOrdersCanceledOrValidateByUsername())) {
+            success = "";
+            fail = JsfUtils.returnMessage(getLocale(), "fxs.ordersList.requestError");
+        } else {
+            fail = "";
+        }
+    }
+
+    protected boolean findOrdersCanceledOrValidateByIdOrder() {
+        log.info("OrdersBean : findOrdersCanceledOrValidateByIdOrder");
+        try {
+            int idOrder = Integer.parseInt(requestOrdersList);
+            ordersEntities = ordersServices.findAllByIdOrderAndStatusIsValidateOrCanceled(idOrder);
+            return ordersEntities.isEmpty() ? false : true;
+        } catch (NumberFormatException numberFormatException) {
+            return false;
+        }
+    }
+
+    protected boolean findOrdersCanceledOrValidateByIdUser() {
+        log.info("OrdersBean : findOrdersCanceledOrValidateByIdUser");
+        try {
+            int idUserTemp = Integer.parseInt(requestOrdersList);
+            ordersEntities = ordersServices.findAllByIdUsersAndStatusIsValidateOrCanceled(idUserTemp);
+            return ordersEntities.isEmpty() ? false : true;
+        } catch (NumberFormatException numberFormatException) {
+            return false;
+        }
+    }
+
+    protected boolean findOrdersCanceledOrValidateByUsername() {
+        log.info("OrdersBean : findOrdersCanceledOrValidateByUsername");
+        ordersEntities = ordersServices.findAllByUsernameUsersAndStatusIsValidateOrCanceled(requestOrdersList);
+        return ordersEntities.isEmpty() ? false : true;
     }
 
     /**
@@ -211,5 +254,21 @@ public class OrdersBean extends ExtendBean implements Serializable {
 
     public void setPriceOrder(double priceOrder) {
         this.priceOrder = priceOrder;
+    }
+
+    public String getRequestOrdersList() {
+        return requestOrdersList;
+    }
+
+    public void setRequestOrdersList(String requestOrdersList) {
+        this.requestOrdersList = requestOrdersList;
+    }
+
+    public List<OrdersEntity> getOrdersEntities() {
+        return ordersEntities;
+    }
+
+    public void setOrdersEntities(List<OrdersEntity> ordersEntities) {
+        this.ordersEntities = ordersEntities;
     }
 }

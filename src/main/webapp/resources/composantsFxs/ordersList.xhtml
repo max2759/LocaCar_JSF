@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:cc="http://java.sun.com/jsf/composite">
+
+<cc:interface name="Orders"
+              displayName="#{bundle['orders.title']}"
+              shortDescription="#{bundle['orders.title']}"
+>
+</cc:interface>
+<cc:implementation>
+    <div class="container-fluid">
+        <h:form>
+            <br/>
+            <h:outputText styleClass="alert-danger" value="#{ordersBean.fail}"></h:outputText>
+            <br/>
+            <h:outputText styleClass="form-label" value="#{bundle['fxs.ordersList.request']}"></h:outputText>
+            <br/><br/>
+            <h:inputText styleClass="form-control" value="#{ordersBean.requestOrdersList}"></h:inputText>
+            <br/>
+            <h:commandButton id="commandButtonListOrder" styleClass="btn btn-outline-success btn-sm"
+                             value="#{bundle['validate']}"
+                             actionListener="#{ordersBean.findOrderCanceledOrValidate}">
+                <f:ajax execute="@form" render="@all"/>
+            </h:commandButton>
+        </h:form>
+        <h:dataTable id="outputMessage" styleClass="table table-hover"
+                     value="#{ordersBean.ordersEntities}" var="o">
+            <h:column>
+                <f:facet name="header">#{bundle['fxs.ordersList.idOrder']}</f:facet>
+                <h:outputText value="#{o.id}"></h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">#{bundle['fxs.ordersList.username']}</f:facet>
+                <h:outputText value="#{o.usersByIdUsers.username}"></h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">#{bundle['fxs.ordersList.date']}</f:facet>
+                <h:outputText value="#{o.orderDate}">
+                    <f:convertDateTime type="localDate" pattern="dd/MM/yyyy"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">#{bundle['fxs.ordersList.status']}</f:facet>
+                <h:outputText value="#{o.orderStatut}"></h:outputText>
+            </h:column>
+
+        </h:dataTable>
+    </div>
+</cc:implementation>
+</html>

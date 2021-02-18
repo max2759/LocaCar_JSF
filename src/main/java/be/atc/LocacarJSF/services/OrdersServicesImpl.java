@@ -4,6 +4,7 @@ import be.atc.LocacarJSF.dao.OrdersDAO;
 import be.atc.LocacarJSF.dao.OrdersDAOImpl;
 import be.atc.LocacarJSF.dao.entities.OrdersEntity;
 
+import java.util.Collections;
 import java.util.List;
 
 
@@ -73,5 +74,29 @@ public class OrdersServicesImpl implements OrdersServices {
             return ordersDAO.findByIdUsersAndStatusIsPending(idUser);
         }
         return null;
+    }
+
+    @Override
+    public List<OrdersEntity> findAllByIdUsersAndStatusIsValidateOrCanceled(int idUser) {
+        if (idUser != 0) {
+            return ordersDAO.findAllByIdUsersAndStatusIsValidateOrCanceled(idUser);
+        }
+        return Collections.emptyList();
+    }
+
+    @Override
+    public List<OrdersEntity> findAllByUsernameUsersAndStatusIsValidateOrCanceled(String username) {
+        if (username != null) {
+            return ordersDAO.findAllByUsernameUsersAndStatusIsValidateOrCanceled(username);
+        }
+        return Collections.emptyList();
+    }
+
+    @Override
+    public List<OrdersEntity> findAllByIdOrderAndStatusIsValidateOrCanceled(int idOrder) {
+        if (idOrder != 0) {
+            return ordersDAO.findAllByIdOrderAndStatusIsValidateOrCanceled(idOrder);
+        }
+        return Collections.emptyList();
     }
 }

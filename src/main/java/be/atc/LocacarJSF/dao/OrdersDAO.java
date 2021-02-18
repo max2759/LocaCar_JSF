@@ -18,4 +18,10 @@ public interface OrdersDAO {
     public OrdersEntity findById(int id);
 
     OrdersEntity findByIdUsersAndStatusIsPending(int idUser);
+
+    List<OrdersEntity> findAllByIdUsersAndStatusIsValidateOrCanceled(int idUser);
+
+    List<OrdersEntity> findAllByUsernameUsersAndStatusIsValidateOrCanceled(String username);
+
+    List<OrdersEntity> findAllByIdOrderAndStatusIsValidateOrCanceled(int idOrder);
 }
