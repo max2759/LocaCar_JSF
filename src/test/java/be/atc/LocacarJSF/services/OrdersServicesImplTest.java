@@ -7,6 +7,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 class OrdersServicesImplTest {
@@ -55,6 +57,97 @@ class OrdersServicesImplTest {
         OrdersEntity ordersEntity = ordersServices.findByIdUsersAndStatusIsPending(usersEntity.getId());
 
         Boolean test = ordersEntity == null ? false : true;
+
+        log.info("Le test vaut : " + test);
+        assertThat(test).isEqualTo(false);
+    }
+
+    @Test
+    public void findOrders_ByIdUsers_andStatusIsValidateOrCanceled_ShouldBeReturnTrue() {
+        log.info(("Recherche d'Order, par Id Users et Orders.Status == Validate or Canceled"));
+
+        // Utiliser une entity valide : avec une order_status = Validate ou Canceled
+        int idUser = 5;
+
+        List<OrdersEntity> ordersEntities = ordersServices.findAllByIdUsersAndStatusIsValidateOrCanceled(idUser);
+
+        Boolean test = ordersEntities.isEmpty() ? false : true;
+
+        log.info("Le test vaut : " + test);
+        assertThat(test).isEqualTo(true);
+    }
+
+    @Test
+    public void findOrders_ByIdUsers_andStatusIsValidateOrCanceled_ShouldBeReturnFalse() {
+        log.info(("Recherche d'Order, par Id Users et Orders.Status == Validate or Canceled"));
+
+        // Utiliser une entity non valide : avec une order_status = Validate ou Canceled
+        int idUser = 999999;
+
+        List<OrdersEntity> ordersEntities = ordersServices.findAllByIdUsersAndStatusIsValidateOrCanceled(idUser);
+
+        Boolean test = ordersEntities.isEmpty() ? false : true;
+
+        log.info("Le test vaut : " + test);
+        assertThat(test).isEqualTo(false);
+    }
+
+    @Test
+    public void findOrders_ByUsernameUsers_andStatusIsValidateOrCanceled_ShouldBeReturnTrue() {
+        log.info(("Recherche d'Order, par username Users et Orders.Status == Validate or Canceled"));
+
+        // Utiliser une entity valide : avec une order_status = Validate ou Canceled
+        String username = "admin";
+
+        List<OrdersEntity> ordersEntities = ordersServices.findAllByUsernameUsersAndStatusIsValidateOrCanceled(username);
+
+        Boolean test = ordersEntities.isEmpty() ? false : true;
+
+        log.info("Le test vaut : " + test);
+        assertThat(test).isEqualTo(true);
+    }
+
+    @Test
+    public void findOrders_ByUsernameUsers_andStatusIsValidateOrCanceled_ShouldBeReturnFalse() {
+        log.info(("Recherche d'Order, par username Users et Orders.Status == Validate or Canceled"));
+
+        // Utiliser une entity valide : avec une order_status = Validate ou Canceled
+        String username = "Blbalnenfie,c,ec,c,e";
+
+        List<OrdersEntity> ordersEntities = ordersServices.findAllByUsernameUsersAndStatusIsValidateOrCanceled(username);
+
+        Boolean test = ordersEntities.isEmpty() ? false : true;
+
+        log.info("Le test vaut : " + test);
+        assertThat(test).isEqualTo(false);
+    }
+
+    @Test
+    public void findOrders_ByIdOrder_andStatusIsValidateOrCanceled_ShouldBeReturnTrue() {
+        log.info(("Recherche d'Order, par username Users et Orders.Status == Validate or Canceled"));
+
+        // Utiliser une entity valide : avec une order_status = Validate ou Canceled
+        int idOrder = 53;
+
+        List<OrdersEntity> ordersEntities = ordersServices.findAllByIdOrderAndStatusIsValidateOrCanceled(idOrder);
+
+        Boolean test = ordersEntities.isEmpty() ? false : true;
+
+        log.info("Le test vaut : " + test);
+        assertThat(test).isEqualTo(true);
+    }
+
+    @Test
+    public void findOrders_ByIdOrder_andStatusIsValidateOrCanceled_ShouldBeReturnFalse() {
+        log.info(("Recherche d'Order, par username Users et Orders.Status == Validate or Canceled"));
+
+        // Utiliser une entity valide : avec une order_status = Validate ou Canceled
+        int idOrder = 0;
+
+        List<OrdersEntity> ordersEntities = ordersServices.findAllByIdOrderAndStatusIsValidateOrCanceled(idOrder);
+
+
+        boolean test = ordersEntities.isEmpty() ? false : true;
 
         log.info("Le test vaut : " + test);
         assertThat(test).isEqualTo(false);

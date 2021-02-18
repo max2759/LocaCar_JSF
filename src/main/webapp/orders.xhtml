@@ -1,0 +1,14 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:fxs="http://java.sun.com/jsf/composite/composantsFxs"
+                template="WEB-INF/templates/template.xhtml">
+
+    <ui:define name="title">#{bundle['orders.title']}</ui:define>
+    <ui:define name="content">
+        <h:body>
+            <h2>#{bundle['orders.title']}</h2>
+            <fxs:ordersList id="displayListOrders"></fxs:ordersList>
+        </h:body>
+    </ui:define>
+</ui:composition>
