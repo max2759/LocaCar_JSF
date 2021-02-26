@@ -41,7 +41,6 @@ public class ContractsBean extends ExtendBean implements Serializable {
     private String success;
     private String fail;
     private int timeLeasing;
-    private int cptContracts;
 
     @Inject
     private ContractInsurancesBean contractInsurancesBean;
@@ -275,8 +274,8 @@ public class ContractsBean extends ExtendBean implements Serializable {
         ordersBean.findOrderAndfindContracts();
     }
 
-    protected void countContractsByIdOrder(int idOrder) {
-        cptContracts = (int) contractsServices.countContractsByIdOrder(idOrder);
+    protected int countContractsByIdOrder(int idOrder) {
+        return (int) contractsServices.countContractsByIdOrder(idOrder);
     }
 
     /**
@@ -360,14 +359,6 @@ public class ContractsBean extends ExtendBean implements Serializable {
 
     public void setFail(String fail) {
         this.fail = fail;
-    }
-
-    public int getCptContracts() {
-        return cptContracts;
-    }
-
-    public void setCptContracts(int cptContracts) {
-        this.cptContracts = cptContracts;
     }
 
     public List<ContractsEntity> getContractsEntitiesFind() {

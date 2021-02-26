@@ -37,6 +37,7 @@ public class OrdersBean extends ExtendBean implements Serializable {
     private String requestOrdersList;
     private List<OrdersEntity> ordersEntities;
     private boolean showPopup;
+    private int cptContracts;
     @Inject
     private ContractsBean contractsBean;
     @Inject
@@ -61,7 +62,7 @@ public class OrdersBean extends ExtendBean implements Serializable {
         if (ordersEntity != null) {
             contractsBean.findAllContracts(ordersEntity.getId());
             calculatePriceOrder();
-            contractsBean.countContractsByIdOrder(getOrdersEntity().getId());
+            setCptContracts(contractsBean.countContractsByIdOrder(ordersEntity.getId()));
         }
     }
 
@@ -147,7 +148,7 @@ public class OrdersBean extends ExtendBean implements Serializable {
 
             initializationAfterValidation();
             contractsBean.initializationAfterValidation();
-            contractsBean.setCptContracts(0);
+            setCptContracts(0);
             return "insurances";
         } else {
             success = "";
@@ -304,5 +305,13 @@ public class OrdersBean extends ExtendBean implements Serializable {
 
     public void setShowPopup(boolean showPopup) {
         this.showPopup = showPopup;
+    }
+
+    public int getCptContracts() {
+        return cptContracts;
+    }
+
+    public void setCptContracts(int cptContracts) {
+        this.cptContracts = cptContracts;
     }
 }
