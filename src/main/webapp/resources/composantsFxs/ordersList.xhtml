@@ -15,8 +15,6 @@
     <div class="container-fluid">
         <h:form>
             <br/>
-            <h:outputText styleClass="alert-danger" value="#{ordersBean.fail}"></h:outputText>
-            <br/>
             <h:outputText styleClass="form-label" value="#{bundle['fxs.ordersList.request']}"></h:outputText>
             <br/><br/>
             <h:inputText styleClass="form-control" value="#{ordersBean.requestOrdersList}"></h:inputText>
@@ -27,11 +25,20 @@
                 <f:ajax execute="@form" render="@all"/>
             </h:commandButton>
         </h:form>
-        <h:dataTable id="outputMessage" styleClass="table table-hover"
+        <br/>
+        <h:outputText styleClass="alert-danger" value="#{ordersBean.fail}">
+        </h:outputText>
+        <br/>
+        <h:dataTable rendered="#{empty ordersBean.ordersEntities ? false : true}" id="outputMessage"
+                     styleClass="table table-hover"
                      value="#{ordersBean.ordersEntities}" var="o">
             <h:column>
                 <f:facet name="header">#{bundle['fxs.ordersList.idOrder']}</f:facet>
-                <h:outputText value="#{o.id}"></h:outputText>
+                <h:form>
+                    <h:commandLink value="#{o.id}" action="#{ordersBean.showPopupModal}">
+                        <f:param name="idOrder" value="#{o.id}"></f:param>
+                    </h:commandLink>
+                </h:form>
             </h:column>
             <h:column>
                 <f:facet name="header">#{bundle['fxs.ordersList.username']}</f:facet>
@@ -50,5 +57,84 @@
 
         </h:dataTable>
     </div>
+
+
+    <f:view>
+        <h:panelGroup id="popupEdit" layout="block" styleClass="popup-panel-overlay"
+                      rendered="#{ordersBean.showPopup}">
+
+            <h:form id="formPopupEdit">
+                <div class="popup-panel">
+                    <h:dataTable id="outPutContracts" styleClass="table table-hover table-responsive"
+                                 value="#{contractsBean.contractsEntitiesFind}" var="c">
+                        <h:column>
+                            <f:facet name="header">#{bundle['code']}</f:facet>
+                            <h:outputText value="#{c.id}"></h:outputText>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">#{bundle['description']}</f:facet>
+                            <h:outputText styleClass="font-weight-bold"
+                                          value="#{bundle['fxs.ordersList.contractType']} "></h:outputText>
+                            <h:outputText value="#{c.contractTypesByIdContractType.label}"></h:outputText>
+                            <br/>
+                            <h:outputText
+                                    styleClass="font-weight-bold"
+                                    value="#{c.carsByIdCars.modelsByIdModels.brandsByIdBrands.label} "></h:outputText>
+                            <h:outputText styleClass="font-weight-bold"
+                                          value="#{c.carsByIdCars.modelsByIdModels.label} "></h:outputText>
+                            <h:outputText value="#{c.carsByIdCars.releaseYear}">
+                                <f:convertDateTime type="localDate" pattern="y"/>
+                            </h:outputText>
+                            <br/>
+                            <h:outputText value="#{c.carsByIdCars.carsTypesByIdCarsTypes.label} "></h:outputText>
+                            <h:outputText value="#{c.carsByIdCars.carsColorsByIdCarsColors.label} "></h:outputText>
+                            <h:outputText value="#{c.carsByIdCars.carsGearboxByIdCarsGearBox.label} "></h:outputText>
+                            <h:outputText value="#{c.carsByIdCars.carsFuelsByIdCarsFuels.label} "></h:outputText>
+                            <h:outputText value="#{c.carsByIdCars.horsePower} ch"></h:outputText>
+                            <h:outputText value=", #{c.carsByIdCars.kilometer} #{bundle['km']}"></h:outputText>
+                            <br/>
+                            <h:outputLabel value="#{bundle['fxs.ordersList.carPrice']}&nbsp;"></h:outputLabel>
+                            <h:outputText value="#{c.carPrice}">
+                                <f:convertNumber type="currency" currencySymbol="€"/>
+                            </h:outputText>
+                            <br/>
+                        </h:column>
+                        <h:column>
+                            <h:panelGroup styleClass="font-weight-light"
+                                          rendered="#{c.contractTypesByIdContractType.label eq 'Leasing' ? true : false}">
+                                <h:outputText styleClass="font-weight-light"
+                                              value="#{contractsBean.hmContractInsurancesFind[c.id].insurancesByIdInsurance.label}">
+                                </h:outputText>
+                                <br/>
+                                <h:outputLabel value="#{bundle['fxs.ordersList.insurancePrice']}&nbsp;"></h:outputLabel>
+                                <h:outputText
+                                        value="#{contractsBean.hmContractInsurancesFind[c.id].insurancePrice}">
+                                    <f:convertNumber type="currency" currencySymbol="€"/>
+                                </h:outputText>
+                                <h:outputText value=" #{bundle['fxs.ordersList.perMonth']}"></h:outputText>
+                                <br/>
+                                <h:outputLabel value="#{bundle['fxs.ordersList.dateStart']}&nbsp;"></h:outputLabel>
+                                <h:outputText value="#{c.dateStart}">
+                                    <f:convertDateTime type="localDate" pattern="dd/MM/yyyy"/>
+                                </h:outputText>
+                                <br/>
+                                <h:outputLabel value="#{bundle['fxs.ordersList.dateEnd']}&nbsp;"></h:outputLabel>
+                                <h:outputText value="#{c.dateEnd}">
+                                    <f:convertDateTime type="localDate" pattern="dd/MM/yyyy"/>
+                                </h:outputText>
+                            </h:panelGroup>
+                        </h:column>
+                    </h:dataTable>
+                    <br/>
+                    <h:commandButton styleClass="btn btn-outline-dark btn-sm"
+                                     value="#{bundle['close']}"
+                                     action="#{ordersBean.hidePopupModal}">
+                        <f:ajax render="@all"></f:ajax>
+                    </h:commandButton>
+                </div>
+            </h:form>
+        </h:panelGroup>
+    </f:view>
+
 </cc:implementation>
 </html>

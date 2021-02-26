@@ -31,14 +31,15 @@ public class ContractsBean extends ExtendBean implements Serializable {
     ContractsServices contractsServices = new ContractsServicesImpl();
     ContractsEntity contractsEntity;
     List<ContractsEntity> contractsEntities;
+    List<ContractsEntity> contractsEntitiesFind;
 
     Map<Integer, ContractInsurancesEntity> hmContractInsurances = new HashMap<Integer, ContractInsurancesEntity>();
+    Map<Integer, ContractInsurancesEntity> hmContractInsurancesFind = new HashMap<Integer, ContractInsurancesEntity>();
 
     private double finalPrice;
     private LocalDateTime dateEnd;
     private String success;
     private String fail;
-    private boolean showBasket;
     private int timeLeasing;
     private int cptContracts;
 
@@ -78,7 +79,6 @@ public class ContractsBean extends ExtendBean implements Serializable {
         contractsEntities = Collections.emptyList();
         hmContractInsurances = new HashMap<Integer, ContractInsurancesEntity>();
         finalPrice = 0;
-        showBasket = false;
         timeLeasing = 0;
     }
 
@@ -142,7 +142,6 @@ public class ContractsBean extends ExtendBean implements Serializable {
             CarsEntity carsEntity = carsBean.setActiveCarFalse(c.getCarsByIdCars());
             carsBean.updateCar(carsEntity);
 
-
             log.info("contractEntity.getDateStart() : " + c.getDateStart());
             c.setDateStart(getDate());
 
@@ -153,21 +152,50 @@ public class ContractsBean extends ExtendBean implements Serializable {
     }
 
     /**
-     * find all contracts : if contract == leasing, find insurance contract !
+     * find all contracts. In basket
      */
     public void findAllContracts(int idOrder) {
         log.info("ContractsBean findAllContracts!");
         contractsEntities = findAllContractsByIdOrder(idOrder);
         if (!contractsEntities.isEmpty()) {
-            showBasket = true;
+            foreachContractsEntitiesPutMap(false);
+        }
+    }
+
+    /**
+     * Find all contracts. In orders
+     *
+     * @param idOrder
+     */
+    protected void findAllContractsWhenFindOrders(int idOrder) {
+        log.info("ContractsBean findAllContractsWhenFindOrders!");
+
+        this.contractsEntitiesFind = findAllContractsByIdOrder(idOrder);
+        if (!contractsEntitiesFind.isEmpty()) {
+            foreachContractsEntitiesPutMap(true);
+        }
+    }
+
+    /**
+     * Method who put contracts insurances in map. if contract == leasing, find insurance contract !
+     *
+     * @param find If find == true then it's find order. If find == false, it's in basket.
+     */
+    protected void foreachContractsEntitiesPutMap(boolean find) {
+        if (find) {
+            for (ContractsEntity c : contractsEntitiesFind) {
+                if (c.getContractTypesByIdContractType().getLabel().equalsIgnoreCase("Leasing")) {
+                    ContractInsurancesEntity contractInsurancesEntity = contractInsurancesBean.findContractInsurancesByIdContract(c.getId());
+                    hmContractInsurancesFind.put(c.getId(), contractInsurancesEntity);
+                }
+            }
+        } else {
             for (ContractsEntity c : contractsEntities) {
                 if (c.getContractTypesByIdContractType().getLabel().equalsIgnoreCase("Leasing")) {
                     ContractInsurancesEntity contractInsurancesEntity = contractInsurancesBean.findContractInsurancesByIdContract(c.getId());
                     hmContractInsurances.put(c.getId(), contractInsurancesEntity);
                 }
             }
-        } else {
-            showBasket = false;
         }
     }
 
@@ -286,6 +314,14 @@ public class ContractsBean extends ExtendBean implements Serializable {
         this.hmContractInsurances = hmContractInsurances;
     }
 
+    public Map<Integer, ContractInsurancesEntity> getHmContractInsurancesFind() {
+        return hmContractInsurancesFind;
+    }
+
+    public void setHmContractInsurancesFind(Map<Integer, ContractInsurancesEntity> hmContractInsurancesFind) {
+        this.hmContractInsurancesFind = hmContractInsurancesFind;
+    }
+
     public double getFinalPrice() {
         return finalPrice;
     }
@@ -326,19 +362,19 @@ public class ContractsBean extends ExtendBean implements Serializable {
         this.fail = fail;
     }
 
-    public boolean isShowBasket() {
-        return showBasket;
-    }
-
-    public void setShowBasket(boolean showBasket) {
-        this.showBasket = showBasket;
-    }
-
     public int getCptContracts() {
         return cptContracts;
     }
 
     public void setCptContracts(int cptContracts) {
         this.cptContracts = cptContracts;
+    }
+
+    public List<ContractsEntity> getContractsEntitiesFind() {
+        return contractsEntitiesFind;
+    }
+
+    public void setContractsEntitiesFind(List<ContractsEntity> contractsEntitiesFind) {
+        this.contractsEntitiesFind = contractsEntitiesFind;
     }
 }

@@ -59,6 +59,15 @@ public class ContractInsurancesBean extends ExtendBean implements Serializable {
     }
 
     /**
+     * Close popup
+     */
+    public void hidePopupModal() {
+        log.info("ContractInsurancesBean : hidePopupModal");
+        initialisationFields();
+        showPopup = false;
+    }
+
+    /**
      * Repetition code for update entity
      */
     protected boolean functionUpdateEntity() {
@@ -85,15 +94,6 @@ public class ContractInsurancesBean extends ExtendBean implements Serializable {
             fail = JsfUtils.returnMessage(getLocale(), "errorUpdate");
         }
         ordersBean.init();
-    }
-
-    /**
-     * Close popup
-     */
-    public void hidePopupModal() {
-        log.info("ContractInsurancesBean : hidePopupModal");
-        initialisationFields();
-        showPopup = false;
     }
 
     /**

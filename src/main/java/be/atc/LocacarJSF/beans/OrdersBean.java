@@ -12,7 +12,10 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.List;
+
+import static java.lang.Integer.parseInt;
 
 /**
  * @author Younes - Arifi
@@ -24,7 +27,7 @@ public class OrdersBean extends ExtendBean implements Serializable {
     private static final long serialVersionUID = -5251107202124824837L;
 
     // Remplacer par l'utilisateur
-    private int idUser;
+    private int idUser = 7;
 
     private OrdersEntity ordersEntity;
     private OrdersServices ordersServices = new OrdersServicesImpl();
@@ -33,6 +36,7 @@ public class OrdersBean extends ExtendBean implements Serializable {
     private String fail;
     private String requestOrdersList;
     private List<OrdersEntity> ordersEntities;
+    private boolean showPopup;
     @Inject
     private ContractsBean contractsBean;
     @Inject
@@ -58,7 +62,6 @@ public class OrdersBean extends ExtendBean implements Serializable {
             contractsBean.findAllContracts(ordersEntity.getId());
             calculatePriceOrder();
             contractsBean.countContractsByIdOrder(getOrdersEntity().getId());
-
         }
     }
 
@@ -157,12 +160,35 @@ public class OrdersBean extends ExtendBean implements Serializable {
     public void findOrderCanceledOrValidate() {
         log.info("OrdersBean : findOrderCanceledOrValidate");
         log.info("requestOrdersList : " + requestOrdersList);
-        if ((!findOrdersCanceledOrValidateByIdOrder()) && (!findOrdersCanceledOrValidateByIdUser()) && (!findOrdersCanceledOrValidateByUsername())) {
+        if ((requestOrdersList == "") || (!findOrdersCanceledOrValidateByIdOrder()) && (!findOrdersCanceledOrValidateByIdUser()) && (!findOrdersCanceledOrValidateByUsername())) {
             success = "";
             fail = JsfUtils.returnMessage(getLocale(), "fxs.ordersList.requestError");
+            ordersEntities = Collections.emptyList();
         } else {
             fail = "";
         }
+    }
+
+
+    /**
+     * Open popup when click detail
+     */
+    public void showPopupModal() {
+        log.info("OrdersBean : showPopupModal");
+        showPopup = true;
+        if (getParam("idOrder") != null) {
+            int idOrder = parseInt(getParam("idOrder"));
+            ordersEntity = ordersServices.findById(idOrder);
+            contractsBean.findAllContractsWhenFindOrders(ordersEntity.getId());
+        }
+    }
+
+    /**
+     * Close popup
+     */
+    public void hidePopupModal() {
+        log.info("OrdersBean : hidePopupModal");
+        showPopup = false;
     }
 
     protected boolean findOrdersCanceledOrValidateByIdOrder() {
@@ -270,5 +296,13 @@ public class OrdersBean extends ExtendBean implements Serializable {
 
     public void setOrdersEntities(List<OrdersEntity> ordersEntities) {
         this.ordersEntities = ordersEntities;
+    }
+
+    public boolean isShowPopup() {
+        return showPopup;
+    }
+
+    public void setShowPopup(boolean showPopup) {
+        this.showPopup = showPopup;
     }
 }
