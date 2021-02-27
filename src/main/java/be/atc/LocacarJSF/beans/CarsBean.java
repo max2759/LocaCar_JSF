@@ -36,6 +36,7 @@ public class CarsBean extends ExtendBean implements Serializable {
     @Inject
     private CarsOptionsBean carsOptionsBean;
 
+
     /**
      * PostConstruct : appelé après le constructeur.
      * Met à jour la liste carEntities
