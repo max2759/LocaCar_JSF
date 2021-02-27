@@ -9,6 +9,8 @@ import utils.JsfUtils;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -190,6 +192,22 @@ public class OrdersBean extends ExtendBean implements Serializable {
     public void hidePopupModal() {
         log.info("OrdersBean : hidePopupModal");
         showPopup = false;
+    }
+
+    public void deleteOrder() {
+        log.info("OrdersBean : deleteOrder");
+        FacesContext context = FacesContext.getCurrentInstance();
+
+        int idOrder = parseInt(getParam("idOrder"));
+        OrdersEntity ordersEntityToDelete = ordersServices.findById(idOrder);
+        if (ordersEntityToDelete != null) {
+            ordersEntityToDelete.setOrderStatut(EnumOrderStatut.Canceled);
+            ordersServices.update(ordersEntityToDelete);
+            findOrderCanceledOrValidate();
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, JsfUtils.returnMessage(getLocale(), "fxs.ordersList.deleteSuccess"), null));
+        } else {
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, JsfUtils.returnMessage(getLocale(), "fail"), null));
+        }
     }
 
     protected boolean findOrdersCanceledOrValidateByIdOrder() {
