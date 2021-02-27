@@ -9,6 +9,13 @@
 
         <h:head>
             <title>Ajout voiture test</title>
+            <script>
+                $( function () {
+                    // Initialize and change language to hindi
+                    $( '#addCarForm\\:releaseYear' ).datepicker( $.datepicker.regional[ 'fr' ] );
+                } );
+
+            </script>
         </h:head>
 
         <h:body>
@@ -16,7 +23,7 @@
                 <h2>Ajout voiture test</h2>
 
 
-                <h:form id="addCarForm">
+                <h:form id="addCarForm" enctype="multipart/form-data">
                     <h:panelGroup>
 
                         <h:panelGroup styleClass="row mb-3">
@@ -39,7 +46,8 @@
                         <h:panelGroup id="showModels" rendered="#{modelsBean.showModel}" styleClass="row mb-3">
                             <h:outputLabel value="Modèle" styleClass="col-sm-2 col-form-label"/>
                             <h:selectOneMenu id="modelsDisplay" value="#{carsBean.carsEntity.modelsByIdModels}"
-                                             converter="modelsConverter" styleClass="form-group">
+                                             converter="modelsConverter" styleClass="form-group" required="true"
+                                             requiredMessage="Veuillez choisir le modèle">
                                 <f:selectItems value="#{modelsBean.modelsEntities}" var="models"
                                                itemValue="#{models}"
                                                itemLabel="#{models.label}"/>
@@ -119,12 +127,13 @@
                             <div class="col-sm-10">
                                 <h:inputText value="#{carsBean.carsEntity.releaseYear}" styleClass="form-control"
                                              required="true"
-                                             pt:placeholder="Votre option ici..."
-                                             requiredMessage="#{bundle['fxs.insurancesList.required']}"
+                                             requiredMessage="Veuillez choisir une date !"
                                              id="releaseYear"
                                              converter="localDateTimeConverter">
+                                    <f:validator validatorId="dateValidator"/>
                                 </h:inputText>
                             </div>
+                            <h:message for="releaseYear" id="messageValidator" styleClass="alert alert-danger "/>
                         </h:panelGroup>
 
                         <h:panelGroup styleClass="row mb-3">
@@ -133,8 +142,7 @@
                             <div class="col-sm-10">
                                 <h:inputText value="#{carsBean.carsEntity.horsePower}" styleClass="form-control"
                                              required="true"
-                                             pt:placeholder="Votre option ici..."
-                                             requiredMessage="#{bundle['fxs.insurancesList.required']}"
+                                             requiredMessage="Veuillez entrer le nombre de chevaux"
                                              id="horsePower">
                                     <f:convertNumber minFractionDigits="0"/>
                                     <f:validateLongRange minimum="2" maximum="2000"/>
@@ -149,12 +157,22 @@
                                 <h:inputText value="#{carsBean.carsEntity.kilometer}" styleClass="form-control"
                                              required="true"
                                              pt:placeholder="Votre option ici..."
-                                             requiredMessage="#{bundle['fxs.insurancesList.required']}"
+                                             requiredMessage="Veuillez entrer le nombre de kilomètre"
                                              id="kilometer">
                                     <f:convertNumber minFractionDigits="0"/>
                                 </h:inputText>
                             </div>
                         </h:panelGroup>
+
+                        <!--<h:panelGroup styleClass="row mb-3">
+                            <h:outputLabel value="Images"
+                                           styleClass="col-sm-2 col-form-label"/>
+                            <h:inputFile value="#{picturesBean.file}" id="picturesInput" required="true"
+                                         requiredMessage="Ajouter une image">
+                                <f:validator validatorId="carsPicturesValidator"/>
+                            </h:inputFile>
+                            <h:message for="picturesInput" id="picturesInputMessages" styleClass="alert alert-danger"/>
+                        </h:panelGroup>-->
 
                         <h:panelGroup>
                             <h:commandButton styleClass="btn btn-outline-success btn-sm"
