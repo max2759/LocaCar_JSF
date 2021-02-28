@@ -72,5 +72,14 @@ public class UsersServicesImpl implements UsersServices {
         return null;
     }
 
+    @Override
+    public List<UsersEntity> findUserWithAddresses(int idUser) {
+        log.info("findUserWithAdress in Service");
+        if (idUser != 0) {
+            return usersDAO.findUserWithAddresses(idUser);
+        }
+        return null;
+    }
+
 
 }

@@ -5,6 +5,10 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "addresses", schema = "locacarjsf", catalog = "")
+@NamedQueries({
+        @NamedQuery(name = "Addresses.findAll", query = "SELECT a from AddressesEntity a"),
+        @NamedQuery(name = "Adresses.findByIdUser", query = " select a from AddressesEntity a where a.usersByIdUsers.id = :idUser")
+})
 public class AddressesEntity {
     private int id;
     private String street;

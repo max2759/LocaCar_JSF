@@ -1,11 +1,13 @@
 package be.atc.LocacarJSF.beans;
 
+import be.atc.LocacarJSF.dao.entities.AddressesEntity;
 import be.atc.LocacarJSF.dao.entities.UsersEntity;
 import be.atc.LocacarJSF.services.UsersServices;
 import be.atc.LocacarJSF.services.UsersServicesImpl;
 import org.apache.log4j.Logger;
 import utils.JsfUtils;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -15,9 +17,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -31,9 +31,14 @@ public class UsersBean implements Serializable {
     public static Logger log = Logger.getLogger(UsersBean.class);
     Locale locale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
 
-    private UsersEntity usersEntity = new UsersEntity();
+    private UsersEntity usersEntity;
     private UsersServices usersServices = new UsersServicesImpl();
     private List<UsersEntity> usersEntities;
+
+    private AddressesEntity addressesEntity;
+
+    @Inject
+    private AddressesBean addressesBean;
 
 
     private boolean showPopup;
@@ -41,15 +46,32 @@ public class UsersBean implements Serializable {
     private String fail;
     private boolean editUsersEntity;
     private boolean addUserEntity;
+    private boolean connexion = false;
     @Inject
     private RolesBean rolesBean;
     private List<UsersEntity> empty;
+
+
+    @PostConstruct
+    public void postConstruct() {
+        log.info("begin postConstruct, connexion = " + connexion);
+        if (connexion == true) {
+            log.info("connexion = true? :" + connexion);
+            usersEntity = findUserById(usersEntity.getId());
+        } else {
+            log.info("connexion = false? : " + connexion);
+            usersEntity = new UsersEntity();
+            init();
+        }
+    }
+
 
     public void init() {
         log.info("init() - start");
         usersEntities = usersServices.findAll();
         //  log.info("Initialization done : "+usersEntities != null ? usersEntities.size() : 0+" results found.");
     }
+
 
     public void initialisationFields() {
         success = "";
@@ -71,17 +93,21 @@ public class UsersBean implements Serializable {
         System.out.println(s.toString());
         String hashPass = s.toString();
 
-
 ////
         UsersEntity usersByUsernameAndPassword = usersServices.findByUsernameAndPassword(username, hashPass);
         log.info(usersByUsernameAndPassword);
         log.info("username recup + pass:" + username + " " + hashPass);
         if (usersByUsernameAndPassword != null) {
+            connexion = true;
+            //envoie sur la page d'acceuil
+            //mettre dans le header "bienvenue machin"
+
+            // ici: créer en session les boolean des permissions
+
             log.info("existe");
         } else {
             log.info("existe pas");
         }
-
 
         log.info("je suis dans le connexion");
 
@@ -92,16 +118,21 @@ public class UsersBean implements Serializable {
      * @throws ParseException
      * @throws NoSuchAlgorithmException
      */
-    public void addUser() throws ParseException, NoSuchAlgorithmException {
+    public void addUser() throws NoSuchAlgorithmException, ParseException {
+
+
+        //faire la vérif sur mdp d'une certaine taille + username solo
 
         log.info("begin addUserBean");
-        LocalDateTime currentDate = LocalDateTime.now();
-        SimpleDateFormat formater = new SimpleDateFormat("yyyy-mm-dd");
-        String cur = formater.format(currentDate);
-        Date curDate = formater.parse(cur);
-        System.out.println(formater.format(currentDate));
+        //LocalDateTime currentDate = LocalDateTime.now();
+        // SimpleDateFormat formater = new SimpleDateFormat("yyyy-mm-dd");
+        // String cur = formater.format(currentDate);
+        //  Date curDate = formater.parse(cur);
+        //  System.out.println(formater.format(currentDate));
 
-        log.info("date du jour " + curDate);
+        // log.info("date du jour " + curDate);
+
+        LocalDateTime currentDate = LocalDateTime.now();
 
         String password = usersEntity.getPassword();
         MessageDigest digest = MessageDigest.getInstance("SHA-256");
@@ -129,8 +160,28 @@ public class UsersBean implements Serializable {
 
         log.info("first name: " + usersEntity.getFirstname());
         log.info("num de reole: " + rolesBean.findById(1));
+
         usersServices.add(usersEntity);
         log.info("inscription");
+
+        List<UsersEntity> userId = usersServices.findByUsername(usersEntity.getUsername());
+        log.info(userId.size());
+        log.info(userId.get(0).getId());
+
+        log.info("id du nouvel utilisateur " + userId.get(0).getId());
+        int id = userId.get(0).getId();
+
+        if (userId.size() == 1) {
+            log.info("bein add addresse, id: " + id);
+            addressesBean.addAddresse(id);
+            log.info("end add addresse");
+        }
+
+
+    }
+
+    public void deleteUser() {
+        usersEntity.setActive(false);
     }
 
     /**
@@ -200,9 +251,15 @@ public class UsersBean implements Serializable {
         success = JsfUtils.returnMessage(locale, "fxs.Users.successUpdate");
     }
 
-    protected UsersEntity findUserById(int idUser) {
+    public UsersEntity findUserById(int idUser) {
         return usersServices.findById(idUser);
     }
+
+    public List<UsersEntity> findUserWithAdresses(int idUser) {
+        log.info("begin findUserWithAdress in userBean");
+        return usersServices.findUserWithAddresses(idUser);
+    }
+
 
     /**
      * Méthode pour retourner les paramètres récupéré

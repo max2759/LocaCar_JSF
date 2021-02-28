@@ -1,6 +1,7 @@
 package be.atc.LocacarJSF.dao;
 
-import be.atc.LocacarJSF.dao.entities.UsersEntity;
+
+import be.atc.LocacarJSF.dao.entities.AddressesEntity;
 import org.apache.log4j.Logger;
 import utils.EMF;
 
@@ -8,28 +9,25 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import java.util.List;
 
-public class UsersDAOImpl implements UsersDAO {
+public class AddressesDAOImpl implements AddressesDAO {
 
-    public static Logger log = Logger.getLogger(UsersDAOImpl.class);
+    public static Logger log = Logger.getLogger(AddressesDAOImpl.class);
 
     @Override
-    public boolean add(UsersEntity usersEntity) {
-        log.info("begin userDAO");
+    public boolean add(AddressesEntity addressesEntity) {
         EntityManager em = EMF.getEM();
 
         EntityTransaction tx = null;
         try {
-            log.info("begin try");
             tx = em.getTransaction();
             tx.begin();
-            em.merge(usersEntity);
+            em.persist(addressesEntity);
             tx.commit();
-            log.info("Merge ok");
+            log.info("Persist ok");
             return true;
         } catch (Exception ex) {
-            log.info("egin catch");
             if (tx != null && tx.isActive()) tx.rollback();
-            log.info("Merge echec");
+            log.info("Persist echec");
             return false;
         } finally {
             em.clear();
@@ -38,15 +36,14 @@ public class UsersDAOImpl implements UsersDAO {
     }
 
     @Override
-    public boolean update(UsersEntity usersEntity) {
-        log.info("begin update DAO");
+    public boolean update(AddressesEntity addressesEntity) {
         EntityManager em = EMF.getEM();
 
         EntityTransaction tx = null;
         try {
             tx = em.getTransaction();
             tx.begin();
-            em.merge(usersEntity);
+            em.merge(addressesEntity);
             tx.commit();
             log.info("Merge ok");
             return true;
@@ -58,21 +55,22 @@ public class UsersDAOImpl implements UsersDAO {
             em.clear();
             em.close();
         }
+
     }
 
     @Override
-    public boolean delete(UsersEntity usersEntity) {
+    public boolean delete(AddressesEntity addressesEntity) {
         return false;
     }
 
     @Override
-    public List<UsersEntity> findAll() {
-        log.info("begin findAllUser");
+    public List<AddressesEntity> findAll() {
         EntityManager em = EMF.getEM();
-        List<UsersEntity> resultList = null;
+        List<AddressesEntity> resultList = null;
+        log.info("cvall to findAll DAO");
         try {
-            resultList = em.createNamedQuery("Users.findAll",
-                    UsersEntity.class)
+            resultList = em.createNamedQuery("Addresses.findAll",
+                    AddressesEntity.class)
                     .getResultList();
             if (resultList != null) {
                 log.info(resultList.size() + " results found.");
@@ -87,10 +85,10 @@ public class UsersDAOImpl implements UsersDAO {
     }
 
     @Override
-    public UsersEntity findById(int id) {
+    public AddressesEntity findById(int id) {
         EntityManager em = EMF.getEM();
         try {
-            return em.find(UsersEntity.class, id);
+            return em.find(AddressesEntity.class, id);
         } catch (Exception ex) {
             log.info("Nothing");
             return null;
@@ -100,56 +98,24 @@ public class UsersDAOImpl implements UsersDAO {
         }
     }
 
-    public List<UsersEntity> findByUsername(String username) {
-        EntityManager em = EMF.getEM();
-
-        log.info("username in DAO : " + username);
-
-        try {
-            return em.createNamedQuery("Users.findByUsername",
-                    UsersEntity.class)
-                    .setParameter("username", username)
-                    .getResultList();
-        } catch (Exception ex) {
-            log.info("Nothing");
-            return null;
-        } finally {
-            em.clear();
-            em.close();
-        }
-
+    @Override
+    public List<AddressesEntity> findByLabel(String label) {
+        return null;
     }
 
-    public UsersEntity findByUsernameAndPassword(String username, String password) {
+    @Override
+    public List<AddressesEntity> findByIdUser(int idUser) {
         EntityManager em = EMF.getEM();
-
+        //   List<AddressesEntity> resultList = null;
+        log.info("cvall to findAudiuser DAO");
         try {
-            return em.createNamedQuery("Users.connexion",
-                    UsersEntity.class)
-                    .setParameter("username", username)
-                    .setParameter("password", password)
-                    .getSingleResult();
-        } catch (Exception ex) {
-            log.info("Nothing");
-            return null;
-        } finally {
-            em.clear();
-            em.close();
-        }
-    }
-
-    public List<UsersEntity> findUserWithAddresses(int idUser) {
-        log.info("begin findUserWithAdress ine DAO");
-        EntityManager em = EMF.getEM();
-
-        log.info("id in DAO : " + idUser);
-
-        try {
-            List<UsersEntity> list = em.createNamedQuery("Users.findUserWithAddresses",
-                    UsersEntity.class)
+            return em.createNamedQuery("Adresses.findByIdUser",
+                    AddressesEntity.class)
                     .setParameter("idUser", idUser)
                     .getResultList();
-            return list;
+           /* if (!resultList.isEmpty()) {
+                log.info(resultList.size() + " results found.");
+            }*/
         } catch (Exception ex) {
             log.info("Nothing");
             return null;
@@ -157,6 +123,28 @@ public class UsersDAOImpl implements UsersDAO {
             em.clear();
             em.close();
         }
+        // return resultList;
     }
+
+   /* @Override
+    public List<AddressesEntity> findByLabel(String label) {
+        EntityManager em = EMF.getEM();
+
+        log.info("addresse in DAO : " + label);
+
+        try {
+            return em.createNamedQuery("addresses.findByLabel",
+                    AddressesEntity.class)
+                    .setParameter("label", label)
+                    .getResultList();
+        } catch (Exception ex) {
+            log.info("Nothing");
+            return null;
+        } finally {
+            em.clear();
+            em.close();
+        }
+    }*/
+
 
 }
