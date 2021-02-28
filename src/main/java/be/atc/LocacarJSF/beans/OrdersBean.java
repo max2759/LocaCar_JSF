@@ -29,7 +29,7 @@ public class OrdersBean extends ExtendBean implements Serializable {
     private static final long serialVersionUID = -5251107202124824837L;
 
     // Remplacer par l'utilisateur
-    private int idUser = 7;
+    private int idUser = 6;
 
     private OrdersEntity ordersEntity;
     private OrdersServices ordersServices = new OrdersServicesImpl();
@@ -75,6 +75,7 @@ public class OrdersBean extends ExtendBean implements Serializable {
         log.info("OrdersBean : Field initialization !");
         success = "";
         fail = "";
+        ordersEntities = Collections.emptyList();
     }
 
     /**
@@ -160,6 +161,9 @@ public class OrdersBean extends ExtendBean implements Serializable {
         }
     }
 
+    /**
+     * Find Orders by idUser, username or idOrder
+     */
     public void findOrderCanceledOrValidate() {
         log.info("OrdersBean : findOrderCanceledOrValidate");
         log.info("requestOrdersList : " + requestOrdersList);
@@ -169,6 +173,19 @@ public class OrdersBean extends ExtendBean implements Serializable {
             ordersEntities = Collections.emptyList();
         } else {
             fail = "";
+        }
+    }
+
+    /**
+     * List all my orders.
+     */
+    public void findAllMyOrders() {
+        log.info("OrdersBean : findAllMyOrders");
+        ordersEntities = ordersServices.findAllByIdUsersAndStatusIsValidateOrCanceled(idUser);
+        if (ordersEntities.isEmpty()) {
+            FacesContext context = FacesContext.getCurrentInstance();
+
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, JsfUtils.returnMessage(getLocale(), "fxs.modalContractsOrder.listOrderEmpty"), null));
         }
     }
 
@@ -194,6 +211,9 @@ public class OrdersBean extends ExtendBean implements Serializable {
         showPopup = false;
     }
 
+    /**
+     * Delete order
+     */
     public void deleteOrder() {
         log.info("OrdersBean : deleteOrder");
         FacesContext context = FacesContext.getCurrentInstance();
