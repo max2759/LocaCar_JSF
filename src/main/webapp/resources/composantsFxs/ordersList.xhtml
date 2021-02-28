@@ -29,6 +29,10 @@
         <h:outputText styleClass="alert-danger" value="#{ordersBean.fail}">
         </h:outputText>
         <br/>
+        <h:panelGrid>
+            <h:messages id="messages" showSummary="true" globalOnly="true" infoClass="alert-info"
+                        errorClass="alert-danger"/>
+        </h:panelGrid>
         <h:dataTable rendered="#{empty ordersBean.ordersEntities ? false : true}" id="outputMessage"
                      styleClass="table table-hover"
                      value="#{ordersBean.ordersEntities}" var="o">
@@ -37,6 +41,7 @@
                 <h:form>
                     <h:commandLink value="#{o.id}" action="#{ordersBean.showPopupModal}">
                         <f:param name="idOrder" value="#{o.id}"></f:param>
+                        <f:ajax render="@all"/>
                     </h:commandLink>
                 </h:form>
             </h:column>
@@ -54,7 +59,20 @@
                 <f:facet name="header">#{bundle['fxs.ordersList.status']}</f:facet>
                 <h:outputText value="#{o.orderStatut}"></h:outputText>
             </h:column>
-
+            <h:column>
+                <f:facet name="header">#{bundle['cancel']}</f:facet>
+                <h:panelGroup rendered="#{o.orderStatut != 'Canceled'}">
+                    <h:form>
+                        <h:commandLink id="deleteOrder" styleClass="text-danger"
+                                       action="#{ordersBean.deleteOrder}"
+                                       onclick="return confirmer();">
+                            <i class="far fa-trash-alt"></i>
+                            <f:param name="idOrder" value="#{o.id}"></f:param>
+                            <f:ajax render="@all"/>
+                        </h:commandLink>
+                    </h:form>
+                </h:panelGroup>
+            </h:column>
         </h:dataTable>
     </div>
 
@@ -62,7 +80,6 @@
     <f:view>
         <h:panelGroup id="popupEdit" layout="block" styleClass="popup-panel-overlay"
                       rendered="#{ordersBean.showPopup}">
-
             <h:form id="formPopupEdit">
                 <div class="popup-panel">
                     <h:dataTable id="outPutContracts" styleClass="table table-hover table-responsive"
@@ -102,7 +119,7 @@
                         <h:column>
                             <h:panelGroup styleClass="font-weight-light"
                                           rendered="#{c.contractTypesByIdContractType.label eq 'Leasing' ? true : false}">
-                                <h:outputText styleClass="font-weight-light"
+                                <h:outputText styleClass="font-weight-bold"
                                               value="#{contractsBean.hmContractInsurancesFind[c.id].insurancesByIdInsurance.label}">
                                 </h:outputText>
                                 <br/>
