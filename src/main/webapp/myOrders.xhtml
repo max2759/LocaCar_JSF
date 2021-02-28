@@ -26,13 +26,15 @@
 
         </script>
     </h:head>
+
         <f:metadata>
-            <f:viewAction action="#{ordersBean.fieldsInitialization}"/>
+            <f:viewParam name="foo" value="#{ordersBean.requestOrdersList}" />
+            <f:viewAction action="#{ordersBean.findAllMyOrders}" />
         </f:metadata>
 
         <h:body>
             <h2>#{bundle['orders.title']}</h2>
-            <fxs:ordersList id="displayListOrders"></fxs:ordersList>
+            <fxs:myOrders id="displayListOrders"></fxs:myOrders>
         </h:body>
     </ui:define>
 </ui:composition>
