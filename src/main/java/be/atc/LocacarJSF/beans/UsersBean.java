@@ -39,6 +39,8 @@ public class UsersBean implements Serializable {
 
     @Inject
     private AddressesBean addressesBean;
+    @Inject
+    private CitiesBean citiesBean;
 
 
     private boolean showPopup;
@@ -159,21 +161,23 @@ public class UsersBean implements Serializable {
         usersEntity.setRolesByIdRoles(rolesBean.findById(1));
 
         log.info("first name: " + usersEntity.getFirstname());
-        log.info("num de reole: " + rolesBean.findById(1));
 
         usersServices.add(usersEntity);
         log.info("inscription");
 
         List<UsersEntity> userId = usersServices.findByUsername(usersEntity.getUsername());
         log.info(userId.size());
-        log.info(userId.get(0).getId());
 
         log.info("id du nouvel utilisateur " + userId.get(0).getId());
-        int id = userId.get(0).getId();
+        int idUser = userId.get(0).getId();
+        int idCity = citiesBean.getCitiesEntity().getId();
+
+        log.info("ville du nouvel user (dans userbean) " + citiesBean.getCitiesEntity().getId()
+        );
 
         if (userId.size() == 1) {
-            log.info("bein add addresse, id: " + id);
-            addressesBean.addAddresse(id);
+            log.info("bein add addresse, id: " + idUser);
+            addressesBean.addAddresse(idUser, idCity);
             log.info("end add addresse");
         }
 

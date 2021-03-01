@@ -68,18 +68,22 @@ public class AddressesBean implements Serializable {
     }
 
 
-    public void addAddresse(int id) throws ParseException, NoSuchAlgorithmException {
+    public void addAddresse(int idUser, int idCity) throws ParseException, NoSuchAlgorithmException {
 
         log.info("begin addAddresseBean");
 
 
         addressesEntity.setStreet(addressesEntity.getStreet());
-        addressesEntity.setUsersByIdUsers(usersBean.findUserById(id));
+        addressesEntity.setUsersByIdUsers(usersBean.findUserById(idUser));
         addressesEntity.setNumber(addressesEntity.getNumber());
         addressesEntity.setBox(addressesEntity.getBox());
-        addressesEntity.setCitiesByIdCities(citiesBean.findById(1));
+
 
         log.info("label recu du form: " + addressesEntity.getStreet());
+        //log.info("id de la ville: "+ citiesEntity.getId());
+
+
+        addressesEntity.setCitiesByIdCities(citiesBean.findById(idCity));
         addressesServices.add(addressesEntity);
         log.info("addresse inscrit");
     }

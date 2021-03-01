@@ -8,12 +8,14 @@ import org.apache.log4j.Logger;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Named(value = "citiesBean")
 @SessionScoped
@@ -36,10 +38,16 @@ public class CitiesBean implements Serializable {
     @PostConstruct
     public void postContruc() {
         findByUserId();
+        init();
     }
 
     public void init() {
-        citiesEntities = citiesServices.findAll();
+        log.info("init() - begin");
+        if (citiesEntities == null || citiesEntities.isEmpty()) {
+            citiesEntities = citiesServices.findAll();
+            citiesEntity = new CitiesEntity();
+        }
+        log.info("init() - end");
     }
 
     public void initialisationFields() {
@@ -55,13 +63,16 @@ public class CitiesBean implements Serializable {
         citiesEntities = citiesServices.findByIdUser(usersBean.getUsersEntity().getId());
     }
 
+    public void findByLabel() {
+        citiesEntities = citiesServices.findByLabel("Bruxelles");
+    }
+
 
     public String getParam(String name) {
         FacesContext fc = FacesContext.getCurrentInstance();
         Map<String, String> params = fc.getExternalContext().getRequestParameterMap();
         return params.get(name);
     }
-
 
     ///////////////////////////////////////
     ///// getters and setter //////////////
@@ -86,6 +97,10 @@ public class CitiesBean implements Serializable {
 
     public List<CitiesEntity> getCitiesEntities() {
         return citiesEntities;
+    }
+
+    public List<SelectItem> getCitiesEntitiesSelectItems() {
+        return citiesEntities.stream().map(c -> new SelectItem(c.getId(), c.getLabel())).collect(Collectors.toList());
     }
 
     public void setCitiesEntities(List<CitiesEntity> citiesEntities) {

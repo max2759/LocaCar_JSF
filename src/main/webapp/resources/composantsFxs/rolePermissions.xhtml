@@ -39,6 +39,16 @@
                 <h:outputText value="#{roleP.permissionsByIdPermissions.label}"></h:outputText>
             </h:column>
 
+            <h:panelGroup styleClass="form-group">
+
+                <h:selectOneMenu id="citiesDisplay" styleClass="form-group"
+                                 value="#{citiesBean.citiesEntity.id}">
+                    <f:selectItem itemValue="#{null}" itemLabel=" "/>
+                    <f:selectItems value="#{citiesBean.citiesEntitiesSelectItems}"/>
+                </h:selectOneMenu>
+                <h:message for="citiesDisplay"/>
+            </h:panelGroup>
+
             <h:column>
                 <!-- bouton edit -->
                 <f:facet name="header">#{bundle['fxs.rolesList.edit']}</f:facet>
