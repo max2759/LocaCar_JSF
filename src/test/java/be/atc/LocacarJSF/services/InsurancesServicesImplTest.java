@@ -98,11 +98,7 @@ class InsurancesServicesImplTest {
     void findByIdInsurance_shouldBeReturnEntity() {
         InsurancesEntity insurancesEntity = insurancesServices.findById(1);
         Boolean test;
-        if (insurancesEntity == null) {
-            test = false;
-        } else {
-            test = true;
-        }
+        test = insurancesEntity != null;
         log.info("Le test vaut : " + test);
         assertThat(test).isEqualTo(true);
     }
@@ -112,11 +108,7 @@ class InsurancesServicesImplTest {
     public void findByIdInsurance_shouldBeReturnNull(int arg) {
         InsurancesEntity insurancesEntity = insurancesServices.findById(arg);
         Boolean test;
-        if (insurancesEntity == null) {
-            test = false;
-        } else {
-            test = true;
-        }
+        test = insurancesEntity != null;
         log.info("Le test vaut : " + test);
         assertThat(test).isEqualTo(false);
     }
@@ -126,11 +118,7 @@ class InsurancesServicesImplTest {
         List<InsurancesEntity> insurancesEntities = insurancesServices.findAll();
         Boolean test;
 
-        if (!insurancesEntities.isEmpty()) {
-            test = true;
-        } else {
-            test = false;
-        }
+        test = !insurancesEntities.isEmpty();
 
         log.info("Le test vaut : " + test);
         assertThat(test).isEqualTo(true);
@@ -140,11 +128,7 @@ class InsurancesServicesImplTest {
     void findByLabelInsurance_shouldBeReturnEntity() {
         List<InsurancesEntity> insurancesEntities = insurancesServices.findByLabel("Full omnium");
         Boolean test;
-        if (insurancesEntities.isEmpty()) {
-            test = false;
-        } else {
-            test = true;
-        }
+        test = !insurancesEntities.isEmpty();
         log.info("Le test vaut : " + test);
         assertThat(test).isEqualTo(true);
     }
@@ -153,11 +137,7 @@ class InsurancesServicesImplTest {
     void findByLabelInsurance_shouldBeReturnFalse() {
         List<InsurancesEntity> insurancesEntities = insurancesServices.findByLabel("blabla");
         Boolean test;
-        if (insurancesEntities.isEmpty()) {
-            test = false;
-        } else {
-            test = true;
-        }
+        test = !insurancesEntities.isEmpty();
         log.info("Le test vaut : " + test);
         assertThat(test).isEqualTo(false);
     }
@@ -167,13 +147,26 @@ class InsurancesServicesImplTest {
         String label = null;
         List<InsurancesEntity> insurancesEntities = insurancesServices.findByLabel(label);
         Boolean test;
-        if (insurancesEntities.isEmpty()) {
-            test = false;
-        } else {
-            test = true;
-        }
+        test = !insurancesEntities.isEmpty();
 
         log.info("Le test vaut : " + test);
         assertThat(test).isEqualTo(false);
+    }
+
+    @Test
+    void findAllActiveInsurance() {
+        List<InsurancesEntity> insurancesEntities = insurancesServices.findAllActiveInsurance();
+        Boolean test = false;
+
+        for (InsurancesEntity i : insurancesEntities) {
+            if (i.isActive()) {
+                test = true;
+            } else {
+                test = false;
+                break;
+            }
+        }
+        log.info("Le test vaut : " + test);
+        assertThat(test).isEqualTo(true);
     }
 }

@@ -2,13 +2,18 @@
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:fxs="http://java.sun.com/jsf/composite/composantsFxs"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
                 template="WEB-INF/templates/template.xhtml">
 
     <ui:define name="title">#{bundle['basket.title']}</ui:define>
     <ui:define name="content">
         <h:body>
             <h2>#{bundle['basket.title']}</h2>
-            <fxs:basket id="displayListBasket"></fxs:basket>
+
+            <f:metadata>
+                <f:viewAction action="#{insurancesBean.findAllInsurancesActive}"/>
+            </f:metadata>
+            <fxs:basket id="displayListBasket"/>
         </h:body>
     </ui:define>
 </ui:composition>

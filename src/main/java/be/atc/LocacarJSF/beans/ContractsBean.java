@@ -10,6 +10,8 @@ import utils.JsfUtils;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -33,13 +35,11 @@ public class ContractsBean extends ExtendBean implements Serializable {
     List<ContractsEntity> contractsEntities;
     List<ContractsEntity> contractsEntitiesFind;
 
-    Map<Integer, ContractInsurancesEntity> hmContractInsurances = new HashMap<Integer, ContractInsurancesEntity>();
-    Map<Integer, ContractInsurancesEntity> hmContractInsurancesFind = new HashMap<Integer, ContractInsurancesEntity>();
+    Map<Integer, ContractInsurancesEntity> hmContractInsurances = new HashMap<>();
+    Map<Integer, ContractInsurancesEntity> hmContractInsurancesFind = new HashMap<>();
 
     private double finalPrice;
     private LocalDateTime dateEnd;
-    private String success;
-    private String fail;
     private int timeLeasing;
 
     @Inject
@@ -66,8 +66,6 @@ public class ContractsBean extends ExtendBean implements Serializable {
      */
     public void initialisationFields() {
         log.info("ContractsBean initialisationFields!");
-        success = "";
-        fail = "";
     }
 
     /**
@@ -76,7 +74,7 @@ public class ContractsBean extends ExtendBean implements Serializable {
     protected void initializationAfterValidation() {
         contractsEntity = null;
         contractsEntities = Collections.emptyList();
-        hmContractInsurances = new HashMap<Integer, ContractInsurancesEntity>();
+        hmContractInsurances = new HashMap<>();
         finalPrice = 0;
         timeLeasing = 0;
     }
@@ -121,8 +119,8 @@ public class ContractsBean extends ExtendBean implements Serializable {
     /**
      * Method for update contract !
      *
-     * @param contractsEntity
-     * @return
+     * @param contractsEntity ContractsEntity
+     * @return boolean
      */
     protected boolean updateContract(ContractsEntity contractsEntity) {
         log.info("ContractsBean updateContract!");
@@ -164,7 +162,7 @@ public class ContractsBean extends ExtendBean implements Serializable {
     /**
      * Find all contracts. In orders
      *
-     * @param idOrder
+     * @param idOrder type int
      */
     protected void findAllContractsWhenFindOrders(int idOrder) {
         log.info("ContractsBean findAllContractsWhenFindOrders!");
@@ -230,11 +228,12 @@ public class ContractsBean extends ExtendBean implements Serializable {
      */
     public void deleteContract() {
         log.info("ContractsBean deleteContract!");
+        FacesContext context = FacesContext.getCurrentInstance();
+
         contractsEntity = contractsServices.findById(Integer.parseInt(getParam("idContract")));
 
         if (contractsEntity == null) {
-            success = "";
-            fail = JsfUtils.returnMessage(getLocale(), "failDelete");
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, JsfUtils.returnMessage(getLocale(), "failDelete"), null));
             return;
         }
 
@@ -247,11 +246,9 @@ public class ContractsBean extends ExtendBean implements Serializable {
         }
 
         if (test) {
-            fail = "";
-            success = JsfUtils.returnMessage(getLocale(), "successDelete");
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, JsfUtils.returnMessage(getLocale(), "successDelete"), null));
         } else {
-            success = "";
-            fail = JsfUtils.returnMessage(getLocale(), "failDelete");
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, JsfUtils.returnMessage(getLocale(), "failDelete"), null));
         }
         ordersBean.init();
     }
@@ -261,6 +258,9 @@ public class ContractsBean extends ExtendBean implements Serializable {
      */
     public void clearBasket() {
         log.info("ContractsBean clearBasket!");
+
+        FacesContext context = FacesContext.getCurrentInstance();
+
         log.info(contractsEntities);
 
         for (ContractsEntity c : contractsEntities
@@ -270,7 +270,7 @@ public class ContractsBean extends ExtendBean implements Serializable {
             }
             contractsServices.delete(c.getId());
         }
-        success = JsfUtils.returnMessage(getLocale(), "successDelete");
+        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, JsfUtils.returnMessage(getLocale(), "successDelete"), null));
         ordersBean.findOrderAndfindContracts();
     }
 
@@ -281,8 +281,8 @@ public class ContractsBean extends ExtendBean implements Serializable {
     /**
      * Find All Contracts By Id Order
      *
-     * @param idOrder
-     * @return
+     * @param idOrder type int
+     * @return List of ContractsEntity
      */
     protected List<ContractsEntity> findAllContractsByIdOrder(int idOrder) {
         log.info("ContractsBean findAllContractsByIdOrder!");
@@ -343,22 +343,6 @@ public class ContractsBean extends ExtendBean implements Serializable {
 
     public void setDateEnd(LocalDateTime dateEnd) {
         this.dateEnd = dateEnd;
-    }
-
-    public String getSuccess() {
-        return success;
-    }
-
-    public void setSuccess(String success) {
-        this.success = success;
-    }
-
-    public String getFail() {
-        return fail;
-    }
-
-    public void setFail(String fail) {
-        this.fail = fail;
     }
 
     public List<ContractsEntity> getContractsEntitiesFind() {

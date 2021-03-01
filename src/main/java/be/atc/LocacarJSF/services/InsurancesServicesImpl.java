@@ -18,8 +18,8 @@ public class InsurancesServicesImpl implements InsurancesServices {
     /**
      * Add entity
      *
-     * @param insurancesEntity
-     * @return
+     * @param insurancesEntity InsurancesEntity
+     * @return boolean
      */
     @Override
     public boolean add(InsurancesEntity insurancesEntity) {
@@ -32,8 +32,8 @@ public class InsurancesServicesImpl implements InsurancesServices {
     /**
      * Update entity
      *
-     * @param insurancesEntity
-     * @return
+     * @param insurancesEntity InsurancesEntity
+     * @return boolean
      */
     @Override
     public boolean update(InsurancesEntity insurancesEntity) {
@@ -43,23 +43,11 @@ public class InsurancesServicesImpl implements InsurancesServices {
         }
         return false;
     }
-/*
-    @Override
-    public boolean delete(int id) {
-        if (id != 0) {
-            InsurancesEntity insurancesEntity = findById(id);
-            if (insurancesEntity != null) {
-                insurancesDAO.delete(insurancesEntity);
-                return true;
-            }
-        }
-        return false;
-    }*/
 
     /**
      * Find all entities
      *
-     * @return
+     * @return List of InsurancesEntity
      */
     @Override
     public List<InsurancesEntity> findAll() {
@@ -69,8 +57,8 @@ public class InsurancesServicesImpl implements InsurancesServices {
     /**
      * Find entity by id
      *
-     * @param id
-     * @return
+     * @param id type int
+     * @return InsurancesEntity
      */
     @Override
     public InsurancesEntity findById(int id) {
@@ -83,8 +71,8 @@ public class InsurancesServicesImpl implements InsurancesServices {
     /**
      * Find entities by label
      *
-     * @param label
-     * @return
+     * @param label type String
+     * @return List of InsurancesEntity
      */
     @Override
     public List<InsurancesEntity> findByLabel(String label) {
@@ -92,6 +80,11 @@ public class InsurancesServicesImpl implements InsurancesServices {
             return insurancesDAO.findByLabel(label);
         }
         return Collections.emptyList();
+    }
+
+    @Override
+    public List<InsurancesEntity> findAllActiveInsurance() {
+        return insurancesDAO.findAllActiveInsurance();
     }
 
 

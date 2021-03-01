@@ -17,4 +17,6 @@ public interface InsurancesServices {
     InsurancesEntity findById(int id);
 
     List<InsurancesEntity> findByLabel(String label);
+
+    List<InsurancesEntity> findAllActiveInsurance();
 }

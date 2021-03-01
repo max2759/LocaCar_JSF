@@ -12,15 +12,16 @@
 >
 </cc:interface>
 <cc:implementation>
-    <br/>
-    <h:outputText value="#{ordersBean.success}" style="color: green; font-weight: bold"></h:outputText>
-    <h:outputText value="#{ordersBean.fail}" style="color: #fd8585; font-weight: bold"></h:outputText>
+    <h:panelGrid>
+        <h:messages id="messages" showSummary="true" globalOnly="true" infoClass="alert-info"
+                    errorClass="alert-danger"/>
+    </h:panelGrid>
     <h:form>
-        <h:outputLabel value="Id User : "></h:outputLabel>
+        <h:outputLabel value="Id User : "/>
         <h:inputText value="#{ordersBean.idUser}" id="idUser">
         </h:inputText>
         <br/>
-        <h:outputLabel value="Id Ads : "></h:outputLabel>
+        <h:outputLabel value="Id Ads : "/>
         <h:inputText value="#{adsBean.adsEntity}" id="adsEntity">
             <f:validator validatorId="addBasketValidator"/>
             <f:converter
@@ -28,10 +29,10 @@
             <h:message for="adsEntity"/>
         </h:inputText>
         <br/>
-        <h:outputLabel value="Nombres d'années pour le leasing"></h:outputLabel>
-        <h:inputText value="#{contractsBean.timeLeasing}"></h:inputText>
+        <h:outputLabel value="Nombres d'années pour le leasing"/>
+        <h:inputText value="#{contractsBean.timeLeasing}"/>
         <br/>
-        <h:outputLabel value="Id Assurance : "></h:outputLabel>
+        <h:outputLabel value="Id Assurance : "/>
         <h:inputText value="#{insurancesBean.insurancesEntity}" id="insuranceEntity">
             <f:converter
                     converterId="insuranceConverter"/>
