@@ -9,7 +9,8 @@ import java.util.Objects;
 @Table(name = "insurances", schema = "locacarjsf", catalog = "")
 @NamedQueries({
         @NamedQuery(name = "Insurances.findAll", query = "SELECT i from InsurancesEntity i "),
-        @NamedQuery(name = "Insurances.findByLabel", query = "SELECT i from InsurancesEntity i where i.label = :label")
+        @NamedQuery(name = "Insurances.findByLabel", query = "SELECT i from InsurancesEntity i where i.label = :label"),
+        @NamedQuery(name = "Insurances.findAllActiveInsurance", query = "SELECT i from InsurancesEntity i where i.active = true "),
 })
 public class InsurancesEntity {
     private int id;

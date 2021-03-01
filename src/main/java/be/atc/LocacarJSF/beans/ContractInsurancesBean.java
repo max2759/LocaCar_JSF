@@ -8,6 +8,8 @@ import be.atc.LocacarJSF.services.ContractInsurancesServicesImpl;
 import utils.JsfUtils;
 
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -26,8 +28,6 @@ public class ContractInsurancesBean extends ExtendBean implements Serializable {
     ContractInsurancesServices contractInsurancesServices = new ContractInsurancesServicesImpl();
     ContractInsurancesEntity contractInsurancesEntity;
 
-    String success;
-    String fail;
     private boolean showPopup;
 
     @Inject
@@ -42,8 +42,6 @@ public class ContractInsurancesBean extends ExtendBean implements Serializable {
      */
     public void initialisationFields() {
         log.info("ContractInsurancesBean : initialisationFields");
-        success = "";
-        fail = "";
     }
 
     /**
@@ -82,16 +80,16 @@ public class ContractInsurancesBean extends ExtendBean implements Serializable {
      */
     public void saveEdit() {
         log.info("ContractInsurancesBean : saveEdit");
+        FacesContext context = FacesContext.getCurrentInstance();
+
         boolean test = functionUpdateEntity();
-        if (test == true) {
+        if (test) {
             test = contractsBean.updateContract(contractInsurancesEntity.getContractsByIdContract());
         }
-        if (test == true) {
-            fail = "";
-            success = JsfUtils.returnMessage(getLocale(), "successUpdate");
+        if (test) {
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, JsfUtils.returnMessage(getLocale(), "successUpdate"), null));
         } else {
-            success = "";
-            fail = JsfUtils.returnMessage(getLocale(), "errorUpdate");
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, JsfUtils.returnMessage(getLocale(), "errorUpdate"), null));
         }
         ordersBean.init();
     }
@@ -99,8 +97,8 @@ public class ContractInsurancesBean extends ExtendBean implements Serializable {
     /**
      * Create new Entity
      *
-     * @param insurancesEntity
-     * @return
+     * @param insurancesEntity InsurancesEntity
+     * @return boolean
      */
     protected boolean createContractInsurances(InsurancesEntity insurancesEntity) {
         log.info("ContractInsurancesBean : createContractInsurances");
@@ -116,8 +114,8 @@ public class ContractInsurancesBean extends ExtendBean implements Serializable {
     /**
      * Find contract insurance by idContract
      *
-     * @param idContract
-     * @return
+     * @param idContract type int
+     * @return ContractInsurancesEntity
      */
     protected ContractInsurancesEntity findContractInsurancesByIdContract(int idContract) {
         log.info("ContractInsurancesBean : findContractInsurancesByIdContract");
@@ -127,13 +125,13 @@ public class ContractInsurancesBean extends ExtendBean implements Serializable {
     /**
      * Delete contract insurance for leasing
      *
-     * @param contractsEntity
-     * @return
+     * @param contractsEntity ContractsEntity
+     * @return boolean
      */
     protected boolean deleteContractInsurance(ContractsEntity contractsEntity) {
         log.info("ContractInsurancesBean : deleteContractInsurance");
         contractInsurancesEntity = contractInsurancesServices.findByIdContract(contractsEntity.getId());
-        return contractInsurancesEntity != null ? contractInsurancesServices.delete(contractInsurancesEntity.getId()) : false;
+        return contractInsurancesEntity != null && contractInsurancesServices.delete(contractInsurancesEntity.getId());
     }
 
     public ContractInsurancesEntity getContractInsurancesEntity() {
@@ -150,22 +148,6 @@ public class ContractInsurancesBean extends ExtendBean implements Serializable {
 
     public void setShowPopup(boolean showPopup) {
         this.showPopup = showPopup;
-    }
-
-    public String getSuccess() {
-        return success;
-    }
-
-    public void setSuccess(String success) {
-        this.success = success;
-    }
-
-    public String getFail() {
-        return fail;
-    }
-
-    public void setFail(String fail) {
-        this.fail = fail;
     }
 }
 

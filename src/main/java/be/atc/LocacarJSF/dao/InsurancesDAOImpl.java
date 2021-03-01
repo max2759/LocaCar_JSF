@@ -15,13 +15,14 @@ import java.util.List;
  */
 public class InsurancesDAOImpl extends EntityFinderImpl<InsurancesEntity> implements InsurancesDAO {
 
+    private static final long serialVersionUID = 6906535856992118586L;
     public static Logger log = Logger.getLogger(InsurancesDAOImpl.class);
 
     /**
      * Add entity
      *
-     * @param insurancesEntity
-     * @return
+     * @param insurancesEntity InsuranceEntity
+     * @return boolean
      */
     @Override
     public boolean add(InsurancesEntity insurancesEntity) {
@@ -48,8 +49,8 @@ public class InsurancesDAOImpl extends EntityFinderImpl<InsurancesEntity> implem
     /**
      * Update entity
      *
-     * @param insurancesEntity
-     * @return
+     * @param insurancesEntity InsurancesEntity
+     * @return boolean
      */
     @Override
     public boolean update(InsurancesEntity insurancesEntity) {
@@ -76,7 +77,7 @@ public class InsurancesDAOImpl extends EntityFinderImpl<InsurancesEntity> implem
     /**
      * Find all entities
      *
-     * @return
+     * @return List of InsurancesEntity
      */
     @Override
     public List<InsurancesEntity> findAll() {
@@ -86,8 +87,8 @@ public class InsurancesDAOImpl extends EntityFinderImpl<InsurancesEntity> implem
     /**
      * find entity by id
      *
-     * @param id
-     * @return
+     * @param id type int
+     * @return InsurancesEntity
      */
     @Override
     public InsurancesEntity findById(int id) {
@@ -119,5 +120,10 @@ public class InsurancesDAOImpl extends EntityFinderImpl<InsurancesEntity> implem
             em.clear();
             em.close();
         }
+    }
+
+    @Override
+    public List<InsurancesEntity> findAllActiveInsurance() {
+        return this.findByNamedQuery("Insurances.findAllActiveInsurance", new InsurancesEntity());
     }
 }

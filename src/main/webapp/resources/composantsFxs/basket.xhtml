@@ -12,41 +12,34 @@
 >
 </cc:interface>
 <cc:implementation>
-
-    <h:outputText value="#{contractsBean.success}"
-                  style="color: green; font-weight: bold"></h:outputText>
-    <h:outputText value="#{contractsBean.fail}"
-                  style="color: darkred; font-weight: bold"></h:outputText>
-    <br/>
-    <h:outputText value="#{ordersBean.success}"
-                  style="color: green; font-weight: bold"></h:outputText>
-    <h:outputText value="#{ordersBean.fail}"
-                  style="color: darkred; font-weight: bold"></h:outputText>
     <br/>
     <h:panelGroup id="basketPanelGroup" rendered="#{empty contractsBean.contractsEntities ? false : true}">
-
+        <h:panelGrid>
+            <h:messages id="messages" showSummary="true" globalOnly="true" infoClass="alert-info"
+                        errorClass="alert-danger"/>
+        </h:panelGrid>
         <h:dataTable id="outputMessage" styleClass="table table-hover"
                      value="#{contractsBean.contractsEntities}" var="c">
             <h:column>
                 <h:outputText styleClass="font-weight-bold"
-                              value="#{c.carsByIdCars.modelsByIdModels.brandsByIdBrands.label} "></h:outputText>
+                              value="#{c.carsByIdCars.modelsByIdModels.brandsByIdBrands.label} "/>
                 <h:outputText styleClass="font-weight-bold"
-                              value="#{c.carsByIdCars.modelsByIdModels.label} "></h:outputText>
+                              value="#{c.carsByIdCars.modelsByIdModels.label} "/>
                 <h:outputText value="#{c.carsByIdCars.releaseYear}">
                     <f:convertDateTime type="localDate" pattern="y"/>
                 </h:outputText>
                 <br/>
-                <h:outputText value="#{c.carsByIdCars.carsTypesByIdCarsTypes.label} "></h:outputText>
-                <h:outputText value="#{c.carsByIdCars.carsGearboxByIdCarsGearBox.label} "></h:outputText>
-                <h:outputText value="#{c.carsByIdCars.carsFuelsByIdCarsFuels.label}"></h:outputText>
-                <h:outputText value=", #{c.carsByIdCars.kilometer} #{bundle['km']}"></h:outputText>
+                <h:outputText value="#{c.carsByIdCars.carsTypesByIdCarsTypes.label} "/>
+                <h:outputText value="#{c.carsByIdCars.carsGearboxByIdCarsGearBox.label} "/>
+                <h:outputText value="#{c.carsByIdCars.carsFuelsByIdCarsFuels.label}">/</h:outputText>
+                <h:outputText value=", #{c.carsByIdCars.kilometer} #{bundle['km']}"/>
                 <br/>
                 <h:outputText styleClass="font-weight-light"
-                              value="#{contractsBean.hmContractInsurances[c.id].insurancesByIdInsurance.label}"></h:outputText>
+                              value="#{contractsBean.hmContractInsurances[c.id].insurancesByIdInsurance.label}"/>
                 <br/>
                 <h:panelGroup rendered="#{!c.carsByIdCars.active}">
                     <h:outputText styleClass="alert-danger"
-                                  value="#{bundle['fxs.basket.vehiculeNotAvailable']}"></h:outputText>
+                                  value="#{bundle['fxs.basket.vehiculeNotAvailable']}"/>
                 </h:panelGroup>
                 <h:form>
                     <h:panelGroup id="panelGroupEdit"
@@ -54,7 +47,7 @@
                         &nbsp;&nbsp;
                         <h:commandLink styleClass="text-info" action="#{contractInsurancesBean.showPopupModal}">
                             <i class="far fa-edit"> </i>
-                            <f:param name="idContract" value="#{c.id}"></f:param>
+                            <f:param name="idContract" value="#{c.id}"/>
                             <f:ajax render="@all"/>
                         </h:commandLink>
                     </h:panelGroup>
@@ -62,7 +55,7 @@
                         <h:commandLink styleClass="text-danger" action="#{contractsBean.deleteContract}"
                                        onclick="return confirmer();">
                             <i class="far fa-trash-alt"></i>
-                            <f:param name="idContract" value="#{c.id}"></f:param>
+                            <f:param name="idContract" value="#{c.id}"/>
                             <f:ajax render="@all"/>
                         </h:commandLink>
                     </h:panelGroup>
@@ -76,7 +69,7 @@
                 <h:panelGroup rendered="#{c.contractTypesByIdContractType.label eq 'Leasing' ? true : false}">
                     <br/>
                     <h:outputText styleClass="alert-info"
-                                  value="(#{bundle['fxs.basket.insuranceIncluded']})"></h:outputText>
+                                  value="(#{bundle['fxs.basket.insuranceIncluded']})"/>
                 </h:panelGroup>
             </h:column>
 
@@ -84,7 +77,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-8 align-self-lg-center text-xl-right font-weight-bolder">
-                    <h:outputFormat value="#{bundle['fxs.basket.totalPrice']} "></h:outputFormat>
+                    <h:outputFormat value="#{bundle['fxs.basket.totalPrice']} "/>
                 </div>
                 <div class="col-4">
                     <h:outputText styleClass="font-weight-bold" value="#{ordersBean.priceOrder}">
@@ -99,23 +92,22 @@
                         <h:commandButton styleClass="btn btn-danger"
                                          value="#{bundle['fxs.basket.clearBasket']}"
                                          action="#{contractsBean.clearBasket}"
-                                         onclick="return confirmer();"></h:commandButton>
+                                         onclick="return confirmer();"/>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-6 offset-md-8">
                         <h:commandButton styleClass="btn btn-success"
                                          value="#{bundle['fxs.basket.validate']}"
-                                         action="#{ordersBean.validateOrder}"></h:commandButton>
+                                         action="#{ordersBean.validateOrder}"/>
                     </div>
                 </div>
             </h:form>
         </div>
     </h:panelGroup>
     <h:panelGroup rendered="#{!empty contractsBean.contractsEntities ? false : true}">
-        <h:outputText value="#{bundle['fxs.basket.empty']}"></h:outputText>
+        <h:outputText value="#{bundle['fxs.basket.empty']}"/>
     </h:panelGroup>
-
 
     <f:view>
         <h:panelGroup id="popupEdit" layout="block" styleClass="popup-panel-overlay"
@@ -123,48 +115,47 @@
 
             <h:form id="formPopupEdit">
                 <div class="popup-panel">
-                    <h:outputText value="#{contractInsurancesBean.success}"
-                                  style="color: green; font-weight: bold"></h:outputText>
-                    <h:outputText value="#{contractInsurancesBean.fail}"
-                                  style="color: darkred; font-weight: bold"></h:outputText>
-                    <br/>
-                    <h:outputLabel value="#{bundle['fxs.basket.insuranceActual']}"></h:outputLabel>
+                    <h:panelGrid>
+                        <h:messages id="messagesPopup" showSummary="true" globalOnly="true" infoClass="alert-info"
+                                    errorClass="alert-danger"/>
+                    </h:panelGrid>
+                    <h:outputLabel value="#{bundle['fxs.basket.insuranceActual']}"/>
                     <br/>
                     <h:outputText styleClass="font-weight-bold"
-                                  value="#{contractInsurancesBean.contractInsurancesEntity.insurancesByIdInsurance.label}"></h:outputText>
+                                  value="#{contractInsurancesBean.contractInsurancesEntity.insurancesByIdInsurance.label}"/>
                     <br/><br/>
-                    <h:outputText styleClass="font-weight-bold" value="#{bundle['fxs.basket.editing']}"></h:outputText>
+                    <h:outputText styleClass="font-weight-bold" value="#{bundle['fxs.basket.editing']}"/>
                     <br/>
-                    <h:outputLabel value="#{bundle['fxs.basket.choiceInsurance']}"></h:outputLabel>
+                    <h:outputLabel value="#{bundle['fxs.basket.choiceInsurance']}"/>
                     <h:selectOneMenu id="insuranceId" styleClass="form-check"
                                      value="#{insurancesBean.insurancesEntity}"
                                      converter="contractInsurancesConverter">
-                        <f:ajax render="@all"></f:ajax>
-                        <f:selectItems value="#{insurancesBean.insurancesEntities}" var="insurance"
+                        <f:ajax render="@all"/>
+                        <f:selectItems value="#{insurancesBean.insurancesEntitiesActive}" var="insurance"
                                        itemValue="#{insurance}"
                                        itemLabel="#{insurance.label}"/>
                         <h:message styleClass="alert-danger" for="insuranceId"/>
                     </h:selectOneMenu>
                     <br/>
-                    <h:outputLabel value="#{bundle['fxs.basket.leasingTime']}&nbsp;"></h:outputLabel>
+                    <h:outputLabel value="#{bundle['fxs.basket.leasingTime']}&nbsp;"/>
                     <h:selectOneMenu styleClass="form-check" value="#{contractsBean.timeLeasing}" id="leasingTime"
                                      required="true"
                                      validator="leasingTimeValidator">
-                        <f:selectItem itemValue="36" itemLabel="#{bundle['fxs.basket.36Month']}"></f:selectItem>
-                        <f:selectItem itemValue="48" itemLabel="#{bundle['fxs.basket.48Month']}"></f:selectItem>
-                        <f:selectItem itemValue="60" itemLabel="#{bundle['fxs.basket.60Month']}"></f:selectItem>
+                        <f:selectItem itemValue="36" itemLabel="#{bundle['fxs.basket.36Month']}"/>
+                        <f:selectItem itemValue="48" itemLabel="#{bundle['fxs.basket.48Month']}"/>
+                        <f:selectItem itemValue="60" itemLabel="#{bundle['fxs.basket.60Month']}"/>
                         <h:message styleClass="alert-danger" for="leasingTime"/>
                     </h:selectOneMenu>
                     <br/>
                     <h:commandButton styleClass="btn btn-outline-success btn-sm"
                                      action="#{contractInsurancesBean.saveEdit}"
                                      value="#{bundle['save']}">
-                        <f:ajax execute="formPopupEdit" render="@all"></f:ajax>
+                        <f:ajax execute="formPopupEdit" render="@all"/>
                     </h:commandButton>
                     <h:commandButton styleClass="btn btn-outline-dark btn-sm"
                                      value="#{bundle['close']}"
                                      action="#{contractInsurancesBean.hidePopupModal}">
-                        <f:ajax render="@all"></f:ajax>
+                        <f:ajax render="@all"/>
                     </h:commandButton>
                 </div>
             </h:form>
@@ -173,7 +164,7 @@
 
 
     <h:form>
-        <h:commandButton value="Deconnexion" actionListener="#{logoutBean.loginTest}"></h:commandButton>
+        <h:commandButton value="Deconnexion" actionListener="#{logoutBean.loginTest}"/>
     </h:form>
 </cc:implementation>
 </html>

@@ -7,6 +7,8 @@ import utils.JsfUtils;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.List;
@@ -23,13 +25,12 @@ public class InsurancesBean extends ExtendBean implements Serializable {
     private static final long serialVersionUID = -8262263353009937764L;
 
     private InsurancesEntity insurancesEntity;
-    private InsurancesServices insurancesServices = new InsurancesServicesImpl();
+    private final InsurancesServices insurancesServices = new InsurancesServicesImpl();
     private List<InsurancesEntity> insurancesEntities;
+    private List<InsurancesEntity> insurancesEntitiesActive;
 
     private boolean showPopup;
     private boolean addEntity;
-    private String success;
-    private String fail;
 
     /**
      * PostConstruct : appelé après le constructeur.
@@ -41,9 +42,11 @@ public class InsurancesBean extends ExtendBean implements Serializable {
         insurancesEntities = insurancesServices.findAll();
     }
 
-    public void initialisationFields() {
-        success = "";
-        fail = "";
+    /**
+     * Find All insurances Active. For basket.
+     */
+    public void findAllInsurancesActive() {
+        insurancesEntitiesActive = insurancesServices.findAllActiveInsurance();
     }
 
     /**
@@ -67,7 +70,6 @@ public class InsurancesBean extends ExtendBean implements Serializable {
      */
     public void hidePopupModal() {
         log.info("Hide PopupModal ");
-        initialisationFields();
         showPopup = false;
     }
 
@@ -76,8 +78,11 @@ public class InsurancesBean extends ExtendBean implements Serializable {
      */
     public void functionUpdateEntity() {
         log.info("Update entity");
+
+        FacesContext context = FacesContext.getCurrentInstance();
+
         insurancesServices.update(insurancesEntity);
-        success = JsfUtils.returnMessage(getLocale(), "fxs.insurances.successUpdate");
+        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, JsfUtils.returnMessage(getLocale(), "fxs.insurances.successUpdate"), null));
     }
 
     /**
@@ -85,17 +90,20 @@ public class InsurancesBean extends ExtendBean implements Serializable {
      */
     public void functionAddEntity() {
         log.info("Add entity");
+        FacesContext context = FacesContext.getCurrentInstance();
+
         insurancesServices.add(insurancesEntity);
-        success = JsfUtils.returnMessage(getLocale(), "fxs.insurances.successAdd");
+        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, JsfUtils.returnMessage(getLocale(), "fxs.insurances.successAdd"), null));
     }
 
     /**
      * check and save entity
      */
     public void saveEdit() {
-        List<InsurancesEntity> insurancesEntitiesTest = insurancesServices.findByLabel(insurancesEntity.getLabel());
-        initialisationFields();
         log.info("Save edit");
+        FacesContext context = FacesContext.getCurrentInstance();
+
+        List<InsurancesEntity> insurancesEntitiesTest = insurancesServices.findByLabel(insurancesEntity.getLabel());
 
         if ((addEntity) && (insurancesEntitiesTest.isEmpty())) {
             functionAddEntity();
@@ -107,10 +115,10 @@ public class InsurancesBean extends ExtendBean implements Serializable {
             if (test.getId() == insurancesEntity.getId()) {
                 functionUpdateEntity();
             } else {
-                fail = JsfUtils.returnMessage(getLocale(), "fxs.insurances.errorAdd");
+                context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, JsfUtils.returnMessage(getLocale(), "fxs.insurances.errorAdd"), null));
             }
         } else {
-            fail = JsfUtils.returnMessage(getLocale(), "fxs.insurances.errorAdd");
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, JsfUtils.returnMessage(getLocale(), "fxs.insurances.errorAdd"), null));
         }
         init();
     }
@@ -121,11 +129,17 @@ public class InsurancesBean extends ExtendBean implements Serializable {
     public void deleteOrActivateInsurance() {
         log.info("Delete or reactivate insurance");
 
+        FacesContext context = FacesContext.getCurrentInstance();
+
         int idInsurance = parseInt(getParam("id"));
         InsurancesEntity insurancesEntity = findInsuranceById(idInsurance);
 
         insurancesEntity.setActive(!insurancesEntity.isActive());
-        insurancesServices.update(insurancesEntity);
+        if (insurancesServices.update(insurancesEntity)) {
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, JsfUtils.returnMessage(getLocale(), "fxs.insurances.successDelete"), null));
+        } else {
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, JsfUtils.returnMessage(getLocale(), "fxs.insurances.errorDelete"), null));
+        }
         init();
     }
 
@@ -166,19 +180,11 @@ public class InsurancesBean extends ExtendBean implements Serializable {
         this.addEntity = addEntity;
     }
 
-    public String getSuccess() {
-        return success;
+    public List<InsurancesEntity> getInsurancesEntitiesActive() {
+        return insurancesEntitiesActive;
     }
 
-    public void setSuccess(String success) {
-        this.success = success;
-    }
-
-    public String getFail() {
-        return fail;
-    }
-
-    public void setFail(String fail) {
-        this.fail = fail;
+    public void setInsurancesEntitiesActive(List<InsurancesEntity> insurancesEntitiesActive) {
+        this.insurancesEntitiesActive = insurancesEntitiesActive;
     }
 }
