@@ -17,37 +17,38 @@
         <h:form>
             <h:commandButton styleClass="btn btn-outline-primary" value="#{bundle['fxs.insurancesList.add']}"
                              action="#{insurancesBean.showPopupModal}">
-                <f:param name="addEntity" value="addEntity"></f:param>
+                <f:param name="addEntity" value="addEntity"/>
             </h:commandButton>
         </h:form>
     </div>
     <br/>
     <h:form>
-        <!-- datatable == equiavalent foreach -->
+        <h:panelGrid>
+            <h:messages id="messages" showSummary="true" globalOnly="true" infoClass="alert-info"
+                        errorClass="alert-danger"/>
+        </h:panelGrid>
         <h:dataTable id="outputMessage" styleClass="table table-hover table-responsive"
                      value="#{insurancesBean.insurancesEntities}" var="i">
             <h:column>
-                <f:facet name="header">#{bundle['fxs.insurancesList.code']}</f:facet>
-                <h:outputText value="#{i.id}"></h:outputText>
-            </h:column>
-            <h:column>
                 <f:facet name="header">#{bundle['fxs.insurancesList.title']}</f:facet>
-                <h:outputText value="#{i.label}"></h:outputText>
+                <h:outputText value="#{i.label}"/>
             </h:column>
             <h:column>
                 <f:facet name="header">#{bundle['fxs.insurancesList.description']}</f:facet>
-                <h:outputText value="#{i.description}"></h:outputText>
+                <h:outputText value="#{i.description}"/>
             </h:column>
             <h:column>
                 <f:facet name="header">#{bundle['fxs.insurancesList.price']}</f:facet>
-                <h:outputText value="#{i.price} €"></h:outputText>
+                <h:outputText value="#{i.price}">
+                    <f:convertNumber type="currency" currencySymbol="€"/>
+                </h:outputText>
             </h:column>
             <h:column>
                 <f:facet name="header">#{bundle['fxs.insurancesList.edit']}</f:facet>
                 <h:commandLink styleClass="text-info" action="#{insurancesBean.showPopupModal}">
 
                     <i class="far fa-edit"></i>
-                    <f:param name="id" value="#{i.id}"></f:param>
+                    <f:param name="id" value="#{i.id}"/>
                     <f:ajax render="@all"/>
                 </h:commandLink>
             </h:column>
@@ -60,14 +61,14 @@
                                rendered="#{i.active eq true}"
                                onclick="return confirmer();">
                     <i class="fas fa-toggle-on"></i>
-                    <f:param name="id" value="#{i.id}"></f:param>
+                    <f:param name="id" value="#{i.id}"/>
                     <f:ajax render="@form"/>
                 </h:commandLink>
                 <h:commandLink id="desactiveInsurance" styleClass="text-secondary"
                                action="#{insurancesBean.deleteOrActivateInsurance}"
                                rendered="#{i.active eq false}">
                     <i class="fas fa-toggle-off"></i>
-                    <f:param name="id" value="#{i.id}"></f:param>
+                    <f:param name="id" value="#{i.id}"/>
                     <f:ajax render="@form"/>
                 </h:commandLink>
             </h:column>
@@ -80,53 +81,47 @@
 
             <h:form id="formPopupEdit">
                 <div class="popup-panel">
-                    <h:outputText value="#{insurancesBean.success}"
-                                  style="color: green; font-weight: bold"></h:outputText>
-                    <h:outputText value="#{insurancesBean.fail}"
-                                  style="color: darkred; font-weight: bold"></h:outputText>
-
+                    <h:panelGrid>
+                        <h:messages id="messagesPopup" showSummary="true" globalOnly="true" infoClass="alert-info"
+                                    errorClass="alert-danger"/>
+                    </h:panelGrid>
                     <div class="form-group">
-                        <h:outputLabel value="#{bundle['fxs.insurancesList.code']}" for="idInsurances"></h:outputLabel>
-                        <h:outputText id="idInsurances" value="#{insurancesBean.insurancesEntity.id}"
-                                      styleClass="form-control"></h:outputText>
-                    </div>
-                    <div class="form-group">
-                        <h:outputLabel value="#{bundle['fxs.insurancesList.label']}" for="label"></h:outputLabel>
+                        <h:outputLabel value="#{bundle['fxs.insurancesList.title']}" for="label"/>
                         <h:inputText value="#{insurancesBean.insurancesEntity.label}" styleClass="form-control"
                                      required="true"
                                      requiredMessage="#{bundle['fxs.insurancesList.required']}"
                                      id="label">
                         </h:inputText>
-                        <h:message styleClass="alert alert-danger" role="alert" for="label"></h:message>
+                        <h:message styleClass="alert-danger" role="alert" for="label"/>
                     </div>
                     <div class="form-group">
                         <h:outputLabel value="#{bundle['fxs.insurancesList.description']}"
                                        for="description"></h:outputLabel>
                         <h:inputTextarea id="description" styleClass="form-control" rows="3"
-                                         value="#{insurancesBean.insurancesEntity.description}"></h:inputTextarea>
+                                         value="#{insurancesBean.insurancesEntity.description}"/>
                     </div>
                     <div class="form-group">
-                        <h:outputLabel value="#{bundle['fxs.insurancesList.price']}" for="price"></h:outputLabel>
+                        <h:outputLabel value="#{bundle['fxs.insurancesList.price']}" for="price"/>
                         <h:inputText value="#{insurancesBean.insurancesEntity.price}" styleClass="form-control"
                                      id="price" required="true"
                                      requiredMessage="#{bundle['fxs.insurancesList.required']}"
                                      converterMessage="#{bundle['fxs.insurancesList.priceError']}">
                             <f:validator validatorId="priceValidator"/>
                         </h:inputText>
-                        <h:message for="price" id="messageValidator" styleClass="alert alert-danger "/>
+                        <h:message for="price" id="messageValidator" styleClass="alert-danger "/>
                     </div>
                     <span>
                         <h:commandButton styleClass="btn btn-outline-success btn-sm"
                                          value="#{bundle['fxs.insurancesList.save']}"
                                          action="#{insurancesBean.saveEdit}">
-                            <f:ajax execute="formPopupEdit" render="@all"></f:ajax>
+                            <f:ajax execute="formPopupEdit" render="@all"/>
                         </h:commandButton>
                     </span>
                     <span>
                         <h:commandButton styleClass="btn btn-outline-dark btn-sm"
                                          value="#{bundle['fxs.insurancesList.close']}"
                                          action="#{insurancesBean.hidePopupModal}">
-                            <f:ajax render="@all"></f:ajax>
+                            <f:ajax render="@all"/>
                         </h:commandButton>
                     </span>
                 </div>

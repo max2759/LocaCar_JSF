@@ -10,11 +10,9 @@
             <h:form>
                 <h:commandButton value="#{bundle['french1']}" id="fr" styleClass="french"
                                  actionListener="#{internalizationBean.langChoice}">
-                    <f:ajax render="@all"></f:ajax>
                 </h:commandButton>
                 <h:commandButton value="#{bundle['english1']}" id="en"
                                  actionListener="#{internalizationBean.langChoice}">
-                    <f:ajax render="@all"></f:ajax>
                 </h:commandButton>
             </h:form>
         </f:view>

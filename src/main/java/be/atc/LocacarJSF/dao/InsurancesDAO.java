@@ -9,13 +9,15 @@ import java.util.List;
  */
 public interface InsurancesDAO {
 
-    public boolean add(InsurancesEntity insurancesEntity);
+    boolean add(InsurancesEntity insurancesEntity);
 
-    public boolean update(InsurancesEntity insurancesEntity);
+    boolean update(InsurancesEntity insurancesEntity);
 
-    public List<InsurancesEntity> findAll();
+    List<InsurancesEntity> findAll();
 
-    public InsurancesEntity findById(int id);
+    InsurancesEntity findById(int id);
 
-    public List<InsurancesEntity> findByLabel(String label);
+    List<InsurancesEntity> findByLabel(String label);
+
+    List<InsurancesEntity> findAllActiveInsurance();
 }

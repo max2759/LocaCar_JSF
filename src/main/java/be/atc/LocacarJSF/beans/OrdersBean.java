@@ -1,8 +1,11 @@
 package be.atc.LocacarJSF.beans;
 
+import be.atc.LocacarJSF.dao.entities.ContractInsurancesEntity;
 import be.atc.LocacarJSF.dao.entities.ContractsEntity;
 import be.atc.LocacarJSF.dao.entities.OrdersEntity;
 import be.atc.LocacarJSF.enums.EnumOrderStatut;
+import be.atc.LocacarJSF.services.ContractInsurancesServices;
+import be.atc.LocacarJSF.services.ContractInsurancesServicesImpl;
 import be.atc.LocacarJSF.services.OrdersServices;
 import be.atc.LocacarJSF.services.OrdersServicesImpl;
 import utils.JsfUtils;
@@ -29,13 +32,11 @@ public class OrdersBean extends ExtendBean implements Serializable {
     private static final long serialVersionUID = -5251107202124824837L;
 
     // Remplacer par l'utilisateur
-    private int idUser = 7;
+    private int idUser = 6;
 
     private OrdersEntity ordersEntity;
-    private OrdersServices ordersServices = new OrdersServicesImpl();
+    private final OrdersServices ordersServices = new OrdersServicesImpl();
     private double priceOrder;
-    private String success;
-    private String fail;
     private String requestOrdersList;
     private List<OrdersEntity> ordersEntities;
     private boolean showPopup;
@@ -73,8 +74,8 @@ public class OrdersBean extends ExtendBean implements Serializable {
      */
     public void fieldsInitialization() {
         log.info("OrdersBean : Field initialization !");
-        success = "";
-        fail = "";
+
+        ordersEntities = Collections.emptyList();
     }
 
     /**
@@ -89,6 +90,8 @@ public class OrdersBean extends ExtendBean implements Serializable {
      * Add shop, call functions
      */
     public void addShop() {
+        FacesContext context = FacesContext.getCurrentInstance();
+
         log.info("OrdersBean : AddShop");
         init();
         if (ordersEntity == null) {
@@ -97,11 +100,9 @@ public class OrdersBean extends ExtendBean implements Serializable {
         }
 
         if (contractsBean.createContract()) {
-            fail = "";
-            success = JsfUtils.returnMessage(getLocale(), "fxs.addShopButton.addShopSuccess");
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, JsfUtils.returnMessage(getLocale(), "fxs.addShopButton.addShopSuccess"), null));
         } else {
-            success = "";
-            fail = JsfUtils.returnMessage(getLocale(), "fxs.addShopButton.addShopError");
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, JsfUtils.returnMessage(getLocale(), "fxs.addShopButton.addShopError"), null));
         }
         findOrderAndfindContracts();
     }
@@ -124,6 +125,8 @@ public class OrdersBean extends ExtendBean implements Serializable {
      */
     public String validateOrder() {
         log.info("OrdersBean :validateOrder");
+        FacesContext context = FacesContext.getCurrentInstance();
+
         contractsBean.findAllContracts(ordersEntity.getId());
         if (contractsBean.getContractsEntities().isEmpty()) {
             log.info("ContractsEntities is empty");
@@ -131,12 +134,25 @@ public class OrdersBean extends ExtendBean implements Serializable {
         }
         boolean test = false;
         for (ContractsEntity contractEntity : contractsBean.getContractsEntities()) {
+
             log.info(contractEntity.getCarsByIdCars().isActive());
             if (contractEntity.getCarsByIdCars().isActive()) {
                 test = true;
             } else {
                 test = false;
+                context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, JsfUtils.returnMessage(getLocale(), "fxs.basket.vehiculeNotAvailable"), null));
                 break;
+            }
+            if (contractEntity.getContractTypesByIdContractType().getLabel().equalsIgnoreCase("Leasing")) {
+                ContractInsurancesServices contractInsurancesServices = new ContractInsurancesServicesImpl();
+                ContractInsurancesEntity contractInsurancesEntity = contractInsurancesServices.findByIdContract(contractEntity.getId());
+                if (contractInsurancesEntity.getInsurancesByIdInsurance().isActive()) {
+                    test = true;
+                } else {
+                    test = false;
+                    context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, JsfUtils.returnMessage(getLocale(), "fxs.basket.errorInsurance"), null));
+                    break;
+                }
             }
         }
         if (test) {
@@ -153,22 +169,35 @@ public class OrdersBean extends ExtendBean implements Serializable {
             setCptContracts(0);
             return "insurances";
         } else {
-            success = "";
-            fail = JsfUtils.returnMessage(getLocale(), "fail");
-
             return "index";
         }
     }
 
+    /**
+     * Find Orders by idUser, username or idOrder
+     */
     public void findOrderCanceledOrValidate() {
         log.info("OrdersBean : findOrderCanceledOrValidate");
+
+        FacesContext context = FacesContext.getCurrentInstance();
+
         log.info("requestOrdersList : " + requestOrdersList);
-        if ((requestOrdersList == "") || (!findOrdersCanceledOrValidateByIdOrder()) && (!findOrdersCanceledOrValidateByIdUser()) && (!findOrdersCanceledOrValidateByUsername())) {
-            success = "";
-            fail = JsfUtils.returnMessage(getLocale(), "fxs.ordersList.requestError");
+        if ((requestOrdersList.equals("")) || (!findOrdersCanceledOrValidateByIdOrder()) && (!findOrdersCanceledOrValidateByIdUser()) && (!findOrdersCanceledOrValidateByUsername())) {
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, JsfUtils.returnMessage(getLocale(), "fxs.ordersList.requestError"), null));
             ordersEntities = Collections.emptyList();
-        } else {
-            fail = "";
+        }
+    }
+
+    /**
+     * List all my orders.
+     */
+    public void findAllMyOrders() {
+        log.info("OrdersBean : findAllMyOrders");
+        ordersEntities = ordersServices.findAllByIdUsersAndStatusIsValidateOrCanceled(idUser);
+        if (ordersEntities.isEmpty()) {
+            FacesContext context = FacesContext.getCurrentInstance();
+
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, JsfUtils.returnMessage(getLocale(), "fxs.modalContractsOrder.listOrderEmpty"), null));
         }
     }
 
@@ -194,6 +223,9 @@ public class OrdersBean extends ExtendBean implements Serializable {
         showPopup = false;
     }
 
+    /**
+     * Delete order
+     */
     public void deleteOrder() {
         log.info("OrdersBean : deleteOrder");
         FacesContext context = FacesContext.getCurrentInstance();
@@ -215,7 +247,7 @@ public class OrdersBean extends ExtendBean implements Serializable {
         try {
             int idOrder = Integer.parseInt(requestOrdersList);
             ordersEntities = ordersServices.findAllByIdOrderAndStatusIsValidateOrCanceled(idOrder);
-            return ordersEntities.isEmpty() ? false : true;
+            return !ordersEntities.isEmpty();
         } catch (NumberFormatException numberFormatException) {
             return false;
         }
@@ -226,7 +258,7 @@ public class OrdersBean extends ExtendBean implements Serializable {
         try {
             int idUserTemp = Integer.parseInt(requestOrdersList);
             ordersEntities = ordersServices.findAllByIdUsersAndStatusIsValidateOrCanceled(idUserTemp);
-            return ordersEntities.isEmpty() ? false : true;
+            return !ordersEntities.isEmpty();
         } catch (NumberFormatException numberFormatException) {
             return false;
         }
@@ -235,7 +267,7 @@ public class OrdersBean extends ExtendBean implements Serializable {
     protected boolean findOrdersCanceledOrValidateByUsername() {
         log.info("OrdersBean : findOrdersCanceledOrValidateByUsername");
         ordersEntities = ordersServices.findAllByUsernameUsersAndStatusIsValidateOrCanceled(requestOrdersList);
-        return ordersEntities.isEmpty() ? false : true;
+        return !ordersEntities.isEmpty();
     }
 
     /**
@@ -259,22 +291,6 @@ public class OrdersBean extends ExtendBean implements Serializable {
         ordersEntity.setOrderDate(getDate());
         ordersEntity.setOrderStatut(EnumOrderStatut.Pending);
         return ordersServices.add(ordersEntity);
-    }
-
-    public String getSuccess() {
-        return success;
-    }
-
-    public void setSuccess(String success) {
-        this.success = success;
-    }
-
-    public String getFail() {
-        return fail;
-    }
-
-    public void setFail(String fail) {
-        this.fail = fail;
     }
 
     public int getIdUser() {
