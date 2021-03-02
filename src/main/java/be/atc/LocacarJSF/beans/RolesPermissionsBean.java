@@ -40,8 +40,11 @@ public class RolesPermissionsBean implements Serializable {
     private boolean addRolesPermissionsEntity = true;
     @Inject
     private be.atc.LocacarJSF.beans.RolesBean rolesBean;
+    @Inject
+    private be.atc.LocacarJSF.beans.PermissionsBean permissionsBean;
 
     public void init() {
+        rolesPermissionsEntity = new RolesPermissionsEntity();
         rolesPermissionsEntities = rolesPermissionsServices.findAll();
     }
 
@@ -55,8 +58,12 @@ public class RolesPermissionsBean implements Serializable {
 
         log.info("begin addRoleBean");
 
-        rolesPermissionsEntity.setRolesByIdRoles(rolesPermissionsEntity.getRolesByIdRoles());
-        rolesPermissionsEntity.setPermissionsByIdPermissions(rolesPermissionsEntity.getPermissionsByIdPermissions());
+        log.info("role: "+rolesBean.getRolesEntity().getId());
+        int idRole = rolesBean.getRolesEntity().getId();
+        int idPerm =  permissionsBean.getPermissionsEntity().getId();
+
+        rolesPermissionsEntity.setRolesByIdRoles(rolesBean.findById(idRole));
+        rolesPermissionsEntity.setPermissionsByIdPermissions(permissionsBean.findById(idPerm));
 
         log.info("id recu du form perm : " + rolesPermissionsEntity.getPermissionsByIdPermissions());
         log.info("label recu du form role: " + rolesPermissionsEntity.getRolesByIdRoles());
