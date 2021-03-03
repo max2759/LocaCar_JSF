@@ -1,15 +1,20 @@
 package be.atc.LocacarJSF.beans;
 
 import be.atc.LocacarJSF.dao.entities.AdsEntity;
+import be.atc.LocacarJSF.dao.entities.CarsEntity;
 import be.atc.LocacarJSF.dao.entities.CarsPicturesEntity;
 import be.atc.LocacarJSF.enums.EnumTypeAds;
 import be.atc.LocacarJSF.services.AdsServices;
 import be.atc.LocacarJSF.services.AdsServicesImpl;
+import be.atc.LocacarJSF.services.CarsServices;
+import be.atc.LocacarJSF.services.CarsServicesImpl;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.ServletException;
+import java.io.IOException;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -23,16 +28,10 @@ public class AdsBean extends ExtendBean implements Serializable {
     private static final long serialVersionUID = -6795998607327751632L;
 
     private LocalDateTime dateStart = LocalDateTime.now();
-
-    /*
-    LocalDateTime ldt = LocalDateTime.ofInstant(dateStart.toInstant(), ZoneId.systemDefault());
-    Date out = Date.from(ldt.atZone(ZoneId.systemDefault()).toInstant());
-    LocalDateTime outEnd = ldt.plusMonths(1);
-    */
-    //private LocalDateTime dateEnd = Date.from(outEnd.atZone(ZoneId.systemDefault()).toInstant());
     private LocalDateTime dateEnd = dateStart.plusMonths(1);
 
     private AdsEntity adsEntity;
+    private CarsEntity carsEntity;
     private AdsServices adsServices = new AdsServicesImpl();
     private List<AdsEntity> adsEntities;
 
@@ -40,6 +39,9 @@ public class AdsBean extends ExtendBean implements Serializable {
 
     @Inject
     private CarsBean carsBean;
+
+    @Inject
+    private CarsOptionsBean carsOptionsBean;
 
     @Inject
     private PicturesBean picturesBean;
@@ -51,16 +53,19 @@ public class AdsBean extends ExtendBean implements Serializable {
     private String fail;
 
 
+
     /**
      * PostConstruct : appelé après le constructeur.
      * Met à jour la liste optionsEntities
      */
     @PostConstruct
     public void init() {
+        adsEntity = new AdsEntity();
+        carsEntity = new CarsEntity();
         adsEntities = adsServices.findAll();
-        for (AdsEntity img : adsEntities) {
-            carsPicturesEntityList = picturesBean.findPictures(img.getCarsByIdCars().getId());
-        }
+//        for (AdsEntity img : adsEntities) {
+//            carsPicturesEntityList = picturesBean.findPictures(img.getCarsByIdCars().getId());
+//        }
     }
 
     public void initialisationFields() {
@@ -109,10 +114,23 @@ public class AdsBean extends ExtendBean implements Serializable {
         return adsServices.add(adsEntity);
     }
 
-    public void addAds() {
+
+    public void addCar() throws ServletException, IOException {
+        log.info("Début ajout voiture");
+        CarsServices carsServices = new CarsServicesImpl();
+        log.info(carsEntity);
+        carsEntity.setActive(true);
+        carsServices.add(carsEntity);
+        carsOptionsBean.addOptionsToCarsOptions(carsEntity);
+        picturesBean.save(carsEntity);
+    }
+
+
+    public void addAds() throws ServletException, IOException {
         initialisationFields();
         log.info("Sauvegarde");
 
+        carsBean.addCar();
         adsEntity.setCarsByIdCars(carsBean.getCarsEntity());
         adsEntity.setDateStart(dateStart);
         adsEntity.setDateEnd(dateEnd);
@@ -204,5 +222,13 @@ public class AdsBean extends ExtendBean implements Serializable {
 
     public void setCarsPicturesEntityList(List<CarsPicturesEntity> carsPicturesEntityList) {
         this.carsPicturesEntityList = carsPicturesEntityList;
+    }
+
+    public CarsEntity getCarsEntity() {
+        return carsEntity;
+    }
+
+    public void setCarsEntity(CarsEntity carsEntity) {
+        this.carsEntity = carsEntity;
     }
 }

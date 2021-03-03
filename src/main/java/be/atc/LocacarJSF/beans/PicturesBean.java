@@ -1,12 +1,12 @@
 package be.atc.LocacarJSF.beans;
 
+import be.atc.LocacarJSF.dao.entities.CarsEntity;
 import be.atc.LocacarJSF.dao.entities.CarsPicturesEntity;
 import be.atc.LocacarJSF.services.CarsPicturesServices;
 import be.atc.LocacarJSF.services.CarsPicturesServicesImpl;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
-import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.ServletException;
 import javax.servlet.http.Part;
@@ -30,15 +30,9 @@ public class PicturesBean extends ExtendBean implements Serializable {
 
     private CarsPicturesEntity carsPicturesEntity;
     private CarsPicturesServices carsPicturesServices = new CarsPicturesServicesImpl();
-    @Inject
-    CarsBean carsBean;
-    @Inject
-    AdsBean adsBean;
     private List<CarsPicturesEntity> carsPicturesEntityList;
+
     private String folder = "A:\\Applications\\Drive\\Work\\IntelliJ\\uploads";
-    private int idCars = 13;
-
-
     private Part file;
 
 
@@ -50,14 +44,16 @@ public class PicturesBean extends ExtendBean implements Serializable {
     @PostConstruct
     public void init() {
         carsPicturesEntity = new CarsPicturesEntity();
+        carsPicturesEntityList = carsPicturesServices.findAll();
     }
 
     /**
      * Save file
+     *
      * @throws ServletException
      * @throws IOException
      */
-    public void save() throws ServletException, IOException {
+    public void save(CarsEntity carsEntity) throws ServletException, IOException {
 
         log.info("début de la sauvegarde");
 
@@ -77,12 +73,12 @@ public class PicturesBean extends ExtendBean implements Serializable {
             String newFileName = fileName.replace(fileName, replacementString);
             log.info("Nouveau nom : " + newFileName);
             copyFiles(newFileName);
-            upload(newFileName);
+            upload(newFileName, carsEntity);
         } else {
             log.info("Poursuivre");
             init();
             copyFiles(fileName);
-            upload(fileName);
+            upload(fileName, carsEntity);
         }
 
     }
@@ -103,12 +99,13 @@ public class PicturesBean extends ExtendBean implements Serializable {
 
     /**
      * Upload file to db
+     *
      * @param fileName
      */
-    private void upload(String fileName) {
+    private void upload(String fileName, CarsEntity carsEntity) {
         log.info("envoie à la DB");
         carsPicturesEntity.setLabel(fileName);
-        carsPicturesEntity.setCarsByIdCars(carsBean.findCarsById(idCars));
+        carsPicturesEntity.setCarsByIdCars(carsEntity);
         carsPicturesServices.add(carsPicturesEntity);
         log.info("Sauvegardé dans la DB");
     }
@@ -139,14 +136,6 @@ public class PicturesBean extends ExtendBean implements Serializable {
 
     public void setFile(Part file) {
         this.file = file;
-    }
-
-    public int getIdCars() {
-        return idCars;
-    }
-
-    public void setIdCars(int idCars) {
-        this.idCars = idCars;
     }
 
     public List<CarsPicturesEntity> getCarsPicturesEntityList() {
