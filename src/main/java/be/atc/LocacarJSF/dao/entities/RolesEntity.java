@@ -9,7 +9,9 @@ import java.util.Objects;
 @NamedQueries({
         @NamedQuery(name = "Roles.findAll", query = "SELECT r from RolesEntity r"),
         @NamedQuery(name = "Roles.findByLabel", query = "SELECT r from RolesEntity r where r.label = :label"),
-})
+        @NamedQuery(name = "Roles.findByIdUser", query = "select r from RolesEntity r join UsersEntity u on u.rolesByIdRoles.id = r.id where u.id = :idUser"),
+
+        })
 public class RolesEntity {
     private int id;
     private String label;

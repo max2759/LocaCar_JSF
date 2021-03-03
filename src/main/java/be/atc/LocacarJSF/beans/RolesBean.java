@@ -1,13 +1,16 @@
 package be.atc.LocacarJSF.beans;
 
 import be.atc.LocacarJSF.dao.entities.RolesEntity;
+import be.atc.LocacarJSF.dao.entities.UsersEntity;
 import be.atc.LocacarJSF.services.RolesServices;
 import be.atc.LocacarJSF.services.RolesServicesImpl;
 import org.apache.log4j.Logger;
 import utils.JsfUtils;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -16,6 +19,7 @@ import java.text.ParseException;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static java.lang.Integer.parseInt;
 
@@ -38,8 +42,18 @@ public class RolesBean implements Serializable {
     @Inject
     private RolesBean rolesBean;
 
+    @PostConstruct
+    public void postConstruct() {
+        log.info("begin postConstruct RolesBean");
+        init();
+    }
+
     public void init() {
+        //creer quelque chose avec Roles.findByIdUser afin de recuperer une liste de role ?
+        rolesEntity = new RolesEntity();
         rolesEntities = rolesServices.findAll();
+        log.info("rolesEntities dans init rolesBean "+rolesEntities);
+
     }
 
     public void initialisationFields() {
@@ -143,6 +157,14 @@ public class RolesBean implements Serializable {
     ///////////////////////////////////////
     ///// getters and setter //////////////
     //////////////////////////////////////
+
+
+
+    public List<SelectItem> getRolesEntitiesSelectItems() {
+        log.info("begin getRolesEntitiesSelectItems() + rolesEntities "+rolesEntities);
+        return rolesEntities.stream().map(c -> new SelectItem(c.getId(), c.getLabel())).collect(Collectors.toList());
+    }
+
 
 
     public RolesEntity getRolesEntity() {

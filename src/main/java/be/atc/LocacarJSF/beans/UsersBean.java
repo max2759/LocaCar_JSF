@@ -181,6 +181,8 @@ public class UsersBean implements Serializable {
             log.info("end add addresse");
         }
 
+        FacesContext.getCurrentInstance().getApplication().getNavigationHandler().handleNavigation(FacesContext.getCurrentInstance(), null, "connexion.xhtml");
+
 
     }
 

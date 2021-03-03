@@ -1,5 +1,6 @@
 package be.atc.LocacarJSF.dao;
 
+import be.atc.LocacarJSF.dao.entities.AddressesEntity;
 import be.atc.LocacarJSF.dao.entities.PermissionsEntity;
 import org.apache.log4j.Logger;
 import utils.EMF;
@@ -63,6 +64,25 @@ public class PermissionsDAOImpl implements PermissionsDAO {
 
     @Override
     public List<PermissionsEntity> findAll() {
+
+        EntityManager em = EMF.getEM();
+        List<PermissionsEntity> resultList = null;
+        log.info("cvall to findAll DAO");
+        try {
+            resultList = em.createNamedQuery("Permissions.findAll",
+                    PermissionsEntity.class)
+                    .getResultList();
+            if (resultList != null) {
+                log.info(resultList.size() + " results found.");
+            }
+        } catch (Exception ex) {
+            log.error(ex);
+        } finally {
+            em.clear();
+            em.close();
+        }
+        return resultList;
+
 /*        List<RolesPermissionsEntity> resultList = null;
         log.info("cvall to findAll DAO");
         try {
@@ -77,8 +97,10 @@ public class PermissionsDAOImpl implements PermissionsDAO {
         } finally {
             em.clear();
             em.close();
-        }*/
+        }
         return null;
+
+ */
     }
 
     @Override

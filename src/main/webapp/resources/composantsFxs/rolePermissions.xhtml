@@ -149,6 +149,7 @@
                                       styleClass="form-control"></h:outputText>
                     </div>
 
+                    <!--
                     <div class="form-group">
                         <h:outputLabel value="idRole" for="idRoleAdd"></h:outputLabel>
                         <h:inputText value="#{rolesPermissionsBean.rolesPermissionsEntity.rolesByIdRoles}"
@@ -175,6 +176,28 @@
                         </h:inputText>
                         <h:message styleClass="alert alert-danger" role="alert" for="idPermissionAdd"></h:message>
                     </div>
+
+                    -->
+
+                    <h:panelGroup styleClass="form-group">
+
+                        <h:selectOneMenu id="rolesDisplay" styleClass="form-group"
+                                         value="#{rolesBean.rolesEntity.id}">
+                            <f:selectItem itemValue="#{null}" itemLabel=" "/>
+                            <f:selectItems value="#{rolesBean.rolesEntitiesSelectItems}"/>
+                        </h:selectOneMenu>
+                        <h:message for="rolesDisplay"/>
+                    </h:panelGroup>
+
+                    <h:panelGroup styleClass="form-group">
+
+                        <h:selectOneMenu id="permissionsDisplay" styleClass="form-group"
+                                         value="#{permissionsBean.permissionsEntity.id}">
+                            <f:selectItem itemValue="#{null}" itemLabel=" "/>
+                            <f:selectItems value="#{permissionsBean.permissionsEntitiesSelectItems}"/>
+                        </h:selectOneMenu>
+                        <h:message for="rolesDisplay"/>
+                    </h:panelGroup>
 
                     <!-- button save add -->
                     <span>
