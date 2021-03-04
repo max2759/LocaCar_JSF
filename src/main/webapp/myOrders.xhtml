@@ -28,13 +28,15 @@
     </h:head>
 
         <f:metadata>
-            <f:viewParam name="foo" value="#{ordersBean.requestOrdersList}" />
-            <f:viewAction action="#{ordersBean.findAllMyOrders}" />
+            <f:viewParam name="foo" value="#{ordersBean.requestOrdersList}"/>
+            <f:viewAction action="#{ordersBean.findAllMyOrders}"/>
         </f:metadata>
 
         <h:body>
             <h2>#{bundle['orders.title']}</h2>
-            <fxs:myOrders id="displayListOrders"></fxs:myOrders>
+            <fxs:myOrders id="displayMyListOrders"></fxs:myOrders>
+            <br/><br/><br/><h:outputText value="Leasing Deadline : "/><br/><br/><br/>
+            <fxs:myContractsLeasingDeadline id="displayMyListContractDeadlineLeasing"></fxs:myContractsLeasingDeadline>
         </h:body>
     </ui:define>
 </ui:composition>

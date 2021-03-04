@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:cc="http://java.sun.com/jsf/composite">
+
+<cc:interface name="Orders"
+              displayName="#{bundle['orders.title']}"
+              shortDescription="#{bundle['orders.title']}"
+>
+</cc:interface>
+<cc:implementation>
+    <h:panelGroup id="popupNotification" layout="block" styleClass="popup-panel-overlay"
+                  rendered="#{contractsBean.showPopupEndLeasing}">
+        <div class="popup-panel container pre-scrollable">
+            <h:panelGrid>
+                <h:messages id="messages" showSummary="true" globalOnly="true" infoClass="alert-info"
+                            errorClass="alert-danger"/>
+            </h:panelGrid>
+            <h:form styleClass="">
+                <h:commandButton styleClass="position-fixed btn btn-outline-danger btn-sm "
+                                 value=" X "
+                                 action="#{ordersBean.hidePopupModal}">
+                    <f:ajax render="@all"/>
+                </h:commandButton>
+            </h:form>
+            <br/>
+            <h:form>
+                <h:dataTable rendered="#{empty contractsBean.hmContractsLeasingDeadline ? false : true}"
+                             id="outputMessage"
+                             styleClass="table table-hover"
+                             value="#{contractsBean.hmContractsLeasingDeadline.entrySet().toArray()}" var="c">
+                    <h:column>
+                        <h:outputText styleClass="alert-danger font-weight-bold"
+                                      value="#{bundle['fxs.myContractsLeasingDeadline.msg1']}"/>
+                        <br/><br/>
+                        <h:outputText styleClass=""
+                                      value="#{bundle['fxs.myContractsLeasingDeadline.orderNum']} #{c.value.ordersByIdOrders.id}"/>
+                        <br/>
+                        <h:outputText styleClass="font-weight-bold"
+                                      value="#{c.value.carsByIdCars.modelsByIdModels.brandsByIdBrands.label} "/>
+                        <h:outputText styleClass="font-weight-bold"
+                                      value="#{c.value.carsByIdCars.modelsByIdModels.label} "/>
+                        <h:outputText value="#{c.value.carsByIdCars.releaseYear}">
+                            <f:convertDateTime type="localDate" pattern="y"/>
+                        </h:outputText>
+                        <br/>
+                        <h:outputText value="#{c.value.carsByIdCars.carsTypesByIdCarsTypes.label} "/>
+                        <h:outputText value="#{c.value.carsByIdCars.carsGearboxByIdCarsGearBox.label} "/>
+                        <h:outputText value="#{c.value.carsByIdCars.carsFuelsByIdCarsFuels.label}">/</h:outputText>
+                        <h:outputText value=", #{c.value.carsByIdCars.kilometer} #{bundle['km']}"/>
+                        <br/>
+                        <h:outputText value="#{bundle['fxs.myContractsLeasingDeadline.dateStart']} "/>
+                        <h:outputText value="#{c.value.dateStart}">
+                            <f:convertDateTime type="localDate" pattern="dd/MM/yyyy"/>
+                        </h:outputText>
+                        <br/>
+                        <h:outputText value="#{bundle['fxs.myContractsLeasingDeadline.dateEnd']} "/>
+                        <h:outputText value="#{c.value.dateEnd}">
+                            <f:convertDateTime type="localDate" pattern="dd/MM/yyyy"/>
+                        </h:outputText>
+                        <br/>
+                        <h:outputText value="#{bundle['fxs.myContractsLeasingDeadline.initPrice']} "/>
+                        <h:outputText value="#{c.value.carPrice}">
+                            <f:convertNumber type="currency" currencySymbol="€"/>
+                        </h:outputText>
+                        <br/><br/>
+                        <h:outputText styleClass="alert-primary font-weight-bold"
+                                      value="#{bundle['fxs.myContractsLeasingDeadline.msg2']} "/>
+                        <h:outputText styleClass="alert-primary font-weight-bold" value="#{c.value.carPrice * 0.30}">
+                            <f:convertNumber type="currency" currencySymbol="€"/>
+                        </h:outputText>
+                    </h:column>
+                    <h:column>
+                        <br/>
+                        <h:commandButton styleClass="btn btn-outline-success btn-sm" value="#{bundle['addBasket']}">
+                        </h:commandButton>
+                        <br/>
+                        <br/>
+                        <h:commandButton styleClass="btn btn-outline-danger btn-sm" value="#{bundle['cancel']}"
+                                         action="#{contractsBean.putChoiceEndLeasingFalse}"
+                                         onclick="return confirmer();">
+                            <f:param name="idContract" value="#{c.value.id}"/>
+                        </h:commandButton>
+                    </h:column>
+                </h:dataTable>
+            </h:form>
+        </div>
+    </h:panelGroup>
+</cc:implementation>
+</html>

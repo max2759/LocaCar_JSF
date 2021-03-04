@@ -167,9 +167,10 @@ public class OrdersBean extends ExtendBean implements Serializable {
             initializationAfterValidation();
             contractsBean.initializationAfterValidation();
             setCptContracts(0);
-            return "insurances";
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, JsfUtils.returnMessage(getLocale(), "validateOrder.success"), null));
+            return "orderValidate";
         } else {
-            return "index";
+            return "orderValidate";
         }
     }
 
@@ -193,14 +194,26 @@ public class OrdersBean extends ExtendBean implements Serializable {
      */
     public void findAllMyOrders() {
         log.info("OrdersBean : findAllMyOrders");
+        FacesContext context = FacesContext.getCurrentInstance();
+
         ordersEntities = ordersServices.findAllByIdUsersAndStatusIsValidateOrCanceled(idUser);
         if (ordersEntities.isEmpty()) {
-            FacesContext context = FacesContext.getCurrentInstance();
-
             context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, JsfUtils.returnMessage(getLocale(), "fxs.modalContractsOrder.listOrderEmpty"), null));
+        } else {
+            deadlineLeasing();
         }
     }
 
+    /**
+     * check if a leasing expires
+     */
+    protected void deadlineLeasing() {
+        log.info("OrdersBean : deadlineLeasing");
+        List<OrdersEntity> ordersEntitiesDeadline = ordersServices.findAllOrdersByIdUserAndStatusIsValidate(idUser);
+        if (!ordersEntitiesDeadline.isEmpty()) {
+            contractsBean.findAllContractsInAllMyOrdersForLeasingAndDeadlineIsLowerThan1Month(ordersEntitiesDeadline);
+        }
+    }
 
     /**
      * Open popup when click detail

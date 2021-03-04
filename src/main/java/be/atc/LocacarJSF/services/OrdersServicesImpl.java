@@ -99,4 +99,12 @@ public class OrdersServicesImpl implements OrdersServices {
         }
         return Collections.emptyList();
     }
+
+    @Override
+    public List<OrdersEntity> findAllOrdersByIdUserAndStatusIsValidate(int idUser) {
+        if (idUser != 0) {
+            return ordersDAO.findAllOrdersByIdUserAndStatusIsValidate(idUser);
+        }
+        return Collections.emptyList();
+    }
 }

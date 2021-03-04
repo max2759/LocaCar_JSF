@@ -7,6 +7,7 @@ import utils.EntityFinderImpl;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -178,6 +179,24 @@ public class ContractsDAOImpl extends EntityFinderImpl<ContractsEntity> implemen
             return ((Number) em.createNamedQuery("Contracts.countContractsByIdOrder")
                     .setParameter("idOrder", idOrder)
                     .getSingleResult()).intValue();
+        } catch (Exception ex) {
+            log.info("Nothing");
+            return null;
+        } finally {
+            em.clear();
+            em.close();
+        }
+    }
+
+    @Override
+    public List<ContractsEntity> findAllContractsByIdOrderAndDeadlineIsLowerThan1Month(int idOrder) {
+        EntityManager em = EMF.getEM();
+        try {
+            return em.createNamedQuery("Contracts.findAllContractsByIdOrderAndDeadlineIsLowerThan1Month",
+                    ContractsEntity.class)
+                    .setParameter("idOrder", idOrder)
+                    .setParameter("today", LocalDateTime.now().plusMonths(1))
+                    .getResultList();
         } catch (Exception ex) {
             log.info("Nothing");
             return null;

@@ -23,4 +23,6 @@ public interface OrdersServices {
     List<OrdersEntity> findAllByUsernameUsersAndStatusIsValidateOrCanceled(String username);
 
     List<OrdersEntity> findAllByIdOrderAndStatusIsValidateOrCanceled(int idOrder);
+
+    List<OrdersEntity> findAllOrdersByIdUserAndStatusIsValidate(int idUser);
 }

@@ -99,4 +99,12 @@ public class ContractsServicesImpl implements ContractsServices {
         }
         return 0;
     }
+
+    @Override
+    public List<ContractsEntity> findAllContractsByIdOrderAndDeadlineIsLowerThan1Month(int idOrder) {
+        if (idOrder != 0) {
+            return contractsDAO.findAllContractsByIdOrderAndDeadlineIsLowerThan1Month(idOrder);
+        }
+        return Collections.emptyList();
+    }
 }

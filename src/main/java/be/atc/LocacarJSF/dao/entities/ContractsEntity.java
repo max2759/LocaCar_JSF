@@ -12,6 +12,7 @@ import java.util.Objects;
         @NamedQuery(name = "Contracts.findAll", query = "SELECT c from ContractsEntity c "),
         @NamedQuery(name = "Contracts.countContractsByIdOrder", query = "SELECT COUNT(c) from ContractsEntity c where c.ordersByIdOrders.id = :idOrder"),
         @NamedQuery(name = "Contracts.findAllContractsByIdOrder", query = "SELECT c from ContractsEntity c where c.ordersByIdOrders.id = :idOrder"),
+        @NamedQuery(name = "Contracts.findAllContractsByIdOrderAndDeadlineIsLowerThan1Month", query = "SELECT c from ContractsEntity c where (c.ordersByIdOrders.id = :idOrder) and (c.dateEnd < :today) and (c.choiceEndLeasing = true)"),
 })
 public class ContractsEntity {
     private int id;
