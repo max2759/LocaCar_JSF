@@ -1,16 +1,16 @@
 package be.atc.LocacarJSF.beans;
 
 import be.atc.LocacarJSF.dao.entities.AdsEntity;
-import be.atc.LocacarJSF.dao.entities.CarsEntity;
 import be.atc.LocacarJSF.dao.entities.CarsPicturesEntity;
 import be.atc.LocacarJSF.enums.EnumTypeAds;
 import be.atc.LocacarJSF.services.AdsServices;
 import be.atc.LocacarJSF.services.AdsServicesImpl;
-import be.atc.LocacarJSF.services.CarsServices;
-import be.atc.LocacarJSF.services.CarsServicesImpl;
+import utils.JsfUtils;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.ServletException;
@@ -31,7 +31,6 @@ public class AdsBean extends ExtendBean implements Serializable {
     private LocalDateTime dateEnd = dateStart.plusMonths(1);
 
     private AdsEntity adsEntity;
-    private CarsEntity carsEntity;
     private AdsServices adsServices = new AdsServicesImpl();
     private List<AdsEntity> adsEntities;
 
@@ -39,12 +38,6 @@ public class AdsBean extends ExtendBean implements Serializable {
 
     @Inject
     private CarsBean carsBean;
-
-    @Inject
-    private CarsOptionsBean carsOptionsBean;
-
-    @Inject
-    private PicturesBean picturesBean;
 
     private boolean showPopup;
     private boolean addAdsEntity;
@@ -61,7 +54,7 @@ public class AdsBean extends ExtendBean implements Serializable {
     @PostConstruct
     public void init() {
         adsEntity = new AdsEntity();
-        carsEntity = new CarsEntity();
+//        carsEntity = new CarsEntity();
         adsEntities = adsServices.findAll();
 //        for (AdsEntity img : adsEntities) {
 //            carsPicturesEntityList = picturesBean.findPictures(img.getCarsByIdCars().getId());
@@ -115,20 +108,13 @@ public class AdsBean extends ExtendBean implements Serializable {
     }
 
 
-    public void addCar() throws ServletException, IOException {
-        log.info("Début ajout voiture");
-        CarsServices carsServices = new CarsServicesImpl();
-        log.info(carsEntity);
-        carsEntity.setActive(true);
-        carsServices.add(carsEntity);
-        carsOptionsBean.addOptionsToCarsOptions(carsEntity);
-        picturesBean.save(carsEntity);
-    }
-
 
     public void addAds() throws ServletException, IOException {
-        initialisationFields();
         log.info("Sauvegarde");
+
+        FacesContext context = FacesContext.getCurrentInstance();
+
+        boolean adsSucces = true;
 
         carsBean.addCar();
         adsEntity.setCarsByIdCars(carsBean.getCarsEntity());
@@ -136,8 +122,17 @@ public class AdsBean extends ExtendBean implements Serializable {
         adsEntity.setDateEnd(dateEnd);
         adsEntity.setActive(true);
 
-        createAds();
 
+        if (adsSucces) {
+            adsSucces = createAds();
+        }
+
+        if (adsSucces) {
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, JsfUtils.returnMessage(getLocale(), "addAdsSuccess"), null));
+        } else {
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, JsfUtils.returnMessage(getLocale(), "addAdsError"), null));
+
+        }
         init();
     }
 
@@ -222,13 +217,5 @@ public class AdsBean extends ExtendBean implements Serializable {
 
     public void setCarsPicturesEntityList(List<CarsPicturesEntity> carsPicturesEntityList) {
         this.carsPicturesEntityList = carsPicturesEntityList;
-    }
-
-    public CarsEntity getCarsEntity() {
-        return carsEntity;
-    }
-
-    public void setCarsEntity(CarsEntity carsEntity) {
-        this.carsEntity = carsEntity;
     }
 }

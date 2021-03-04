@@ -143,6 +143,61 @@ a:hover {
     text-align: center;
 }
 
+#adsForm select {
+    padding: 1px 5px;
+}
+
+.car-info {
+    padding: 5px;
+}
+
+.car-info-title {
+    margin-bottom: 20px;
+}
+
+.car-info-title h5 {
+    color: #575f67;
+    border-bottom: 1px solid #c8a62d;
+}
+
+.ads-info {
+    padding: 5px;
+}
+
+.ads-info-title {
+    margin-bottom: 20px;
+}
+
+.ads-info-title h5 {
+    color: #575f67;
+    border-bottom: 1px solid #c8a62d;
+}
+
+.info-save {
+    border-top: 1px solid #c8a62d;
+    margin-top: 10px;
+    padding-top: 1rem;
+    display: flex;
+    justify-content: center;
+}
+
+.btn-ads-save {
+    background-color: #c8a62d;
+    border: none;
+    color: white;
+}
+
+.btn-ads-save:hover {
+    color: white;
+    background-color: #c8a62d;
+    opacity: 0.8;
+}
+
+.error {
+    color: red;
+    margin-left: 1rem;
+}
+
 /*
 ** Ads
 *

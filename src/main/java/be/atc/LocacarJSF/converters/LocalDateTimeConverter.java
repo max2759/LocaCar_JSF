@@ -39,7 +39,7 @@ public class LocalDateTimeConverter implements Converter {
         if (value != null) {
             return LocalDateTime.parse(value, DATE_FORMAT);
         } else {
-            throw new ConverterException(new FacesMessage(JsfUtils.returnMessage(locale, "fxs.modelsConverter.error")));
+            throw new ConverterException(new FacesMessage(JsfUtils.returnMessage(locale, "localDateTimeConvertor.error")));
         }
 
     }
