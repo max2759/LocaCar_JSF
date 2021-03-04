@@ -9,13 +9,13 @@ import java.util.List;
  */
 public interface OrdersDAO {
 
-    public boolean add(OrdersEntity ordersEntity);
+    boolean add(OrdersEntity ordersEntity);
 
-    public boolean update(OrdersEntity ordersEntity);
+    boolean update(OrdersEntity ordersEntity);
 
-    public List<OrdersEntity> findAll();
+    List<OrdersEntity> findAll();
 
-    public OrdersEntity findById(int id);
+    OrdersEntity findById(int id);
 
     OrdersEntity findByIdUsersAndStatusIsPending(int idUser);
 
@@ -24,4 +24,6 @@ public interface OrdersDAO {
     List<OrdersEntity> findAllByUsernameUsersAndStatusIsValidateOrCanceled(String username);
 
     List<OrdersEntity> findAllByIdOrderAndStatusIsValidateOrCanceled(int idOrder);
+
+    List<OrdersEntity> findAllOrdersByIdUserAndStatusIsValidate(int idUser);
 }

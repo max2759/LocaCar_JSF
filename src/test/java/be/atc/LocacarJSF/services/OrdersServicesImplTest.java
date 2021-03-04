@@ -2,6 +2,7 @@ package be.atc.LocacarJSF.services;
 
 import be.atc.LocacarJSF.dao.entities.OrdersEntity;
 import be.atc.LocacarJSF.dao.entities.UsersEntity;
+import be.atc.LocacarJSF.enums.EnumOrderStatut;
 import org.apache.log4j.Logger;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -38,7 +39,7 @@ class OrdersServicesImplTest {
 
         OrdersEntity ordersEntity = ordersServices.findByIdUsersAndStatusIsPending(idUser);
 
-        Boolean test = ordersEntity == null ? false : true;
+        Boolean test = ordersEntity != null;
 
         log.info("Le test vaut : " + test);
         assertThat(test).isEqualTo(true);
@@ -56,7 +57,7 @@ class OrdersServicesImplTest {
 
         OrdersEntity ordersEntity = ordersServices.findByIdUsersAndStatusIsPending(usersEntity.getId());
 
-        Boolean test = ordersEntity == null ? false : true;
+        Boolean test = ordersEntity != null;
 
         log.info("Le test vaut : " + test);
         assertThat(test).isEqualTo(false);
@@ -71,7 +72,7 @@ class OrdersServicesImplTest {
 
         List<OrdersEntity> ordersEntities = ordersServices.findAllByIdUsersAndStatusIsValidateOrCanceled(idUser);
 
-        Boolean test = ordersEntities.isEmpty() ? false : true;
+        Boolean test = !ordersEntities.isEmpty();
 
         log.info("Le test vaut : " + test);
         assertThat(test).isEqualTo(true);
@@ -86,7 +87,7 @@ class OrdersServicesImplTest {
 
         List<OrdersEntity> ordersEntities = ordersServices.findAllByIdUsersAndStatusIsValidateOrCanceled(idUser);
 
-        Boolean test = ordersEntities.isEmpty() ? false : true;
+        Boolean test = !ordersEntities.isEmpty();
 
         log.info("Le test vaut : " + test);
         assertThat(test).isEqualTo(false);
@@ -101,7 +102,7 @@ class OrdersServicesImplTest {
 
         List<OrdersEntity> ordersEntities = ordersServices.findAllByUsernameUsersAndStatusIsValidateOrCanceled(username);
 
-        Boolean test = ordersEntities.isEmpty() ? false : true;
+        Boolean test = !ordersEntities.isEmpty();
 
         log.info("Le test vaut : " + test);
         assertThat(test).isEqualTo(true);
@@ -116,7 +117,7 @@ class OrdersServicesImplTest {
 
         List<OrdersEntity> ordersEntities = ordersServices.findAllByUsernameUsersAndStatusIsValidateOrCanceled(username);
 
-        Boolean test = ordersEntities.isEmpty() ? false : true;
+        Boolean test = !ordersEntities.isEmpty();
 
         log.info("Le test vaut : " + test);
         assertThat(test).isEqualTo(false);
@@ -131,7 +132,7 @@ class OrdersServicesImplTest {
 
         List<OrdersEntity> ordersEntities = ordersServices.findAllByIdOrderAndStatusIsValidateOrCanceled(idOrder);
 
-        Boolean test = ordersEntities.isEmpty() ? false : true;
+        Boolean test = !ordersEntities.isEmpty();
 
         log.info("Le test vaut : " + test);
         assertThat(test).isEqualTo(true);
@@ -147,9 +148,32 @@ class OrdersServicesImplTest {
         List<OrdersEntity> ordersEntities = ordersServices.findAllByIdOrderAndStatusIsValidateOrCanceled(idOrder);
 
 
-        boolean test = ordersEntities.isEmpty() ? false : true;
+        boolean test = !ordersEntities.isEmpty();
 
         log.info("Le test vaut : " + test);
         assertThat(test).isEqualTo(false);
+    }
+
+    @Test
+    public void findAllOrdersByIdUser_and_StatusIsValidate() {
+        int idUser = 6;
+
+        boolean test = false;
+
+        List<OrdersEntity> ordersEntities = ordersServices.findAllOrdersByIdUserAndStatusIsValidate(idUser);
+        if (!ordersEntities.isEmpty()) {
+            for (OrdersEntity o : ordersEntities) {
+                if (o.getOrderStatut() == EnumOrderStatut.Validate) {
+                    test = true;
+                } else {
+                    test = false;
+                    break;
+                }
+            }
+        }
+
+
+        log.info("Le test vaut : " + test);
+        assertThat(test).isEqualTo(true);
     }
 }

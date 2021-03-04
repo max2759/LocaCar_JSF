@@ -24,4 +24,6 @@ public interface ContractsDAO {
     List<ContractsEntity> findAllContractsByIdOrder(int idOrder);
 
     Number countContractsByIdOrder(int idOrder);
+
+    List<ContractsEntity> findAllContractsByIdOrderAndDeadlineIsLowerThan1Month(int idOrder);
 }

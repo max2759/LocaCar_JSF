@@ -15,6 +15,7 @@ import java.util.Objects;
         @NamedQuery(name = "Orders.findAllByIdUsersAndStatusIsValidateOrCanceled", query = "SELECT o from OrdersEntity o where o.usersByIdUsers.id = :idUser and (o.orderStatut = be.atc.LocacarJSF.enums.EnumOrderStatut.Validate or o.orderStatut = be.atc.LocacarJSF.enums.EnumOrderStatut.Canceled)"),
         @NamedQuery(name = "Orders.findAllByUsernameUsersAndStatusIsValidateOrCanceled", query = "SELECT o from OrdersEntity o where (lower(o.usersByIdUsers.username) like lower(concat('%', :username,'%'))) and (o.orderStatut = be.atc.LocacarJSF.enums.EnumOrderStatut.Validate or o.orderStatut = be.atc.LocacarJSF.enums.EnumOrderStatut.Canceled)"),
         @NamedQuery(name = "Orders.findAllByIdOrderAndStatusIsValidateOrCanceled", query = "SELECT o from OrdersEntity o where o.id= :idOrder and (o.orderStatut = be.atc.LocacarJSF.enums.EnumOrderStatut.Validate or o.orderStatut = be.atc.LocacarJSF.enums.EnumOrderStatut.Canceled)"),
+        @NamedQuery(name = "Orders.findAllOrdersByIdUserAndStatusIsValidate", query = "SELECT o from OrdersEntity o where o.usersByIdUsers.id= :idUser and (o.orderStatut = be.atc.LocacarJSF.enums.EnumOrderStatut.Validate)"),
 })
 public class OrdersEntity {
     private int id;

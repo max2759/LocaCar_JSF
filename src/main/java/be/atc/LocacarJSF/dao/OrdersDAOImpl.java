@@ -171,4 +171,21 @@ public class OrdersDAOImpl extends EntityFinderImpl<OrdersEntity> implements Ord
         }
     }
 
+    @Override
+    public List<OrdersEntity> findAllOrdersByIdUserAndStatusIsValidate(int idUser) {
+        EntityManager em = EMF.getEM();
+        try {
+            return em.createNamedQuery("Orders.findAllOrdersByIdUserAndStatusIsValidate",
+                    OrdersEntity.class)
+                    .setParameter("idUser", idUser)
+                    .getResultList();
+        } catch (Exception ex) {
+            log.info("Nothing");
+            return null;
+        } finally {
+            em.clear();
+            em.close();
+        }
+    }
+
 }
