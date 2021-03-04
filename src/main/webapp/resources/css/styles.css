@@ -37,6 +37,9 @@ body {
     background-color: white !important;
 }
 
+a:hover {
+    color: #575f67;
+}
 
 /*
 ** Account
@@ -64,9 +67,9 @@ body {
 }
 
 .account-a-active {
-    border-left: 4px solid #1166a8;
+    border-left: 4px solid #c8a62d;
     padding-left: 12px;
-    color: #1166a8;
+    color: #c8a62d;
 }
 
 .account-a-active:after {
@@ -125,7 +128,7 @@ body {
 }
 
 .sellCarLink:hover {
-    border: 1px solid black;
+    border: 1px solid #c8a62d;
 }
 
 .sell-car-img {
