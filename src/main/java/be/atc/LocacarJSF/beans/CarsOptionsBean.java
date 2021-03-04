@@ -7,15 +7,14 @@ import be.atc.LocacarJSF.services.CarsOptionsServices;
 import be.atc.LocacarJSF.services.CarsOptionsServicesImpl;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.RequestScoped;
-import javax.inject.Inject;
+import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 @Named(value = "carsOptionsBean")
-@RequestScoped
+@SessionScoped
 public class CarsOptionsBean extends ExtendBean implements Serializable {
 
     private static final long serialVersionUID = -8836402876857939542L;
@@ -24,13 +23,6 @@ public class CarsOptionsBean extends ExtendBean implements Serializable {
     private List<CarsOptionsEntity> carsOptionsEntityList;
     private CarsOptionsServices carsOptionsServices = new CarsOptionsServicesImpl();
     private List<OptionsEntity> optionsEntityList = new ArrayList<>();
-    private int idCars = 13;
-
-    @Inject
-    private CarsBean carsBean;
-
-    @Inject
-    private OptionsBean optionsBean;
 
     /**
      * PostConstruct : appelé après le constructeur.

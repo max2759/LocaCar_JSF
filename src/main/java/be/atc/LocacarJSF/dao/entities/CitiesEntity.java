@@ -6,6 +6,10 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "cities", schema = "locacarjsf", catalog = "")
+@NamedQueries({
+        @NamedQuery(name = "Cities.findAll", query = "SELECT c from CitiesEntity c"),
+        @NamedQuery(name = "Cities.findByLabel", query = "select c from CitiesEntity c where c.label = :label")
+})
 public class CitiesEntity {
     private int id;
     private String region;
@@ -86,5 +90,17 @@ public class CitiesEntity {
 
     public void setCountriesByIdCountries(CountriesEntity countriesByIdCountries) {
         this.countriesByIdCountries = countriesByIdCountries;
+    }
+
+    @Override
+    public String toString() {
+        return "CitiesEntity{" +
+                "id=" + id +
+                ", region='" + region + '\'' +
+                ", postalCode=" + postalCode +
+                ", label='" + label + '\'' +
+                ", addressesById=" + addressesById +
+                ", countriesByIdCountries=" + countriesByIdCountries +
+                '}';
     }
 }

@@ -19,6 +19,20 @@
                 <h:message for="picturesInput" id="picturesInputMessages" styleClass="alert alert-danger"/>
                 <h:commandButton action="#{picturesBean.save}" value="ajouter"/>
             </h:form>
+
+            <h:dataTable value="#{picturesBean.carsPicturesEntityList}" var="pictures"
+                         styleClass="table table-hover table-responsive">
+                <h:column>
+                    <f:facet name="header">id</f:facet>
+                    <h:outputText value="#{pictures.id}"></h:outputText>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">image</f:facet>
+                    <h:graphicImage url="A:\Applications\Drive\Work\IntelliJ\uploads/images/#{pictures.label}"
+                                    width="500" height="500"/>
+                </h:column>
+            </h:dataTable>
+
         </h:body>
     </ui:define>
 </ui:composition>

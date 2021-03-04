@@ -100,7 +100,20 @@ public class CitiesDAOImpl implements CitiesDAO {
 
     @Override
     public List<CitiesEntity> findByLabel(String label) {
-        return null;
+        EntityManager em = EMF.getEM();
+        try {
+            return em.createNamedQuery("Cities.findByLabel",
+                    CitiesEntity.class)
+                    .setParameter("label", label)
+                    .getResultList();
+        } catch (Exception ex) {
+            log.info("Nothing");
+            return null;
+        } finally {
+            em.clear();
+            em.close();
+        }
+
     }
 
     @Override

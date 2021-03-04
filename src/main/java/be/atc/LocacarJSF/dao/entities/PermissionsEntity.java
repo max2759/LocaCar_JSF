@@ -6,6 +6,9 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "permissions", schema = "locacarjsf", catalog = "")
+@NamedQueries({
+        @NamedQuery(name = "Permissions.findAll", query = "SELECT p from PermissionsEntity p"),
+})
 public class PermissionsEntity {
     private int id;
     private String label;

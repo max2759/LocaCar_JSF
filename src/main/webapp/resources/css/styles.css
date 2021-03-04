@@ -18,3 +18,139 @@
 .panelGroupRight {
     text-align: right;
 }
+
+.container {
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+body {
+    background-color: #F4F4F4;
+}
+
+/**
+** Header
+*
+ */
+
+.bg-light {
+    background-color: white !important;
+}
+
+a:hover {
+    color: #575f67;
+}
+
+/*
+** Account
+*
+*/
+
+
+.account-title {
+    margin-left: .71685%;
+    margin-right: .71685%;
+}
+
+.account-a {
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    min-height: 60px;
+    padding-left: 16px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    background-color: #fff;
+    border-bottom: 1px solid #dcdcdc;
+    color: #000;
+}
+
+.account-a-active {
+    border-left: 4px solid #c8a62d;
+    padding-left: 12px;
+    color: #c8a62d;
+}
+
+.account-a-active:after {
+    content: "";
+    position: absolute;
+    right: -1px;
+    border-top: 14px solid transparent;
+    border-bottom: 14px solid transparent;
+    border-right: 12px solid #fff;
+    clear: both;
+}
+
+
+.myarea-content {
+    background-color: white;
+    min-height: 480px;
+}
+
+.myarea-content-title {
+    text-align: center;
+}
+
+.myarea-content-title:before {
+    content: " ";
+    display: table;
+}
+
+.myarea-content-title:after {
+    content: " ";
+    display: table;
+}
+
+.myarea-content-h3 {
+    margin-top: 40px;
+    margin-bottom: 28px;
+}
+
+.myarea-content-display {
+    display: flex;
+    margin: 0;
+    padding-left: 36px;
+    padding-right: 16px;
+    justify-content: center;
+}
+
+.sellCarLink {
+    width: 233px;
+    height: 236px;
+    margin: 0 20px 0 0;
+    display: inline-block;
+    padding-top: 20px;
+    border: 1px solid #dcdcdc;
+    border-radius: 4px;
+    -webkit-transition: border .3s ease, color .2s ease-in;
+    transition: border .3s ease, color .2s ease-in;
+}
+
+.sellCarLink:hover {
+    border: 1px solid #c8a62d;
+}
+
+.sell-car-img {
+    background-image: url("#{resource['images/car.svg']}");
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 192px;
+    height: 128px;
+    margin-bottom: 20px;
+}
+
+.sell-car-img-text {
+    text-align: center;
+}
+
+/*
+** Ads
+*
+ */
+
+#displayAdsForm {
+    margin-top: 25px;
+    background-color: white;
+    padding: 35px;
+}

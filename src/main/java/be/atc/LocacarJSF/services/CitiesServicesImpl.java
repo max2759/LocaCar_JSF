@@ -39,9 +39,12 @@ public class CitiesServicesImpl implements CitiesServices {
 
     @Override
     public List<CitiesEntity> findAll() {
-
-        log.info("findall iuserServ");
-        return citiesDAO.findAll();
+        log.info("List<CitiesEntity> findAll() - begin");
+        List<CitiesEntity> res = citiesDAO.findAll();
+        if (res != null) {
+            log.info("List<CitiesEntity> findAll() - end with " + res.size() + " result(s).");
+        }
+        return res;
     }
 
     @Override

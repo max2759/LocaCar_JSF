@@ -39,6 +39,16 @@
                 <h:outputText value="#{roleP.permissionsByIdPermissions.label}"></h:outputText>
             </h:column>
 
+            <h:panelGroup styleClass="form-group">
+
+                <h:selectOneMenu id="citiesDisplay" styleClass="form-group"
+                                 value="#{citiesBean.citiesEntity.id}">
+                    <f:selectItem itemValue="#{null}" itemLabel=" "/>
+                    <f:selectItems value="#{citiesBean.citiesEntitiesSelectItems}"/>
+                </h:selectOneMenu>
+                <h:message for="citiesDisplay"/>
+            </h:panelGroup>
+
             <h:column>
                 <!-- bouton edit -->
                 <f:facet name="header">#{bundle['fxs.rolesList.edit']}</f:facet>
@@ -139,6 +149,7 @@
                                       styleClass="form-control"></h:outputText>
                     </div>
 
+                    <!--
                     <div class="form-group">
                         <h:outputLabel value="idRole" for="idRoleAdd"></h:outputLabel>
                         <h:inputText value="#{rolesPermissionsBean.rolesPermissionsEntity.rolesByIdRoles}"
@@ -165,6 +176,28 @@
                         </h:inputText>
                         <h:message styleClass="alert alert-danger" role="alert" for="idPermissionAdd"></h:message>
                     </div>
+
+                    -->
+
+                    <h:panelGroup styleClass="form-group">
+
+                        <h:selectOneMenu id="rolesDisplay" styleClass="form-group"
+                                         value="#{rolesBean.rolesEntity.id}">
+                            <f:selectItem itemValue="#{null}" itemLabel=" "/>
+                            <f:selectItems value="#{rolesBean.rolesEntitiesSelectItems}"/>
+                        </h:selectOneMenu>
+                        <h:message for="rolesDisplay"/>
+                    </h:panelGroup>
+
+                    <h:panelGroup styleClass="form-group">
+
+                        <h:selectOneMenu id="permissionsDisplay" styleClass="form-group"
+                                         value="#{permissionsBean.permissionsEntity.id}">
+                            <f:selectItem itemValue="#{null}" itemLabel=" "/>
+                            <f:selectItems value="#{permissionsBean.permissionsEntitiesSelectItems}"/>
+                        </h:selectOneMenu>
+                        <h:message for="rolesDisplay"/>
+                    </h:panelGroup>
 
                     <!-- button save add -->
                     <span>

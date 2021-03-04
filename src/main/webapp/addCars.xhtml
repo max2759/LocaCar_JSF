@@ -11,7 +11,6 @@
             <title>Ajout voiture test</title>
             <script>
                 $( function () {
-                    // Initialize and change language to hindi
                     $( '#addCarForm\\:releaseYear' ).datepicker( $.datepicker.regional[ 'fr' ] );
                 } );
 
@@ -133,7 +132,7 @@
                                     <f:validator validatorId="dateValidator"/>
                                 </h:inputText>
                             </div>
-                            <h:message for="releaseYear" id="messageValidator" styleClass="alert alert-danger "/>
+                            <h:message for="releaseYear" id="releaseYearMessage" styleClass="alert alert-danger "/>
                         </h:panelGroup>
 
                         <h:panelGroup styleClass="row mb-3">
@@ -164,7 +163,7 @@
                             </div>
                         </h:panelGroup>
 
-                        <!--<h:panelGroup styleClass="row mb-3">
+                        <h:panelGroup styleClass="row mb-3">
                             <h:outputLabel value="Images"
                                            styleClass="col-sm-2 col-form-label"/>
                             <h:inputFile value="#{picturesBean.file}" id="picturesInput" required="true"
@@ -172,7 +171,7 @@
                                 <f:validator validatorId="carsPicturesValidator"/>
                             </h:inputFile>
                             <h:message for="picturesInput" id="picturesInputMessages" styleClass="alert alert-danger"/>
-                        </h:panelGroup>-->
+                        </h:panelGroup>
 
                         <h:panelGroup>
                             <h:commandButton styleClass="btn btn-outline-success btn-sm"
