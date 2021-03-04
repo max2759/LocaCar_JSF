@@ -194,10 +194,10 @@ public class OrdersBean extends ExtendBean implements Serializable {
      */
     public void findAllMyOrders() {
         log.info("OrdersBean : findAllMyOrders");
+        FacesContext context = FacesContext.getCurrentInstance();
+
         ordersEntities = ordersServices.findAllByIdUsersAndStatusIsValidateOrCanceled(idUser);
         if (ordersEntities.isEmpty()) {
-            FacesContext context = FacesContext.getCurrentInstance();
-
             context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, JsfUtils.returnMessage(getLocale(), "fxs.modalContractsOrder.listOrderEmpty"), null));
         } else {
             deadlineLeasing();
