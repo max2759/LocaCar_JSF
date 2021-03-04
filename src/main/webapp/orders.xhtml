@@ -31,8 +31,10 @@
         </f:metadata>
 
         <h:body>
-            <h2>#{bundle['orders.title']}</h2>
-            <fxs:ordersList id="displayListOrders"></fxs:ordersList>
+            <div class="container">
+                <h2>#{bundle['orders.title']}</h2>
+                <fxs:ordersList id="displayListOrders"/>
+            </div>
         </h:body>
     </ui:define>
 </ui:composition>

@@ -15,7 +15,7 @@
     <br/>
     <h:panelGroup id="basketPanelGroup" rendered="#{empty contractsBean.contractsEntities ? false : true}">
         <h:panelGrid>
-            <h:messages id="messages" showSummary="true" globalOnly="true" infoClass="alert-info"
+            <h:messages id="messages" showSummary="true" globalOnly="true" infoClass="alert-success"
                         errorClass="alert-danger"/>
         </h:panelGrid>
         <h:dataTable id="outputMessage" styleClass="table table-hover"
@@ -116,7 +116,7 @@
             <h:form id="formPopupEdit">
                 <div class="popup-panel">
                     <h:panelGrid>
-                        <h:messages id="messagesPopup" showSummary="true" globalOnly="true" infoClass="alert-info"
+                        <h:messages id="messagesPopup" showSummary="true" globalOnly="true" infoClass="alert-success"
                                     errorClass="alert-danger"/>
                     </h:panelGrid>
                     <h:outputLabel value="#{bundle['fxs.basket.insuranceActual']}"/>
