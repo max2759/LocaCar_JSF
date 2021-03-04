@@ -32,6 +32,34 @@ class ContractsServicesImplTest {
     }
 
     @Test
+    public void findContractById_ShouldReturnTrue() {
+        log.info("Recherche d'un contract par ID");
+
+        // Mettre l'id d'un contract existant
+        int idContract = 50;
+
+        ContractsEntity contractsEntity = contractsServices.findById(idContract);
+        Boolean test = contractsEntity != null;
+
+        log.info("Le test vaut : " + test);
+        assertThat(test).isEqualTo(true);
+    }
+
+    @Test
+    public void findContractById_ShouldReturnFalse() {
+        log.info("Recherche d'un contract par ID");
+
+        // Mettre l'id d'un contract existant
+        int idContract = 0;
+
+        ContractsEntity contractsEntity = contractsServices.findById(idContract);
+        Boolean test = contractsEntity != null;
+
+        log.info("Le test vaut : " + test);
+        assertThat(test).isEqualTo(false);
+    }
+
+    @Test
     public void findContractByIdOrders_and_byIdCars_ShouldBeReturnFalse() {
         log.info("Recherche si contract existant dans une commande");
 
@@ -179,5 +207,18 @@ class ContractsServicesImplTest {
             test = contractsServices.update(contractsEntity);
         }
         assertThat(test).isEqualTo(true);
+    }
+
+    @Test
+    void findContractByIdCarAndTypeIsLeasing() {
+        // Mettre un id de car valide qui un type leasing
+        int idCar = 13;
+
+        ContractsEntity contractsEntity = contractsServices.findContractByIdCarAndTypeIsLeasing(idCar);
+
+        boolean test = contractsEntity != null;
+
+        assertThat(test).isEqualTo(true);
+
     }
 }

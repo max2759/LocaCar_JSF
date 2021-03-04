@@ -33,10 +33,12 @@
         </f:metadata>
 
         <h:body>
-            <h2>#{bundle['orders.title']}</h2>
-            <fxs:myOrders id="displayMyListOrders"></fxs:myOrders>
-            <br/><br/><br/><h:outputText value="Leasing Deadline : "/><br/><br/><br/>
-            <fxs:myContractsLeasingDeadline id="displayMyListContractDeadlineLeasing"></fxs:myContractsLeasingDeadline>
+            <div class="container">
+                <h2>#{bundle['orders.title']}</h2>
+                <fxs:myOrders id="displayMyListOrders"/>
+                <fxs:myContractsLeasingDeadline
+                        id="displayMyListContractDeadlineLeasing"/>
+            </div>
         </h:body>
     </ui:define>
 </ui:composition>

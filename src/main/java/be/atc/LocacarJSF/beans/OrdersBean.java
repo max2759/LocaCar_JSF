@@ -32,7 +32,7 @@ public class OrdersBean extends ExtendBean implements Serializable {
     private static final long serialVersionUID = -5251107202124824837L;
 
     // Remplacer par l'utilisateur
-    private int idUser = 6;
+    private int idUser = 5;
 
     private OrdersEntity ordersEntity;
     private final OrdersServices ordersServices = new OrdersServicesImpl();
@@ -94,12 +94,37 @@ public class OrdersBean extends ExtendBean implements Serializable {
 
         log.info("OrdersBean : AddShop");
         init();
+        checkIfOrdersEntityIsNullAndCreateOrders();
+
+        if (contractsBean.createContract()) {
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, JsfUtils.returnMessage(getLocale(), "fxs.addShopButton.addShopSuccess"), null));
+        } else {
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, JsfUtils.returnMessage(getLocale(), "fxs.addShopButton.addShopError"), null));
+        }
+        findOrderAndfindContracts();
+    }
+
+    /**
+     * Check if ordersEntity is null, if null then createOrders !
+     */
+    protected void checkIfOrdersEntityIsNullAndCreateOrders() {
         if (ordersEntity == null) {
             log.info("OrdersBean : Aucun Orders n'est trouvé");
             createOrders();
         }
+    }
 
-        if (contractsBean.createContract()) {
+    /**
+     * Add shop for : end leasing
+     */
+    public void addShopEndLeasing() {
+        log.info("OrdersBean : addShopEndLeasing");
+        FacesContext context = FacesContext.getCurrentInstance();
+        int idContract = Integer.parseInt(getParam("idContract"));
+        init();
+        checkIfOrdersEntityIsNullAndCreateOrders();
+
+        if (contractsBean.createContractEndLeasing(idContract)) {
             context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, JsfUtils.returnMessage(getLocale(), "fxs.addShopButton.addShopSuccess"), null));
         } else {
             context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, JsfUtils.returnMessage(getLocale(), "fxs.addShopButton.addShopError"), null));

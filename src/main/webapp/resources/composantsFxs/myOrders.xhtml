@@ -14,7 +14,7 @@
 </cc:interface>
 <cc:implementation>
     <h:panelGrid>
-        <h:messages id="messages" showSummary="true" globalOnly="true" infoClass="alert-info"
+        <h:messages id="messages" showSummary="true" globalOnly="true" infoClass="alert-success"
                     errorClass="alert-danger"/>
     </h:panelGrid>
     <h:dataTable rendered="#{empty ordersBean.ordersEntities ? false : true}" id="outputMessage"
@@ -24,14 +24,14 @@
             <f:facet name="header">#{bundle['fxs.ordersList.idOrder']}</f:facet>
             <h:form>
                 <h:commandLink value="#{o.id}" action="#{ordersBean.showPopupModal}">
-                    <f:param name="idOrder" value="#{o.id}"></f:param>
+                    <f:param name="idOrder" value="#{o.id}"/>
                     <f:ajax render="@all"/>
                 </h:commandLink>
             </h:form>
         </h:column>
         <h:column>
             <f:facet name="header">#{bundle['fxs.ordersList.username']}</f:facet>
-            <h:outputText value="#{o.usersByIdUsers.username}"></h:outputText>
+            <h:outputText value="#{o.usersByIdUsers.username}"/>
         </h:column>
         <h:column>
             <f:facet name="header">#{bundle['fxs.ordersList.date']}</f:facet>
@@ -41,13 +41,13 @@
         </h:column>
         <h:column>
             <f:facet name="header">#{bundle['fxs.ordersList.status']}</f:facet>
-            <h:outputText value="#{o.orderStatut}"></h:outputText>
+            <h:outputText value="#{o.orderStatut}"/>
         </h:column>
     </h:dataTable>
 
     <h:panelGroup id="popupEdit" layout="block" styleClass="popup-panel-overlay"
                   rendered="#{ordersBean.showPopup}">
-        <fxs:modalContractsOrder id="displayPopupContracts"></fxs:modalContractsOrder>
+        <fxs:modalContractsOrder id="displayPopupContracts"/>
     </h:panelGroup>
 
 </cc:implementation>
