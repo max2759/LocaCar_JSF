@@ -1,8 +1,10 @@
 package be.atc.LocacarJSF.beans;
 
+import be.atc.LocacarJSF.classes.JavaMailUtil;
 import be.atc.LocacarJSF.dao.entities.ContractInsurancesEntity;
 import be.atc.LocacarJSF.dao.entities.ContractsEntity;
 import be.atc.LocacarJSF.dao.entities.OrdersEntity;
+import be.atc.LocacarJSF.dao.entities.UsersEntity;
 import be.atc.LocacarJSF.enums.EnumOrderStatut;
 import be.atc.LocacarJSF.services.ContractInsurancesServices;
 import be.atc.LocacarJSF.services.ContractInsurancesServicesImpl;
@@ -148,7 +150,7 @@ public class OrdersBean extends ExtendBean implements Serializable {
     /**
      * Validate Order
      */
-    public String validateOrder() {
+    public String validateOrder() throws Exception {
         log.info("OrdersBean :validateOrder");
         FacesContext context = FacesContext.getCurrentInstance();
 
@@ -192,6 +194,10 @@ public class OrdersBean extends ExtendBean implements Serializable {
             initializationAfterValidation();
             contractsBean.initializationAfterValidation();
             setCptContracts(0);
+
+            // Remplacer l'user
+            UsersEntity usersEntity = usersBean.findUserById(idUser);
+            JavaMailUtil.sendMail(usersEntity.getEmail());
             context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, JsfUtils.returnMessage(getLocale(), "validateOrder.success"), null));
             return "orderValidate";
         } else {
