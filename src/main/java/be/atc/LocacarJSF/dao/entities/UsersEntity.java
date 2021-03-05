@@ -20,6 +20,7 @@ public class UsersEntity {
     private String lastname;
     private String username;
     private String password;
+    private String email;
     private LocalDateTime registerDate;
     private LocalDateTime birthdate;
     private String vatNumber;
@@ -79,6 +80,16 @@ public class UsersEntity {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Basic
+    @Column(name = "Email", nullable = false)
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     @Basic
