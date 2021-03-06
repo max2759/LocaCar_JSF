@@ -32,7 +32,10 @@ public class UsersServicesImpl implements UsersServices {
     }
 
     @Override
-    public boolean delete(UsersEntity usersEntity) {
+    public boolean delete(int idUser) {
+        if (idUser != 0) {
+            return usersDAO.delete(idUser);
+        }
         return false;
     }
 

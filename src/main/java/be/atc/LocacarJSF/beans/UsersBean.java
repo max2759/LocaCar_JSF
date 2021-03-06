@@ -5,6 +5,7 @@ import be.atc.LocacarJSF.dao.entities.UsersEntity;
 import be.atc.LocacarJSF.services.UsersServices;
 import be.atc.LocacarJSF.services.UsersServicesImpl;
 import org.apache.log4j.Logger;
+import sun.invoke.empty.Empty;
 import utils.JsfUtils;
 
 import javax.annotation.PostConstruct;
@@ -12,6 +13,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.http.HttpSession;
 import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -22,11 +24,13 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import java.util.regex.*;
+
 import static java.lang.Integer.parseInt;
 
 @Named(value = "usersBean")
 @SessionScoped
-public class UsersBean implements Serializable {
+public class UsersBean extends ExtendBean implements Serializable {
     private static final long serialVersionUID = -8262263353009937764L;
     public static Logger log = Logger.getLogger(UsersBean.class);
     Locale locale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
@@ -53,6 +57,8 @@ public class UsersBean implements Serializable {
     private RolesBean rolesBean;
     private List<UsersEntity> empty;
 
+    private String user;
+    private boolean connected;
 
     @PostConstruct
     public void postConstruct() {
@@ -104,7 +110,8 @@ public class UsersBean implements Serializable {
             //envoie sur la page d'acceuil
             //mettre dans le header "bienvenue machin"
 
-            // ici: créer en session les boolean des permissions
+            FacesContext.getCurrentInstance().getApplication().getNavigationHandler().handleNavigation(FacesContext.getCurrentInstance(), null, "index.xhtml");
+            connected = true;
 
             log.info("existe");
         } else {
@@ -114,6 +121,8 @@ public class UsersBean implements Serializable {
         log.info("je suis dans le connexion");
 
     }
+
+
 
 
     /**
@@ -136,57 +145,93 @@ public class UsersBean implements Serializable {
 
         LocalDateTime currentDate = LocalDateTime.now();
 
-        String password = usersEntity.getPassword();
-        MessageDigest digest = MessageDigest.getInstance("SHA-256");
-        byte[] hash = digest.digest(password.getBytes(StandardCharsets.UTF_8));
-        // convertir bytes en hexadécimal
-        StringBuilder s = new StringBuilder();
-        for (byte b : hash) {
-            s.append(Integer.toString((b & 0xff) + 0x100, 16).substring(1));
+        //begin check username
+        List<UsersEntity> usernameCheck = usersServices.findByUsername(usersEntity.getUsername());
+        log.info("usernameCheck est null == vide sinonb l'username existe deja= "+usernameCheck);
+
+        if(usernameCheck == null || usernameCheck.isEmpty() ){
+
+            String password = usersEntity.getPassword();
+            boolean bool = Pattern.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,}$", password);
+            log.info(bool);
+
+            if(bool == true){
+                MessageDigest digest = MessageDigest.getInstance("SHA-256");
+                byte[] hash = digest.digest(password.getBytes(StandardCharsets.UTF_8));
+                // convertir bytes en hexadécimal
+                StringBuilder s = new StringBuilder();
+                for (byte b : hash) {
+                    s.append(Integer.toString((b & 0xff) + 0x100, 16).substring(1));
+                }
+                System.out.println(s.toString());
+                String hashPass = s.toString();
+
+                log.info("mdp: " + hash);
+
+                usersEntity.setFirstname(usersEntity.getFirstname());
+                usersEntity.setLastname(usersEntity.getLastname());
+                usersEntity.setUsername(usersEntity.getUsername());
+                usersEntity.setPassword(hashPass);
+                usersEntity.setBirthdate(usersEntity.getBirthdate());
+                usersEntity.setVatNumber(usersEntity.getVatNumber());
+                usersEntity.setActive(true);
+                usersEntity.setRegisterDate(currentDate);
+                usersEntity.setRolesByIdRoles(rolesBean.findById(1));
+
+                log.info("first name: " + usersEntity.getFirstname());
+
+                usersServices.add(usersEntity);
+                log.info("inscription");
+
+                if(usersServices.findByUsername(usersEntity.getUsername()) != null){
+                    List<UsersEntity> userId = usersServices.findByUsername(usersEntity.getUsername());
+                    log.info(userId.size());
+
+                    log.info("id du nouvel utilisateur " + userId.get(0).getId());
+                    int idUser = userId.get(0).getId();
+                    int idCity = citiesBean.getCitiesEntity().getId();
+
+                    log.info("ville du nouvel user (dans userbean) " + citiesBean.getCitiesEntity().getId()
+                    );
+
+                    if (userId.size() == 1) {
+                        log.info("bein add addresse, id: " + idUser);
+                        addressesBean.addAddresse(idUser, idCity);
+                        log.info("end add addresse");
+                    }
+
+                    String logOut = doLogoutUser();
+                    log.info("log out");
+
+                    FacesContext.getCurrentInstance().getApplication().getNavigationHandler().handleNavigation(FacesContext.getCurrentInstance(), null, "connexion.xhtml");
+                    connected = false;
+            }else{
+                    fail = JsfUtils.returnMessage(getLocale(), "fxs.user.errorInsert");
+                }
+
+            }else{
+                fail = JsfUtils.returnMessage(getLocale(), "fxs.user.errorPassword");
+            }
+        }else{
+            fail = JsfUtils.returnMessage(getLocale(), "fxs.user.usernameError");
         }
-        System.out.println(s.toString());
-        String hashPass = s.toString();
-
-
-        log.info("mdp: " + hash);
-
-        usersEntity.setFirstname(usersEntity.getFirstname());
-        usersEntity.setLastname(usersEntity.getLastname());
-        usersEntity.setUsername(usersEntity.getUsername());
-        usersEntity.setPassword(hashPass);
-        usersEntity.setBirthdate(usersEntity.getBirthdate());
-        usersEntity.setVatNumber(usersEntity.getVatNumber());
-        usersEntity.setActive(true);
-        usersEntity.setRegisterDate(currentDate);
-        usersEntity.setRolesByIdRoles(rolesBean.findById(1));
-
-        log.info("first name: " + usersEntity.getFirstname());
-
-        usersServices.add(usersEntity);
-        log.info("inscription");
-
-        List<UsersEntity> userId = usersServices.findByUsername(usersEntity.getUsername());
-        log.info(userId.size());
-
-        log.info("id du nouvel utilisateur " + userId.get(0).getId());
-        int idUser = userId.get(0).getId();
-        int idCity = citiesBean.getCitiesEntity().getId();
-
-        log.info("ville du nouvel user (dans userbean) " + citiesBean.getCitiesEntity().getId()
-        );
-
-        if (userId.size() == 1) {
-            log.info("bein add addresse, id: " + idUser);
-            addressesBean.addAddresse(idUser, idCity);
-            log.info("end add addresse");
-        }
-
-        FacesContext.getCurrentInstance().getApplication().getNavigationHandler().handleNavigation(FacesContext.getCurrentInstance(), null, "connexion.xhtml");
-
 
     }
 
+    public String doLogoutUser(){
+        log.info("befin logOut");
+        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+        usersEntity = new UsersEntity();
+    //    usersEntity.setUsername(null);
+     //   usersEntity.setPassword(null);
+        connected = false;
+        return "successLog";
+    }
+
     public void deleteUser() {
+
+        //faut appeler le service aprés
+
         usersEntity.setActive(false);
     }
 
@@ -284,6 +329,14 @@ public class UsersBean implements Serializable {
     /// getter and setter ///
     /////////////////////////
 
+
+    public boolean isConnected() {
+        return connected;
+    }
+
+    public void setConnected(boolean connected) {
+        this.connected = connected;
+    }
 
     public boolean isAddUserEntity() {
         return addUserEntity;

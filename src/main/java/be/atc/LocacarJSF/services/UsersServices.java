@@ -10,7 +10,7 @@ public interface UsersServices {
 
     public boolean update(UsersEntity usersEntity);
 
-    public boolean delete(UsersEntity usersEntity);
+    public boolean delete(int idUser);
 
     public boolean connexion(UsersEntity usersEntity);
 

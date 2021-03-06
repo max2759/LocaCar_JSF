@@ -13,11 +13,44 @@
 >
 </cc:interface>
 <cc:implementation>
-
+    <div>
+        <h:form>
+            <h:commandLink styleClass="btn btn-success"
+                           value="#{bundle['fxs.usersList.edit']}"
+                           action="#{usersBean.showPopupModal}">
+                <f:param name="editUserEntity" value="editUserEntity"></f:param>
+                <i class="fas fa-plus"></i>
+            </h:commandLink>
+        </h:form>
+    </div>
 
     <h:form>
         <h:dataTable id="outputMessage" styleClass="table table-hover table-responsive"
-                     value="#{usersBean.usersEntities}" var="user"> </h:dataTable>
+                     value="#{usersBean.usersEntities}" var="user">
+
+            <h:column>
+                <f:facet name="header">#{bundle['fxs.user.username']}</f:facet>
+                <h:outputText value="#{user.username}"></h:outputText>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">#{bundle['fxs.user.firstName']}</f:facet>
+                <h:outputText value="#{user.firstname}"></h:outputText>
+            </h:column>
+
+            <h:column>
+                <!-- bouton edit -->
+                <f:facet name="header">#{bundle['fxs.usersList.edit']}</f:facet>
+                <!-- appel de showmodalPopup -->
+                <h:commandLink styleClass="btn btn-outline-primary btn-sm"
+                               action="#{usersBean.showPopupModal}">
+                    <f:param name="id" value="#{user.id}"></f:param>
+                    <f:ajax render="@all"/>
+                    <i class="fas fa-edit"></i>
+                </h:commandLink>
+            </h:column>
+
+        </h:dataTable>
     </h:form>
 
 
@@ -27,6 +60,10 @@
                       rendered="#{usersBean.showPopup}">
 
             <h:form id="formPopupEdit">
+                <h:outputText value="#{usersBean.success}"
+                              style="color: green; font-weight: bold"></h:outputText>
+                <h:outputText value="#{usersBean.fail}"
+                              style="color: darkred; font-weight: bold"></h:outputText>
                 <div class="popup-panel">
                     <h:outputText value="#{usersBean.success}"
                                   style="color: green; font-weight: bold"></h:outputText>
@@ -54,6 +91,15 @@
                         <h:commandButton styleClass="btn btn-outline-success btn-sm"
                                          value="#{bundle['fxs.insurancesList.save']}"
                                          action="#{usersBean.saveEdit}">
+                            <f:ajax execute="formPopupEdit" render="@all"></f:ajax>
+                        </h:commandButton>
+
+                    </span>
+
+                    <span>
+                        <h:commandButton styleClass="btn btn-outline-success btn-sm"
+                                         value="#{bundle['fxs.insurancesList.delete']}"
+                                         action="#{usersBean.deleteUser}">
                             <f:ajax execute="formPopupEdit" render="@all"></f:ajax>
                         </h:commandButton>
 

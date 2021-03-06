@@ -89,6 +89,7 @@ public class CarsColorsBean extends ExtendBean implements Serializable {
      */
     public void functionAddOption() {
         carsColorsServices.add(carsColorsEntity);
+        carsColorsServices.add(carsColorsEntity);
         success = JsfUtils.returnMessage(getLocale(), "fxs.carsColors.succesAdd");
     }
 

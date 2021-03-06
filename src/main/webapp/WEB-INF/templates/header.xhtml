@@ -2,7 +2,7 @@
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:f="http://java.sun.com/jsf/core"
-                xmlns:fxs="http://java.sun.com/jsf/composite/composantsFxs"
+                xmlns:fxs="http://java.sun.com/jsf/composite/composantsFxs" xmlns:c="http://java.sun.com/jsp/jstl/core"
 >
     <div>
 
@@ -33,6 +33,18 @@
                                                                 action="#{carsColorsBean.toPageColors}"/></li>
                             <li class="nav-item"><h:commandLink styleClass="nav-link" value="Models"
                                                                 action="#{modelsBean.toPageModels}"/></li>
+                            <li class="nav-item"><h:commandLink styleClass="nav-link" value="Users"
+                                                                action="#{usersBean.addUser}"/></li>
+                            <li class="nav-item"><h:commandLink styleClass="nav-link" value="Users"
+                                                                action="#{usersBean.connexion}"/></li>
+                            <li class="nav-item"><h:commandLink styleClass="nav-link" value="Users"
+                                                                action="#{usersBean.doLogoutUser}"/></li>
+
+                            <c:if test="#{usersBean.connected}">
+                                <li class="nav-item"><h:commandLink styleClass="nav-link" value="bonjour #{usersBean.usersEntity.username}"
+                                /></li>
+                            </c:if>
+
                             <li class="nav-item">
                                 <fxs:countContracts id="countContracts"></fxs:countContracts>
                                 <h:link outcome="basket">

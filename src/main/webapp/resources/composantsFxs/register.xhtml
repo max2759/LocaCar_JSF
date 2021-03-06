@@ -14,6 +14,11 @@
 
 <cc:implementation>
     <h:form>
+        <h:outputText value="#{usersBean.success}"
+                      style="color: green; font-weight: bold"></h:outputText>
+        <h:outputText value="#{usersBean.fail}"
+                      style="color: darkred; font-weight: bold"></h:outputText>
+
         <h:outputLabel value="#{bundle['fxs.register.register']}"></h:outputLabel>
         <br/>
         <h:outputText value="#{bundle['fxs.user.firstName']}"></h:outputText>
@@ -26,7 +31,12 @@
         <h:inputText value="#{usersBean.usersEntity.username}" required="true"></h:inputText>
         <br/>
         <h:outputText value="#{bundle['fxs.user.password']}"></h:outputText>
-        <h:inputSecret value="#{usersBean.usersEntity.password}" required="true"></h:inputSecret>
+        <h:inputSecret  value="#{usersBean.usersEntity.password}" required="true">
+            <f:validateRegex pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,}$"></f:validateRegex></h:inputSecret>
+        <br/>
+        <h:outputText value="#{bundle['fxs.user.email']}"></h:outputText>
+        <h:inputText value="#{usersBean.usersEntity.email}" required="true">
+            <f:validateRegex pattern="[a-zA-Z0-9].+@[a-zA-Z0-9]+\.[a-zA-Z0-9]+"></f:validateRegex></h:inputText>
         <br/>
 
         <h:outputText value="#{bundle['fxs.user.birthdate']}"></h:outputText>

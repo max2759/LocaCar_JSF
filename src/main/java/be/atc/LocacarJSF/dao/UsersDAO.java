@@ -10,7 +10,7 @@ public interface UsersDAO {
 
     public boolean update(UsersEntity usersEntity);
 
-    public boolean delete(UsersEntity usersEntity);
+    public boolean delete(int idUser);
 
     public List<UsersEntity> findAll();
 
