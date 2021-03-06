@@ -60,6 +60,16 @@ public class UsersBean extends ExtendBean implements Serializable {
     private String user;
     private boolean connected;
 
+    public String toPageRegister() {
+        return "addUser";
+    }
+    public String toPageConnexion() {
+        return "connexion";
+    }
+    public String toPageLogOut() {
+        return "doLogoutUser";
+    }
+
     @PostConstruct
     public void postConstruct() {
         log.info("begin postConstruct, connexion = " + connexion);
@@ -115,6 +125,7 @@ public class UsersBean extends ExtendBean implements Serializable {
 
             log.info("existe");
         } else {
+            fail = JsfUtils.returnMessage(getLocale(), "fxs.user.badConnexion");
             log.info("existe pas");
         }
 

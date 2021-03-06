@@ -33,12 +33,12 @@
                                                                 action="#{carsColorsBean.toPageColors}"/></li>
                             <li class="nav-item"><h:commandLink styleClass="nav-link" value="Models"
                                                                 action="#{modelsBean.toPageModels}"/></li>
-                            <li class="nav-item"><h:commandLink styleClass="nav-link" value="Users"
-                                                                action="#{usersBean.addUser}"/></li>
-                            <li class="nav-item"><h:commandLink styleClass="nav-link" value="Users"
-                                                                action="#{usersBean.connexion}"/></li>
-                            <li class="nav-item"><h:commandLink styleClass="nav-link" value="Users"
-                                                                action="#{usersBean.doLogoutUser}"/></li>
+                            <li class="nav-item"><h:commandLink styleClass="nav-link" value="Register"
+                                                                action="#{usersBean.toPageRegister}"/></li>
+                            <li class="nav-item"><h:commandLink styleClass="nav-link" value="Connexion"
+                                                                action="#{usersBean.toPageConnexion}"/></li>
+                            <li class="nav-item"><h:commandLink styleClass="nav-link" value="LogOut"
+                                                                action="#{usersBean.toPageLogOut}"/></li>
 
                             <c:if test="#{usersBean.connected}">
                                 <li class="nav-item"><h:commandLink styleClass="nav-link" value="bonjour #{usersBean.usersEntity.username}"
