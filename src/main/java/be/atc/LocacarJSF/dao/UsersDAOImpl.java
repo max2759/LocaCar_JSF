@@ -150,6 +150,26 @@ public class UsersDAOImpl implements UsersDAO {
 
     }
 
+    @Override
+    public UsersEntity findByOneUsername(String username) {
+        EntityManager em = EMF.getEM();
+
+        log.info("username in DAO : " + username);
+
+        try {
+            return em.createNamedQuery("Users.findByOneUsername",
+                    UsersEntity.class)
+                    .setParameter("username", username)
+                    .getSingleResult();
+        } catch (Exception ex) {
+            log.info("Nothing");
+            return null;
+        } finally {
+            em.clear();
+            em.close();
+        }
+    }
+
     public UsersEntity findByUsernameAndPassword(String username, String password) {
         EntityManager em = EMF.getEM();
 
