@@ -16,9 +16,9 @@
     <div class="container-fluid">
         <h:form>
             <br/>
-            <h:outputText styleClass="form-label" value="#{bundle['fxs.ordersList.request']}"></h:outputText>
+            <h:outputText styleClass="form-label" value="#{bundle['fxs.ordersList.request']}"/>
             <br/><br/>
-            <h:inputText styleClass="form-control" value="#{ordersBean.requestOrdersList}"></h:inputText>
+            <h:inputText styleClass="form-control" value="#{ordersBean.requestOrdersList}"/>
             <br/>
             <h:commandButton id="commandButtonListOrder" styleClass="btn btn-outline-success btn-sm"
                              value="#{bundle['validate']}"
@@ -26,12 +26,8 @@
                 <f:ajax onevent="" execute="@form" render="@all"/>
             </h:commandButton>
         </h:form>
-        <br/>
-        <h:outputText styleClass="alert-danger" value="#{ordersBean.fail}">
-        </h:outputText>
-        <br/>
         <h:panelGrid>
-            <h:messages id="messages" showSummary="true" globalOnly="true" infoClass="alert-info"
+            <h:messages id="messages" showSummary="true" globalOnly="true" infoClass="alert-success"
                         errorClass="alert-danger"/>
         </h:panelGrid>
         <h:dataTable rendered="#{empty ordersBean.ordersEntities ? false : true}" id="outputMessage"
@@ -41,14 +37,14 @@
                 <f:facet name="header">#{bundle['fxs.ordersList.idOrder']}</f:facet>
                 <h:form>
                     <h:commandLink value="#{o.id}" action="#{ordersBean.showPopupModal}">
-                        <f:param name="idOrder" value="#{o.id}"></f:param>
+                        <f:param name="idOrder" value="#{o.id}"/>
                         <f:ajax render="@all"/>
                     </h:commandLink>
                 </h:form>
             </h:column>
             <h:column>
                 <f:facet name="header">#{bundle['fxs.ordersList.username']}</f:facet>
-                <h:outputText value="#{o.usersByIdUsers.username}"></h:outputText>
+                <h:outputText value="#{o.usersByIdUsers.username}"/>
             </h:column>
             <h:column>
                 <f:facet name="header">#{bundle['fxs.ordersList.date']}</f:facet>
@@ -58,7 +54,7 @@
             </h:column>
             <h:column>
                 <f:facet name="header">#{bundle['fxs.ordersList.status']}</f:facet>
-                <h:outputText value="#{o.orderStatut}"></h:outputText>
+                <h:outputText value="#{o.orderStatut}"/>
             </h:column>
             <h:column>
                 <f:facet name="header">#{bundle['cancel']}</f:facet>
@@ -68,7 +64,7 @@
                                        action="#{ordersBean.deleteOrder}"
                                        onclick="return confirmer();">
                             <i class="far fa-trash-alt"></i>
-                            <f:param name="idOrder" value="#{o.id}"></f:param>
+                            <f:param name="idOrder" value="#{o.id}"/>
                             <f:ajax render="@all"/>
                         </h:commandLink>
                     </h:form>
@@ -79,7 +75,7 @@
 
     <h:panelGroup id="popupEdit" layout="block" styleClass="popup-panel-overlay"
                   rendered="#{ordersBean.showPopup}">
-        <fxs:modalContractsOrder id="displayPopupContracts"></fxs:modalContractsOrder>
+        <fxs:modalContractsOrder id="displayPopupContracts"/>
     </h:panelGroup>
 
 </cc:implementation>

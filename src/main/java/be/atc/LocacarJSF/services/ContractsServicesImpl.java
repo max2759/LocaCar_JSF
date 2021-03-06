@@ -18,8 +18,8 @@ public class ContractsServicesImpl implements ContractsServices {
     /**
      * Add entity
      *
-     * @param contractsEntity
-     * @return
+     * @param contractsEntity ContractsEntity
+     * @return boolean
      */
     @Override
     public boolean add(ContractsEntity contractsEntity) {
@@ -32,8 +32,8 @@ public class ContractsServicesImpl implements ContractsServices {
     /**
      * Update entity
      *
-     * @param contractsEntity
-     * @return
+     * @param contractsEntity ContractsEntity
+     * @return boolean
      */
     @Override
     public boolean update(ContractsEntity contractsEntity) {
@@ -55,7 +55,7 @@ public class ContractsServicesImpl implements ContractsServices {
     /**
      * Find all entities
      *
-     * @return
+     * @return List<ContractsEntity>
      */
     @Override
     public List<ContractsEntity> findAll() {
@@ -65,8 +65,8 @@ public class ContractsServicesImpl implements ContractsServices {
     /**
      * Find entity by id
      *
-     * @param id
-     * @return
+     * @param id int
+     * @return ContractsEntity
      */
     @Override
     public ContractsEntity findById(int id) {
@@ -98,5 +98,21 @@ public class ContractsServicesImpl implements ContractsServices {
             return contractsDAO.countContractsByIdOrder(idOrder);
         }
         return 0;
+    }
+
+    @Override
+    public List<ContractsEntity> findAllContractsByIdOrderAndDeadlineIsLowerThan1Month(int idOrder) {
+        if (idOrder != 0) {
+            return contractsDAO.findAllContractsByIdOrderAndDeadlineIsLowerThan1Month(idOrder);
+        }
+        return Collections.emptyList();
+    }
+
+    @Override
+    public ContractsEntity findContractByIdCarAndTypeIsLeasing(int idCar) {
+        if (idCar != 0) {
+            return contractsDAO.findContractByIdCarAndTypeIsLeasing(idCar);
+        }
+        return null;
     }
 }

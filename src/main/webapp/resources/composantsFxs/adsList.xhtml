@@ -5,192 +5,38 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:cc="http://java.sun.com/jsf/composite"
-      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
->
+      xmlns:ui="http://java.sun.com/jsf/facelets">
 
-<cc:interface name="adsList"
-              displayName="#{bundle['fxs.adsList.displayName']}"
-              shortDescription="#{bundle['fxs.adsList.shortDescription']}"
->
-</cc:interface>
+<cc:interface name="adsList"/>
 <cc:implementation>
-    <div>
-        <h:form>
-
-            <h:commandLink styleClass="btn btn-success"
-                           value="#{bundle['fxs.optionsList.add']}"
-                           action="#{adsBean.showPopupModal}">
-                <f:param name="addAdsEntity" value="addAdsEntity"></f:param>
-                <i class="fas fa-plus"></i>
-            </h:commandLink>
-        </h:form>
-    </div>
-
-    <h:form>
-        <h:dataTable id="outputMessage" styleClass="table table-hover table-responsive"
-                     value="#{adsBean.adsEntities}" var="ads">
-            <h:column>
-                <f:facet name="header">#{bundle['fxs.optionsList.code']}</f:facet>
-                <h:outputText value="#{ads.id}"></h:outputText>
-            </h:column>
-            <h:column>
-                <f:facet name="header">#{bundle['fxs.optionsList.title']}</f:facet>
-                <h:outputText value="#{ads.label}"></h:outputText>
-            </h:column>
-            <h:column>
-                <f:facet name="header">Prix</f:facet>
-                <h:outputText value="#{ads.price}"></h:outputText>
-            </h:column>
-            <h:column>
-                <f:facet name="header">Type d'annonce</f:facet>
-                <h:outputText value="#{ads.typeAds}"></h:outputText>
-            </h:column>
-
-            <h:column>
-                <ui:repeat value="#{adsBean.carsPicturesEntityList}" var="adsImg">
-                    <ui:include src="#{adsImg.label}"/>
-                </ui:repeat>
-            </h:column>
-
-            <h:column>
-                <f:facet name="header">Modèle</f:facet>
-                <h:outputText value="#{ads.carsByIdCars.modelsByIdModels.label}"></h:outputText>
-            </h:column>
-            <h:column>
-                <f:facet name="header">Marque</f:facet>
-                <h:outputText value="#{ads.carsByIdCars.modelsByIdModels.brandsByIdBrands.label}"></h:outputText>
-            </h:column>
-            <h:column>
-                <f:facet name="header">Couleur</f:facet>
-                <h:outputText value="#{ads.carsByIdCars.carsColorsByIdCarsColors.label}"></h:outputText>
-            </h:column>
-            <h:column>
-                <f:facet name="header">Carburant</f:facet>
-                <h:outputText value="#{ads.carsByIdCars.carsFuelsByIdCarsFuels.label}"></h:outputText>
-            </h:column>
-            <h:column>
-                <f:facet name="header">Boite de vitesse</f:facet>
-                <h:outputText value="#{ads.carsByIdCars.carsGearboxByIdCarsGearBox.label}"></h:outputText>
-            </h:column>
-            <h:column>
-                <f:facet name="header">Type de voiture</f:facet>
-                <h:outputText value="#{ads.carsByIdCars.carsTypesByIdCarsTypes.label}"></h:outputText>
-            </h:column>
-            <h:column>
-                <f:facet name="header">Année</f:facet>
-                <h:outputText value="#{ads.carsByIdCars.releaseYear}" converter="localDateTimeConverter">
-                </h:outputText>
-            </h:column>
-            <h:column>
-                <f:facet name="header">Kilométrage</f:facet>
-                <h:outputText value="#{ads.carsByIdCars.kilometer}"></h:outputText>
-            </h:column>
-            <h:column>
-                <f:facet name="header">Chevaux</f:facet>
-                <h:outputText value="#{ads.carsByIdCars.horsePower}"></h:outputText>
-            </h:column>
-            <h:column>
-                <f:facet name="header">#{bundle['fxs.optionsList.edit']}</f:facet>
-
-                <h:commandLink styleClass="text-info"
-                               action="#{adsBean.showPopupModal}">
-                    <f:param name="id" value="#{colors.id}"></f:param>
-                    <f:ajax render="@all"/>
-                    <i class="fas fa-edit"></i>
-                </h:commandLink>
-
-            </h:column>
-        </h:dataTable>
-    </h:form>
-
-    <f:view>
-        <h:panelGroup id="popupEdit" layout="block" styleClass="popup-panel-overlay"
-                      rendered="#{adsBean.showPopup}">
-
-            <h:form id="formPopupEdit">
-                <div class="popup-panel">
-                    <h:outputText value="#{carsColorsBean.success}"
-                                  style="color: green; font-weight: bold"></h:outputText>
-                    <h:outputText value="#{carsColorsBean.fail}"
-                                  style="color: darkred; font-weight: bold"></h:outputText>
-                    <div class="form-group">
-                        <h:outputLabel value="ID" for="idCarsColors"></h:outputLabel>
-                        <h:outputText id="idCarsColors" value="#{carsColorsBean.carsColorsEntity.id}"
-                                      styleClass="form-control"></h:outputText>
-                    </div>
-
-                    <h:panelGroup class="form-group">
-                        <h:outputLabel value="ID de la voiture" for="adsIdCars"></h:outputLabel>
-                        <h:inputText value="#{carsBean.carsEntity}" styleClass="form-control"
-                                     required="true"
-                                     pt:placeholder="ID cars"
-                                     requiredMessage="#{bundle['fxs.insurancesList.required']}"
-                                     id="adsIdCars">
-                            <f:converter converterId="carsConverter"/>
-                        </h:inputText>
-                        <h:message styleClass="alert alert-danger" role="alert" for="adsIdCars"></h:message>
-                    </h:panelGroup>
-
-                    <h:panelGroup class="form-group">
-                        <h:outputLabel value="Titre de l'annonce" for="adsLabel"></h:outputLabel>
-                        <h:inputText value="#{adsBean.adsEntity.label}" styleClass="form-control"
-                                     required="true"
-                                     pt:placeholder="Votre titre ici..."
-                                     requiredMessage="#{bundle['fxs.insurancesList.required']}"
-                                     id="adsLabel">
-                        </h:inputText>
-                        <h:message styleClass="alert alert-danger" role="alert" for="adsLabel"></h:message>
-                    </h:panelGroup>
-
-                    <h:panelGroup class="form-group">
-                        <h:outputLabel value="#{bundle['fxs.insurancesList.price']}" for="adsPrice"></h:outputLabel>
-                        <h:inputText value="#{adsBean.adsEntity.price}" styleClass="form-control"
-                                     id="adsPrice" required="true"
-                                     requiredMessage="#{bundle['fxs.insurancesList.required']}"
-                                     converterMessage="#{bundle['fxs.insurancesList.priceError']}">
-                            <f:validator validatorId="priceValidator"/>
-                        </h:inputText>
-                        <h:message for="adsPrice" id="messageValidator" styleClass="alert alert-danger "/>
-                    </h:panelGroup>
-
-                    <h:panelGroup styleClass="form-group">
-
-                        <h:selectOneMenu id="typeAdsDisplay" styleClass="form-group"
-                                         value="#{adsBean.adsEntity.typeAds}">
-                            <f:selectItems value="#{adsBean.enumTypes}"/>
-                            <h:message for="typeAdsDisplay"/>
-                            <f:ajax render="@all"/>
-                        </h:selectOneMenu>
-                    </h:panelGroup>
-
-                    <h:panelGroup id="showInsurance"
-                                  rendered="#{adsBean.adsEntity.typeAds eq 'Leasing' ? true : false}">
-                        <h:selectOneMenu id="insuranceId" styleClass="form-group">
-                            <f:selectItems value="#{insurancesBean.insurancesEntities}" var="insurance"
-                                           itemValue="#{insurance}"
-                                           itemLabel="#{insurance.label}"/>
-                            <h:message for="insuranceId"/>
-                        </h:selectOneMenu>
-                    </h:panelGroup>
-
-
-                    <h:panelGroup styleClass="form-group">
-                        <h:commandButton styleClass="btn btn-outline-success btn-sm"
-                                         value="#{bundle['fxs.insurancesList.save']}"
-                                         action="#{adsBean.addAds}">
-                            <f:ajax execute="formPopupEdit" render="@all"></f:ajax>
-                        </h:commandButton>
-
-                        <h:commandButton styleClass="btn btn-outline-dark btn-sm"
-                                         value="#{bundle['fxs.insurancesList.close']}"
-                                         action="#{adsBean.hidePopupModal}">
-                            <f:ajax render="@all"></f:ajax>
-                        </h:commandButton>
-                    </h:panelGroup>
-                </div>
-            </h:form>
-        </h:panelGroup>
-    </f:view>
+    <h:dataTable id="adsList" styleClass="table table-hover table-responsive" value="#{adsBean.adsEntities}" var="ads">
+        <h:column>
+            <f:facet name="header">#{bundle['fxs.adsList.title']}</f:facet>
+            <h:outputText value="#{ads.label}"></h:outputText>
+        </h:column>
+        <h:column>
+            <f:facet name="header">Type d'annonce</f:facet>
+            <h:outputText value="#{ads.typeAds}"></h:outputText>
+        </h:column>
+        <h:column>
+            <ui:repeat value="#{adsBean.carsPicturesEntityList}" var="adsImg">
+                <ui:include src="#{adsImg.label}"/>
+            </ui:repeat>
+        </h:column>
+        <h:column>
+            <f:facet name="header">Marque</f:facet>
+            <h:outputText value="#{ads.carsByIdCars.modelsByIdModels.brandsByIdBrands.label}"></h:outputText>
+        </h:column>
+        <h:column>
+            <f:facet name="header">Modèle</f:facet>
+            <h:outputText value="#{ads.carsByIdCars.modelsByIdModels.label}"></h:outputText>
+        </h:column>
+        <h:column>
+            <f:facet name="header">Prix</f:facet>
+            <h:outputText value="#{ads.price}">
+                <f:convertNumber type="currency" currencySymbol="€"/>
+            </h:outputText>
+        </h:column>
+    </h:dataTable>
 </cc:implementation>
 </html>

@@ -4,17 +4,23 @@
                 xmlns:fxs="http://java.sun.com/jsf/composite/composantsFxs"
                 template="WEB-INF/templates/template.xhtml">
 
-    <ui:define name="title">#{bundle['fxs.ads.title']}</ui:define>
+    <ui:define name="title">#{bundle['fxs.addAds.displayName']}</ui:define>
     <ui:define name="content">
 
         <h:head>
-            <title>Options</title>
+            <script>
+                $( function () {
+                    $( '#j_idt46\\:adsForm\\:releaseYear' ).datepicker( $.datepicker.regional[ 'fr' ] );
+                } );
+            </script>
         </h:head>
 
         <h:body>
             <div class="container">
-                <h2>#{bundle['fxs.ads.title']}</h2>
-                <fxs:adsList id="displayadsList"></fxs:adsList>
+                <h1>#{bundle['fxs.addAds.displayName']}</h1>
+                <div id="displayAdsForm">
+                    <fxs:addAds/>
+                </div>
             </div>
         </h:body>
     </ui:define>

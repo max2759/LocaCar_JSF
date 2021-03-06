@@ -12,7 +12,7 @@ public interface ContractsServices {
 
     boolean update(ContractsEntity contractsEntity);
 
-    public boolean delete(int id);
+    boolean delete(int id);
 
     List<ContractsEntity> findAll();
 
@@ -23,4 +23,8 @@ public interface ContractsServices {
     List<ContractsEntity> findAllContractsByIdOrder(int idOrder);
 
     Number countContractsByIdOrder(int idOrder);
+
+    List<ContractsEntity> findAllContractsByIdOrderAndDeadlineIsLowerThan1Month(int idOrder);
+
+    ContractsEntity findContractByIdCarAndTypeIsLeasing(int idCar);
 }

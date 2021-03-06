@@ -24,7 +24,7 @@
     <br/>
     <h:form>
         <h:panelGrid>
-            <h:messages id="messages" showSummary="true" globalOnly="true" infoClass="alert-info"
+            <h:messages id="messages" showSummary="true" globalOnly="true" infoClass="alert-success"
                         errorClass="alert-danger"/>
         </h:panelGrid>
         <h:dataTable id="outputMessage" styleClass="table table-hover table-responsive"
@@ -80,9 +80,9 @@
                       rendered="#{insurancesBean.showPopup}">
 
             <h:form id="formPopupEdit">
-                <div class="popup-panel">
+                <div class="popup-panel container">
                     <h:panelGrid>
-                        <h:messages id="messagesPopup" showSummary="true" globalOnly="true" infoClass="alert-info"
+                        <h:messages id="messagesPopup" showSummary="true" globalOnly="true" infoClass="alert-success"
                                     errorClass="alert-danger"/>
                     </h:panelGrid>
                     <div class="form-group">

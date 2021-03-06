@@ -7,6 +7,7 @@ import utils.EntityFinderImpl;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -15,13 +16,14 @@ import java.util.List;
  */
 public class ContractsDAOImpl extends EntityFinderImpl<ContractsEntity> implements ContractsDAO {
 
+    private static final long serialVersionUID = -9140171618673528522L;
     public static Logger log = Logger.getLogger(ContractsDAOImpl.class);
 
     /**
      * Add entity
      *
-     * @param contractsEntity
-     * @return
+     * @param contractsEntity ContractsEntity
+     * @return boolean
      */
     @Override
     public boolean add(ContractsEntity contractsEntity) {
@@ -48,8 +50,8 @@ public class ContractsDAOImpl extends EntityFinderImpl<ContractsEntity> implemen
     /**
      * Update entity
      *
-     * @param contractsEntity
-     * @return
+     * @param contractsEntity ContractsEntity
+     * @return boolean
      */
     @Override
     public boolean update(ContractsEntity contractsEntity) {
@@ -109,7 +111,7 @@ public class ContractsDAOImpl extends EntityFinderImpl<ContractsEntity> implemen
     /**
      * Find all entities
      *
-     * @return
+     * @return List<ContractsEntity>
      */
     @Override
     public List<ContractsEntity> findAll() {
@@ -119,8 +121,8 @@ public class ContractsDAOImpl extends EntityFinderImpl<ContractsEntity> implemen
     /**
      * find entity by id
      *
-     * @param id
-     * @return
+     * @param id int
+     * @return ContractsEntity
      */
     @Override
     public ContractsEntity findById(int id) {
@@ -178,6 +180,41 @@ public class ContractsDAOImpl extends EntityFinderImpl<ContractsEntity> implemen
             return ((Number) em.createNamedQuery("Contracts.countContractsByIdOrder")
                     .setParameter("idOrder", idOrder)
                     .getSingleResult()).intValue();
+        } catch (Exception ex) {
+            log.info("Nothing");
+            return null;
+        } finally {
+            em.clear();
+            em.close();
+        }
+    }
+
+    @Override
+    public List<ContractsEntity> findAllContractsByIdOrderAndDeadlineIsLowerThan1Month(int idOrder) {
+        EntityManager em = EMF.getEM();
+        try {
+            return em.createNamedQuery("Contracts.findAllContractsByIdOrderAndDeadlineIsLowerThan1Month",
+                    ContractsEntity.class)
+                    .setParameter("idOrder", idOrder)
+                    .setParameter("today", LocalDateTime.now().plusMonths(1))
+                    .getResultList();
+        } catch (Exception ex) {
+            log.info("Nothing");
+            return null;
+        } finally {
+            em.clear();
+            em.close();
+        }
+    }
+
+    @Override
+    public ContractsEntity findContractByIdCarAndTypeIsLeasing(int idCar) {
+        EntityManager em = EMF.getEM();
+        try {
+            return em.createNamedQuery("Contracts.findContractByIdCarAndTypeIsLeasing",
+                    ContractsEntity.class)
+                    .setParameter("idCar", idCar)
+                    .getSingleResult();
         } catch (Exception ex) {
             log.info("Nothing");
             return null;

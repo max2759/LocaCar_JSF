@@ -3,12 +3,12 @@ package be.atc.LocacarJSF.beans;
 import be.atc.LocacarJSF.dao.entities.CarsEntity;
 import be.atc.LocacarJSF.dao.entities.ContractInsurancesEntity;
 import be.atc.LocacarJSF.dao.entities.ContractsEntity;
+import be.atc.LocacarJSF.dao.entities.OrdersEntity;
 import be.atc.LocacarJSF.enums.EnumTypeAds;
 import be.atc.LocacarJSF.services.ContractsServices;
 import be.atc.LocacarJSF.services.ContractsServicesImpl;
 import utils.JsfUtils;
 
-import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -37,10 +37,12 @@ public class ContractsBean extends ExtendBean implements Serializable {
 
     Map<Integer, ContractInsurancesEntity> hmContractInsurances = new HashMap<>();
     Map<Integer, ContractInsurancesEntity> hmContractInsurancesFind = new HashMap<>();
+    Map<Integer, ContractsEntity> hmContractsLeasingDeadline = new HashMap<>();
 
     private double finalPrice;
     private LocalDateTime dateEnd;
     private int timeLeasing;
+    private boolean showPopupEndLeasing = false;
 
     @Inject
     private ContractInsurancesBean contractInsurancesBean;
@@ -55,19 +57,6 @@ public class ContractsBean extends ExtendBean implements Serializable {
     @Inject
     private CarsBean carsBean;
 
-    @PostConstruct
-    public void init() {
-        log.info("ContractsBean Post Construct!");
-        initialisationFields();
-    }
-
-    /**
-     * Initialisation fields
-     */
-    public void initialisationFields() {
-        log.info("ContractsBean initialisationFields!");
-    }
-
     /**
      * Method initialization after Validation basket
      */
@@ -75,8 +64,17 @@ public class ContractsBean extends ExtendBean implements Serializable {
         contractsEntity = null;
         contractsEntities = Collections.emptyList();
         hmContractInsurances = new HashMap<>();
+        hmContractsLeasingDeadline = new HashMap<>();
         finalPrice = 0;
         timeLeasing = 0;
+    }
+
+    /**
+     * Close popup leasing Notification
+     */
+    public void hidePopupModal() {
+        log.info("ContractsBean : hidePopupModal");
+        showPopupEndLeasing = false;
     }
 
     /**
@@ -117,6 +115,37 @@ public class ContractsBean extends ExtendBean implements Serializable {
     }
 
     /**
+     * Create contract for End Leasing
+     *
+     * @param idContract type int
+     * @return True or false
+     */
+    protected boolean createContractEndLeasing(int idContract) {
+        log.info("ContractsBean createContractEndLeasing!");
+        ContractsEntity contractsEntityTemp = contractsServices.findById(idContract);
+
+        if (contractsEntityTemp == null) {
+            return false;
+        }
+
+        CarsEntity carsEntity = carsBean.findCarsById(contractsEntityTemp.getCarsByIdCars().getId());
+        carsEntity.setActive(true);
+        carsBean.updateCar(carsEntity);
+
+        double priceCar = contractsEntityTemp.getCarPrice() * 0.30;
+        contractsEntity = new ContractsEntity();
+        contractsEntity.setOrdersByIdOrders(ordersBean.getOrdersEntity());
+        contractsEntity.setCarsByIdCars(contractsEntityTemp.getCarsByIdCars());
+        contractsEntity.setDateStart(getDate());
+        contractsEntity.setCarPrice(priceCar);
+        contractsEntity.setFinalPrice(priceCar);
+        contractsEntity.setChoiceEndLeasing(false);
+        contractsEntity.setContractTypesByIdContractType(contractTypesBean.findContractTypesById(1));
+
+        return contractsServices.add(contractsEntity);
+    }
+
+    /**
      * Method for update contract !
      *
      * @param contractsEntity ContractsEntity
@@ -139,11 +168,16 @@ public class ContractsBean extends ExtendBean implements Serializable {
             CarsEntity carsEntity = carsBean.setActiveCarFalse(c.getCarsByIdCars());
             carsBean.updateCar(carsEntity);
 
-            log.info("contractEntity.getDateStart() : " + c.getDateStart());
             c.setDateStart(getDate());
-
-            log.info("contractEntity.getDateStart( : )" + c.getDateStart());
-            c.setDateEnd(getDate());
+            c.setDateEnd(dateEnd);
+            if (!c.getContractTypesByIdContractType().getLabel().equalsIgnoreCase("Leasing")) {
+                c.setChoiceEndLeasing(false);
+            }
+            ContractsEntity contractsEntityTmp = contractsServices.findContractByIdCarAndTypeIsLeasing(c.getCarsByIdCars().getId());
+            if (contractsEntityTmp != null && contractsEntityTmp.getId() != c.getId()) {
+                contractsEntityTmp.setChoiceEndLeasing(false);
+                contractsServices.update(contractsEntityTmp);
+            }
             contractsServices.update(c);
         }
     }
@@ -274,6 +308,54 @@ public class ContractsBean extends ExtendBean implements Serializable {
         ordersBean.findOrderAndfindContracts();
     }
 
+    /**
+     * Find all contracts By Id Order And Deadline leasing is lower than 1 month
+     * param List<OrdersEntity> List of OrdersEntity
+     */
+    protected void findAllContractsInAllMyOrdersForLeasingAndDeadlineIsLowerThan1Month(List<OrdersEntity> ordersEntities) {
+        for (OrdersEntity o : ordersEntities) {
+            List<ContractsEntity> contractsEntitiesDeadline = contractsServices.findAllContractsByIdOrderAndDeadlineIsLowerThan1Month(o.getId());
+            if (!contractsEntitiesDeadline.isEmpty()) {
+                showPopupEndLeasing = true;
+                for (ContractsEntity c : contractsEntitiesDeadline) {
+                    hmContractsLeasingDeadline.put(c.getId(), c);
+                }
+            }
+        }
+    }
+
+    public void putChoiceEndLeasingFalse() {
+        log.info("ContractsBean putChoiceEndLeasingFalse!");
+        FacesContext context = FacesContext.getCurrentInstance();
+        boolean test;
+        contractsEntity = new ContractsEntity();
+        int idContract = Integer.parseInt(getParam("idContract"));
+        if (idContract != 0) {
+            contractsEntity = contractsServices.findById(idContract);
+        }
+        if (contractsEntity != null) {
+            contractsEntity.setChoiceEndLeasing(false);
+            test = contractsServices.update(contractsEntity);
+            hmContractsLeasingDeadline = new HashMap<>();
+        } else {
+            test = false;
+        }
+
+        if (test) {
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, JsfUtils.returnMessage(getLocale(), "successDelete"), null));
+        } else {
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, JsfUtils.returnMessage(getLocale(), "failDelete"), null));
+        }
+        setShowPopupEndLeasing(false);
+        ordersBean.findAllMyOrders();
+    }
+
+    /**
+     * count Contract By id Order
+     *
+     * @param idOrder int
+     * @return int
+     */
     protected int countContractsByIdOrder(int idOrder) {
         return (int) contractsServices.countContractsByIdOrder(idOrder);
     }
@@ -351,5 +433,21 @@ public class ContractsBean extends ExtendBean implements Serializable {
 
     public void setContractsEntitiesFind(List<ContractsEntity> contractsEntitiesFind) {
         this.contractsEntitiesFind = contractsEntitiesFind;
+    }
+
+    public Map<Integer, ContractsEntity> getHmContractsLeasingDeadline() {
+        return hmContractsLeasingDeadline;
+    }
+
+    public void setHmContractsLeasingDeadline(Map<Integer, ContractsEntity> hmContractsLeasingDeadline) {
+        this.hmContractsLeasingDeadline = hmContractsLeasingDeadline;
+    }
+
+    public boolean isShowPopupEndLeasing() {
+        return showPopupEndLeasing;
+    }
+
+    public void setShowPopupEndLeasing(boolean showPopupEndLeasing) {
+        this.showPopupEndLeasing = showPopupEndLeasing;
     }
 }

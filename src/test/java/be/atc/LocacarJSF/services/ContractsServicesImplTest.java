@@ -1,12 +1,15 @@
 package be.atc.LocacarJSF.services;
 
 import be.atc.LocacarJSF.dao.entities.ContractsEntity;
+import be.atc.LocacarJSF.dao.entities.OrdersEntity;
 import org.apache.log4j.Logger;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -29,6 +32,34 @@ class ContractsServicesImplTest {
     }
 
     @Test
+    public void findContractById_ShouldReturnTrue() {
+        log.info("Recherche d'un contract par ID");
+
+        // Mettre l'id d'un contract existant
+        int idContract = 50;
+
+        ContractsEntity contractsEntity = contractsServices.findById(idContract);
+        Boolean test = contractsEntity != null;
+
+        log.info("Le test vaut : " + test);
+        assertThat(test).isEqualTo(true);
+    }
+
+    @Test
+    public void findContractById_ShouldReturnFalse() {
+        log.info("Recherche d'un contract par ID");
+
+        // Mettre l'id d'un contract existant
+        int idContract = 0;
+
+        ContractsEntity contractsEntity = contractsServices.findById(idContract);
+        Boolean test = contractsEntity != null;
+
+        log.info("Le test vaut : " + test);
+        assertThat(test).isEqualTo(false);
+    }
+
+    @Test
     public void findContractByIdOrders_and_byIdCars_ShouldBeReturnFalse() {
         log.info("Recherche si contract existant dans une commande");
 
@@ -38,7 +69,7 @@ class ContractsServicesImplTest {
 
         ContractsEntity contractsEntity = contractsServices.findContractByIdOrdersAndByIdCars(idOrder, idCars);
 
-        Boolean test = contractsEntity == null ? false : true;
+        Boolean test = contractsEntity != null;
 
         log.info("Le test vaut : " + test);
         assertThat(test).isEqualTo(false);
@@ -54,7 +85,7 @@ class ContractsServicesImplTest {
 
         ContractsEntity contractsEntity = contractsServices.findContractByIdOrdersAndByIdCars(idOrder, idCars);
 
-        Boolean test = contractsEntity == null ? false : true;
+        Boolean test = contractsEntity != null;
 
         log.info("Le test vaut : " + test);
         assertThat(test).isEqualTo(true);
@@ -67,7 +98,7 @@ class ContractsServicesImplTest {
 
         List<ContractsEntity> contractsEntityList = contractsServices.findAllContractsByIdOrder(idOrder);
 
-        boolean test = contractsEntityList.isEmpty() ? false : true;
+        boolean test = !contractsEntityList.isEmpty();
 
         log.info("Le test vaut : " + test);
         assertThat(test).isEqualTo(true);
@@ -81,7 +112,7 @@ class ContractsServicesImplTest {
 
         List<ContractsEntity> contractsEntityList = contractsServices.findAllContractsByIdOrder(idOrder);
 
-        boolean test = contractsEntityList.isEmpty() ? false : true;
+        boolean test = !contractsEntityList.isEmpty();
 
         log.info("Le test vaut : " + test);
         assertThat(test).isEqualTo(false);
@@ -95,7 +126,7 @@ class ContractsServicesImplTest {
 
         List<ContractsEntity> contractsEntityList = contractsServices.findAllContractsByIdOrder(idOrder);
 
-        boolean test = contractsEntityList.isEmpty() ? false : true;
+        boolean test = !contractsEntityList.isEmpty();
 
         log.info("Le test vaut : " + test);
         assertThat(test).isEqualTo(false);
@@ -110,7 +141,7 @@ class ContractsServicesImplTest {
 
         int i = (int) contractsServices.countContractsByIdOrder(idOrder);
 
-        boolean test = i > 0 ? true : false;
+        boolean test = i > 0;
 
         log.info("Le test vaut : " + test + " et il y a " + i + " contracts");
         assertThat(test).isEqualTo(true);
@@ -124,10 +155,70 @@ class ContractsServicesImplTest {
 
         int i = (int) contractsServices.countContractsByIdOrder(idOrder);
 
-        boolean test = i > 0 ? true : false;
+        boolean test = i > 0;
 
         log.info("Le test vaut : " + test + " et il y a " + i + " contracts");
         assertThat(test).isEqualTo(false);
+
+    }
+
+    @Test
+    void findContractsByIdOrderWhereDeadlineIsLowerThan1Month() {
+        // Mettre un idOrder valide, qui renvoie un leasing qui a une deadline inférieur à 1 mois
+        int idOrder = 65;
+
+        List<ContractsEntity> contractsEntities = contractsServices.findAllContractsByIdOrderAndDeadlineIsLowerThan1Month(idOrder);
+        boolean test = !contractsEntities.isEmpty();
+
+        assertThat(test).isEqualTo(true);
+
+    }
+
+    @Test
+    void findContractsInAllOrdersForLeasingDeadline() {
+        int idUser = 6;
+
+        OrdersServices ordersServices = new OrdersServicesImpl();
+        List<OrdersEntity> ordersEntities = ordersServices.findAllOrdersByIdUserAndStatusIsValidate(idUser);
+
+        Map<Integer, ContractsEntity> hmContractsLeasingDeadline = new HashMap<>();
+
+        for (OrdersEntity o : ordersEntities) {
+            List<ContractsEntity> contractsEntities = contractsServices.findAllContractsByIdOrderAndDeadlineIsLowerThan1Month(o.getId());
+            if (!contractsEntities.isEmpty()) {
+                for (ContractsEntity c : contractsEntities) {
+                    hmContractsLeasingDeadline.put(c.getId(), c);
+                }
+            }
+        }
+        boolean test = !hmContractsLeasingDeadline.isEmpty();
+
+        assertThat(test).isEqualTo(true);
+    }
+
+    @Test
+    void putChoiceEndLeasingFalse() {
+        // Mettre un id de contrat valide qui un a : ChoiceEndLeasing = 1
+        int idContract = 2;
+        boolean test = false;
+        ContractsEntity contractsEntity = contractsServices.findById(idContract);
+        if (contractsEntity != null) {
+            contractsEntity.setChoiceEndLeasing(false);
+            test = contractsServices.update(contractsEntity);
+        }
+        assertThat(test).isEqualTo(true);
+    }
+
+    @Test
+    void findContractByIdCarAndTypeIsLeasing() {
+        // Mettre un id de car valide qui un type leasing
+        int idCar = 13;
+
+        ContractsEntity contractsEntity = contractsServices.findContractByIdCarAndTypeIsLeasing(idCar);
+
+        boolean test = contractsEntity != null;
+
+        assertThat(test).isEqualTo(true);
 
     }
 }
