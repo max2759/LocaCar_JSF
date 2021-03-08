@@ -1,14 +1,17 @@
 package be.atc.LocacarJSF.classes;
 
+import be.atc.LocacarJSF.dao.entities.OrdersEntity;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
+import utils.JsfUtils;
 
-import javax.mail.Message;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
+import javax.faces.context.FacesContext;
+import javax.mail.*;
 import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
+import java.util.Locale;
 import java.util.Properties;
 
 /**
@@ -19,7 +22,7 @@ public class JavaMailUtil {
 
     public static Logger log = Logger.getLogger(JavaMailUtil.class);
 
-    public static void sendMail(String recepient) throws Exception {
+    public static void sendMail(OrdersEntity ordersEntity) throws Exception {
 
         log.info("Preparing to send email");
 
@@ -42,19 +45,36 @@ public class JavaMailUtil {
             }
         });
 
-        Message message = prepareMessage(session, myAccountEmail, recepient);
+        Message message = prepareMessage(session, myAccountEmail, ordersEntity);
 
         Transport.send(message);
         log.info("Message sent successfully");
     }
 
-    private static Message prepareMessage(Session session, String myAccountEmail, String recepient) {
+    private static Message prepareMessage(Session session, String myAccountEmail, OrdersEntity ordersEntity) {
+
+        Locale locale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
+        String filename = ordersEntity.getUsersByIdUsers().getFirstname() + "-" + ordersEntity.getUsersByIdUsers().getLastname() + "_" + "Order" + ordersEntity.getId() + "_" + ordersEntity.getOrderStatut() + ".pdf";
+        String sourcePath = Constants.FILE_OUT_PUT_STREAM + filename;
+
         Message message = new MimeMessage(session);
         try {
             message.setFrom(new InternetAddress(myAccountEmail));
-            message.setRecipient(Message.RecipientType.TO, new InternetAddress(recepient));
-            message.setSubject("My first email from Locacar");
-            message.setText("Bonjour, \n Test d'email");
+            message.setRecipient(Message.RecipientType.TO, new InternetAddress(ordersEntity.getUsersByIdUsers().getEmail()));
+            message.setSubject(JsfUtils.returnMessage(locale, "mail.Subject"));
+
+            Multipart emailContent = new MimeMultipart();
+
+            MimeBodyPart textBodyPart = new MimeBodyPart();
+            textBodyPart.setText(JsfUtils.returnMessage(locale, "mail.hello") + "\n\n" + JsfUtils.returnMessage(locale, "mail.body") + "\n\n" + JsfUtils.returnMessage(locale, "mail.thankU"));
+
+            MimeBodyPart pdfAttachement = new MimeBodyPart();
+            pdfAttachement.attachFile(sourcePath);
+
+            emailContent.addBodyPart(textBodyPart);
+            emailContent.addBodyPart(pdfAttachement);
+
+            message.setContent(emailContent);
             return message;
         } catch (Exception e) {
             Logger.getLogger(JavaMailUtil.class.getName()).log(Level.ERROR, null, e);

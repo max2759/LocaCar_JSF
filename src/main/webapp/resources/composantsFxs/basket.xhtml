@@ -12,111 +12,112 @@
 >
 </cc:interface>
 <cc:implementation>
-    <br/>
-    <h:panelGroup id="basketPanelGroup" rendered="#{empty contractsBean.contractsEntities ? false : true}">
+    <div class="container">
         <h:panelGrid>
             <h:messages id="messages" showSummary="true" globalOnly="true" infoClass="alert-success"
                         errorClass="alert-danger"/>
         </h:panelGrid>
-        <h:dataTable id="outputMessage" styleClass="table table-hover"
-                     value="#{contractsBean.contractsEntities}" var="c">
-            <h:column>
-                <h:outputText styleClass="font-weight-bold"
-                              value="#{c.carsByIdCars.modelsByIdModels.brandsByIdBrands.label} "/>
-                <h:outputText styleClass="font-weight-bold"
-                              value="#{c.carsByIdCars.modelsByIdModels.label} "/>
-                <h:outputText value="#{c.carsByIdCars.releaseYear}">
-                    <f:convertDateTime type="localDate" pattern="y"/>
-                </h:outputText>
-                <br/>
-                <h:outputText value="#{c.carsByIdCars.carsTypesByIdCarsTypes.label} "/>
-                <h:outputText value="#{c.carsByIdCars.carsGearboxByIdCarsGearBox.label} "/>
-                <h:outputText value="#{c.carsByIdCars.carsFuelsByIdCarsFuels.label}">/</h:outputText>
-                <h:outputText value=", #{c.carsByIdCars.kilometer} #{bundle['km']}"/>
-                <br/>
-                <h:outputText styleClass="font-weight-light"
-                              value="#{contractsBean.hmContractInsurances[c.id].insurancesByIdInsurance.label}"/>
-                <br/>
-                <h:panelGroup rendered="#{!c.carsByIdCars.active}">
-                    <h:outputText styleClass="alert-danger"
-                                  value="#{bundle['fxs.basket.vehiculeNotAvailable']}"/>
-                </h:panelGroup>
-                <h:form>
-                    <h:panelGroup id="panelGroupEdit"
-                                  rendered="#{c.contractTypesByIdContractType.label eq 'Leasing' ? true : false}">
-                        &nbsp;&nbsp;
-                        <h:commandLink styleClass="text-info" action="#{contractInsurancesBean.showPopupModal}">
-                            <i class="far fa-edit"> </i>
-                            <f:param name="idContract" value="#{c.id}"/>
-                            <f:ajax render="@all"/>
-                        </h:commandLink>
-                    </h:panelGroup>
-                    <h:panelGroup id="panelGroupDelete"> &nbsp;&nbsp;
-                        <h:commandLink styleClass="text-danger" action="#{contractsBean.deleteContract}"
-                                       onclick="return confirmer();">
-                            <i class="far fa-trash-alt"></i>
-                            <f:param name="idContract" value="#{c.id}"/>
-                            <f:ajax render="@all"/>
-                        </h:commandLink>
-                    </h:panelGroup>
-                </h:form>
-            </h:column>
-            <h:column>
-                <f:facet name="header">#{bundle['fxs.basket.price']}</f:facet>
-                <h:outputText styleClass="font-weight-bold" value="#{c.finalPrice}">
-                    <f:convertNumber type="currency" currencySymbol="€"/>
-                </h:outputText>
-                <h:panelGroup rendered="#{c.contractTypesByIdContractType.label eq 'Leasing' ? true : false}">
+        <h:panelGroup id="basketPanelGroup" rendered="#{empty contractsBean.contractsEntities ? false : true}">
+            <h:dataTable id="outputMessage" styleClass="table table-hover"
+                         value="#{contractsBean.contractsEntities}" var="c">
+                <h:column>
+                    <h:outputText styleClass="font-weight-bold"
+                                  value="#{c.carsByIdCars.modelsByIdModels.brandsByIdBrands.label} "/>
+                    <h:outputText styleClass="font-weight-bold"
+                                  value="#{c.carsByIdCars.modelsByIdModels.label} "/>
+                    <h:outputText value="#{c.carsByIdCars.releaseYear}">
+                        <f:convertDateTime type="localDate" pattern="y"/>
+                    </h:outputText>
                     <br/>
-                    <h:outputText styleClass="alert-info"
-                                  value="(#{bundle['fxs.basket.insuranceIncluded']})"/>
-                </h:panelGroup>
-            </h:column>
-
-        </h:dataTable>
-        <div class="container">
-            <div class="row">
-                <div class="col-8 align-self-lg-center text-xl-right font-weight-bolder">
-                    <h:outputFormat value="#{bundle['fxs.basket.totalPrice']} "/>
-                </div>
-                <div class="col-4">
-                    <h:outputText styleClass="font-weight-bold" value="#{ordersBean.priceOrder}">
+                    <h:outputText value="#{c.carsByIdCars.carsTypesByIdCarsTypes.label} "/>
+                    <h:outputText value="#{c.carsByIdCars.carsGearboxByIdCarsGearBox.label} "/>
+                    <h:outputText value="#{c.carsByIdCars.carsFuelsByIdCarsFuels.label}">/</h:outputText>
+                    <h:outputText value=", #{c.carsByIdCars.kilometer} #{bundle['km']}"/>
+                    <br/>
+                    <h:outputText styleClass="font-weight-light"
+                                  value="#{contractsBean.hmContractInsurances[c.id].insurancesByIdInsurance.label}"/>
+                    <br/>
+                    <h:panelGroup rendered="#{!c.carsByIdCars.active}">
+                        <h:outputText styleClass="alert-danger"
+                                      value="#{bundle['fxs.basket.vehiculeNotAvailable']}"/>
+                    </h:panelGroup>
+                    <h:form>
+                        <h:panelGroup id="panelGroupEdit"
+                                      rendered="#{c.contractTypesByIdContractType.label eq 'Leasing' ? true : false}">
+                            &nbsp;&nbsp;
+                            <h:commandLink styleClass="text-info" action="#{contractInsurancesBean.showPopupModal}">
+                                <i class="far fa-edit"> </i>
+                                <f:param name="idContract" value="#{c.id}"/>
+                                <f:ajax render="@all"/>
+                            </h:commandLink>
+                        </h:panelGroup>
+                        <h:panelGroup id="panelGroupDelete"> &nbsp;&nbsp;
+                            <h:commandLink styleClass="text-danger" action="#{contractsBean.deleteContract}"
+                                           onclick="return confirmer();">
+                                <i class="far fa-trash-alt"></i>
+                                <f:param name="idContract" value="#{c.id}"/>
+                                <f:ajax render="@all"/>
+                            </h:commandLink>
+                        </h:panelGroup>
+                    </h:form>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">#{bundle['fxs.basket.price']}</f:facet>
+                    <h:outputText styleClass="font-weight-bold" value="#{c.finalPrice}">
                         <f:convertNumber type="currency" currencySymbol="€"/>
                     </h:outputText>
+                    <h:panelGroup rendered="#{c.contractTypesByIdContractType.label eq 'Leasing' ? true : false}">
+                        <br/>
+                        <h:outputText styleClass="alert-info"
+                                      value="(#{bundle['fxs.basket.insuranceIncluded']})"/>
+                    </h:panelGroup>
+                </h:column>
+
+            </h:dataTable>
+            <div class="container">
+                <div class="row">
+                    <div class="col-8 align-self-lg-center text-xl-right font-weight-bolder">
+                        <h:outputFormat value="#{bundle['fxs.basket.totalPrice']} "/>
+                    </div>
+                    <div class="col-4">
+                        <h:outputText styleClass="font-weight-bold" value="#{ordersBean.priceOrder}">
+                            <f:convertNumber type="currency" currencySymbol="€"/>
+                        </h:outputText>
+                    </div>
                 </div>
+
+                <h:form>
+                    <div class="row">
+                        <div class="col-md-6 offset-md-0">
+                            <h:commandButton styleClass="btn btn-danger"
+                                             value="#{bundle['fxs.basket.clearBasket']}"
+                                             action="#{contractsBean.clearBasket}"
+                                             onclick="return confirmer();"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 offset-md-8">
+                            <h:commandButton styleClass="btn btn-success"
+                                             value="#{bundle['fxs.basket.validate']}"
+                                             action="#{ordersBean.validateOrder}"/>
+                        </div>
+                    </div>
+                </h:form>
             </div>
-
-            <h:form>
-                <div class="row">
-                    <div class="col-md-6 offset-md-0">
-                        <h:commandButton styleClass="btn btn-danger"
-                                         value="#{bundle['fxs.basket.clearBasket']}"
-                                         action="#{contractsBean.clearBasket}"
-                                         onclick="return confirmer();"/>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6 offset-md-8">
-                        <h:commandButton styleClass="btn btn-success"
-                                         value="#{bundle['fxs.basket.validate']}"
-                                         action="#{ordersBean.validateOrder}"/>
-                    </div>
-                </div>
-            </h:form>
-        </div>
-    </h:panelGroup>
-    <h:panelGroup rendered="#{!empty contractsBean.contractsEntities ? false : true}">
-        <h:outputText value="#{bundle['fxs.basket.empty']}"/>
-    </h:panelGroup>
-
+        </h:panelGroup>
+        <h:panelGroup rendered="#{!empty contractsBean.contractsEntities ? false : true}">
+            <h:outputText value="#{bundle['fxs.basket.empty']}"/>
+        </h:panelGroup>
+    </div>
     <f:view>
         <h:panelGroup id="popupEdit" layout="block" styleClass="popup-panel-overlay"
                       rendered="#{contractInsurancesBean.showPopup}">
 
             <h:form id="formPopupEdit">
-                <div class="popup-panel">
+                <div class="popup-panel container">
                     <h:panelGrid>
-                        <h:messages id="messagesPopup" showSummary="true" globalOnly="true" infoClass="alert-success"
+                        <h:messages id="messagesPopup" showSummary="true" globalOnly="true"
+                                    infoClass="alert-success"
                                     errorClass="alert-danger"/>
                     </h:panelGrid>
                     <h:outputLabel value="#{bundle['fxs.basket.insuranceActual']}"/>

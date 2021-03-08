@@ -26,7 +26,6 @@ public class UsersEntity {
     private LocalDateTime birthdate;
     private String vatNumber;
     private boolean isActive;
-    private String email;
     private Collection<AddressesEntity> addressesById;
     private Collection<OrdersEntity> ordersById;
     private RolesEntity rolesByIdRoles;
@@ -123,17 +122,6 @@ public class UsersEntity {
     public void setVatNumber(String vatNumber) {
         this.vatNumber = vatNumber;
     }
-
-    @Basic
-    @Column(name = "Email", nullable = false)
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
 
     @Basic
     @Column(name = "IsActive")
