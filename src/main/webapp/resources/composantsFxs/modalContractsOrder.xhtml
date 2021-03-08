@@ -15,8 +15,8 @@
     <f:view>
             <h:form id="formPopupEdit">
                 <div class="popup-panel container">
-                    <h:outputText styleClass="container-fluid badge bg-info"
-                            value="#{bundle['fxs.modalContractsOrder.orderNum']} #{contractsBean.contractsEntitiesFind[0].ordersByIdOrders.id}"></h:outputText>
+                    <h:outputText styleClass="container badge bg-info"
+                                  value="#{bundle['fxs.modalContractsOrder.orderNum']} #{contractsBean.contractsEntitiesFind[0].ordersByIdOrders.id}"></h:outputText>
 
                     <h:dataTable id="outPutContracts" styleClass="table table-hover table-responsive"
                                  value="#{contractsBean.contractsEntitiesFind}" var="c">

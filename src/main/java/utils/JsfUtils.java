@@ -8,6 +8,13 @@ import java.util.ResourceBundle;
  */
 public class JsfUtils {
 
+    /**
+     * This method return messages translated
+     *
+     * @param locale  Locale
+     * @param message String
+     * @return String
+     */
     public static String returnMessage(Locale locale, String message) {
         ResourceBundle resourceBundle = ResourceBundle.getBundle(
                 "i18n.messages", locale);

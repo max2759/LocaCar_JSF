@@ -1,8 +1,8 @@
 package be.atc.LocacarJSF.enums;
 
 public enum EnumTypeAds {
-    Sale("vente"),
-    Leasing("leasing"),
+    Sale("Vente"),
+    Leasing("Leasing"),
     ;
 
     private final String label;

@@ -1,10 +1,10 @@
 package be.atc.LocacarJSF.beans;
 
 import be.atc.LocacarJSF.classes.JavaMailUtil;
+import be.atc.LocacarJSF.classes.PDFUtil;
 import be.atc.LocacarJSF.dao.entities.ContractInsurancesEntity;
 import be.atc.LocacarJSF.dao.entities.ContractsEntity;
 import be.atc.LocacarJSF.dao.entities.OrdersEntity;
-import be.atc.LocacarJSF.dao.entities.UsersEntity;
 import be.atc.LocacarJSF.enums.EnumOrderStatut;
 import be.atc.LocacarJSF.services.ContractInsurancesServices;
 import be.atc.LocacarJSF.services.ContractInsurancesServicesImpl;
@@ -34,7 +34,7 @@ public class OrdersBean extends ExtendBean implements Serializable {
     private static final long serialVersionUID = -5251107202124824837L;
 
     // Remplacer par l'utilisateur
-    private int idUser = 5;
+    private int idUser = 6;
 
     private OrdersEntity ordersEntity;
     private final OrdersServices ordersServices = new OrdersServicesImpl();
@@ -191,13 +191,13 @@ public class OrdersBean extends ExtendBean implements Serializable {
 
             ordersServices.update(ordersEntity);
 
+            generatePDF();
+            JavaMailUtil.sendMail(ordersEntity);
+
             initializationAfterValidation();
             contractsBean.initializationAfterValidation();
             setCptContracts(0);
 
-            // Remplacer l'user
-            UsersEntity usersEntity = usersBean.findUserById(idUser);
-            JavaMailUtil.sendMail(usersEntity.getEmail());
             context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, JsfUtils.returnMessage(getLocale(), "validateOrder.success"), null));
             return "orderValidate";
         } else {
@@ -335,6 +335,10 @@ public class OrdersBean extends ExtendBean implements Serializable {
         ordersEntity.setOrderDate(getDate());
         ordersEntity.setOrderStatut(EnumOrderStatut.Pending);
         return ordersServices.add(ordersEntity);
+    }
+
+    protected void generatePDF() {
+        PDFUtil.generatePDF(ordersEntity, contractsBean.getContractsEntities(), priceOrder);
     }
 
     public int getIdUser() {
