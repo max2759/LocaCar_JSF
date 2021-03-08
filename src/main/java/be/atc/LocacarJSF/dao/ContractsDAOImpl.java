@@ -16,13 +16,14 @@ import java.util.List;
  */
 public class ContractsDAOImpl extends EntityFinderImpl<ContractsEntity> implements ContractsDAO {
 
+    private static final long serialVersionUID = -9140171618673528522L;
     public static Logger log = Logger.getLogger(ContractsDAOImpl.class);
 
     /**
      * Add entity
      *
-     * @param contractsEntity
-     * @return
+     * @param contractsEntity ContractsEntity
+     * @return boolean
      */
     @Override
     public boolean add(ContractsEntity contractsEntity) {
@@ -49,8 +50,8 @@ public class ContractsDAOImpl extends EntityFinderImpl<ContractsEntity> implemen
     /**
      * Update entity
      *
-     * @param contractsEntity
-     * @return
+     * @param contractsEntity ContractsEntity
+     * @return boolean
      */
     @Override
     public boolean update(ContractsEntity contractsEntity) {
@@ -110,7 +111,7 @@ public class ContractsDAOImpl extends EntityFinderImpl<ContractsEntity> implemen
     /**
      * Find all entities
      *
-     * @return
+     * @return List<ContractsEntity>
      */
     @Override
     public List<ContractsEntity> findAll() {
@@ -120,8 +121,8 @@ public class ContractsDAOImpl extends EntityFinderImpl<ContractsEntity> implemen
     /**
      * find entity by id
      *
-     * @param id
-     * @return
+     * @param id int
+     * @return ContractsEntity
      */
     @Override
     public ContractsEntity findById(int id) {
@@ -197,6 +198,23 @@ public class ContractsDAOImpl extends EntityFinderImpl<ContractsEntity> implemen
                     .setParameter("idOrder", idOrder)
                     .setParameter("today", LocalDateTime.now().plusMonths(1))
                     .getResultList();
+        } catch (Exception ex) {
+            log.info("Nothing");
+            return null;
+        } finally {
+            em.clear();
+            em.close();
+        }
+    }
+
+    @Override
+    public ContractsEntity findContractByIdCarAndTypeIsLeasing(int idCar) {
+        EntityManager em = EMF.getEM();
+        try {
+            return em.createNamedQuery("Contracts.findContractByIdCarAndTypeIsLeasing",
+                    ContractsEntity.class)
+                    .setParameter("idCar", idCar)
+                    .getSingleResult();
         } catch (Exception ex) {
             log.info("Nothing");
             return null;

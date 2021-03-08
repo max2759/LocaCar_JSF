@@ -1,8 +1,10 @@
 package be.atc.LocacarJSF.beans;
 
+import be.atc.LocacarJSF.classes.JavaMailUtil;
 import be.atc.LocacarJSF.dao.entities.ContractInsurancesEntity;
 import be.atc.LocacarJSF.dao.entities.ContractsEntity;
 import be.atc.LocacarJSF.dao.entities.OrdersEntity;
+import be.atc.LocacarJSF.dao.entities.UsersEntity;
 import be.atc.LocacarJSF.enums.EnumOrderStatut;
 import be.atc.LocacarJSF.services.ContractInsurancesServices;
 import be.atc.LocacarJSF.services.ContractInsurancesServicesImpl;
@@ -32,7 +34,7 @@ public class OrdersBean extends ExtendBean implements Serializable {
     private static final long serialVersionUID = -5251107202124824837L;
 
     // Remplacer par l'utilisateur
-    private int idUser = 6;
+    private int idUser = 5;
 
     private OrdersEntity ordersEntity;
     private final OrdersServices ordersServices = new OrdersServicesImpl();
@@ -94,12 +96,37 @@ public class OrdersBean extends ExtendBean implements Serializable {
 
         log.info("OrdersBean : AddShop");
         init();
+        checkIfOrdersEntityIsNullAndCreateOrders();
+
+        if (contractsBean.createContract()) {
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, JsfUtils.returnMessage(getLocale(), "fxs.addShopButton.addShopSuccess"), null));
+        } else {
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, JsfUtils.returnMessage(getLocale(), "fxs.addShopButton.addShopError"), null));
+        }
+        findOrderAndfindContracts();
+    }
+
+    /**
+     * Check if ordersEntity is null, if null then createOrders !
+     */
+    protected void checkIfOrdersEntityIsNullAndCreateOrders() {
         if (ordersEntity == null) {
             log.info("OrdersBean : Aucun Orders n'est trouvé");
             createOrders();
         }
+    }
 
-        if (contractsBean.createContract()) {
+    /**
+     * Add shop for : end leasing
+     */
+    public void addShopEndLeasing() {
+        log.info("OrdersBean : addShopEndLeasing");
+        FacesContext context = FacesContext.getCurrentInstance();
+        int idContract = Integer.parseInt(getParam("idContract"));
+        init();
+        checkIfOrdersEntityIsNullAndCreateOrders();
+
+        if (contractsBean.createContractEndLeasing(idContract)) {
             context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, JsfUtils.returnMessage(getLocale(), "fxs.addShopButton.addShopSuccess"), null));
         } else {
             context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, JsfUtils.returnMessage(getLocale(), "fxs.addShopButton.addShopError"), null));
@@ -123,7 +150,7 @@ public class OrdersBean extends ExtendBean implements Serializable {
     /**
      * Validate Order
      */
-    public String validateOrder() {
+    public String validateOrder() throws Exception {
         log.info("OrdersBean :validateOrder");
         FacesContext context = FacesContext.getCurrentInstance();
 
@@ -167,6 +194,10 @@ public class OrdersBean extends ExtendBean implements Serializable {
             initializationAfterValidation();
             contractsBean.initializationAfterValidation();
             setCptContracts(0);
+
+            // Remplacer l'user
+            UsersEntity usersEntity = usersBean.findUserById(idUser);
+            JavaMailUtil.sendMail(usersEntity.getEmail());
             context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, JsfUtils.returnMessage(getLocale(), "validateOrder.success"), null));
             return "orderValidate";
         } else {

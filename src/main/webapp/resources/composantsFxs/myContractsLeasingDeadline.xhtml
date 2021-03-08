@@ -16,17 +16,15 @@
                   rendered="#{contractsBean.showPopupEndLeasing}">
         <div class="popup-panel container pre-scrollable">
             <h:panelGrid>
-                <h:messages id="messages" showSummary="true" globalOnly="true" infoClass="alert-info"
+                <h:messages id="messages" showSummary="true" globalOnly="true" infoClass="alert-success"
                             errorClass="alert-danger"/>
             </h:panelGrid>
             <h:form styleClass="">
-                <h:commandButton styleClass="close"
-                                 value=" X "
-                                 action="#{ordersBean.hidePopupModal}">
+                <h:commandLink styleClass="close text-info" action="#{contractsBean.hidePopupModal}">
+                    <i class="fas fa-window-close"></i>
                     <f:ajax render="@all"/>
-                </h:commandButton>
+                </h:commandLink>
             </h:form>
-            <br/>
             <h:form>
                 <h:dataTable rendered="#{empty contractsBean.hmContractsLeasingDeadline ? false : true}"
                              id="outputMessage"
@@ -75,7 +73,9 @@
                     </h:column>
                     <h:column>
                         <br/>
-                        <h:commandButton styleClass="btn btn-outline-success btn-sm" value="#{bundle['addBasket']}">
+                        <h:commandButton styleClass="btn btn-outline-success btn-sm" value="#{bundle['addBasket']}"
+                                         action="#{ordersBean.addShopEndLeasing}">
+                            <f:param name="idContract" value="#{c.value.id}"/>
                         </h:commandButton>
                         <br/>
                         <br/>

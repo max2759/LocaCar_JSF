@@ -1,5 +1,6 @@
 package be.atc.LocacarJSF.dao;
 
+import be.atc.LocacarJSF.dao.entities.ContractInsurancesEntity;
 import be.atc.LocacarJSF.dao.entities.UsersEntity;
 import org.apache.log4j.Logger;
 import utils.EMF;
@@ -61,8 +62,37 @@ public class UsersDAOImpl implements UsersDAO {
     }
 
     @Override
-    public boolean delete(UsersEntity usersEntity) {
-        return false;
+    public boolean delete(int idUser) {
+        EntityManager em = EMF.getEM();
+        em.getTransaction();
+
+        EntityTransaction tx = null;
+        try {
+            tx = em.getTransaction();
+            tx.begin();
+
+            UsersEntity id = findById(idUser);
+            log.info("id de l'user in delete user "+id);
+
+            em.createNamedQuery("Users.delete",
+                    UsersEntity.class)
+                    .setParameter("idUser", id)
+                    .getSingleResult();
+
+            em.merge(id);
+
+            tx.commit();
+            log.info("Delete ok");
+            return true;
+        } catch (
+                Exception ex) {
+            if (tx != null && tx.isActive()) tx.rollback();
+            log.error("Delete Error");
+            return false;
+        } finally {
+            em.clear();
+            em.close();
+        }
     }
 
     @Override

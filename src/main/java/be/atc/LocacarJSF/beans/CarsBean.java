@@ -26,7 +26,7 @@ public class CarsBean extends ExtendBean implements Serializable {
     private CarsEntity carsEntity;
     private CarsServices carsServices = new CarsServicesImpl();
     private CarsOptionsEntity carsOptionsEntity;
-    private CarsOptionsServices carsOptionsServices = new CarsOptionsServicesImpl();
+    private final CarsOptionsServices carsOptionsServices = new CarsOptionsServicesImpl();
     private List<CarsEntity> carsEntities;
 
     @Inject
@@ -63,10 +63,10 @@ public class CarsBean extends ExtendBean implements Serializable {
     }
 
     /**
-     * Set active => False
+     * Set active => False or False => true
      *
-     * @param c
-     * @return
+     * @param c CarsEntity
+     * @return CarsEntity
      */
     protected CarsEntity setActiveCarFalse(CarsEntity c) {
         c.setActive(!c.isActive());
@@ -76,8 +76,8 @@ public class CarsBean extends ExtendBean implements Serializable {
     /**
      * Update CarEntity
      *
-     * @param c
-     * @return
+     * @param c CarsEntity
+     * @return boolean
      */
     protected boolean updateCar(CarsEntity c) {
         return carsServices.update(c);
