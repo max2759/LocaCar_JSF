@@ -14,4 +14,6 @@ public interface AdsDAO {
 
     public AdsEntity findById(int id);
 
+    public List<AdsEntity> findByLabel(String label);
+
 }

@@ -106,17 +106,18 @@
                 <h:panelGroup styleClass="row mb-3">
                     <h:outputLabel value="#{bundle['fxs.ads.options']}" styleClass="col-sm-2 col-form-label"/>
                     <h:selectManyCheckbox id="selectOptionsBox" value="#{carsOptionsBean.optionsEntityList}"
-                                          styleClass="form-check form-check-inline">
+                                          styleClass="grid col-sm-10">
                         <f:selectItems value="#{optionsBean.optionsEntities}" var="options"
                                        itemValue="#{options}" itemLabel="#{options.label}"/>
                     </h:selectManyCheckbox>
+
                 </h:panelGroup>
 
                 <h:panelGroup styleClass="row mb-3">
                     <h:outputLabel value="#{bundle['fxs.ads.releaseYear']}" for="releaseYear"
                                    styleClass="col-sm-2 col-form-label"/>
                     <div class="col-sm-10">
-                        <h:inputText value="#{carsBean.carsEntity.releaseYear}" styleClass="form-control"
+                        <h:inputText value="#{carsBean.carsEntity.releaseYear}" styleClass="form-control col-2"
                                      required="true"
                                      id="releaseYear"
                                      converter="localDateTimeConverter">
@@ -130,7 +131,7 @@
                     <h:outputLabel value="#{bundle['fxs.ads.horsepower']}" for="horsePower"
                                    styleClass="col-sm-2 col-form-label"/>
                     <div class="col-sm-10">
-                        <h:inputText value="#{carsBean.carsEntity.horsePower}" styleClass="form-control"
+                        <h:inputText value="#{carsBean.carsEntity.horsePower}" styleClass="form-control col-2"
                                      required="true"
                                      converterMessage="#{bundle['not.a.valid.number']}"
                                      validatorMessage="#{bundle['fxs.ads.validatorRange']}"
@@ -145,7 +146,7 @@
                     <h:outputLabel value="#{bundle['fxs.ads.kilometer']}" for="kilometer"
                                    styleClass="col-sm-2 col-form-label"/>
                     <div class="col-sm-10">
-                        <h:inputText value="#{carsBean.carsEntity.kilometer}" styleClass="form-control"
+                        <h:inputText value="#{carsBean.carsEntity.kilometer}" styleClass="form-control col-2"
                                      required="true"
                                      converterMessage="#{bundle['not.a.valid.number']}"
                                      id="kilometer">
@@ -165,7 +166,7 @@
                     <h:outputLabel value="#{bundle['fxs.ads.adsTitle']}" for="adsLabel"
                                    styleClass="col-sm-2 col-form-label"></h:outputLabel>
                     <div class="col-sm-10">
-                        <h:inputText value="#{adsBean.adsEntity.label}" styleClass="form-control"
+                        <h:inputText value="#{adsBean.adsEntity.label}" styleClass="form-control col-6"
                                      required="true"
                                      pt:placeholder="#{bundle['fxs.adsTitle.placeholder']}"
                                      requiredMessage="#{bundle['fxs.adsTitle.required']}"
@@ -179,7 +180,7 @@
                     <h:outputLabel value="#{bundle['fxs.insurancesList.price']}" for="adsPrice"
                                    styleClass="col-sm-2 col-form-label"></h:outputLabel>
                     <div class="col-sm-10">
-                        <h:inputText value="#{adsBean.adsEntity.price}" styleClass="form-control"
+                        <h:inputText value="#{adsBean.adsEntity.price}" styleClass="form-control col-2"
                                      id="adsPrice" required="true"
                                      requiredMessage="#{bundle['fxs.insurancesList.required']}"
                                      converterMessage="#{bundle['fxs.insurancesList.priceError']}">
