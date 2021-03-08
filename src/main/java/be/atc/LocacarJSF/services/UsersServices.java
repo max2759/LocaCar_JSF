@@ -26,4 +26,5 @@ public interface UsersServices {
 
     public List<UsersEntity> findUserWithAddresses(int idUser);
 
+
 }

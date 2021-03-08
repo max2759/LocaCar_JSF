@@ -183,7 +183,10 @@ public class UsersBean extends ExtendBean implements Serializable {
                 usersServices.add(usersEntity);
                 log.info("inscription");
 
-                if(usersServices.findByUsername(usersEntity.getUsername()) != null){
+
+
+                if(usersServices.findByOneUsername(usersEntity.getUsername()) != null || usersServices.findByUsername(usersEntity.getUsername()).size() > 0){
+                    log.info("begin add address");
                     List<UsersEntity> userId = usersServices.findByUsername(usersEntity.getUsername());
                     log.info(userId.size());
 
@@ -206,6 +209,9 @@ public class UsersBean extends ExtendBean implements Serializable {
                     FacesContext.getCurrentInstance().getApplication().getNavigationHandler().handleNavigation(FacesContext.getCurrentInstance(), null, "connexion.xhtml");
                     connected = false;
             }else{
+                    log.info("begin delete physic after error insert user");
+
+                    deletePhysic();
                     fail = JsfUtils.returnMessage(getLocale(), "fxs.user.errorInsert");
                 }
 
@@ -221,18 +227,26 @@ public class UsersBean extends ExtendBean implements Serializable {
     public String doLogoutUser(){
         log.info("befin logOut");
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
-       // usersEntity = new UsersEntity();
-    //    usersEntity.setUsername(null);
-     //   usersEntity.setPassword(null);
+        usersEntity = new UsersEntity();
         connected = false;
-        return "successLog";
+        return "successLogOut";
     }
 
     public void deleteUser() {
+        log.info("begin deleteUser logic");
 
         //faut appeler le service aprés
-
         usersEntity.setActive(false);
+        usersServices.update(usersEntity);
+
+        log.info("end deleteUser logic");
+
+
+    }
+
+    public void deletePhysic() {
+        //faut appeler le service apréssetActive(false);
+        usersServices.delete(usersEntity.getId());
     }
 
     /**
@@ -242,10 +256,29 @@ public class UsersBean extends ExtendBean implements Serializable {
         log.info("Show PopupModal");
         showPopup = true;
         if (getParam("id") != null) {
+            log.info("getParam(\"id\") != null");
             editUsersEntity = false;
             int idUsers = parseInt(getParam("id"));
             usersEntity = usersServices.findById(idUsers);
         } else {
+            log.info("getParam(\"id\") == null");
+            editUsersEntity = true;
+            usersEntity = new UsersEntity();
+        }
+    }
+
+
+
+    public void showPopupModalUpdateByUser() {
+        log.info("Show PopupModal");
+        showPopup = true;
+        if (getParam("id") != null) {
+            log.info("getParam(\"id\") != null");
+            editUsersEntity = false;
+            int idUsers = parseInt(getParam("id"));
+            usersEntity = usersServices.findById(idUsers);
+        } else {
+            log.info("getParam(\"id\") == null");
             editUsersEntity = true;
             usersEntity = new UsersEntity();
         }
@@ -291,7 +324,8 @@ public class UsersBean extends ExtendBean implements Serializable {
      */
     public void functionAddUser() {
         usersServices.add(usersEntity);
-        success = JsfUtils.returnMessage(locale, "fxs.users.succesAdd");
+        success = JsfUtils.returnMessage(getLocale(), "fxs.users.succesAdd");
+
     }
 
     /**
@@ -299,7 +333,7 @@ public class UsersBean extends ExtendBean implements Serializable {
      */
     public void functionUpdateUser() {
         usersServices.update(usersEntity);
-        success = JsfUtils.returnMessage(locale, "fxs.Users.successUpdate");
+        success = JsfUtils.returnMessage(getLocale(), "successUpdate");
     }
 
     public UsersEntity findUserById(int idUser) {

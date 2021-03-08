@@ -2,9 +2,11 @@ package be.atc.LocacarJSF.beans;
 
 import be.atc.LocacarJSF.dao.entities.AddressesEntity;
 import be.atc.LocacarJSF.dao.entities.CitiesEntity;
+import be.atc.LocacarJSF.dao.entities.UsersEntity;
 import be.atc.LocacarJSF.services.AddressesServices;
 import be.atc.LocacarJSF.services.AddressesServicesImpl;
 import org.apache.log4j.Logger;
+import utils.JsfUtils;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
@@ -17,6 +19,8 @@ import java.text.ParseException;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+
+import static java.lang.Integer.parseInt;
 
 @Named(value = "addressesBean")
 @SessionScoped
@@ -51,7 +55,7 @@ public class AddressesBean implements Serializable {
             findByUserId();
         } else {
             log.info("connexion = false? : " + userId);
-            addressesEntity = new AddressesEntity();
+          //  addressesEntity = new AddressesEntity();
             init();
         }
     }
@@ -73,10 +77,8 @@ public class AddressesBean implements Serializable {
         log.info("begin addAddresseBean");
 
 
-        addressesEntity.setStreet(addressesEntity.getStreet());
+
         addressesEntity.setUsersByIdUsers(usersBean.findUserById(idUser));
-        addressesEntity.setNumber(addressesEntity.getNumber());
-        addressesEntity.setBox(addressesEntity.getBox());
 
 
         log.info("label recu du form: " + addressesEntity.getStreet());
@@ -86,6 +88,37 @@ public class AddressesBean implements Serializable {
         addressesEntity.setCitiesByIdCities(citiesBean.findById(idCity));
         addressesServices.add(addressesEntity);
         log.info("addresse inscrit");
+    }
+
+    /**
+     * Ouvrir le popup d'edition ou d'ajout
+     */
+    public void showPopupModal() {
+        log.info("Show PopupModal");
+        showPopup = true;
+        if (getParam("id") != null) {
+            log.info("getParam(\"id\") != null");
+            editAddressesEntity = false;
+            int idUsers = parseInt(getParam("id"));
+            addressesEntity = addressesServices.findById(idUsers);
+        } else {
+            log.info("getParam(\"id\") == null");
+            editAddressesEntity = true;
+            addressesEntity = new AddressesEntity();
+        }
+    }
+
+    public void hidePopupModal() {
+        log.info("Hide PopupModal");
+        initialisationFields();
+        showPopup = false;
+    }
+
+    /**
+     * Repetition code for update UserEntity
+     */
+    public void functionUpdateUser() {
+        addressesServices.update(addressesEntity);
     }
 
 
