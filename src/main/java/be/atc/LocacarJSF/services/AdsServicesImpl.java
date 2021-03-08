@@ -62,4 +62,9 @@ public class AdsServicesImpl implements AdsServices {
         }
         return null;
     }
+
+    @Override
+    public List<AdsEntity> findByLabel(String label) {
+        return adsDAO.findByLabel(label);
+    }
 }

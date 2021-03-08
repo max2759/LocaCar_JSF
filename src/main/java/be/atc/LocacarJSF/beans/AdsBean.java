@@ -17,6 +17,7 @@ import javax.servlet.ServletException;
 import java.io.IOException;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 
 import static java.lang.Integer.parseInt;
@@ -32,6 +33,7 @@ public class AdsBean extends ExtendBean implements Serializable {
 
     private AdsEntity adsEntity;
     private AdsServices adsServices = new AdsServicesImpl();
+    private RepeatPaginator paginator;
     private List<AdsEntity> adsEntities;
 
     private List<CarsPicturesEntity> carsPicturesEntityList;
@@ -44,7 +46,7 @@ public class AdsBean extends ExtendBean implements Serializable {
 
     private String success;
     private String fail;
-
+    private String searchString;
 
 
     /**
@@ -54,11 +56,17 @@ public class AdsBean extends ExtendBean implements Serializable {
     @PostConstruct
     public void init() {
         adsEntity = new AdsEntity();
-//        carsEntity = new CarsEntity();
         adsEntities = adsServices.findAll();
+        fieldsInitialization();
 //        for (AdsEntity img : adsEntities) {
 //            carsPicturesEntityList = picturesBean.findPictures(img.getCarsByIdCars().getId());
 //        }
+    }
+
+    public void fieldsInitialization() {
+        log.info("AdsBean : Field initialization !");
+
+        adsEntities = Collections.emptyList();
     }
 
     public void initialisationFields() {
@@ -135,6 +143,35 @@ public class AdsBean extends ExtendBean implements Serializable {
         }
         init();
     }
+
+
+    /**
+     * Find all ads by label
+     */
+    public void allAdsByLabel() {
+        log.info("AdsBean : allAdsByLabel");
+
+        FacesContext context = FacesContext.getCurrentInstance();
+
+        if (searchString.equals("") || (!findAdsByLabel())) {
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, JsfUtils.returnMessage(getLocale(), "fxs.allads.searchError"), null));
+            adsEntities = Collections.emptyList();
+        }
+
+        paginator = new RepeatPaginator(adsEntities);
+    }
+
+    /**
+     * Récupérer l'annonce par son titre
+     *
+     * @return adsEntities
+     */
+    protected boolean findAdsByLabel() {
+        log.info("AdsBean : findAdsByLabel");
+        adsEntities = adsServices.findByLabel(searchString);
+        return !adsEntities.isEmpty();
+    }
+
 
     /////// Getters and Setters
 
@@ -217,5 +254,21 @@ public class AdsBean extends ExtendBean implements Serializable {
 
     public void setCarsPicturesEntityList(List<CarsPicturesEntity> carsPicturesEntityList) {
         this.carsPicturesEntityList = carsPicturesEntityList;
+    }
+
+    public String getSearchString() {
+        return searchString;
+    }
+
+    public void setSearchString(String searchString) {
+        this.searchString = searchString;
+    }
+
+    public RepeatPaginator getPaginator() {
+        return paginator;
+    }
+
+    public void setPaginator(RepeatPaginator paginator) {
+        this.paginator = paginator;
     }
 }

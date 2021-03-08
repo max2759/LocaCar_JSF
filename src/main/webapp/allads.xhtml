@@ -1,0 +1,116 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:fxs="http://java.sun.com/jsf/composite/composantsFxs"
+                xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="WEB-INF/templates/template.xhtml">
+
+    <ui:define name="title">#{bundle['fxs.addAds.displayName']}</ui:define>
+    <ui:define name="content">
+        <h:head>
+        </h:head>
+
+        <h:body>
+            <div class="container">
+                <div class="row allads-row">
+                    <div class="col allads-col">
+                        <h:form id="searchForm" styleClass="row">
+                            <h:panelGroup styleClass="col-10">
+                                <h:inputText styleClass="form-control"
+                                             value="#{adsBean.searchString}"
+                                             pt:placeholder="#{bundle['fxs.allads.searchbox']}"
+                                             id="search">
+                                </h:inputText>
+                            </h:panelGroup>
+                            <h:panelGroup styleClass="col-2">
+                                <h:commandButton styleClass="btn btn-md search-btn"
+                                                 value="Rechercher"
+                                                 actionListener="#{adsBean.allAdsByLabel}">
+                                    <f:ajax execute="@form" render="@all"></f:ajax>
+                                </h:commandButton>
+                            </h:panelGroup>
+                        </h:form>
+                    </div>
+                </div>
+                <div class="row allads-row">
+                    <div class="col-xs-12 col-md-3 allads-col">
+                        <div id="aside-form">
+                            <fxs:asidesearch></fxs:asidesearch>
+                        </div>
+                    </div>
+                    <div class="col-md-9" id="data-container">
+                        <h:form>
+                            <h:panelGrid>
+                                <h:messages id="messages" showSummary="true" globalOnly="true" infoClass="alert-info"
+                                            errorClass="alert-danger error"/>
+                            </h:panelGrid>
+                            <ui:repeat rendered="#{empty adsBean.adsEntities ? false : true}"
+                                       value="#{adsBean.paginator.model}"
+                                       id="data-container"
+                                       var="ads">
+                                <div class="summary-full-item">
+                                    <div class="summary-headline-item">
+                                        <div class="summary-headline-h3">
+                                            <h3><h:outputText value="#{ads.label}"></h:outputText></h3>
+                                        </div>
+                                        <div>
+                                            <h:outputText
+                                                    value="#{ads.carsByIdCars.modelsByIdModels.brandsByIdBrands.label}"></h:outputText>
+                                            <h:outputText value="&#160;"/>
+                                            <h:outputText
+                                                    value="#{ads.carsByIdCars.modelsByIdModels.label}"></h:outputText>
+                                        </div>
+                                    </div>
+                                    <div class="summary-image-item">
+                                        <h:graphicImage value="/resources/upload/206.jpg"
+                                                        styleClass="img-thumbnail"></h:graphicImage>
+                                    </div>
+                                    <div class="summary-field">
+                                        <div class="summary-pricing">
+                                            <h:outputText value="#{ads.price}" style="font-weight: bold">
+                                                <f:convertNumber type="currency" currencySymbol="€"/>
+                                            </h:outputText>
+                                        </div>
+                                        <div class="summary-vehicle-data">
+                                            <ul class="vehicle-details">
+                                                <li><h:outputText value="#{ads.carsByIdCars.releaseYear}">
+                                                    <f:convertDateTime type="localDate" pattern="MM/yyyy"/>
+                                                </h:outputText>
+                                                </li>
+                                                <li><h:outputText
+                                                        value="#{ads.carsByIdCars.horsePower} CH"></h:outputText>
+                                                </li>
+                                                <li><h:outputText value="#{ads.carsByIdCars.kilometer} km">
+                                                    <f:convertNumber minFractionDigits="2"/>
+                                                </h:outputText></li>
+                                                <li><h:outputText
+                                                        value="Boîte #{ads.carsByIdCars.carsGearboxByIdCarsGearBox.label}"></h:outputText>
+                                                </li>
+                                                <li><h:outputText value="#{ads.typeAds.label}"></h:outputText></li>
+                                                <li><h:outputText
+                                                        value="#{ads.carsByIdCars.carsFuelsByIdCarsFuels.label}"></h:outputText>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ui:repeat>
+                            <div class="pagination justify-content-center">
+                                <h:commandButton value="&lt; #{bundle['fxs.allads.previous']}"
+                                                 action="#{adsBean.paginator.prev}"
+                                                 styleClass="pagination-btn page-link"/>
+                                <h:outputText value="#{adsBean.paginator.pageIndex} / #{adsBean.paginator.pages}"
+                                              styleClass="pagination-btn page-link"/>
+                                <h:commandButton value="#{bundle['fxs.allads.next']} &gt;"
+                                                 action="#{adsBean.paginator.next}"
+                                                 styleClass="pagination-btn page-link"/>
+                                <h:inputHidden value="#{adsBean.paginator.pageIndex}"/>
+                            </div>
+                        </h:form>
+                    </div>
+                </div>
+            </div>
+        </h:body>
+    </ui:define>
+</ui:composition>

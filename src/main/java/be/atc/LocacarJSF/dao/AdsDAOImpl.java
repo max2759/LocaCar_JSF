@@ -99,4 +99,21 @@ public class AdsDAOImpl extends EntityFinderImpl<AdsEntity> implements AdsDAO {
         }
     }
 
+    @Override
+    public List<AdsEntity> findByLabel(String label) {
+        EntityManager em = EMF.getEM();
+        try {
+            return em.createNamedQuery("ads.findByLabel",
+                    AdsEntity.class)
+                    .setParameter("label", label)
+                    .getResultList();
+        } catch (Exception ex) {
+            log.info("Entité vide");
+            return null;
+        } finally {
+            em.clear();
+            em.close();
+        }
+    }
+
 }
