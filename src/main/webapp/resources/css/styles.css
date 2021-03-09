@@ -208,3 +208,7 @@ a:hover {
     background-color: white;
     padding: 35px;
 }
+
+.basket-button {
+    margin-bottom: 1px;
+}

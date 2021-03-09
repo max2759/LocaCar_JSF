@@ -69,7 +69,7 @@ public class PDFUtil {
 
             doc.add(new Paragraph("--------------------------------------------------------------"));
             doc.add(new Paragraph("--------------------------------------------------------------"));
-            doc.add(new Paragraph(JsfUtils.returnMessage(locale, "fxs.basket.totalPrice") + priceOrder + "€"));
+            doc.add(new Paragraph(JsfUtils.returnMessage(locale, "pdf.total") + priceOrder + "€"));
             doc.add(new Paragraph("--------------------------------------------------------------"));
 
             doc.close();
