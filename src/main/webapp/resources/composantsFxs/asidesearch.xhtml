@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:cc="http://java.sun.com/jsf/composite"
+>
+
+<cc:interface name="asideSearch">
+</cc:interface>
+<cc:implementation>
+
+    <h:form id="asideSearch">
+        <h:panelGroup styleClass="form-group-lg">
+            <h:outputLabel value="#{bundle['fxs.ads.brands']}" styleClass="form-label"/>
+            <h:selectOneMenu id="brandsDisplay" styleClass="form-group"
+                             value="#{modelsBean.modelsEntity.brandsByIdBrands}"
+                             converter="brandsConverter" required="true"
+                             requiredMessage="#{bundle['fxs.adsbrands.required']}">
+                <f:selectItem itemValue="#{null}" itemLabel="Veuillez sélectionner"/>
+                <f:selectItems value="#{brandsBean.brandsEntities}" var="brands"
+                               itemValue="#{brands}"
+                               itemLabel="#{brands.label}"/>
+                <f:ajax render="@all" listener="#{modelsBean.findModelsByBrands}"/>
+            </h:selectOneMenu>
+            <h:message for="brandsDisplay" errorClass="error"/>
+        </h:panelGroup>
+
+        <h:panelGroup id="showModels" rendered="#{modelsBean.showModel}" styleClass="row mb-3">
+            <h:outputLabel value="#{bundle['fxs.ads.models']}" styleClass="col-sm-2 col-form-label"/>
+            <h:selectOneMenu id="modelsDisplay" value="#{carsBean.carsEntity.modelsByIdModels}"
+                             converter="modelsConverter" styleClass="form-group" required="true"
+                             requiredMessage="#{bundle['fxs.adsModels.required']}">
+                <f:selectItems value="#{modelsBean.modelsEntities}" var="models"
+                               itemValue="#{models}"
+                               itemLabel="#{models.label}"/>
+            </h:selectOneMenu>
+            <h:message for="modelsDisplay" styleClass="error"/>
+        </h:panelGroup>
+
+    </h:form>
+
+</cc:implementation>
+</html>

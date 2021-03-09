@@ -26,35 +26,36 @@
             </h:form>
             <h:panelGroup id="menu">
                 <h:form>
-                    <ul class="navbar-nav mr-auto">
-                        <li class="nav-item"><h:commandLink styleClass="nav-link" value="Options"
-                                                            action="#{optionsBean.toPageOption}"/></li>
-                        <li class="nav-item"><h:commandLink styleClass="nav-link" value="Colors"
-                                                            action="#{carsColorsBean.toPageColors}"/></li>
-                        <li class="nav-item"><h:commandLink styleClass="nav-link" value="Models"
-                                                            action="#{modelsBean.toPageModels}"/></li>
-                        <li class="nav-item"><h:commandLink styleClass="nav-link" value="Register"
-                                                            action="#{usersBean.toPageRegister}"/></li>
-                        <li class="nav-item"><h:commandLink styleClass="nav-link" value="Connexion"
-                                                            action="#{usersBean.toPageConnexion}"/></li>
-                        <li class="nav-item"><h:commandLink styleClass="nav-link" value="LogOut"
-                                                            action="#{usersBean.toPageLogOut}"/></li>
+                    <f:ajax render=":content">
+                        <ul class="navbar-nav mr-auto">
+                            <li class="nav-item"><h:commandLink styleClass="nav-link " value="Options"
+                                                                action="#{optionsBean.toPageOption}"/></li>
+                            <li class="nav-item"><h:commandLink styleClass="nav-link " value="Colors"
+                                                                action="#{carsColorsBean.toPageColors}"/></li>
+                            <li class="nav-item"><h:commandLink styleClass="nav-link " value="Models"
+                                                                action="#{modelsBean.toPageModels}"/></li>
+                            <li class="nav-item"><h:commandLink styleClass="nav-link" value="Register"
+                                                                action="#{usersBean.toPageRegister}"/></li>
+                            <li class="nav-item"><h:commandLink styleClass="nav-link" value="Connexion"
+                                                                action="#{usersBean.toPageConnexion}"/></li>
+                            <li class="nav-item"><h:commandLink styleClass="nav-link" value="LogOut"
+                                                                action="#{usersBean.toPageLogOut}"/></li>
 
-                        <c:if test="#{usersBean.connected}">
-                            <li class="nav-item"><h:commandLink styleClass="nav-link"
-                                                                value="bonjour #{usersBean.usersEntity.username}"
-                            /></li>
-                        </c:if>
+                            <c:if test="#{usersBean.connected}">
+                                <li class="nav-item"><h:commandLink styleClass="nav-link" value="bonjour #{usersBean.usersEntity.username}"
+                                /></li>
+                            </c:if>
 
-                        <li class="nav-item">
-                            <h:link outcome="basket">
+                            <li class="nav-item">
                                 <fxs:countContracts id="countContracts"></fxs:countContracts>
-                                <i class="fas fa-shopping-cart"></i>
+                                <h:link outcome="basket">
+                                    <i class="fas fa-shopping-cart"></i>
+                                </h:link>
                                 <br/>
-                            </h:link>
-                            <fxs:priceOrder id="priceOrder"></fxs:priceOrder>
-                        </li>
-                    </ul>
+                                <fxs:priceOrder id="priceOrder"></fxs:priceOrder>
+                            </li>
+                        </ul>
+                    </f:ajax>
                 </h:form>
             </h:panelGroup>
         </nav>
