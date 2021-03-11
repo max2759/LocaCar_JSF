@@ -116,4 +116,9 @@ public class AdsDAOImpl extends EntityFinderImpl<AdsEntity> implements AdsDAO {
         }
     }
 
+    @Override
+    public List<AdsEntity> findAllDisabledAds() {
+        return this.findByNamedQuery("ads.findAllDisabledAds", new AdsEntity());
+    }
+
 }

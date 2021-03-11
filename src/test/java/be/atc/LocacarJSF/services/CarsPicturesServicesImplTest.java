@@ -3,11 +3,14 @@ package be.atc.LocacarJSF.services;
 import be.atc.LocacarJSF.dao.entities.CarsPicturesEntity;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 class CarsPicturesServicesImplTest {
 
     CarsPicturesServices carsPicturesServices = new CarsPicturesServicesImpl();
+
 
     @Test
     void findByLabel_shouldReturnTrue() {
@@ -23,5 +26,35 @@ class CarsPicturesServicesImplTest {
         CarsPicturesEntity carsPicturesEntity = carsPicturesServices.findByLabel(label);
         Boolean test = carsPicturesEntity == null ? false : true;
         assertThat(test).isEqualTo(false);
+    }
+
+    @Test
+    void findCarsPictureByIdCars_shouldReturnTrue() {
+        int idCars = 34;
+        List<CarsPicturesEntity> carsPicturesEntityList = carsPicturesServices.findCarsPicturesByIdCars(idCars);
+        Boolean test;
+
+        if (!carsPicturesEntityList.isEmpty()) {
+            test = true;
+        } else {
+            test = false;
+        }
+        assertThat(test).isEqualTo(true);
+
+    }
+
+    @Test
+    void findCarsPictureByIdCars_shouldReturnFalse() {
+        int idCars = 48;
+        List<CarsPicturesEntity> carsPicturesEntityList = carsPicturesServices.findCarsPicturesByIdCars(idCars);
+        Boolean test;
+
+        if (!carsPicturesEntityList.isEmpty()) {
+            test = true;
+        } else {
+            test = false;
+        }
+        assertThat(test).isEqualTo(false);
+
     }
 }

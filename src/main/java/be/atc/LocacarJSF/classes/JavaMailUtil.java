@@ -1,7 +1,6 @@
 package be.atc.LocacarJSF.classes;
 
 import be.atc.LocacarJSF.dao.entities.OrdersEntity;
-import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import utils.JsfUtils;
 
@@ -11,6 +10,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
+import java.io.IOException;
 import java.util.Locale;
 import java.util.Properties;
 
@@ -45,10 +45,15 @@ public class JavaMailUtil {
             }
         });
 
-        Message message = prepareMessage(session, myAccountEmail, ordersEntity);
+        try {
+            Message message = prepareMessage(session, myAccountEmail, ordersEntity);
 
-        Transport.send(message);
-        log.info("Message sent successfully");
+            Transport.send(message);
+            log.info("Message sent successfully");
+        } catch (MessagingException e) {
+            log.error("ERROR Sent message");
+            throw new RuntimeException(e);
+        }
     }
 
     private static Message prepareMessage(Session session, String myAccountEmail, OrdersEntity ordersEntity) {
@@ -68,16 +73,19 @@ public class JavaMailUtil {
             MimeBodyPart textBodyPart = new MimeBodyPart();
             textBodyPart.setText(JsfUtils.returnMessage(locale, "mail.hello") + "\n\n" + JsfUtils.returnMessage(locale, "mail.body") + "\n\n" + JsfUtils.returnMessage(locale, "mail.thankU"));
 
-            MimeBodyPart pdfAttachement = new MimeBodyPart();
-            pdfAttachement.attachFile(sourcePath);
-
+            if (sourcePath != null) {
+                MimeBodyPart pdfAttachement = new MimeBodyPart();
+                pdfAttachement.attachFile(sourcePath);
+                emailContent.addBodyPart(pdfAttachement);
+            }
             emailContent.addBodyPart(textBodyPart);
-            emailContent.addBodyPart(pdfAttachement);
 
             message.setContent(emailContent);
             return message;
-        } catch (Exception e) {
-            Logger.getLogger(JavaMailUtil.class.getName()).log(Level.ERROR, null, e);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         return null;
     }

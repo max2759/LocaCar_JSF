@@ -8,14 +8,11 @@
       xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
 
 <cc:interface name="optionsList"
-              displayName="#{bundle['fxs.optionsList.displayName']}"
-              shortDescription="#{bundle['fxs.optionsList.shortDescription']}"
->
+              displayName="#{bundle['fxs.optionsList.displayName']}">
 </cc:interface>
 <cc:implementation>
-    <div>
+    <div class="addBtn">
         <h:form>
-
             <h:commandLink styleClass="btn btn-success"
                            value="#{bundle['fxs.optionsList.add']}"
                            action="#{optionsBean.showPopupModal}">
@@ -26,8 +23,7 @@
     </div>
 
     <h:form>
-
-        <h:dataTable id="outputMessage" styleClass="table table-hover table-responsive"
+        <h:dataTable id="optionTable" styleClass="table table-hover table-responsive optionTable"
                      value="#{optionsBean.optionsEntities}" var="options">
             <h:column>
                 <f:facet name="header">#{bundle['fxs.optionsList.code']}</f:facet>
@@ -58,42 +54,35 @@
 
             <h:form id="formPopupEdit">
                 <div class="popup-panel">
-                    <h:outputText value="#{optionsBean.success}"
-                                  style="color: green; font-weight: bold"></h:outputText>
-                    <h:outputText value="#{optionsBean.fail}"
-                                  style="color: darkred; font-weight: bold"></h:outputText>
-                    <div class="form-group">
-                        <h:outputLabel value="ID" for="idOptions"></h:outputLabel>
-                        <h:outputText id="idOptions" value="#{optionsBean.optionsEntity.id}"
-                                      styleClass="form-control"></h:outputText>
+                    <h:messages id="messages" styleClass="messageConfirmation" showSummary="true" globalOnly="true"
+                                infoClass="succesAdd" errorClass="error"/>
+                    <div class="modal-header">
+                        <h5 class="modal-title">#{bundle['fxs.optionsList.modalTitle']}</h5>
                     </div>
-                    <div class="form-group">
-                        <h:outputLabel value="Label" for="optionLabel"></h:outputLabel>
+                    <div class="modal-body">
                         <h:inputText value="#{optionsBean.optionsEntity.label}" styleClass="form-control"
                                      required="true"
-                                     pt:placeholder="Votre option ici..."
+                                     pt:placeholder="Nom de l'équipement"
                                      requiredMessage="#{bundle['fxs.insurancesList.required']}"
                                      id="optionLabel">
                         </h:inputText>
-                        <h:message styleClass="alert alert-danger" role="alert" for="optionLabel"></h:message>
+                        <h:message styleClass="error" role="alert" for="optionLabel"></h:message>
                     </div>
 
-                    <span>
+                    <div class="modal-footer">
                         <h:commandButton styleClass="btn btn-outline-success btn-sm"
                                          value="#{bundle['fxs.insurancesList.save']}"
                                          action="#{optionsBean.saveEdit}">
                             <f:ajax execute="formPopupEdit" render="@all"></f:ajax>
                         </h:commandButton>
 
-                    </span>
 
-                    <span>
                         <h:commandButton styleClass="btn btn-outline-dark btn-sm"
                                          value="#{bundle['fxs.insurancesList.close']}"
                                          action="#{optionsBean.hidePopupModal}">
                             <f:ajax render="@all"></f:ajax>
                         </h:commandButton>
-                    </span>
+                    </div>
                 </div>
             </h:form>
         </h:panelGroup>

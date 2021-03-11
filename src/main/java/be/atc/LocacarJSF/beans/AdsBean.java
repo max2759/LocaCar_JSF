@@ -8,9 +8,9 @@ import be.atc.LocacarJSF.services.AdsServicesImpl;
 import utils.JsfUtils;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.ServletException;
@@ -18,12 +18,17 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static java.lang.Integer.parseInt;
 
+/**
+ * @author Maximilien - Zabbara
+ */
 @Named(value = "adsBean")
-@SessionScoped
+@ViewScoped
 public class AdsBean extends ExtendBean implements Serializable {
 
     private static final long serialVersionUID = -6795998607327751632L;
@@ -34,12 +39,31 @@ public class AdsBean extends ExtendBean implements Serializable {
     private AdsEntity adsEntity;
     private AdsServices adsServices = new AdsServicesImpl();
     private RepeatPaginator paginator;
+    Map<Integer, List<CarsPicturesEntity>> carsPicturesMap = new HashMap<>();
     private List<AdsEntity> adsEntities;
+    private List<AdsEntity> allDisabledAds;
+    private List<AdsEntity> allAdsByLabelEntities;
 
     private List<CarsPicturesEntity> carsPicturesEntityList;
+    private String page;
+    @Inject
+    private PicturesBean picturesBean;
+
+    public String getPage() {
+        return page;
+    }
+
+    public void setPage(String page) {
+        this.page = page;
+    }
+
 
     @Inject
     private CarsBean carsBean;
+
+    public String toPageAdDetails() {
+        return "adsDetails";
+    }
 
     private boolean showPopup;
     private boolean addAdsEntity;
@@ -47,7 +71,6 @@ public class AdsBean extends ExtendBean implements Serializable {
     private String success;
     private String fail;
     private String searchString;
-
 
     /**
      * PostConstruct : appelé après le constructeur.
@@ -57,16 +80,13 @@ public class AdsBean extends ExtendBean implements Serializable {
     public void init() {
         adsEntity = new AdsEntity();
         adsEntities = adsServices.findAll();
+        allDisabledAds = adsServices.findAllDisabledAds();
         fieldsInitialization();
-//        for (AdsEntity img : adsEntities) {
-//            carsPicturesEntityList = picturesBean.findPictures(img.getCarsByIdCars().getId());
-//        }
     }
 
     public void fieldsInitialization() {
         log.info("AdsBean : Field initialization !");
-
-        adsEntities = Collections.emptyList();
+        allAdsByLabelEntities = Collections.emptyList();
     }
 
     public void initialisationFields() {
@@ -116,7 +136,6 @@ public class AdsBean extends ExtendBean implements Serializable {
     }
 
 
-
     public void addAds() throws ServletException, IOException {
         log.info("Sauvegarde");
 
@@ -155,10 +174,10 @@ public class AdsBean extends ExtendBean implements Serializable {
 
         if (searchString.equals("") || (!findAdsByLabel())) {
             context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, JsfUtils.returnMessage(getLocale(), "fxs.allads.searchError"), null));
-            adsEntities = Collections.emptyList();
+            allAdsByLabelEntities = Collections.emptyList();
         }
 
-        paginator = new RepeatPaginator(adsEntities);
+        paginator = new RepeatPaginator(allAdsByLabelEntities);
     }
 
     /**
@@ -168,8 +187,59 @@ public class AdsBean extends ExtendBean implements Serializable {
      */
     protected boolean findAdsByLabel() {
         log.info("AdsBean : findAdsByLabel");
-        adsEntities = adsServices.findByLabel(searchString);
-        return !adsEntities.isEmpty();
+        allAdsByLabelEntities = adsServices.findByLabel(searchString);
+        return !allAdsByLabelEntities.isEmpty();
+    }
+
+    public void displayOneAd() {
+        log.info("Adsbean : displayOneAd");
+
+        int idAd = parseInt(getParam("adsId"));
+        adsServices.findById(idAd);
+        FacesContext.getCurrentInstance().getApplication().getNavigationHandler().handleNavigation(FacesContext.getCurrentInstance(), null, "adsDetails.xhtml");
+    }
+
+    /**
+     *
+     */
+    public void linkCarsPictureMapWithAds() {
+        for (AdsEntity ads : adsEntities) {
+            List<CarsPicturesEntity> carsPicturesEntityList = picturesBean.findCarsPicturesByIdCars(ads.getCarsByIdCars().getId());
+            carsPicturesMap.put(ads.getId(), carsPicturesEntityList);
+        }
+    }
+
+    /**
+     * Update ads entity
+     *
+     * @return
+     */
+    public boolean updateAds() {
+        return adsServices.update(adsEntity);
+    }
+
+
+    /**
+     * Change status of ads to active or inactive
+     */
+    public void setAdsStatus() {
+        adsEntity = adsServices.findById(Integer.parseInt(getParam("idAds")));
+
+        if (adsEntity.isActive()) {
+            adsEntity.setActive(false);
+            adsEntity.getCarsByIdCars().setActive(false);
+            carsBean.updateCar(adsEntity.getCarsByIdCars());
+            updateAds();
+            init();
+        } else {
+            adsEntity.setActive(true);
+            adsEntity.setDateStart(dateStart);
+            adsEntity.setDateEnd(dateEnd);
+            adsEntity.getCarsByIdCars().setActive(true);
+            carsBean.updateCar(adsEntity.getCarsByIdCars());
+            updateAds();
+            init();
+        }
     }
 
 
@@ -270,5 +340,21 @@ public class AdsBean extends ExtendBean implements Serializable {
 
     public void setPaginator(RepeatPaginator paginator) {
         this.paginator = paginator;
+    }
+
+    public Map<Integer, List<CarsPicturesEntity>> getCarsPicturesMap() {
+        return carsPicturesMap;
+    }
+
+    public void setCarsPicturesMap(Map<Integer, List<CarsPicturesEntity>> carsPicturesMap) {
+        this.carsPicturesMap = carsPicturesMap;
+    }
+
+    public List<AdsEntity> getAllDisabledAds() {
+        return allDisabledAds;
+    }
+
+    public void setAllDisabledAds(List<AdsEntity> allDisabledAds) {
+        this.allDisabledAds = allDisabledAds;
     }
 }

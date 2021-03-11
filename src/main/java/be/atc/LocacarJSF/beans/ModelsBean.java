@@ -10,6 +10,7 @@ import org.apache.log4j.Logger;
 import utils.JsfUtils;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -20,6 +21,9 @@ import java.util.Locale;
 
 import static java.lang.Integer.parseInt;
 
+/**
+ * @author Maximilien - Zabbara
+ */
 @Named(value = "modelsBean")
 @ViewScoped
 public class ModelsBean extends ExtendBean implements Serializable {
@@ -40,8 +44,6 @@ public class ModelsBean extends ExtendBean implements Serializable {
     private boolean showPopup;
     private boolean addModelsEntity;
     private boolean showModel;
-    private String success;
-    private String fail;
     private String page;
 
     public String getPage() {
@@ -67,12 +69,6 @@ public class ModelsBean extends ExtendBean implements Serializable {
 
     }
 
-
-    public void initialisationFields() {
-        success = "";
-        fail = "";
-    }
-
     /**
      * Ouvrir le popup d'edition ou d'ajout
      */
@@ -94,25 +90,30 @@ public class ModelsBean extends ExtendBean implements Serializable {
      */
     public void hidePopupModal() {
         log.info("Hide PopupModal");
-        initialisationFields();
         showPopup = false;
     }
 
 
     /**
-     * Repetition code for add optionEntity
+     * Add models entity
      */
-    public void functionAddOption() {
+    public void functionAddModels() {
+        log.info("ModelsBean : add models");
+
+        FacesContext context = FacesContext.getCurrentInstance();
         modelsServices.add(modelsEntity);
-        success = JsfUtils.returnMessage(locale, "fxs.models.succesAdd");
+        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, JsfUtils.returnMessage(getLocale(), "fxs.models.succesAdd"), null));
     }
 
     /**
-     * Repetition code for update optionEntity
+     * Update models entity
      */
-    public void functionUpdateOption() {
+    public void functionUpdateModels() {
+        log.info("ModelsBean : update models");
+
+        FacesContext context = FacesContext.getCurrentInstance();
         modelsServices.update(modelsEntity);
-        success = JsfUtils.returnMessage(locale, "fxs.models.successUpdate");
+        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, JsfUtils.returnMessage(getLocale(), "fxs.models.successUpdate"), null));
     }
 
     /**
@@ -121,24 +122,25 @@ public class ModelsBean extends ExtendBean implements Serializable {
     public void saveEdit() {
 
         log.info("début de sauvegarde");
+        FacesContext context = FacesContext.getCurrentInstance();
         List<ModelsEntity> modelsEntityList = modelsServices.findByLabel(modelsEntity.getLabel());
-        initialisationFields();
+
 
         log.info("Save edit");
         if ((addModelsEntity) && (modelsEntityList.isEmpty())) {
-            functionAddOption();
+            functionAddModels();
         } else if ((!addModelsEntity) && (modelsEntityList.isEmpty())) {
-            functionUpdateOption();
+            functionUpdateModels();
         } else if ((!addModelsEntity) && (modelsEntityList.size() == 1)) {
             ModelsEntity me = modelsEntityList.get(0);
 
             if (me.getId() == modelsEntity.getId()) {
-                functionUpdateOption();
+                functionUpdateModels();
             } else {
-                fail = JsfUtils.returnMessage(locale, "fxs.models.errorAdd");
+                context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, JsfUtils.returnMessage(getLocale(), "fxs.models.errorAdd"), null));
             }
         } else {
-            fail = JsfUtils.returnMessage(locale, "fxs.models.errorAdd");
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, JsfUtils.returnMessage(getLocale(), "fxs.models.errorAdd"), null));
         }
 
         init();
@@ -189,22 +191,6 @@ public class ModelsBean extends ExtendBean implements Serializable {
 
     public void setAddModelsEntity(boolean addModelsEntity) {
         this.addModelsEntity = addModelsEntity;
-    }
-
-    public String getSuccess() {
-        return success;
-    }
-
-    public void setSuccess(String success) {
-        this.success = success;
-    }
-
-    public String getFail() {
-        return fail;
-    }
-
-    public void setFail(String fail) {
-        this.fail = fail;
     }
 
     public boolean isShowModel() {

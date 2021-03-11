@@ -5,12 +5,12 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:cc="http://java.sun.com/jsf/composite"
->
+      xmlns:ui="http://java.sun.com/jsf/facelets">
 
-<cc:interface name="adsList"/>
+<cc:interface name="disabledAdsList"/>
 <cc:implementation>
-    <h:dataTable id="adsList" styleClass="table table-hover table-responsive account-list text-center"
-                 value="#{adsBean.adsEntities}" var="ads">
+    <h:dataTable id="disabledAdsList" styleClass="table table-hover table-responsive account-list"
+                 value="#{adsBean.allDisabledAds}" var="ads">
         <h:column>
             <f:facet name="header">#{bundle['fxs.adsList.title']}</f:facet>
             <h:outputText value="#{ads.label}"></h:outputText>
@@ -26,6 +26,11 @@
             </h:outputText>
         </h:column>
         <h:column>
+            <ui:repeat value="#{adsBean.carsPicturesEntityList}" var="adsImg">
+                <ui:include src="#{adsImg.label}"/>
+            </ui:repeat>
+        </h:column>
+        <h:column>
             <f:facet name="header">#{bundle['fxs.models.brands']}</f:facet>
             <h:outputText value="#{ads.carsByIdCars.modelsByIdModels.brandsByIdBrands.label}"></h:outputText>
         </h:column>
@@ -39,17 +44,19 @@
                 <f:convertNumber type="currency" currencySymbol="€"/>
             </h:outputText>
         </h:column>
+
         <h:column>
-            <f:facet name="header">#{bundle['fxs.disableAdsList.disable']}</f:facet>
+            <f:facet name="header">#{bundle['fxs.disableAdsList.activate']}</f:facet>
             <h:form styleClass="text-center">
                 <h:commandLink styleClass="text-danger" action="#{adsBean.setAdsStatus}"
                                onclick="return confirmer();">
-                    <i class="far fa-times-circle"/>
+                    <i class="far fa-check-circle circle-color"/>
                     <f:param name="idAds" value="#{ads.id}"/>
                     <f:ajax render="@all"/>
                 </h:commandLink>
             </h:form>
         </h:column>
+
     </h:dataTable>
 </cc:implementation>
 </html>

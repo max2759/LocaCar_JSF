@@ -39,7 +39,8 @@
                             <h:form>
                                 <h:commandLink class="nav-link account-a" action="account?faces-redirect=true"
                                                value="#{bundle['account.ads']}"/>
-                                <h:commandLink class="nav-link account-a" value="#{bundle['account.deactivate']}"/>
+                                <h:commandLink class="nav-link account-a" value="#{bundle['account.deactivate']}"
+                                               action="disabledads?faces-redirect=true"/>
                                 <h:commandLink class="nav-link account-a account-a-active"
                                                action="accountsellcar?faces-redirect=true"
                                                value="#{bundle['account.sell']}"/>

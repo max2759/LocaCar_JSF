@@ -8,13 +8,34 @@
     <ui:define name="content">
 
         <h:head>
-            <title>Options</title>
+            <script>
+                $( document ).ready( function () {
+
+                        $( '.colorsTable' ).dataTable().fnDestroy();
+                        loadTable();
+
+                        function loadTable() {
+                            $( '.colorsTable' ).DataTable( {
+                                'language': {
+                                    'url': '//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/French.json'
+                                }
+                            } );
+                        }
+                    }
+                );
+            </script>
         </h:head>
 
         <h:body>
             <div class="container">
-                <h2>#{bundle['fxs.carscolors.title']}</h2>
-                <fxs:colorsList id="displayCarsColorsList"></fxs:colorsList>
+                <div class="carsComposantHeader">
+                    <h1>#{bundle['fxs.carscolors.title']}</h1>
+                </div>
+
+                <div class="carsComposantList">
+                    <fxs:colorsList id="displayCarsColorsList"></fxs:colorsList>
+                </div>
+
             </div>
         </h:body>
     </ui:define>

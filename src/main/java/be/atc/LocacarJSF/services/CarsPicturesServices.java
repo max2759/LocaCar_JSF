@@ -17,4 +17,6 @@ public interface CarsPicturesServices {
     public List<CarsPicturesEntity> findByCarsId(int id);
 
     public CarsPicturesEntity findByLabel(String label);
+
+    List<CarsPicturesEntity> findCarsPicturesByIdCars(int idCars);
 }

@@ -50,10 +50,10 @@ public class AdsServicesImpl implements AdsServices {
     }
 
     /**
-     * Find entity by id
+     * Find ads by id
      *
      * @param id
-     * @return
+     * @return ads by id
      */
     @Override
     public AdsEntity findById(int id) {
@@ -63,8 +63,24 @@ public class AdsServicesImpl implements AdsServices {
         return null;
     }
 
+    /**
+     * Find ads by label
+     *
+     * @param label
+     * @return list of ads by label
+     */
     @Override
     public List<AdsEntity> findByLabel(String label) {
         return adsDAO.findByLabel(label);
+    }
+
+    /**
+     * Find disabled ads and cars
+     *
+     * @return List of Ads
+     */
+    @Override
+    public List<AdsEntity> findAllDisabledAds() {
+        return adsDAO.findAllDisabledAds();
     }
 }

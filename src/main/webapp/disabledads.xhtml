@@ -2,9 +2,9 @@
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:fxs="http://java.sun.com/jsf/composite/composantsFxs"
-                template="../WEB-INF/templates/template.xhtml">
+                template="WEB-INF/templates/template.xhtml">
 
-    <ui:define name="title">#{bundle['account.title']}</ui:define>
+    <ui:define name="title">#{bundle['disabledAds.title']}</ui:define>
     <ui:define name="content">
 
         <h:head>
@@ -40,16 +40,16 @@
         <h:body>
             <div class="container">
                 <div class="account-title">
-                    <h1>#{bundle['account.title']}</h1>
+                    <h1>#{bundle['disabledAds.title']}</h1>
                 </div>
                 <div class="row">
                     <aside class="col-md-3">
                         <nav class="nav flex-column">
                             <h:form>
-                                <h:commandLink class="nav-link account-a account-a-active"
+                                <h:commandLink class="nav-link account-a "
                                                action="account?faces-redirect=true" value="#{bundle['account.ads']}"/>
-                                <h:commandLink class="nav-link account-a" value="#{bundle['account.deactivate']}"
-                                               action="disabledads?faces-redirect=true"/>
+                                <h:commandLink class="nav-link account-a account-a-active"
+                                               value="#{bundle['account.deactivate']}"/>
                                 <h:commandLink class="nav-link account-a" action="accountsellcar?faces-redirect=true"
                                                value="#{bundle['account.sell']}"/>
                                 <h:commandLink class="nav-link account-a" value="#{bundle['account.parameter']}"/>
@@ -58,10 +58,10 @@
                     </aside>
                     <div class="col-md-offset-2 col-md-9 myarea-content">
                         <div class="myarea-content-title">
-                            <h3 class="myarea-content-h3">#{bundle['account.ads']}</h3>
+                            <h3 class="myarea-content-h3">#{bundle['disabledAds.title']}</h3>
                         </div>
                         <div class="myarea-content-display">
-                            <fxs:adsList/>
+                            <fxs:disabledAdsList/>
                         </div>
                     </div>
                 </div>

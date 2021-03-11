@@ -7,6 +7,8 @@ import org.apache.log4j.Logger;
 import utils.JsfUtils;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -14,6 +16,9 @@ import java.util.List;
 
 import static java.lang.Integer.parseInt;
 
+/**
+ * @author Maximilien - Zabbara
+ */
 @Named(value = "carsColorsBean")
 @ViewScoped
 public class CarsColorsBean extends ExtendBean implements Serializable {
@@ -27,8 +32,6 @@ public class CarsColorsBean extends ExtendBean implements Serializable {
     private boolean showPopup;
 
     private boolean addCarsColorsEntity;
-    private String success;
-    private String fail;
 
     private String page;
 
@@ -53,16 +56,13 @@ public class CarsColorsBean extends ExtendBean implements Serializable {
         carsColorsEntities = carsColorsServices.findAll();
     }
 
-    public void initialisationFields() {
-        success = "";
-        fail = "";
-    }
 
     /**
      * Ouvrir le popup d'édition ou d'ajout
      */
     public void showPopupModal() {
         log.info("Show PopupModal");
+
         showPopup = true;
         if (getParam("id") != null) {
             addCarsColorsEntity = false;
@@ -80,25 +80,29 @@ public class CarsColorsBean extends ExtendBean implements Serializable {
      */
     public void hidePopupModal() {
         log.info("Hide PopupModal");
-        initialisationFields();
         showPopup = false;
     }
 
     /**
-     * Repetition code for add optionEntity
+     * Add cars colors entity
      */
-    public void functionAddOption() {
+    public void functionAddCarsColors() {
+        log.info("CarsColorsBean : add CarsColors");
+
+        FacesContext context = FacesContext.getCurrentInstance();
         carsColorsServices.add(carsColorsEntity);
-        carsColorsServices.add(carsColorsEntity);
-        success = JsfUtils.returnMessage(getLocale(), "fxs.carsColors.succesAdd");
+        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, JsfUtils.returnMessage(getLocale(), "fxs.carsColors.succesAdd"), null));
     }
 
     /**
-     * Repetition code for update optionEntity
+     * Update cars colors entity
      */
-    public void functionUpdateOption() {
+    public void functionUpdateCarsColors() {
+        log.info("CarsColorsBean : update CarsColors");
+
+        FacesContext context = FacesContext.getCurrentInstance();
         carsColorsServices.update(carsColorsEntity);
-        success = JsfUtils.returnMessage(getLocale(), "fxs.carsColors.successUpdate");
+        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, JsfUtils.returnMessage(getLocale(), "fxs.carsColors.successUpdate"), null));
     }
 
     /**
@@ -106,24 +110,25 @@ public class CarsColorsBean extends ExtendBean implements Serializable {
      */
     public void saveEdit() {
 
+        FacesContext context = FacesContext.getCurrentInstance();
+
         List<CarsColorsEntity> carsColorsEntityList = carsColorsServices.findByLabelList(carsColorsEntity.getLabel());
-        initialisationFields();
 
         log.info("Save edit");
         if ((addCarsColorsEntity) && (carsColorsEntityList.isEmpty())) {
-            functionAddOption();
+            functionAddCarsColors();
         } else if ((!addCarsColorsEntity) && (carsColorsEntityList.isEmpty())) {
-            functionUpdateOption();
+            functionUpdateCarsColors();
         } else if ((!addCarsColorsEntity) && (carsColorsEntityList.size() == 1)) {
             CarsColorsEntity ce = carsColorsEntityList.get(0);
 
             if (ce.getId() == carsColorsEntity.getId()) {
-                functionUpdateOption();
+                functionUpdateCarsColors();
             } else {
-                fail = JsfUtils.returnMessage(getLocale(), "fxs.carsColors.errorAdd");
+                context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, JsfUtils.returnMessage(getLocale(), "fxs.carsColors.errorAdd"), null));
             }
         } else {
-            fail = JsfUtils.returnMessage(getLocale(), "fxs.carsColors.errorAdd");
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, JsfUtils.returnMessage(getLocale(), "fxs.carsColors.errorAdd"), null));
         }
 
         init();
@@ -146,22 +151,6 @@ public class CarsColorsBean extends ExtendBean implements Serializable {
 
     public void setShowPopup(boolean showPopup) {
         this.showPopup = showPopup;
-    }
-
-    public String getSuccess() {
-        return success;
-    }
-
-    public void setSuccess(String success) {
-        this.success = success;
-    }
-
-    public String getFail() {
-        return fail;
-    }
-
-    public void setFail(String fail) {
-        this.fail = fail;
     }
 
     public CarsColorsServices getCarsColorsServices() {

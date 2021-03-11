@@ -13,6 +13,8 @@ public interface AdsServices {
 
     AdsEntity findById(int id);
 
-    public List<AdsEntity> findByLabel(String label);
+    List<AdsEntity> findByLabel(String label);
+
+    List<AdsEntity> findAllDisabledAds();
 
 }

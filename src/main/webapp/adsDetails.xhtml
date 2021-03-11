@@ -1,0 +1,16 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                template="WEB-INF/templates/template.xhtml">
+
+    <ui:define name="title">#{bundle['fxs.addAds.displayName']}</ui:define>
+    <ui:define name="content">
+
+        <h:body>
+            <div class="container">
+                <h1>test</h1>
+                <h1><h:outputText value="#{adsBean.adsEntity.label}"/></h1>
+            </div>
+        </h:body>
+    </ui:define>
+</ui:composition>
