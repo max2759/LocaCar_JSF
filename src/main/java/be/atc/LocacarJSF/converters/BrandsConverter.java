@@ -13,6 +13,10 @@ import javax.faces.convert.ConverterException;
 import javax.faces.convert.FacesConverter;
 import java.util.Locale;
 
+/**
+ * @author Maximilien - Zabbara
+ * Brands Converter
+ */
 @FacesConverter("brandsConverter")
 public class BrandsConverter implements Converter {
 

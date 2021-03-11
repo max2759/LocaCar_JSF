@@ -122,4 +122,21 @@ public class CarsPicturesDAOImpl implements CarsPicturesDAO {
             em.close();
         }
     }
+
+    @Override
+    public List<CarsPicturesEntity> findCarsPicturesByIdCars(int idCars) {
+        EntityManager em = EMF.getEM();
+        try {
+            return em.createNamedQuery("carsPictures.findCarsPicturesByIdCars",
+                    CarsPicturesEntity.class)
+                    .setParameter("id", idCars)
+                    .getResultList();
+        } catch (Exception ex) {
+            log.info("Liste vide");
+            return null;
+        } finally {
+            em.clear();
+            em.close();
+        }
+    }
 }

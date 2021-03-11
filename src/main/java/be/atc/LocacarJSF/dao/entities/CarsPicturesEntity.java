@@ -9,7 +9,8 @@ import java.util.Objects;
         @NamedQuery(name = "carsPictures.findAll", query = "SELECT cp FROM CarsPicturesEntity cp"),
         @NamedQuery(name = "carsPictures.findById", query = "SELECT cp FROM CarsPicturesEntity cp WHERE cp.id = :id"),
         @NamedQuery(name = "carsPictures.findByCarsId", query = "SELECT cp FROM CarsPicturesEntity cp WHERE cp.carsByIdCars.id = :id"),
-        @NamedQuery(name = "carsPictures.findByLabel", query = "SELECT cp FROM CarsPicturesEntity cp WHERE cp.label = :label")
+        @NamedQuery(name = "carsPictures.findByLabel", query = "SELECT cp FROM CarsPicturesEntity cp WHERE cp.label = :label"),
+        @NamedQuery(name = "carsPictures.findCarsPicturesByIdCars", query = "SELECT cp from CarsPicturesEntity cp where cp.carsByIdCars.id = :id")
 
 })
 public class CarsPicturesEntity {

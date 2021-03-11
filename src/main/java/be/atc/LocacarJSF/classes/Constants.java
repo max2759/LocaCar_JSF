@@ -17,10 +17,13 @@ public final class Constants {
 
     public static final String UPLOADS = "/uploads/";
     public static final String GENERATED_FILES = "/generated_files/";
+    public static final String IMAGES = "/images/";
+
 
     public static final String APP_ROOT_DIR = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/WEB-INF/");
     public static final String UPLOADS_ROOT_DIR = APP_ROOT_DIR + UPLOADS;
     public static final String FILE_OUT_PUT_STREAM = UPLOADS_ROOT_DIR + GENERATED_FILES;
+    public static final String FILE_OUTPUT_IMAGE = UPLOADS_ROOT_DIR + IMAGES;
 
 
 }

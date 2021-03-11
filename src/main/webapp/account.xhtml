@@ -19,6 +19,21 @@
                         }
                     );
                 } );
+
+                $( document ).ready( function () {
+
+                        $( '.account-list' ).dataTable().fnDestroy();
+                        loadTable();
+
+                        function loadTable() {
+                            $( '.account-list' ).DataTable( {
+                                'language': {
+                                    'url': '//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/French.json'
+                                }
+                            } );
+                        }
+                    }
+                );
             </script>
         </h:head>
 
@@ -33,7 +48,8 @@
                             <h:form>
                                 <h:commandLink class="nav-link account-a account-a-active"
                                                action="account?faces-redirect=true" value="#{bundle['account.ads']}"/>
-                                <h:commandLink class="nav-link account-a" value="#{bundle['account.deactivate']}"/>
+                                <h:commandLink class="nav-link account-a" value="#{bundle['account.deactivate']}"
+                                               action="disabledads?faces-redirect=true"/>
                                 <h:commandLink class="nav-link account-a" action="accountsellcar?faces-redirect=true"
                                                value="#{bundle['account.sell']}"/>
                                 <h:commandLink class="nav-link account-a" value="#{bundle['account.parameter']}"/>

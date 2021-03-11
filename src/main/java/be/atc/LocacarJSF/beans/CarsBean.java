@@ -73,6 +73,7 @@ public class CarsBean extends ExtendBean implements Serializable {
         return c;
     }
 
+
     /**
      * Update CarEntity
      *
@@ -100,4 +101,5 @@ public class CarsBean extends ExtendBean implements Serializable {
     public void setCarsServices(CarsServices carsServices) {
         this.carsServices = carsServices;
     }
+
 }

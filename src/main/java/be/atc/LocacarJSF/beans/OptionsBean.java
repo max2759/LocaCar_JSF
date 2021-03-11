@@ -7,6 +7,7 @@ import org.apache.log4j.Logger;
 import utils.JsfUtils;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
@@ -33,8 +34,6 @@ public class OptionsBean extends ExtendBean implements Serializable {
 
     private boolean showPopup;
     private boolean addOptionEntity;
-    private String success;
-    private String fail;
     private String page;
 
     public String getPage() {
@@ -46,7 +45,7 @@ public class OptionsBean extends ExtendBean implements Serializable {
     }
 
     public String toPageOption() {
-        return "options";
+        return "options?faces-redirect = true";
     }
 
     /**
@@ -58,10 +57,6 @@ public class OptionsBean extends ExtendBean implements Serializable {
         optionsEntities = optionsServices.findAll();
     }
 
-    public void initialisationFields() {
-        success = "";
-        fail = "";
-    }
 
 
     /**
@@ -85,24 +80,30 @@ public class OptionsBean extends ExtendBean implements Serializable {
      */
     public void hidePopupModal() {
         log.info("Hide PopupModal");
-        initialisationFields();
         showPopup = false;
     }
 
     /**
-     * Repetition code for add optionEntity
+     * Add cars options entity
      */
     public void functionAddOption() {
+        log.info("OptionsBean : add Options");
+
+        FacesContext context = FacesContext.getCurrentInstance();
         optionsServices.add(optionsEntity);
-        success = JsfUtils.returnMessage(locale, "fxs.options.succesAdd");
+        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, JsfUtils.returnMessage(getLocale(), "fxs.options.succesAdd"), null));
     }
 
     /**
-     * Repetition code for update optionEntity
+     * Update cars options entity
      */
     public void functionUpdateOption() {
+        log.info("OptionsBean : update Options");
+
+        FacesContext context = FacesContext.getCurrentInstance();
         optionsServices.update(optionsEntity);
-        success = JsfUtils.returnMessage(locale, "fxs.options.successUpdate");
+        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, JsfUtils.returnMessage(getLocale(), "fxs.options.successUpdate"), null));
+
     }
 
     /**
@@ -110,8 +111,8 @@ public class OptionsBean extends ExtendBean implements Serializable {
      */
     public void saveEdit() {
 
+        FacesContext context = FacesContext.getCurrentInstance();
         List<OptionsEntity> optionsEntitiesByLabel = optionsServices.findByLabel(optionsEntity.getLabel());
-        initialisationFields();
 
         log.info("Save edit");
         if ((addOptionEntity) && (optionsEntitiesByLabel.isEmpty())) {
@@ -124,10 +125,10 @@ public class OptionsBean extends ExtendBean implements Serializable {
             if (oe.getId() == optionsEntity.getId()) {
                 functionUpdateOption();
             } else {
-                fail = JsfUtils.returnMessage(locale, "fxs.options.errorAdd");
+                context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, JsfUtils.returnMessage(getLocale(), "fxs.options.errorAdd"), null));
             }
         } else {
-            fail = JsfUtils.returnMessage(locale, "fxs.options.errorAdd");
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, JsfUtils.returnMessage(getLocale(), "fxs.options.errorAdd"), null));
         }
 
         init();
@@ -169,22 +170,6 @@ public class OptionsBean extends ExtendBean implements Serializable {
 
     public void setAddOptionEntity(boolean addOptionEntity) {
         this.addOptionEntity = addOptionEntity;
-    }
-
-    public String getSuccess() {
-        return success;
-    }
-
-    public void setSuccess(String success) {
-        this.success = success;
-    }
-
-    public String getFail() {
-        return fail;
-    }
-
-    public void setFail(String fail) {
-        this.fail = fail;
     }
 
     public List<OptionsEntity> getOptionsEntityList() {

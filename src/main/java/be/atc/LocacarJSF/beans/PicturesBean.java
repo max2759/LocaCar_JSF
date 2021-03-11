@@ -1,5 +1,6 @@
 package be.atc.LocacarJSF.beans;
 
+import be.atc.LocacarJSF.classes.Constants;
 import be.atc.LocacarJSF.dao.entities.CarsEntity;
 import be.atc.LocacarJSF.dao.entities.CarsPicturesEntity;
 import be.atc.LocacarJSF.services.CarsPicturesServices;
@@ -32,9 +33,10 @@ public class PicturesBean extends ExtendBean implements Serializable {
     private CarsPicturesServices carsPicturesServices = new CarsPicturesServicesImpl();
     private List<CarsPicturesEntity> carsPicturesEntityList;
 
-    private String folder = "A:\\Applications\\Drive\\Work\\IntelliJ\\LocacarJSF\\src\\main\\webapp\\resources\\upload";
-    private Part file;
+    private String folder = Constants.FILE_OUTPUT_IMAGE;
 
+    //    private String folder = "A:\\Applications\\Drive\\Work\\IntelliJ\\LocacarJSF\\src\\main\\webapp\\resources\\upload";
+    private Part file;
 
 
     /**
@@ -111,12 +113,16 @@ public class PicturesBean extends ExtendBean implements Serializable {
     }
 
     /**
-     *
      * @param idCars
      * @return list of CarsPicturesEntity
      */
     public List<CarsPicturesEntity> findPictures(int idCars) {
         return carsPicturesServices.findByCarsId(idCars);
+    }
+
+
+    public List<CarsPicturesEntity> findCarsPicturesByIdCars(int idCars) {
+        return carsPicturesServices.findCarsPicturesByIdCars(idCars);
     }
 
 

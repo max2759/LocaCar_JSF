@@ -10,6 +10,9 @@ import javax.inject.Named;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * @author Maximilien - Zabbara
+ */
 @Named(value = "carTypesbean")
 @ViewScoped
 public class CarsTypesBean extends ExtendBean implements Serializable {
