@@ -2,9 +2,11 @@ package be.atc.LocacarJSF.beans;
 
 import be.atc.LocacarJSF.dao.entities.AddressesEntity;
 import be.atc.LocacarJSF.dao.entities.CitiesEntity;
+import be.atc.LocacarJSF.dao.entities.UsersEntity;
 import be.atc.LocacarJSF.services.AddressesServices;
 import be.atc.LocacarJSF.services.AddressesServicesImpl;
 import org.apache.log4j.Logger;
+import utils.JsfUtils;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
@@ -18,6 +20,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import static java.lang.Integer.parseInt;
+
 @Named(value = "addressesBean")
 @SessionScoped
 public class AddressesBean implements Serializable {
@@ -29,6 +33,8 @@ public class AddressesBean implements Serializable {
     private AddressesServices addressesServices = new AddressesServicesImpl();
     private List<AddressesEntity> addressesEntities;
 
+    private UsersEntity usersEntity;
+
     @Inject
     private CitiesBean citiesBean;
 
@@ -37,18 +43,20 @@ public class AddressesBean implements Serializable {
     private boolean showPopup;
     private String success;
     private String fail;
-    private int userId = 0;
+    private int userId;
     private boolean editAddressesEntity;
     private boolean addAddresseEntity;
     @Inject
     private UsersBean usersBean;
 
+
     @PostConstruct
-    public void postContruc() {
-        log.info("begin postConstruct, connexion = " + userId);
+    public void postContruct() {
+        userId = usersBean.getUsersEntity().getId();
+        log.info("begin postConstruct, addressebean = " + userId);
         if (userId != 0) {
             log.info("connexion = true? :" + userId);
-            findByUserId();
+            addressesEntity = findByUserId(userId);
         } else {
             log.info("connexion = false? : " + userId);
             addressesEntity = new AddressesEntity();
@@ -67,25 +75,85 @@ public class AddressesBean implements Serializable {
         fail = "";
     }
 
+    public void connect() {
+        if (usersBean.isConnected() == true) {
+            userId = usersBean.getUsersEntity().getId();
+            usersEntity = usersBean.findUserById(userId);
+            log.info("connecté: recup des données, userId = " + usersEntity.getId());
+            addressesEntity = addressesServices.findByIdUser(usersEntity.getId());
+        } else {
+            log.info("pas connecté, pas de recup d'adresses?");
+        }
+    }
+
 
     public void addAddresse(int idUser, int idCity) throws ParseException, NoSuchAlgorithmException {
 
         log.info("begin addAddresseBean");
 
-
-        addressesEntity.setStreet(addressesEntity.getStreet());
         addressesEntity.setUsersByIdUsers(usersBean.findUserById(idUser));
-        addressesEntity.setNumber(addressesEntity.getNumber());
-        addressesEntity.setBox(addressesEntity.getBox());
-
 
         log.info("label recu du form: " + addressesEntity.getStreet());
         //log.info("id de la ville: "+ citiesEntity.getId());
 
-
         addressesEntity.setCitiesByIdCities(citiesBean.findById(idCity));
         addressesServices.add(addressesEntity);
         log.info("addresse inscrit");
+    }
+
+    /**
+     * Ouvrir le popup d'edition ou d'ajout
+     */
+    public void showPopupModal() {
+        log.info("Show PopupModal");
+        showPopup = true;
+        if (getParam("id") != null) {
+            log.info("getParam(\"id\") != null");
+            editAddressesEntity = false;
+            int idUsers = parseInt(getParam("id"));
+            addressesEntity = addressesServices.findByIdUser(idUsers);
+        } else {
+            log.info("getParam(\"id\") == null");
+            editAddressesEntity = true;
+            addressesEntity = new AddressesEntity();
+        }
+    }
+
+    public void hidePopupModal() {
+        log.info("Hide PopupModal");
+        initialisationFields();
+        showPopup = false;
+    }
+
+    /**
+     * Sauvegarde l'entité modifiée
+     */
+    public void saveEdit() {
+        log.info("begin -save edit addresse");
+        //userId = usersBean.getUsersEntity().getId();
+        //addressesEntity = addressesServices.findByIdUser(userId);
+
+        log.info(addressesEntity);
+        log.info(addressesEntity.getNumber());
+
+        log.info("Save edit");
+        if (addressesEntity != null) {
+            functionUpdateAddresse();
+        } else {
+            fail = JsfUtils.returnMessage(locale, "fxs.users.errorAdd");
+        }
+
+        init();
+    }
+
+    /**
+     * Repetition code for update AddresseEntity
+     */
+    public void functionUpdateAddresse() {
+        log.info("begin - updateAddresse");
+        log.info(addressesEntity.getNumber());
+        addressesServices.update(addressesEntity);
+        log.info("end updateaddresse");
     }
 
 
@@ -93,8 +161,8 @@ public class AddressesBean implements Serializable {
         return addressesServices.findById(id);
     }
 
-    public void findByUserId() {
-        addressesEntities = addressesServices.findByIdUser(usersBean.getUsersEntity().getId());
+    public AddressesEntity findByUserId(int idUser) {
+        return addressesServices.findByIdUser(usersBean.getUsersEntity().getId());
     }
 
 

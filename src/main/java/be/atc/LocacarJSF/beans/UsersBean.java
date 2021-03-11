@@ -1,19 +1,19 @@
 package be.atc.LocacarJSF.beans;
 
 import be.atc.LocacarJSF.dao.entities.AddressesEntity;
+import be.atc.LocacarJSF.dao.entities.RolesEntity;
 import be.atc.LocacarJSF.dao.entities.UsersEntity;
 import be.atc.LocacarJSF.services.UsersServices;
 import be.atc.LocacarJSF.services.UsersServicesImpl;
 import org.apache.log4j.Logger;
-import sun.invoke.empty.Empty;
 import utils.JsfUtils;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.servlet.http.HttpSession;
 import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -23,8 +23,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-
-import java.util.regex.*;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import static java.lang.Integer.parseInt;
 
@@ -40,6 +40,7 @@ public class UsersBean extends ExtendBean implements Serializable {
     private List<UsersEntity> usersEntities;
 
     private AddressesEntity addressesEntity;
+    private RolesEntity rolesEntity;
 
     @Inject
     private AddressesBean addressesBean;
@@ -117,14 +118,21 @@ public class UsersBean extends ExtendBean implements Serializable {
         log.info("username recup + pass:" + username + " " + hashPass   );
         if (usersByUsernameAndPassword != null) {
             connexion = true;
+            connected = true;
             //recupere l'user
-            usersEntity =  usersServices.findByOneUsername(usersEntity.getUsername());
-            log.info(usersEntity.getUsername());
-            log.info(usersEntity.getFirstname());
-            log.info(usersEntity.getLastname());
+            usersEntity = usersServices.findByOneUsername(usersEntity.getUsername());
+            int idUser = usersEntity.getId();
+            log.info(idUser);
+            addressesEntity = addressesBean.findByUserId(idUser);
+
+            log.info(addressesEntity.getStreet()); //ok
+            log.info(usersEntity.getLastname());  //ok
+
+            //je ne recoit tjrs pas dans ma vue !
+            addressesBean.connect();
 
             FacesContext.getCurrentInstance().getApplication().getNavigationHandler().handleNavigation(FacesContext.getCurrentInstance(), null, "index.xhtml");
-            connected = true;
+
             success = JsfUtils.returnMessage(getLocale(), "fxs.user.welcome");
 
             log.info("existe");
@@ -183,7 +191,10 @@ public class UsersBean extends ExtendBean implements Serializable {
                 usersServices.add(usersEntity);
                 log.info("inscription");
 
-                if(usersServices.findByUsername(usersEntity.getUsername()) != null){
+
+
+                if(usersServices.findByOneUsername(usersEntity.getUsername()) != null || usersServices.findByUsername(usersEntity.getUsername()).size() > 0){
+                    log.info("begin add address");
                     List<UsersEntity> userId = usersServices.findByUsername(usersEntity.getUsername());
                     log.info(userId.size());
 
@@ -206,6 +217,9 @@ public class UsersBean extends ExtendBean implements Serializable {
                     FacesContext.getCurrentInstance().getApplication().getNavigationHandler().handleNavigation(FacesContext.getCurrentInstance(), null, "connexion.xhtml");
                     connected = false;
             }else{
+                    log.info("begin delete physic after error insert user");
+
+                    deletePhysic();
                     fail = JsfUtils.returnMessage(getLocale(), "fxs.user.errorInsert");
                 }
 
@@ -221,18 +235,26 @@ public class UsersBean extends ExtendBean implements Serializable {
     public String doLogoutUser(){
         log.info("befin logOut");
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
-       // usersEntity = new UsersEntity();
-    //    usersEntity.setUsername(null);
-     //   usersEntity.setPassword(null);
+        usersEntity = new UsersEntity();
         connected = false;
-        return "successLog";
+        return "successLogOut";
     }
 
     public void deleteUser() {
+        log.info("begin deleteUser logic");
 
         //faut appeler le service aprés
-
         usersEntity.setActive(false);
+        usersServices.update(usersEntity);
+
+        log.info("end deleteUser logic");
+
+
+    }
+
+    public void deletePhysic() {
+        //faut appeler le service apréssetActive(false);
+        usersServices.delete(usersEntity.getId());
     }
 
     /**
@@ -242,10 +264,29 @@ public class UsersBean extends ExtendBean implements Serializable {
         log.info("Show PopupModal");
         showPopup = true;
         if (getParam("id") != null) {
+            log.info("getParam(\"id\") != null");
             editUsersEntity = false;
             int idUsers = parseInt(getParam("id"));
             usersEntity = usersServices.findById(idUsers);
         } else {
+            log.info("getParam(\"id\") == null");
+            editUsersEntity = true;
+            usersEntity = new UsersEntity();
+        }
+    }
+
+
+
+    public void showPopupModalUpdateByUser() {
+        log.info("Show PopupModal");
+        showPopup = true;
+        if (getParam("id") != null) {
+            log.info("getParam(\"id\") != null");
+            editUsersEntity = false;
+            int idUsers = parseInt(getParam("id"));
+            usersEntity = usersServices.findById(idUsers);
+        } else {
+            log.info("getParam(\"id\") == null");
             editUsersEntity = true;
             usersEntity = new UsersEntity();
         }
@@ -267,6 +308,7 @@ public class UsersBean extends ExtendBean implements Serializable {
     public void saveEdit() {
 
         List<UsersEntity> usersEntitiesByLabel = usersServices.findByUsername(usersEntity.getUsername());
+
 
         log.info("Save edit");
         if ((usersEntitiesByLabel.isEmpty())) {
@@ -291,15 +333,17 @@ public class UsersBean extends ExtendBean implements Serializable {
      */
     public void functionAddUser() {
         usersServices.add(usersEntity);
-        success = JsfUtils.returnMessage(locale, "fxs.users.succesAdd");
+        success = JsfUtils.returnMessage(getLocale(), "fxs.users.succesAdd");
+
     }
 
     /**
      * Repetition code for update UserEntity
      */
     public void functionUpdateUser() {
+        log.info(usersEntity.getRolesByIdRoles().getLabel());
         usersServices.update(usersEntity);
-        success = JsfUtils.returnMessage(locale, "fxs.Users.successUpdate");
+        success = JsfUtils.returnMessage(getLocale(), "successUpdate");
     }
 
     public UsersEntity findUserById(int idUser) {
@@ -328,6 +372,12 @@ public class UsersBean extends ExtendBean implements Serializable {
     /////////////////////////
     /// getter and setter ///
     /////////////////////////
+
+
+    public List<SelectItem> getUpdatesEntitiesSelectItems() {
+        log.info("begin getRolesEntitiesSelectItems() + rolesEntities " + usersEntities);
+        return usersEntities.stream().map(c -> new SelectItem(c.getId(), c.getUsername())).collect(Collectors.toList());
+    }
 
 
     public boolean isConnected() {

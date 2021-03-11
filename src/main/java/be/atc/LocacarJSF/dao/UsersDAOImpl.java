@@ -71,15 +71,8 @@ public class UsersDAOImpl implements UsersDAO {
             tx = em.getTransaction();
             tx.begin();
 
-            UsersEntity id = findById(idUser);
-            log.info("id de l'user in delete user "+id);
-
-            em.createNamedQuery("Users.delete",
-                    UsersEntity.class)
-                    .setParameter("idUser", id)
-                    .getSingleResult();
-
-            em.merge(id);
+            UsersEntity u = findById(idUser);
+            em.remove(em.merge(u));
 
             tx.commit();
             log.info("Delete ok");

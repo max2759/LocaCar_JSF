@@ -42,8 +42,9 @@
                                                                 action="#{usersBean.toPageLogOut}"/></li>
 
                             <c:if test="#{usersBean.connected}">
-                                <li class="nav-item"><h:commandLink styleClass="nav-link" value="bonjour #{usersBean.usersEntity.username}"
-                                /></li>
+
+                                <li class="nav-item"><h:commandLink styleClass="nav-link" value="bonjour #{usersBean.usersEntity.username}"/> </li>
+
                             </c:if>
 
                             <li class="nav-item">

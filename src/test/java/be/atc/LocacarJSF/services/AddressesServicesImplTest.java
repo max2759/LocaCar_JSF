@@ -3,8 +3,6 @@ package be.atc.LocacarJSF.services;
 import be.atc.LocacarJSF.dao.entities.AddressesEntity;
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 class AddressesServicesImplTest {
@@ -15,8 +13,8 @@ class AddressesServicesImplTest {
     void findByIdUser() {
         int idUser = 5;
 
-        List<AddressesEntity> addressesEntityList = addressesServices.findByIdUser(idUser);
-        boolean test = addressesEntityList.isEmpty() ? false : true;
+        AddressesEntity addressesEntityList = addressesServices.findByIdUser(idUser);
+        boolean test = addressesEntityList == null ? false : true;
         assertThat(test).isEqualTo(true);
     }
 }

@@ -6,7 +6,6 @@ import be.atc.LocacarJSF.dao.AddressesDAOImpl;
 import be.atc.LocacarJSF.dao.entities.AddressesEntity;
 import org.apache.log4j.Logger;
 
-import java.util.Collections;
 import java.util.List;
 
 public class AddressesServicesImpl implements AddressesServices {
@@ -26,6 +25,7 @@ public class AddressesServicesImpl implements AddressesServices {
     @Override
     public boolean update(AddressesEntity addressesEntity) {
         if (addressesEntity != null && findById(addressesEntity.getId()) != null) {
+            log.info("begn update in service");
             return addressesDAO.update(addressesEntity);
 
         }
@@ -61,10 +61,10 @@ public class AddressesServicesImpl implements AddressesServices {
     }
 
     @Override
-    public List<AddressesEntity> findByIdUser(int idUser) {
+    public AddressesEntity findByIdUser(int idUser) {
         if (idUser != 0) {
             return addressesDAO.findByIdUser(idUser);
         }
-        return Collections.emptyList();
+        return null;
     }
 }

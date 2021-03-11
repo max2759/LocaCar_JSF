@@ -1,22 +1,16 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
-                template="WEB-INF/templates/template.xhtml">
+                xmlns:fxs="http://java.sun.com/jsf/composite/composantsFxs"
+                template="../WEB-INF/templates/template.xhtml">
 
-    <ui:define name="title">#{bundle['account.page.accountsellcar']}</ui:define>
+    <ui:define name="title">#{bundle['account.title']}</ui:define>
     <ui:define name="content">
 
         <h:head>
-            <title>#{bundle['account.page.accountsellcar']}</title>
+            <title>#{bundle['account.title']}</title>
             <script>
                 $( document ).ready( function () {
-                    $( '.account-li' ).click(
-                        function ( event ) {
-                            $( '.account-li' ).removeClass( 'account-li-active' );
-                            $( this ).addClass( 'account-li-active' );
-                            event.preventDefault();
-                        } );
-
                     $( '.account-a' ).click(
                         function ( event ) {
                             $( '.account-a' ).removeClass( 'account-a-active' );
@@ -25,6 +19,21 @@
                         }
                     );
                 } );
+
+                $( document ).ready( function () {
+
+                        $( '.account-list' ).dataTable().fnDestroy();
+                        loadTable();
+
+                        function loadTable() {
+                            $( '.account-list' ).DataTable( {
+                                'language': {
+                                    'url': '//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/French.json'
+                                }
+                            } );
+                        }
+                    }
+                );
             </script>
         </h:head>
 
@@ -37,12 +46,11 @@
                     <aside class="col-md-3">
                         <nav class="nav flex-column">
                             <h:form>
-                                <h:commandLink class="nav-link account-a" action="account?faces-redirect=true"
-                                               value="#{bundle['account.ads']}"/>
+                                <h:commandLink class="nav-link account-a account-a-active"
+                                               action="account?faces-redirect=true" value="#{bundle['account.ads']}"/>
                                 <h:commandLink class="nav-link account-a" value="#{bundle['account.deactivate']}"
                                                action="disabledads?faces-redirect=true"/>
-                                <h:commandLink class="nav-link account-a account-a-active"
-                                               action="accountsellcar?faces-redirect=true"
+                                <h:commandLink class="nav-link account-a" action="accountsellcar?faces-redirect=true"
                                                value="#{bundle['account.sell']}"/>
                                 <h:commandLink class="nav-link account-a" value="#{bundle['account.parameter']}"/>
                             </h:form>
@@ -50,15 +58,10 @@
                     </aside>
                     <div class="col-md-offset-2 col-md-9 myarea-content">
                         <div class="myarea-content-title">
-                            <h3 class="myarea-content-h3">#{bundle['account.page.accountsellcar']}</h3>
+                            <h3 class="myarea-content-h3">#{bundle['account.ads']}</h3>
                         </div>
                         <div class="myarea-content-display">
-                            <h:form>
-                                <h:commandLink class="sellCarLink nav-link account-a" action="ads?faces-redirect=true">
-                                    <div class="sell-car-img"></div>
-                                    <p class="sell-car-img-text">#{bundle['account.sellcar.span']}</p>
-                                </h:commandLink>
-                            </h:form>
+                            <fxs:adsList/>
                         </div>
                     </div>
                 </div>

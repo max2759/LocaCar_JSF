@@ -34,8 +34,18 @@
             </h:column>
 
             <h:column>
-                <f:facet name="header">#{bundle['fxs.user.firstName']}</f:facet>
-                <h:outputText value="#{user.firstname}"></h:outputText>
+                <f:facet name="header">#{bundle['fxs.user.mail']}</f:facet>
+                <h:outputText value="#{user.email}"></h:outputText>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">#{bundle['fxs.user.active']}</f:facet>
+                <h:outputText value="#{user.active}"></h:outputText>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">#{bundle['fxs.user.role']}</f:facet>
+                <h:outputText value="#{user.rolesByIdRoles.label}"></h:outputText>
             </h:column>
 
             <h:column>
@@ -65,10 +75,6 @@
                 <h:outputText value="#{usersBean.fail}"
                               style="color: darkred; font-weight: bold"></h:outputText>
                 <div class="popup-panel">
-                    <h:outputText value="#{usersBean.success}"
-                                  style="color: green; font-weight: bold"></h:outputText>
-                    <h:outputText value="#{usersBean.fail}"
-                                  style="color: darkred; font-weight: bold"></h:outputText>
 
                     <div class="form-group">
                         <h:outputLabel value="ID" for="idUsers"></h:outputLabel>
@@ -86,6 +92,50 @@
                         </h:inputText>
                         <h:message styleClass="alert alert-danger" role="alert" for="userName"></h:message>
                     </div>
+
+                    <div class="form-group">
+                        <h:outputLabel value="mail" for="mail"></h:outputLabel>
+                        <h:inputText value="#{usersBean.usersEntity.email}" styleClass="form-control"
+                                     required="true"
+                                     pt:placeholder="Votre user ici..."
+                                     requiredMessage="#{bundle['fxs.insurancesList.required']}"
+                                     id="mail">
+                        </h:inputText>
+                        <h:message styleClass="alert alert-danger" role="alert" for="mail"></h:message>
+                    </div>
+
+                    <div class="form-group">
+                        <h:outputLabel value="active" for="active"></h:outputLabel>
+                        <h:inputText value="#{usersBean.usersEntity.active}" styleClass="form-control"
+                                     required="true"
+                                     pt:placeholder="Votre user ici..."
+                                     requiredMessage="#{bundle['fxs.insurancesList.required']}"
+                                     id="active">
+                        </h:inputText>
+                        <h:message styleClass="alert alert-danger" role="alert" for="active"></h:message>
+                    </div>
+
+                    <!-- <div class="form-group">
+                         <h:outputLabel value="idRole" for="idRole"></h:outputLabel>
+                         <h:inputText value="#{usersBean.usersEntity.rolesByIdRoles.label}" styleClass="form-control"
+                                      required="true"
+                                      pt:placeholder="Votre role..."
+                                      requiredMessage="#{bundle['fxs.insurancesList.required']}"
+                                      id="idRole">
+                         </h:inputText>
+                         <h:message styleClass="alert alert-danger" role="alert" for="idRole"></h:message>
+                     </div>
+ -->
+                    <h:panelGroup styleClass="form-group">
+
+                        <h:selectOneMenu id="rolesDisplay" styleClass="form-group"
+                                         value="#{usersBean.usersEntity.rolesByIdRoles.id}">
+                            <f:selectItem itemValue="#{null}" itemLabel=" "/>
+                            <f:selectItems value="#{rolesBean.rolesEntitiesSelectItems}"/>
+                        </h:selectOneMenu>
+                        <h:message for="rolesDisplay"/>
+                    </h:panelGroup>
+
 
                     <span>
                         <h:commandButton styleClass="btn btn-outline-success btn-sm"
