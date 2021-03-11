@@ -14,7 +14,7 @@
 </cc:interface>
 <cc:implementation>
 
-    <div>
+    <div class="addBtn">
         <h:form>
 
             <h:commandLink styleClass="btn btn-success"
@@ -27,7 +27,7 @@
     </div>
 
     <h:form>
-        <!-- datatable == equiavalent foreach -->
+        <!-- datatable == equivalant foreach -->
         <h:dataTable id="outputMessage" styleClass="table table-hover table-responsive mytable"
                      value="#{modelsBean.modelsEntities}" var="models">
             <h:column>
@@ -61,57 +61,51 @@
 
             <h:form id="formPopupEdit">
                 <div class="popup-panel">
-                    <h:outputText value="#{modelsBean.success}"
-                                  style="color: green; font-weight: bold"></h:outputText>
-                    <h:outputText value="#{modelsBean.fail}"
-                                  style="color: darkred; font-weight: bold"></h:outputText>
-                    <div class="form-group">
-                        <h:outputLabel value="ID" for="idModels"></h:outputLabel>
-                        <h:outputText id="idModels" value="#{modelsBean.modelsEntity.id}"
-                                      styleClass="form-control"></h:outputText>
+                    <h:messages id="messages" styleClass="messageConfirmation" infoClass="succesAdd"
+                                errorClass="error"/>
+                    <div class="modal-header">
+                        <h5 class="modal-title">#{bundle['fxs.modelsList.modalTitle']}</h5>
                     </div>
-                    <div class="form-group">
-                        <h:outputLabel value="Modèle" for="modelsLabel"></h:outputLabel>
-                        <h:inputText value="#{modelsBean.modelsEntity.label}" styleClass="form-control"
-                                     required="true"
-                                     pt:placeholder="Ajouter un modèle"
-                                     requiredMessage="#{bundle['fxs.insurancesList.required']}"
-                                     id="modelsLabel">
-                        </h:inputText>
-                        <h:message styleClass="alert alert-danger" role="alert" for="modelsLabel"></h:message>
+                    <div class="modal-body">
+
+                        <div class="form-group">
+                            <h:outputLabel value="Modèle" for="modelsLabel" styleClass="col-form-label"/>
+                            <h:inputText value="#{modelsBean.modelsEntity.label}" styleClass="form-control"
+                                         required="true"
+                                         pt:placeholder="Ajouter un modèle"
+                                         requiredMessage="#{bundle['fxs.insurancesList.required']}"
+                                         id="modelsLabel">
+                            </h:inputText>
+                            <h:message styleClass="error" role="alert" for="modelsLabel"></h:message>
+                        </div>
+                        <div class="form-group">
+                            <h:outputLabel value="Marque" for="modelsLabel" styleClass="col-form-label"/>
+                            <h:selectOneMenu id="brandsDisplay" styleClass="form-control"
+                                             value="#{modelsBean.modelsEntity.brandsByIdBrands}" required="true"
+                                             requiredMessage="#{bundle['fxs.adsbrands.required']}"
+                                             converter="brandsConverter">
+                                <f:selectItem itemValue="#{null}" itemLabel=""/>
+                                <f:selectItems value="#{brandsBean.brandsEntities}" var="brands"
+                                               itemValue="#{brands}"
+                                               itemLabel="#{brands.label}"/>
+                                <h:message styleClass="error" role="alert" for="brandsDisplay"/>
+                            </h:selectOneMenu>
+                        </div>
                     </div>
 
-
-                    <h:panelGroup styleClass="form-group">
-
-                        <h:selectOneMenu id="brandsDisplay" styleClass="form-group"
-                                         value="#{modelsBean.modelsEntity.brandsByIdBrands}"
-                                         converter="brandsConverter">
-                            <f:selectItem itemValue="#{null}" itemLabel=""/>
-                            <f:selectItems value="#{brandsBean.brandsEntities}" var="brands"
-                                           itemValue="#{brands}"
-                                           itemLabel="#{brands.label}"/>
-                            <h:message for="brandsDisplay"/>
-                        </h:selectOneMenu>
-                    </h:panelGroup>
-
-
-                    <span>
+                    <div class="modal-footer">
                         <h:commandButton styleClass="btn btn-outline-success btn-sm"
                                          value="#{bundle['fxs.insurancesList.save']}"
                                          action="#{modelsBean.saveEdit}">
 
                         </h:commandButton>
 
-                    </span>
-
-                    <span>
                         <h:commandButton styleClass="btn btn-outline-dark btn-sm"
                                          value="#{bundle['fxs.insurancesList.close']}"
                                          action="#{modelsBean.hidePopupModal}">
                             <f:ajax render="@all"></f:ajax>
                         </h:commandButton>
-                    </span>
+                    </div>
                 </div>
             </h:form>
         </h:panelGroup>

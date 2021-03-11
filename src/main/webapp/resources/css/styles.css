@@ -9,9 +9,15 @@
 
 .popup-panel {
     background-color: white;
-    padding: 20px;
     border-radius: 5px;
-    border: 1px solid #DDD;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 25%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .panelGroupRight {
@@ -206,6 +212,24 @@ a:hover {
 .error {
     color: red;
     margin-left: 1rem;
+    list-style-type: none;
+}
+
+.circle-color {
+    color: green;
+}
+
+.messageConfirmation {
+    display: flex;
+    justify-content: center;
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.succesAdd {
+    display: list-item;
+    padding: 5px 10px;
+    color: green;
 }
 
 /*
@@ -281,6 +305,7 @@ a:hover {
     width: 100%;
     margin-bottom: 15px;
     padding: 10px;
+    border-bottom: 1px solid #dcdcdc;
 }
 
 .summary-headline-item {
@@ -388,4 +413,35 @@ a:hover {
     z-index: 2;
     outline: 0;
     box-shadow: 0 0 0 0.2rem rgb(200 166 45 / 25%);
+}
+
+#messageDiv {
+    margin-bottom: 20px;
+    border-bottom: 1px solid #dcdcdc;
+    background-color: #fff;
+    padding: 20px 40px 12px 40px;
+}
+
+.adsId-a,
+.adsId-a:hover {
+    text-decoration: none;
+    color: black;
+}
+
+/**
+** Options/models/colors
+*
+ */
+
+.carsComposantList {
+    margin-top: 25px;
+    background-color: white;
+    padding: 35px;
+}
+
+.addBtn {
+    margin-bottom: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
 }

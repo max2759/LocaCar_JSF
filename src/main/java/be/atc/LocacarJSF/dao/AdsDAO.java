@@ -16,4 +16,6 @@ public interface AdsDAO {
 
     public List<AdsEntity> findByLabel(String label);
 
+    public List<AdsEntity> findAllDisabledAds();
+
 }

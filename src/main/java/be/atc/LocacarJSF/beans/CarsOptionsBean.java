@@ -13,6 +13,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author Maximilien - Zabbara
+ */
 @Named(value = "carsOptionsBean")
 @SessionScoped
 public class CarsOptionsBean extends ExtendBean implements Serializable {

@@ -10,8 +10,9 @@ import java.util.Objects;
 @Entity
 @Table(name = "ads", schema = "locacarjsf", catalog = "")
 @NamedQueries({
-        @NamedQuery(name = "Ads.findAll", query = "SELECT a from AdsEntity a "),
-        @NamedQuery(name = "ads.findByLabel", query = "select a from AdsEntity a where lower(a.label) like lower(concat('%', :label ,'%') )")
+        @NamedQuery(name = "Ads.findAll", query = "SELECT a from AdsEntity a where a.active=true and a.carsByIdCars.active=true"),
+        @NamedQuery(name = "ads.findAllDisabledAds", query = "SELECT a from AdsEntity a where a.active=false and a.carsByIdCars.active=false "),
+        @NamedQuery(name = "ads.findByLabel", query = "select a from AdsEntity a where lower(a.label) like lower(concat('%', :label ,'%') ) and a.active = true and a.carsByIdCars.active=true")
 })
 public class AdsEntity {
     private int id;
