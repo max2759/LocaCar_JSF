@@ -81,16 +81,11 @@ public class RolesBean implements Serializable {
     public void showPopupModal() {
         log.info("Show PopupModal");
         showPopup = true;
-        if (getParam("id") != null) {
-            log.info("param id est pas null dans showpopup");
-            editRolesEntity = false;
-            int idRoles = parseInt(getParam("id"));
-            rolesEntity = rolesServices.findById(idRoles);
-        } else {
-            log.info("dans le else showpopup");
-            editRolesEntity = true;
-            rolesEntity = new RolesEntity();
-        }
+        int idRole = parseInt(getParam("roleId"));
+        log.info("idRolePerm in popup " + idRole);
+        rolesEntity = rolesServices.findById(idRole);
+        log.info(rolesEntity.getId());
+
     }
 
     /**
