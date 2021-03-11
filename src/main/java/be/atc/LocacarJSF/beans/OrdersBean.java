@@ -34,7 +34,7 @@ public class OrdersBean extends ExtendBean implements Serializable {
     private static final long serialVersionUID = -5251107202124824837L;
 
     // Remplacer par l'utilisateur
-    private int idUser = 6;
+    private int idUser = 38;
 
     private OrdersEntity ordersEntity;
     private final OrdersServices ordersServices = new OrdersServicesImpl();

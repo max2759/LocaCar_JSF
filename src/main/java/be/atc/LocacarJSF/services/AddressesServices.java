@@ -18,5 +18,5 @@ public interface AddressesServices {
 
     public List<AddressesEntity> findByLabel(String label);
 
-    public List<AddressesEntity> findByIdUser(int idUser);
+    public AddressesEntity findByIdUser(int idUser);
 }

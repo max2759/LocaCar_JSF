@@ -3,23 +3,23 @@
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:fxs="http://java.sun.com/jsf/composite/composantsFxs"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
-                template="WEB-INF/templates/template.xhtml">
+                template="../WEB-INF/templates/template.xhtml">
 
-    <ui:define name="title">#{bundle['fxs.users.RolesPermissions']}</ui:define>
+    <ui:define name="title">#{bundle['fxs.roles.title']}</ui:define>
     <ui:define name="content">
 
         <h:head>
             <title>Utilisateurs</title>
             <f:metadata>
-                <f:event type="preRenderView" listener="#{rolesPermissionsBean.init}"/>
+                <f:event type="preRenderView" listener="#{rolesBean.init}"/>
             </f:metadata>
         </h:head>
         z
         <h:body>
             <div class="container">
-                <h2>#{bundle['fxs.users.title']}</h2>
+                <h2>#{bundle['fxs.roles.title']}</h2>
                 testtttt
-                <fxs:rolePermissions id="displayUsersList"></fxs:rolePermissions>
+                <fxs:rolesList id="displayRolesList"></fxs:rolesList>
             </div>
         </h:body>
 

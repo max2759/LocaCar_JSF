@@ -33,6 +33,8 @@ public class AddressesBean implements Serializable {
     private AddressesServices addressesServices = new AddressesServicesImpl();
     private List<AddressesEntity> addressesEntities;
 
+    private UsersEntity usersEntity;
+
     @Inject
     private CitiesBean citiesBean;
 
@@ -41,21 +43,23 @@ public class AddressesBean implements Serializable {
     private boolean showPopup;
     private String success;
     private String fail;
-    private int userId = 0;
+    private int userId;
     private boolean editAddressesEntity;
     private boolean addAddresseEntity;
     @Inject
     private UsersBean usersBean;
 
+
     @PostConstruct
-    public void postContruc() {
-        log.info("begin postConstruct, connexion = " + userId);
+    public void postContruct() {
+        userId = usersBean.getUsersEntity().getId();
+        log.info("begin postConstruct, addressebean = " + userId);
         if (userId != 0) {
             log.info("connexion = true? :" + userId);
-            findByUserId();
+            addressesEntity = findByUserId(userId);
         } else {
             log.info("connexion = false? : " + userId);
-          //  addressesEntity = new AddressesEntity();
+            addressesEntity = new AddressesEntity();
             init();
         }
     }
@@ -71,19 +75,26 @@ public class AddressesBean implements Serializable {
         fail = "";
     }
 
+    public void connect() {
+        if (usersBean.isConnected() == true) {
+            userId = usersBean.getUsersEntity().getId();
+            usersEntity = usersBean.findUserById(userId);
+            log.info("connecté: recup des données, userId = " + usersEntity.getId());
+            addressesEntity = addressesServices.findByIdUser(usersEntity.getId());
+        } else {
+            log.info("pas connecté, pas de recup d'adresses?");
+        }
+    }
+
 
     public void addAddresse(int idUser, int idCity) throws ParseException, NoSuchAlgorithmException {
 
         log.info("begin addAddresseBean");
 
-
-
         addressesEntity.setUsersByIdUsers(usersBean.findUserById(idUser));
-
 
         log.info("label recu du form: " + addressesEntity.getStreet());
         //log.info("id de la ville: "+ citiesEntity.getId());
-
 
         addressesEntity.setCitiesByIdCities(citiesBean.findById(idCity));
         addressesServices.add(addressesEntity);
@@ -100,7 +111,7 @@ public class AddressesBean implements Serializable {
             log.info("getParam(\"id\") != null");
             editAddressesEntity = false;
             int idUsers = parseInt(getParam("id"));
-            addressesEntity = addressesServices.findById(idUsers);
+            addressesEntity = addressesServices.findByIdUser(idUsers);
         } else {
             log.info("getParam(\"id\") == null");
             editAddressesEntity = true;
@@ -115,10 +126,34 @@ public class AddressesBean implements Serializable {
     }
 
     /**
-     * Repetition code for update UserEntity
+     * Sauvegarde l'entité modifiée
      */
-    public void functionUpdateUser() {
+    public void saveEdit() {
+        log.info("begin -save edit addresse");
+        //userId = usersBean.getUsersEntity().getId();
+        //addressesEntity = addressesServices.findByIdUser(userId);
+
+        log.info(addressesEntity);
+        log.info(addressesEntity.getNumber());
+
+        log.info("Save edit");
+        if (addressesEntity != null) {
+            functionUpdateAddresse();
+        } else {
+            fail = JsfUtils.returnMessage(locale, "fxs.users.errorAdd");
+        }
+
+        init();
+    }
+
+    /**
+     * Repetition code for update AddresseEntity
+     */
+    public void functionUpdateAddresse() {
+        log.info("begin - updateAddresse");
+        log.info(addressesEntity.getNumber());
         addressesServices.update(addressesEntity);
+        log.info("end updateaddresse");
     }
 
 
@@ -126,8 +161,8 @@ public class AddressesBean implements Serializable {
         return addressesServices.findById(id);
     }
 
-    public void findByUserId() {
-        addressesEntities = addressesServices.findByIdUser(usersBean.getUsersEntity().getId());
+    public AddressesEntity findByUserId(int idUser) {
+        return addressesServices.findByIdUser(usersBean.getUsersEntity().getId());
     }
 
 

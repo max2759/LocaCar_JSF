@@ -3,7 +3,7 @@
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:fxs="http://java.sun.com/jsf/composite/composantsFxs"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
-                template="WEB-INF/templates/template.xhtml">
+                template="../WEB-INF/templates/template.xhtml">
 
     <ui:define name="title">#{bundle['fxs.users.title']}</ui:define>
     <ui:define name="content">
@@ -18,7 +18,7 @@
         <h:body>
             <div class="container">
                 <h2>#{bundle['fxs.users.title']}</h2>
-                <fxs:userUpdateByUsers id="displayUsersList"></fxs:userUpdateByUsers>
+                <fxs:usersList id="displayUsersList"></fxs:usersList>
             </div>
         </h:body>
 

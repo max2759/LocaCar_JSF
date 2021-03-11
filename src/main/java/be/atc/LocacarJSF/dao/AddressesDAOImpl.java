@@ -37,10 +37,12 @@ public class AddressesDAOImpl implements AddressesDAO {
 
     @Override
     public boolean update(AddressesEntity addressesEntity) {
+        log.info("begin udate in DAO");
         EntityManager em = EMF.getEM();
 
         EntityTransaction tx = null;
         try {
+            log.info("begin try");
             tx = em.getTransaction();
             tx.begin();
             em.merge(addressesEntity);
@@ -48,10 +50,12 @@ public class AddressesDAOImpl implements AddressesDAO {
             log.info("Merge ok");
             return true;
         } catch (Exception ex) {
+            log.info("begin catch");
             if (tx != null && tx.isActive()) tx.rollback();
             log.info("Merge echec");
             return false;
         } finally {
+            log.info("begin finaly");
             em.clear();
             em.close();
         }
@@ -104,7 +108,7 @@ public class AddressesDAOImpl implements AddressesDAO {
     }
 
     @Override
-    public List<AddressesEntity> findByIdUser(int idUser) {
+    public AddressesEntity findByIdUser(int idUser) {
         EntityManager em = EMF.getEM();
         //   List<AddressesEntity> resultList = null;
         log.info("cvall to findAudiuser DAO");
@@ -112,7 +116,7 @@ public class AddressesDAOImpl implements AddressesDAO {
             return em.createNamedQuery("Adresses.findByIdUser",
                     AddressesEntity.class)
                     .setParameter("idUser", idUser)
-                    .getResultList();
+                    .getSingleResult();
            /* if (!resultList.isEmpty()) {
                 log.info(resultList.size() + " results found.");
             }*/

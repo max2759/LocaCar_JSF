@@ -16,55 +16,45 @@
 
 <cc:implementation>
 
+
 <c:if test="#{usersBean.connected}">
    <h:form>
 
-      <!--
-      <h:column>
-         <f:facet name="header">
-            <h:outputText value="ID" />
-         </f:facet>
-         <h:outputText value="#{usersBean.usersEntity.id}"/>
-      </h:column>
+       <!--  <h:column>
+           <f:facet name="header">#{bundle['fxs.user.street']}</f:facet>
+           <h:dataTable id="outputMessage" styleClass="table table-hover table-responsive"
+                        value="#{addressesBean.addressesEntities}" var="add">
+              <h:column><h:outputText value="#{add.street}"></h:outputText></h:column>
+           </h:dataTable>
+        </h:column>
+  -->
 
-      <h:column>
-         <h:outputText>pseudo</h:outputText>
-         <f:facet name="header">#{bundle['fxs.user.username']}</f:facet>
-         <h:outputText value="#{usersBean.usersEntity.username}"></h:outputText>
-      </h:column>
+       <h:panelGrid columns="2" styleClass="table table-hover table-responsive">
+           <h:panelGroup>#{bundle['fxs.user.username']}</h:panelGroup>
+           <h:panelGroup>#{usersBean.usersEntity.username}"</h:panelGroup>
 
-      <h:column>
-         <h:outputText>Mdp</h:outputText>
-         <f:facet name="header">#{bundle['fxs.user.password']}</f:facet>
-         <h:outputText value="Votre mot de passe"></h:outputText>
-      </h:column>
+           <h:panelGroup>#{bundle['fxs.user.mail']}</h:panelGroup>
+           <h:panelGroup>#{usersBean.usersEntity.email}</h:panelGroup>
 
-      <h:column>
-         <f:facet name="header">#{bundle['fxs.user.firstName']}</f:facet>
-         <h:outputText value="#{usersBean.usersEntity.firstname}"></h:outputText>
-      </h:column>
+           <h:panelGroup>#{bundle['fxs.user.street']}</h:panelGroup>
+           <h:panelGroup>#{addressesBean.addressesEntity.street}</h:panelGroup>
 
-      <h:column>
-         <f:facet name="header">#{bundle['fxs.user.street']}</f:facet>
-         <h:dataTable id="outputMessage" styleClass="table table-hover table-responsive"
-                      value="#{addressesBean.addressesEntities}" var="add">
-            <h:column><h:outputText value="#{add.street}"></h:outputText></h:column>
-         </h:dataTable>
-      </h:column>
-      -->
+           <h:panelGroup>#{bundle['fxs.user.number']}</h:panelGroup>
+           <h:panelGroup>#{addressesBean.addressesEntity.number}</h:panelGroup>
+       </h:panelGrid>
 
-       user
-      <h:column>
-         <!-- bouton edit -->
-         <f:facet name="header">#{bundle['fxs.users.editUser']}</f:facet>
-         <!-- appel de showmodalPopup -->
-         <h:commandLink styleClass="btn btn-outline-primary btn-sm"
-                        action="#{usersBean.showPopupModal}">
-            <f:param name="id" value="#{usersBean.usersEntity.id}"></f:param>
-            <f:ajax render="@all"/>
-            <i class="fas fa-edit"></i>
-         </h:commandLink>
-      </h:column>
+
+       <h:column>
+           <!-- bouton edit -->
+           <f:facet name="header">#{bundle['fxs.users.editUser']}</f:facet>
+           <!-- appel de showmodalPopup -->
+           <h:commandLink styleClass="btn btn-outline-primary btn-sm"
+                          action="#{usersBean.showPopupModal}">
+               <f:param name="id" value="#{usersBean.usersEntity.id}"></f:param>
+               <f:ajax render="@all"/>
+               <i class="fas fa-edit"></i>
+           </h:commandLink>
+       </h:column>
 
        addresse
        <h:column>
@@ -170,8 +160,8 @@
                 <div class="popup-panel">
 
                     <div class="form-group">
-                        <h:outputLabel value="ID" for="idUsers"></h:outputLabel>
-                        <h:outputText id="idAdd" value="#{usersBean.usersEntity.id}"
+                        <h:outputLabel value="idAdd" for="idAdd"></h:outputLabel>
+                        <h:outputText id="idAdd" value="#{addressesBean.addressesEntity.id}"
                                       styleClass="form-control"></h:outputText>
                     </div>
 
@@ -210,10 +200,11 @@
 
 
                     <span>
-                        <h:commandButton styleClass="btn btn-outline-success btn-sm"
-                                         value="#{bundle['fxs.insurancesList.save']}"
-                                         action="#{addressesBean.saveEdit}">
-                            <f:ajax execute="formPopupEdit" render="@all"></f:ajax>
+                        <h:commandButton
+                                styleClass="btn btn-outline-success btn-sm"
+                                value="#{bundle['fxs.insurancesList.save']}"
+                                action="#{addressesBean.saveEdit}">
+                            <f:ajax execute="formPopupEditAdd" render="@all"></f:ajax>
                         </h:commandButton>
 
                     </span>
@@ -222,7 +213,6 @@
                         <h:commandButton styleClass="btn btn-outline-dark btn-sm"
                                          value="#{bundle['fxs.insurancesList.close']}"
                                          action="#{addressesBean.hidePopupModal}">
-                            <f:ajax render="@all"></f:ajax>
                         </h:commandButton>
                     </span>
                 </div>

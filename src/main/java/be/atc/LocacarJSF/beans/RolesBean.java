@@ -1,7 +1,6 @@
 package be.atc.LocacarJSF.beans;
 
 import be.atc.LocacarJSF.dao.entities.RolesEntity;
-import be.atc.LocacarJSF.dao.entities.UsersEntity;
 import be.atc.LocacarJSF.services.RolesServices;
 import be.atc.LocacarJSF.services.RolesServicesImpl;
 import org.apache.log4j.Logger;
@@ -35,10 +34,11 @@ public class RolesBean implements Serializable {
     private List<RolesEntity> rolesEntities;
 
     private boolean showPopup;
+    private boolean showPopupAdd;
     private String success;
     private String fail;
     private boolean editRolesEntity;
-    private boolean addRoleEntity;
+    private boolean addRolesEntity;
     @Inject
     private RolesBean rolesBean;
 
@@ -82,13 +82,25 @@ public class RolesBean implements Serializable {
         log.info("Show PopupModal");
         showPopup = true;
         if (getParam("id") != null) {
+            log.info("param id est pas null dans showpopup");
             editRolesEntity = false;
             int idRoles = parseInt(getParam("id"));
             rolesEntity = rolesServices.findById(idRoles);
         } else {
+            log.info("dans le else showpopup");
             editRolesEntity = true;
             rolesEntity = new RolesEntity();
         }
+    }
+
+    /**
+     * Ouvrir le popup d'edition ou d'ajout
+     */
+    public void showPopupModalAdd() {
+        log.info("Show PopupModalAdd");
+        showPopupAdd = true;
+        addRolesEntity = true;
+        rolesEntity = new RolesEntity();
     }
 
     /**
@@ -98,6 +110,7 @@ public class RolesBean implements Serializable {
         log.info("Hide PopupModal");
         initialisationFields();
         showPopup = false;
+        showPopupAdd = false;
     }
 
 
@@ -129,6 +142,7 @@ public class RolesBean implements Serializable {
     }
 
     public void functionAddRole() {
+        log.info("begin addrole");
         rolesServices.add(rolesEntity);
         success = JsfUtils.returnMessage(locale, "fxs.options.succesAdd");
     }
@@ -215,5 +229,11 @@ public class RolesBean implements Serializable {
         this.fail = fail;
     }
 
+    public boolean isShowPopupAdd() {
+        return showPopupAdd;
+    }
 
+    public void setShowPopupAdd(boolean showPopupAdd) {
+        this.showPopupAdd = showPopupAdd;
+    }
 }

@@ -32,7 +32,7 @@ public class PicturesBean extends ExtendBean implements Serializable {
     private CarsPicturesServices carsPicturesServices = new CarsPicturesServicesImpl();
     private List<CarsPicturesEntity> carsPicturesEntityList;
 
-    private String folder = "A:\\Applications\\Drive\\Work\\IntelliJ\\LocacarJSF\\src\\main\\webapp\\resources\\upload";
+    private String folder = "C:\\Users\\Kakya\\IdeaProjects\\LocacarJSF\\JSFv1\\src\\main\\webapp\\WEB-INF\\uploads\\images";
     private Part file;
 
 
