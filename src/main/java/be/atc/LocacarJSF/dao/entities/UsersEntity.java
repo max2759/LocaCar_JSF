@@ -10,6 +10,7 @@ import java.util.Objects;
 @NamedQueries({
         @NamedQuery(name = "Users.findAll", query = "SELECT u from UsersEntity u"),
         @NamedQuery(name = "Users.findByUsername", query = "SELECT u from UsersEntity u where u.username = :username"),
+        @NamedQuery(name = "Users.findByOneUsername", query = "SELECT u from UsersEntity u where u.username = :username"),
         @NamedQuery(name = "Users.connexion", query = "SELECT u from UsersEntity u where u.username = :username and u.password = :password"),
         @NamedQuery(name = "Users.findUserWithAddresses", query = "SELECT u FROM UsersEntity u join AddressesEntity a on u.id = a.usersByIdUsers.id where u.id = :idUser"),
         @NamedQuery(name = "Users.delete", query = "UPDATE UsersEntity u SET u.active = false where u.id = :idUser")
@@ -21,7 +22,6 @@ public class UsersEntity {
     private String lastname;
     private String username;
     private String password;
-    private String email;
     private LocalDateTime registerDate;
     private LocalDateTime birthdate;
     private String vatNumber;
@@ -81,16 +81,6 @@ public class UsersEntity {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    @Basic
-    @Column(name = "Email", nullable = false)
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     @Basic

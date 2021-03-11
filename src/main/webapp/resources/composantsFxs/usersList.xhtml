@@ -16,7 +16,7 @@
     <div>
         <h:form>
             <h:commandLink styleClass="btn btn-success"
-                           value="#{bundle['fxs.usersList.edit']}"
+                           value="#{bundle['fxs.optionsList.add']}"
                            action="#{usersBean.showPopupModal}">
                 <f:param name="editUserEntity" value="editUserEntity"></f:param>
                 <i class="fas fa-plus"></i>
@@ -40,7 +40,7 @@
 
             <h:column>
                 <!-- bouton edit -->
-                <f:facet name="header">#{bundle['fxs.usersList.edit']}</f:facet>
+                <f:facet name="header">#{bundle['fxs.users.edit']}</f:facet>
                 <!-- appel de showmodalPopup -->
                 <h:commandLink styleClass="btn btn-outline-primary btn-sm"
                                action="#{usersBean.showPopupModal}">

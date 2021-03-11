@@ -7,13 +7,13 @@
       xmlns:cc="http://java.sun.com/jsf/composite"
 >
 
-<cc:interface name="usersList"
+<cc:interface name="userUpdateByUsers"
               displayName="#{bundle['fxs.usersList.displayName']}"
               shortDescription="#{bundle['fxs.usersList.shortDescription']}"
 >
 </cc:interface>
-<cc:implementation>
 
+<cc:implementation>
 
    <h:form>
 
@@ -21,21 +21,24 @@
          <f:facet name="header">#{bundle['fxs.user.username']}</f:facet>
          <h:outputText value="#{usersBean.usersEntity.username}"></h:outputText>
       </h:column>
+      <h:column>
+         <f:facet name="header">#{bundle['fxs.user.password']}</f:facet>
+         <h:outputText value="#{usersBean.usersEntity.password}"></h:outputText>
+      </h:column>
 
       <h:column>
-         <f:facet name="header">#{bundle['fxs.user.firstName']}</f:facet>
+         <f:facet name="ligne1">#{bundle['fxs.user.firstName']}</f:facet>
          <h:outputText value="#{usersBean.usersEntity.firstname}"></h:outputText>
       </h:column>
 
       <h:column>
-         <f:facet name="header">#{bundle['fxs.user.firstName']}</f:facet>
+         <f:facet name="ligne2">#{bundle['fxs.user.street']}</f:facet>
          <h:dataTable id="outputMessage" styleClass="table table-hover table-responsive"
                       value="#{addressesBean.addressesEntities}" var="add">
             <h:column><h:outputText value="#{add.street}"></h:outputText></h:column>
 
          </h:dataTable>
       </h:column>
-
 
       <h:column>
          <!-- bouton edit -->

@@ -18,6 +18,8 @@ public interface UsersDAO {
 
     public List<UsersEntity> findByUsername(String username);
 
+    public UsersEntity findByOneUsername(String username);
+
     public UsersEntity findByUsernameAndPassword(String username, String password);
 
     public List<UsersEntity> findUserWithAddresses(int idUser);

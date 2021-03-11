@@ -60,7 +60,7 @@ public class UsersBean extends ExtendBean implements Serializable {
     private String user;
     private boolean connected;
 
-    public String toPageRegister() {
+    public String toPageAddUser() {
         return "addUser";
     }
     public String toPageConnexion() {
@@ -114,14 +114,18 @@ public class UsersBean extends ExtendBean implements Serializable {
 ////
         UsersEntity usersByUsernameAndPassword = usersServices.findByUsernameAndPassword(username, hashPass);
         log.info(usersByUsernameAndPassword);
-        log.info("username recup + pass:" + username + " " + hashPass);
+        log.info("username recup + pass:" + username + " " + hashPass   );
         if (usersByUsernameAndPassword != null) {
             connexion = true;
-            //envoie sur la page d'acceuil
-            //mettre dans le header "bienvenue machin"
+            //recupere l'user
+            usersEntity =  usersServices.findByOneUsername(usersEntity.getUsername());
+            log.info(usersEntity.getUsername());
+            log.info(usersEntity.getFirstname());
+            log.info(usersEntity.getLastname());
 
             FacesContext.getCurrentInstance().getApplication().getNavigationHandler().handleNavigation(FacesContext.getCurrentInstance(), null, "index.xhtml");
             connected = true;
+            success = JsfUtils.returnMessage(getLocale(), "fxs.user.welcome");
 
             log.info("existe");
         } else {
@@ -142,17 +146,7 @@ public class UsersBean extends ExtendBean implements Serializable {
      */
     public void addUser() throws NoSuchAlgorithmException, ParseException {
 
-
-        //faire la vérif sur mdp d'une certaine taille + username solo
-
         log.info("begin addUserBean");
-        //LocalDateTime currentDate = LocalDateTime.now();
-        // SimpleDateFormat formater = new SimpleDateFormat("yyyy-mm-dd");
-        // String cur = formater.format(currentDate);
-        //  Date curDate = formater.parse(cur);
-        //  System.out.println(formater.format(currentDate));
-
-        // log.info("date du jour " + curDate);
 
         LocalDateTime currentDate = LocalDateTime.now();
 
@@ -179,12 +173,7 @@ public class UsersBean extends ExtendBean implements Serializable {
 
                 log.info("mdp: " + hash);
 
-                usersEntity.setFirstname(usersEntity.getFirstname());
-                usersEntity.setLastname(usersEntity.getLastname());
-                usersEntity.setUsername(usersEntity.getUsername());
                 usersEntity.setPassword(hashPass);
-                usersEntity.setBirthdate(usersEntity.getBirthdate());
-                usersEntity.setVatNumber(usersEntity.getVatNumber());
                 usersEntity.setActive(true);
                 usersEntity.setRegisterDate(currentDate);
                 usersEntity.setRolesByIdRoles(rolesBean.findById(1));
@@ -211,7 +200,7 @@ public class UsersBean extends ExtendBean implements Serializable {
                         log.info("end add addresse");
                     }
 
-                    String logOut = doLogoutUser();
+                 //   String logOut = doLogoutUser();
                     log.info("log out");
 
                     FacesContext.getCurrentInstance().getApplication().getNavigationHandler().handleNavigation(FacesContext.getCurrentInstance(), null, "connexion.xhtml");
@@ -232,7 +221,7 @@ public class UsersBean extends ExtendBean implements Serializable {
     public String doLogoutUser(){
         log.info("befin logOut");
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
-        usersEntity = new UsersEntity();
+       // usersEntity = new UsersEntity();
     //    usersEntity.setUsername(null);
      //   usersEntity.setPassword(null);
         connected = false;
