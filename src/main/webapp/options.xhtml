@@ -2,20 +2,20 @@
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:fxs="http://java.sun.com/jsf/composite/composantsFxs"
-                template="../WEB-INF/templates/template.xhtml">
+                template="WEB-INF/templates/template.xhtml">
 
-    <ui:define name="title">#{bundle['fxs.models.title']}</ui:define>
+    <ui:define name="title">#{bundle['fxs.options.title']}</ui:define>
     <ui:define name="content">
 
         <h:head>
             <script>
                 $( document ).ready( function () {
 
-                        $( '.mytable' ).dataTable().fnDestroy();
-                        loadTable();
+                    $( '.optionTable' ).dataTable().fnDestroy();
+                    loadTable();
 
                         function loadTable() {
-                            $( '.mytable' ).DataTable( {
+                            $( '.optionTable' ).DataTable( {
                                 'language': {
                                     'url': '//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/French.json'
                                 }
@@ -24,18 +24,17 @@
                     }
                 );
             </script>
+
         </h:head>
 
         <h:body>
             <div class="container">
                 <div class="carsComposantHeader">
-                    <h1>#{bundle['fxs.models.title']}</h1>
+                    <h1>#{bundle['fxs.options.title']}</h1>
                 </div>
-
                 <div class="carsComposantList">
-                    <fxs:modelsList id="displayModelsList"></fxs:modelsList>
+                    <fxs:optionsList id="displayOptionsList"></fxs:optionsList>
                 </div>
-
             </div>
         </h:body>
     </ui:define>

@@ -41,7 +41,7 @@
                 <!-- appel de showmodalPopup -->
                 <h:commandLink styleClass="btn btn-outline-primary btn-sm"
                                action="#{rolesBean.showPopupModal}">
-                    <f:param name="id" value="#{role.id}"></f:param>
+                    <f:param name="roleId" value="#{role.id}"></f:param>
                     <f:ajax render="@all"/>
                     <i class="fas fa-edit"></i>
                 </h:commandLink>
@@ -66,7 +66,7 @@
 
                     <div class="form-group">
                         <h:outputLabel value="ID" for="idRoles"></h:outputLabel>
-                        <h:outputText id="idRoles" value="#{rolesBean.rolesEntity.id}"
+                        <h:outputText id="idRoles" value="#{rolesBean.rolesEntity.id} test"
                                       styleClass="form-control"></h:outputText>
                     </div>
 
