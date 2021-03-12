@@ -80,11 +80,18 @@
                       rendered="#{insurancesBean.showPopup}">
 
             <h:form id="formPopupEdit">
-                <div class="popup-panel container">
+                <div class="popup-panel pre-scrollable">
+                    <h:commandLink styleClass="close text-info"
+                                   action="#{insurancesBean.hidePopupModal}">
+                        <i class="fas fa-times"></i>
+                        <f:ajax render="@all"/>
+                    </h:commandLink>
                     <h:panelGrid>
                         <h:messages id="messagesPopup" showSummary="true" globalOnly="true" infoClass="alert-success"
                                     errorClass="alert-danger"/>
                     </h:panelGrid>
+                    <h:outputText styleClass="container-fluid badge bg-warning"
+                                  value="#{bundle['insurance']}"></h:outputText>
                     <div class="form-group">
                         <h:outputLabel value="#{bundle['fxs.insurancesList.title']}" for="label"/>
                         <h:inputText value="#{insurancesBean.insurancesEntity.label}" styleClass="form-control"
@@ -97,7 +104,7 @@
                     <div class="form-group">
                         <h:outputLabel value="#{bundle['fxs.insurancesList.description']}"
                                        for="description"></h:outputLabel>
-                        <h:inputTextarea id="description" styleClass="form-control" rows="3"
+                        <h:inputTextarea cols="70" id="description" styleClass="form-control" rows="3"
                                          value="#{insurancesBean.insurancesEntity.description}"/>
                     </div>
                     <div class="form-group">
@@ -115,13 +122,6 @@
                                          value="#{bundle['fxs.insurancesList.save']}"
                                          action="#{insurancesBean.saveEdit}">
                             <f:ajax execute="formPopupEdit" render="@all"/>
-                        </h:commandButton>
-                    </span>
-                    <span>
-                        <h:commandButton styleClass="btn btn-outline-dark btn-sm"
-                                         value="#{bundle['fxs.insurancesList.close']}"
-                                         action="#{insurancesBean.hidePopupModal}">
-                            <f:ajax render="@all"/>
                         </h:commandButton>
                     </span>
                 </div>
