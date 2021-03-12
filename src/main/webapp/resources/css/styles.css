@@ -246,6 +246,7 @@ a:hover {
 .basket-button {
     margin-bottom: 1px;
 }
+
 .grid td {
     display: block;
     float: left;
@@ -447,4 +448,112 @@ a:hover {
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-start;
+}
+
+/**
+*AdsDetails
+*
+ */
+
+.img-test {
+    width: 100%;
+}
+
+.details-data-highlitghts {
+
+}
+
+.details-highlitghts-font {
+    color: #333;
+    font-size: 1.25rem;
+    line-height: 1.4;
+}
+
+.details-headline {
+    margin-top: 5%;
+    margin-bottom: 10%;
+}
+
+.wrapping-details {
+    margin-bottom: 2%;
+    background-color: white;
+}
+
+.details-title {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.row-color {
+    background-color: white;
+    padding: 28px 16px;
+}
+
+hr {
+    border: 0;
+    border-top: 1px solid #dcdcdc
+}
+
+.details-data-highlitghts-item {
+    margin-top: 8px;
+}
+
+.h6-details-title {
+    color: #7c7c7c;
+}
+
+a#details-tab {
+    color: black;
+}
+
+a#options-tab {
+    color: black;
+}
+
+
+a#details-tab:hover {
+    color: #c8a62d;
+}
+
+a#options-tab:hover {
+    color: #c8a62d;
+}
+
+#options-tab.active {
+    color: #c8a62d;
+}
+
+#details-tab.active {
+    color: #c8a62d;
+}
+
+#myTabContent {
+    padding: 28px 16px;
+}
+
+.details-tab-table {
+    width: 100%;
+    margin-bottom: 28px;
+}
+
+.details-tab-table th {
+    width: 50%;
+}
+
+.first-th-color {
+    font-weight: normal;
+    color: #7c7c7c;
+}
+
+.second-th-color {
+    font-weight: normal;
+}
+
+.options-list {
+    -moz-column-count: 4;
+    -moz-column-gap: 20px;
+    -webkit-column-count: 4;
+    -webkit-column-gap: 20px;
+    column-count: 4;
+    column-gap: 20px;
 }

@@ -1,15 +1,193 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
                 template="WEB-INF/templates/template.xhtml">
 
     <ui:define name="title">#{bundle['fxs.addAds.displayName']}</ui:define>
     <ui:define name="content">
 
+        <f:metadata>
+            <f:viewAction action="#{adsBean.displayOneAd}"/>
+            <f:viewAction action="#{adsBean.getAllCarOptions}"/>
+        </f:metadata>
+
         <h:body>
             <div class="container">
-                <h1>test</h1>
-                <h1><h:outputText value="#{adsBean.adsEntity.label}"/></h1>
+                <div class="wrapping-details">
+                    <div class="row details-title">
+                        <div class="col-md-12">
+                            <h1>
+                                <h:outputText value="#{adsBean.adsEntityTest.label}"/>
+                            </h1>
+                        </div>
+                        <div class="col-md-12">
+                            <h6 class="h6-details-title">
+                                <h:outputText
+                                        value="#{adsBean.adsEntityTest.carsByIdCars.modelsByIdModels.brandsByIdBrands.label} "/>
+                                <h:outputText value="#{adsBean.adsEntityTest.carsByIdCars.modelsByIdModels.label}"/>
+                            </h6>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-7">
+                            <h:graphicImage value="resources/upload/206.jpg" styleClass="img-test"/>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="details-headline">
+                                <h2>
+                                    <h:outputText value="#{adsBean.adsEntityTest.price}">
+                                        <f:convertNumber type="currency" currencySymbol="€"/>
+                                    </h:outputText>
+                                </h2>
+                            </div>
+                            <hr/>
+                            <div class="details-data-highlitghts">
+                                <div class="details-data-highlitghts-item">
+                                    <i class="fas fa-road fa-lg mr-3"></i>
+                                    <h:outputText value="#{adsBean.adsEntityTest.carsByIdCars.kilometer} km"
+                                                  styleClass="details-highlitghts-font"/>
+                                </div>
+                                <div class="details-data-highlitghts-item">
+                                    <i class="far fa-calendar-alt fa-lg mr-3"></i>
+                                    <h:outputText value="#{adsBean.adsEntityTest.carsByIdCars.releaseYear}"
+                                                  styleClass="details-highlitghts-font">
+                                        <f:convertDateTime type="localDate" pattern="MM/yyyy"/>
+                                    </h:outputText>
+                                </div>
+                                <div class="details-data-highlitghts-item">
+                                    <i class="fas fa-tachometer-alt fa-lg mr-3"></i>
+                                    <h:outputText value="#{adsBean.adsEntityTest.carsByIdCars.horsePower} CH"
+                                                  styleClass="details-highlitghts-font"/>
+                                </div>
+                            </div>
+                            <hr/>
+                            <div class="addToShop">
+                                <h:form>
+                                    <h:commandButton value="#{bundle['addBasket']}" action="#{ordersBean.addShop}">
+                                        <f:param name="adsId" value="#{adsBean.adsEntityTest.id}"/>
+                                    </h:commandButton>
+                                </h:form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row row-color">
+                    <div class="col-md-12">
+                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="details-tab" data-toggle="tab" href="#details" role="tab"
+                                   aria-controls="details" aria-selected="true">#{bundle['adsdetails.details']}</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="options-tab" data-toggle="tab" href="#options" role="tab"
+                                   aria-controls="options" aria-selected="false">#{bundle['adsdetails.options']}</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="myTabContent">
+                            <div class="tab-pane fade show active" id="details" role="tabpanel"
+                                 aria-labelledby="details-tab">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <table class="details-tab-table">
+                                            <tr>
+                                                <th class="first-th-color">#{bundle['fxs.ads.adsType']}</th>
+                                                <th class="second-th-color"><h:outputText
+                                                        value="#{adsBean.adsEntityTest.typeAds.label}"/></th>
+                                            </tr>
+                                        </table>
+
+                                        <table class="details-tab-table">
+                                            <tr>
+                                                <th class="first-th-color">#{bundle['fxs.ads.carsGearbox']}</th>
+                                                <th class="second-th-color"><h:outputText
+                                                        value="#{adsBean.adsEntityTest.carsByIdCars.carsGearboxByIdCarsGearBox.label}"/>
+                                                </th>
+                                            </tr>
+                                        </table>
+                                        <table class="details-tab-table">
+                                            <tr>
+                                                <th class="first-th-color">#{bundle['fxs.ads.carsFuels']}</th>
+                                                <th class="second-th-color"><h:outputText
+                                                        value="#{adsBean.adsEntityTest.carsByIdCars.carsFuelsByIdCarsFuels.label}"/>
+                                                </th>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <div class="col-md-6">
+
+                                        <table class="details-tab-table">
+                                            <tr>
+                                                <th>#{bundle['adsdetails.properties']}</th>
+                                            </tr>
+                                            <tr>
+                                                <th class="first-th-color">#{bundle['fxs.ads.brands']}</th>
+                                                <th class="second-th-color"><h:outputText
+                                                        value="#{adsBean.adsEntityTest.carsByIdCars.modelsByIdModels.brandsByIdBrands.label}"/>
+                                                </th>
+                                            </tr>
+                                            <tr>
+                                                <th class="first-th-color">#{bundle['fxs.models.label']}</th>
+                                                <th class="second-th-color"><h:outputText
+                                                        value="#{adsBean.adsEntityTest.carsByIdCars.modelsByIdModels.label}"/>
+                                                </th>
+                                            </tr>
+                                            <tr>
+                                                <th class="first-th-color">#{bundle['fxs.ads.releaseYear']}</th>
+                                                <th class="second-th-color"><h:outputText
+                                                        value="#{adsBean.adsEntityTest.carsByIdCars.releaseYear}">
+                                                    <f:convertDateTime type="localDate" pattern="yyyy"/>
+                                                </h:outputText></th>
+                                            </tr>
+                                            <tr>
+                                                <th class="first-th-color">#{bundle['fxs.ads.carsColor']}</th>
+                                                <th class="second-th-color">
+                                                    <h:outputText
+                                                            value="#{adsBean.adsEntityTest.carsByIdCars.carsColorsByIdCarsColors.label}"/>
+                                                </th>
+                                            </tr>
+                                            <tr>
+                                                <th class="first-th-color">#{bundle['adsdetails.carbody']}</th>
+                                                <th class="second-th-color">
+                                                    <h:outputText
+                                                            value="#{adsBean.adsEntityTest.carsByIdCars.carsTypesByIdCarsTypes.label}"/>
+                                                </th>
+                                            </tr>
+                                            <tr>
+                                                <th class="first-th-color">#{bundle['adsdetails.doorsNumbers']}</th>
+                                                <th class="second-th-color">
+                                                    <h:outputText
+                                                            value="#{adsBean.adsEntityTest.carsByIdCars.carsTypesByIdCarsTypes.doorsNumbers}"/>
+                                                </th>
+                                            </tr>
+                                            <tr>
+                                                <th class="first-th-color">#{bundle['adsdetails.seatsNumbers']}</th>
+                                                <th class="second-th-color">
+                                                    <h:outputText
+                                                            value="#{adsBean.adsEntityTest.carsByIdCars.carsTypesByIdCarsTypes.seatsNumbers}"/>
+                                                </th>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="options" role="tabpanel" aria-labelledby="options-tab">
+                                <ul class="options-list">
+                                    <ui:repeat value="#{adsBean.carsOptionsEntityList}" var="carOptions">
+
+                                        <li><h:outputText value="#{carOptions.optionsByIdOptions.label}"></h:outputText>
+                                        </li>
+
+                                    </ui:repeat>
+                                </ul>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </h:body>
     </ui:define>

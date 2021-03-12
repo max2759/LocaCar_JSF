@@ -1,6 +1,7 @@
 package be.atc.LocacarJSF.beans;
 
 import be.atc.LocacarJSF.dao.entities.AdsEntity;
+import be.atc.LocacarJSF.dao.entities.CarsOptionsEntity;
 import be.atc.LocacarJSF.dao.entities.CarsPicturesEntity;
 import be.atc.LocacarJSF.enums.EnumTypeAds;
 import be.atc.LocacarJSF.services.AdsServices;
@@ -37,12 +38,14 @@ public class AdsBean extends ExtendBean implements Serializable {
     private LocalDateTime dateEnd = dateStart.plusMonths(1);
 
     private AdsEntity adsEntity;
+    private AdsEntity adsEntityTest;
     private AdsServices adsServices = new AdsServicesImpl();
     private RepeatPaginator paginator;
     Map<Integer, List<CarsPicturesEntity>> carsPicturesMap = new HashMap<>();
     private List<AdsEntity> adsEntities;
     private List<AdsEntity> allDisabledAds;
     private List<AdsEntity> allAdsByLabelEntities;
+    private List<CarsOptionsEntity> carsOptionsEntityList;
 
     private List<CarsPicturesEntity> carsPicturesEntityList;
     private String page;
@@ -61,9 +64,9 @@ public class AdsBean extends ExtendBean implements Serializable {
     @Inject
     private CarsBean carsBean;
 
-    public String toPageAdDetails() {
-        return "adsDetails";
-    }
+    @Inject
+    private CarsOptionsBean carsOptionsBean;
+
 
     private boolean showPopup;
     private boolean addAdsEntity;
@@ -120,7 +123,7 @@ public class AdsBean extends ExtendBean implements Serializable {
     }
 
     /**
-     * Récupérer les valeurs de l'enum EnumTypeAds
+     * Get values of EnumTypes
      *
      * @return enumTypes
      */
@@ -181,22 +184,25 @@ public class AdsBean extends ExtendBean implements Serializable {
     }
 
     /**
-     * Récupérer l'annonce par son titre
+     * Get list of ads by label enter in the search form
      *
      * @return adsEntities
      */
     protected boolean findAdsByLabel() {
         log.info("AdsBean : findAdsByLabel");
+
         allAdsByLabelEntities = adsServices.findByLabel(searchString);
         return !allAdsByLabelEntities.isEmpty();
     }
 
+    /**
+     * Get one ads by id
+     */
     public void displayOneAd() {
         log.info("Adsbean : displayOneAd");
 
         int idAd = parseInt(getParam("adsId"));
-        adsServices.findById(idAd);
-        FacesContext.getCurrentInstance().getApplication().getNavigationHandler().handleNavigation(FacesContext.getCurrentInstance(), null, "adsDetails.xhtml");
+        adsEntityTest = adsServices.findById(idAd);
     }
 
     /**
@@ -240,6 +246,16 @@ public class AdsBean extends ExtendBean implements Serializable {
             updateAds();
             init();
         }
+    }
+
+    public void getAllCarOptions() {
+
+        int idCars = adsEntityTest.getCarsByIdCars().getId();
+        carsOptionsEntityList = carsOptionsBean.findCarsOptionsByCarsId(idCars);
+    }
+
+    public void getAdsId(int id) {
+        adsEntity = adsServices.findById(id);
     }
 
 
@@ -356,5 +372,21 @@ public class AdsBean extends ExtendBean implements Serializable {
 
     public void setAllDisabledAds(List<AdsEntity> allDisabledAds) {
         this.allDisabledAds = allDisabledAds;
+    }
+
+    public AdsEntity getAdsEntityTest() {
+        return adsEntityTest;
+    }
+
+    public void setAdsEntityTest(AdsEntity adsEntityTest) {
+        this.adsEntityTest = adsEntityTest;
+    }
+
+    public List<CarsOptionsEntity> getCarsOptionsEntityList() {
+        return carsOptionsEntityList;
+    }
+
+    public void setCarsOptionsEntityList(List<CarsOptionsEntity> carsOptionsEntityList) {
+        this.carsOptionsEntityList = carsOptionsEntityList;
     }
 }

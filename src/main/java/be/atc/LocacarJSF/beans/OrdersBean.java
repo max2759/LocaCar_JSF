@@ -47,6 +47,9 @@ public class OrdersBean extends ExtendBean implements Serializable {
     private ContractsBean contractsBean;
     @Inject
     private UsersBean usersBean;
+    @Inject
+    private AdsBean adsBean;
+
 
     /**
      * Method post construct
@@ -95,6 +98,16 @@ public class OrdersBean extends ExtendBean implements Serializable {
         FacesContext context = FacesContext.getCurrentInstance();
 
         log.info("OrdersBean : AddShop");
+
+        int idAds = Integer.parseInt(getParam("adsId"));
+
+        if (idAds == 0) {
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, JsfUtils.returnMessage(getLocale(), "fxs.addShopButton.addShopError"), null));
+            return;
+        }
+
+        adsBean.getAdsId(idAds);
+
         init();
         checkIfOrdersEntityIsNullAndCreateOrders();
 

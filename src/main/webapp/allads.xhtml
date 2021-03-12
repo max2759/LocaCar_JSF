@@ -61,9 +61,8 @@
                                        value="#{adsBean.paginator.model}"
                                        id="data-container"
                                        var="ads">
-                                <h:commandLink id="adsID"
-                                               styleClass="adsId-a"
-                                               action="#{adsBean.displayOneAd}">
+                                <h:link id="adsID"
+                                        styleClass="adsId-a" outcome="adsDetails">
                                     <div class="summary-full-item">
                                         <div class="summary-headline-item">
                                             <div class="summary-headline-h3">
@@ -111,8 +110,7 @@
                                         </div>
                                     </div>
                                     <f:param name="adsId" value="#{ads.id}"/>
-                                    <f:ajax render="@all"/>
-                                </h:commandLink>
+                                </h:link>
                             </ui:repeat>
                             <div class="pagination justify-content-center">
                                 <h:commandButton value="&lt; #{bundle['fxs.allads.previous']}"

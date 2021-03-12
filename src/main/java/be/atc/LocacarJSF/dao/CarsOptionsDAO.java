@@ -15,4 +15,5 @@ public interface CarsOptionsDAO {
 
     public CarsOptionsEntity findById(int id);
 
+    List<CarsOptionsEntity> findCarsOptionsByCarsId(int idCars);
 }

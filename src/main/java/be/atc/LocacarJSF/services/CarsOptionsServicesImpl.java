@@ -39,4 +39,12 @@ public class CarsOptionsServicesImpl implements CarsOptionsServices {
         }
         return null;
     }
+
+    @Override
+    public List<CarsOptionsEntity> findCarsOptionsByCarsId(int idCars) {
+        if (idCars != 0) {
+            return carsOptionsDAO.findCarsOptionsByCarsId(idCars);
+        }
+        return null;
+    }
 }
