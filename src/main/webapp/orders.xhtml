@@ -6,26 +6,27 @@
                 template="WEB-INF/templates/template.xhtml">
 
     <ui:define name="title">#{bundle['orders.title']}</ui:define>
-    <ui:define name="content"> <h:head>
-        <script>
+    <ui:define name="content">
+        <h:head>
+            <script>
 
-            $( document ).ready( function () {
+                $( document ).ready( function () {
 
-                $( '.tableOrder' ).dataTable().fnDestroy();
-                loadTable();
+                        $( '.tableOrder' ).dataTable().fnDestroy();
+                        loadTable();
 
-                    function loadTable() {
-                        $( '.tableOrder' ).DataTable( {
-                            'language': {
-                                'url': '//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/French.json'
-                            }
-                        } );
+                        function loadTable() {
+                            $( '.tableOrder' ).DataTable( {
+                                'language': {
+                                    'url': '//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/French.json'
+                                }
+                            } );
+                        }
                     }
-                }
-            );
+                );
 
-        </script>
-    </h:head>
+            </script>
+        </h:head>
         <f:metadata>
             <f:viewAction action="#{ordersBean.fieldsInitialization}"/>
         </f:metadata>
