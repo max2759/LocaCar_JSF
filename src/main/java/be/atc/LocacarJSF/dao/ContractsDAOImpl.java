@@ -196,7 +196,7 @@ public class ContractsDAOImpl extends EntityFinderImpl<ContractsEntity> implemen
             return em.createNamedQuery("Contracts.findAllContractsByIdOrderAndDeadlineIsLowerThan1Month",
                     ContractsEntity.class)
                     .setParameter("idOrder", idOrder)
-                    .setParameter("today", LocalDateTime.now().plusMonths(1))
+                    .setParameter("todayPlus1Month", LocalDateTime.now().plusMonths(1))
                     .getResultList();
         } catch (Exception ex) {
             log.info("Nothing");
