@@ -13,4 +13,6 @@ public interface CarsOptionsServices {
     List<CarsOptionsEntity> findAll();
 
     CarsOptionsEntity findById(int id);
+
+    List<CarsOptionsEntity> findCarsOptionsByCarsId(int idCars);
 }

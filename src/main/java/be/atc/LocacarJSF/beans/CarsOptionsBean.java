@@ -7,7 +7,7 @@ import be.atc.LocacarJSF.services.CarsOptionsServices;
 import be.atc.LocacarJSF.services.CarsOptionsServicesImpl;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.SessionScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -17,7 +17,7 @@ import java.util.List;
  * @author Maximilien - Zabbara
  */
 @Named(value = "carsOptionsBean")
-@SessionScoped
+@ViewScoped
 public class CarsOptionsBean extends ExtendBean implements Serializable {
 
     private static final long serialVersionUID = -8836402876857939542L;
@@ -29,13 +29,18 @@ public class CarsOptionsBean extends ExtendBean implements Serializable {
 
     /**
      * PostConstruct : appelé après le constructeur.
-     * Met à jour la liste carEntities
+     * get last updated CarsOptions Entity
      */
     @PostConstruct
     public void init() {
         carsOptionsEntity = new CarsOptionsEntity();
     }
 
+    /**
+     * take CarsEntity as option and save options id and cars id into carsOptions
+     *
+     * @param carsEntity
+     */
     public void addOptionsToCarsOptions(CarsEntity carsEntity) {
 
         log.info("Début de la sauvegarde");
@@ -51,6 +56,10 @@ public class CarsOptionsBean extends ExtendBean implements Serializable {
 
         log.info("Bien sauvegardé");
 
+    }
+
+    public List<CarsOptionsEntity> findCarsOptionsByCarsId(int idCars) {
+        return carsOptionsServices.findCarsOptionsByCarsId(idCars);
     }
 
     /// getters setters ///

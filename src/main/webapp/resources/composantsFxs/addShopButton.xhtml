@@ -24,8 +24,7 @@
         <h:outputLabel value="Id Ads : "/>
         <h:inputText value="#{adsBean.adsEntity}" id="adsEntity">
             <f:validator validatorId="addBasketValidator"/>
-            <f:converter
-                    converterId="adsConverter"/>
+            <f:converter converterId="adsConverter"/>
             <h:message for="adsEntity"/>
         </h:inputText>
         <br/>
