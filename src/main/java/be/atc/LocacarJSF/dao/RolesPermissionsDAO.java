@@ -9,7 +9,7 @@ public interface RolesPermissionsDAO {
 
     public boolean update(RolesPermissionsEntity rolesPermissionsEntity);
 
-    public boolean delete(RolesPermissionsEntity rolesPermissionsEntity);
+    public boolean delete(int idRolePerm);
 
     public List<RolesPermissionsEntity> findAll();
 

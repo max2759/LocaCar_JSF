@@ -9,7 +9,7 @@ public interface RolesPermissionsServices {
 
     public boolean update(RolesPermissionsEntity rolesPermissionsEntity);
 
-    public boolean delete(RolesPermissionsEntity rolesPermissionsEntity);
+    public boolean delete(int idRolePerm);
 
     public List<RolesPermissionsEntity> findAll();
 

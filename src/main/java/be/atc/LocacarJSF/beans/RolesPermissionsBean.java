@@ -44,7 +44,7 @@ public class RolesPermissionsBean implements Serializable {
     private be.atc.LocacarJSF.beans.PermissionsBean permissionsBean;
 
     public void init() {
-        rolesPermissionsEntity = new RolesPermissionsEntity();
+       // rolesPermissionsEntity = new RolesPermissionsEntity();
         rolesPermissionsEntities = rolesPermissionsServices.findAll();
     }
 
@@ -99,6 +99,19 @@ public class RolesPermissionsBean implements Serializable {
         initialisationFields();
         showPopupAdd = false;
         showPopupEdit = false;
+    }
+
+    public void delete() {
+        log.info("begin deleteroleperm");
+
+        //faut appeler le service
+        int idRolesPerm = parseInt(getParam("id"));
+        log.info(idRolesPerm);
+        rolesPermissionsEntity = rolesPermissionsServices.findById(idRolesPerm);
+        rolesPermissionsServices.delete(idRolesPerm);
+
+        log.info("end deletereoleperm ");
+
     }
 
 

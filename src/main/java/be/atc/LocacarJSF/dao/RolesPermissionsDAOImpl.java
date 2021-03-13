@@ -59,8 +59,30 @@ public class RolesPermissionsDAOImpl implements RolesPermissionsDAO {
     }
 
     @Override
-    public boolean delete(RolesPermissionsEntity rolesPermissionsEntity) {
-        return false;
+    public boolean delete(int idRolePerm) {
+        EntityManager em = EMF.getEM();
+        em.getTransaction();
+
+        EntityTransaction tx = null;
+        try {
+            tx = em.getTransaction();
+            tx.begin();
+
+            RolesPermissionsEntity u = findById(idRolePerm);
+            em.remove(em.merge(u));
+
+            tx.commit();
+            log.info("Delete ok");
+            return true;
+        } catch (
+                Exception ex) {
+            if (tx != null && tx.isActive()) tx.rollback();
+            log.error("Delete Error");
+            return false;
+        } finally {
+            em.clear();
+            em.close();
+        }
     }
 
     @Override
