@@ -14,8 +14,6 @@ public interface CarsPicturesDAO {
 
     public CarsPicturesEntity findById(int id);
 
-    public List<CarsPicturesEntity> findByCarsId(int id);
-
     public CarsPicturesEntity findByLabel(String label);
 
     List<CarsPicturesEntity> findCarsPicturesByIdCars(int idCars);

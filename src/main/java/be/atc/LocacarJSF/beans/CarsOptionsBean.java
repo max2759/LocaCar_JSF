@@ -58,6 +58,15 @@ public class CarsOptionsBean extends ExtendBean implements Serializable {
 
     }
 
+    public void updateCarOptions(CarsEntity carsEntity) {
+        for (OptionsEntity optionsEntity : optionsEntityList) {
+            carsOptionsEntity.setCarsByIdCars(carsEntity);
+            carsOptionsEntity.setOptionsByIdOptions(optionsEntity);
+            carsOptionsServices.update(carsOptionsEntity);
+        }
+
+    }
+
     public List<CarsOptionsEntity> findCarsOptionsByCarsId(int idCars) {
         return carsOptionsServices.findCarsOptionsByCarsId(idCars);
     }

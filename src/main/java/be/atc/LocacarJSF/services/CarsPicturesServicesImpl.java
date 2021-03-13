@@ -42,14 +42,6 @@ public class CarsPicturesServicesImpl implements CarsPicturesServices {
     }
 
     @Override
-    public List<CarsPicturesEntity> findByCarsId(int id) {
-        if (id != 0) {
-            return carsPicturesDAO.findByCarsId(id);
-        }
-        return Collections.emptyList();
-    }
-
-    @Override
     public CarsPicturesEntity findByLabel(String label) {
 
         if (label != null) {

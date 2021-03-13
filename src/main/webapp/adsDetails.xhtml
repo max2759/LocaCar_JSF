@@ -10,6 +10,7 @@
         <f:metadata>
             <f:viewAction action="#{adsBean.displayOneAd}"/>
             <f:viewAction action="#{adsBean.getAllCarOptions}"/>
+            <f:viewAction action="#{insurancesBean.findAllInsurancesActive}"/>
         </f:metadata>
 
         <h:body>
@@ -18,14 +19,14 @@
                     <div class="row details-title">
                         <div class="col-md-12">
                             <h1>
-                                <h:outputText value="#{adsBean.adsEntityTest.label}"/>
+                                <h:outputText value="#{adsBean.adsEntity.label}"/>
                             </h1>
                         </div>
                         <div class="col-md-12">
                             <h6 class="h6-details-title">
                                 <h:outputText
-                                        value="#{adsBean.adsEntityTest.carsByIdCars.modelsByIdModels.brandsByIdBrands.label} "/>
-                                <h:outputText value="#{adsBean.adsEntityTest.carsByIdCars.modelsByIdModels.label}"/>
+                                        value="#{adsBean.adsEntity.carsByIdCars.modelsByIdModels.brandsByIdBrands.label} "/>
+                                <h:outputText value="#{adsBean.adsEntity.carsByIdCars.modelsByIdModels.label}"/>
                             </h6>
                         </div>
 
@@ -33,12 +34,14 @@
 
                     <div class="row">
                         <div class="col-md-7">
-                            <h:graphicImage value="resources/upload/206.jpg" styleClass="img-test"/>
+                            <ui:repeat value="#{adsBean.imagePath}" var="image">
+                                <h:graphicImage value="#{image}" styleClass="img-test"/>
+                            </ui:repeat>
                         </div>
                         <div class="col-md-5">
                             <div class="details-headline">
                                 <h2>
-                                    <h:outputText value="#{adsBean.adsEntityTest.price}">
+                                    <h:outputText value="#{adsBean.adsEntity.price}">
                                         <f:convertNumber type="currency" currencySymbol="€"/>
                                     </h:outputText>
                                 </h2>
@@ -47,27 +50,73 @@
                             <div class="details-data-highlitghts">
                                 <div class="details-data-highlitghts-item">
                                     <i class="fas fa-road fa-lg mr-3"></i>
-                                    <h:outputText value="#{adsBean.adsEntityTest.carsByIdCars.kilometer} km"
+                                    <h:outputText value="#{adsBean.adsEntity.carsByIdCars.kilometer} km"
                                                   styleClass="details-highlitghts-font"/>
                                 </div>
                                 <div class="details-data-highlitghts-item">
                                     <i class="far fa-calendar-alt fa-lg mr-3"></i>
-                                    <h:outputText value="#{adsBean.adsEntityTest.carsByIdCars.releaseYear}"
+                                    <h:outputText value="#{adsBean.adsEntity.carsByIdCars.releaseYear}"
                                                   styleClass="details-highlitghts-font">
                                         <f:convertDateTime type="localDate" pattern="MM/yyyy"/>
                                     </h:outputText>
                                 </div>
                                 <div class="details-data-highlitghts-item">
                                     <i class="fas fa-tachometer-alt fa-lg mr-3"></i>
-                                    <h:outputText value="#{adsBean.adsEntityTest.carsByIdCars.horsePower} CH"
+                                    <h:outputText value="#{adsBean.adsEntity.carsByIdCars.horsePower} CH"
                                                   styleClass="details-highlitghts-font"/>
                                 </div>
                             </div>
                             <hr/>
                             <div class="addToShop">
                                 <h:form>
-                                    <h:commandButton value="#{bundle['addBasket']}" action="#{ordersBean.addShop}">
-                                        <f:param name="adsId" value="#{adsBean.adsEntityTest.id}"/>
+                                    <div class="leasing-options">
+
+                                        <h:panelGroup
+                                                rendered="#{adsBean.adsEntity.typeAds eq 'Leasing' ? true : false}">
+                                            <h:panelGroup styleClass="form-group">
+                                                <h:selectOneMenu id="insuranceId"
+                                                                 styleClass="form-control"
+                                                                 value="#{insurancesBean.insurancesEntity}"
+                                                                 converter="contractInsurancesConverter">
+                                                    <f:ajax render="@all"/>
+                                                    <f:selectItems value="#{insurancesBean.insurancesEntitiesActive}"
+                                                                   var="insurance"
+                                                                   itemValue="#{insurance}"
+                                                                   itemLabel="#{insurance.label}"/>
+                                                    <h:message styleClass="alert-danger" for="insuranceId"/>
+                                                </h:selectOneMenu>
+                                                <h:outputLabel styleClass="mt-1 pr-1"
+                                                               value="#{bundle['fxs.ordersList.insurancePrice']} "/>
+                                                <h:outputText styleClass="font-weight-bold"
+                                                              value="#{insurancesBean.insurancesEntity.price}">
+                                                    <f:convertNumber type="currency" currencySymbol="€"/>
+                                                </h:outputText>
+                                                <h:outputText styleClass="font-weight-bold"
+                                                              value="#{bundle['pdf.insuranceMonth']} "/>
+                                            </h:panelGroup>
+
+                                            <h:panelGroup styleClass="form-group row">
+                                                <h:outputLabel value="#{bundle['fxs.basket.leasingTime']}"/>
+                                                <h:selectOneMenu value="#{contractsBean.timeLeasing}"
+                                                                 id="leasingTime"
+                                                                 required="true"
+                                                                 styleClass="form-control"
+                                                                 validator="leasingTimeValidator">
+                                                    <f:selectItem itemValue="36"
+                                                                  itemLabel="#{bundle['fxs.basket.36Month']}"/>
+                                                    <f:selectItem itemValue="48"
+                                                                  itemLabel="#{bundle['fxs.basket.48Month']}"/>
+                                                    <f:selectItem itemValue="60"
+                                                                  itemLabel="#{bundle['fxs.basket.60Month']}"/>
+                                                    <h:message styleClass="alert-danger" for="leasingTime"/>
+                                                </h:selectOneMenu>
+                                            </h:panelGroup>
+
+                                        </h:panelGroup>
+                                    </div>
+                                    <h:commandButton value="#{bundle['addBasket']}" action="#{ordersBean.addShop}"
+                                                     styleClass="btn btn-warning btn-sm btn-width">
+                                        <f:param name="adsId" value="#{adsBean.adsEntity.id}"/>
                                     </h:commandButton>
                                 </h:form>
                             </div>
@@ -95,7 +144,7 @@
                                             <tr>
                                                 <th class="first-th-color">#{bundle['fxs.ads.adsType']}</th>
                                                 <th class="second-th-color"><h:outputText
-                                                        value="#{adsBean.adsEntityTest.typeAds.label}"/></th>
+                                                        value="#{adsBean.adsEntity.typeAds.label}"/></th>
                                             </tr>
                                         </table>
 
@@ -103,7 +152,7 @@
                                             <tr>
                                                 <th class="first-th-color">#{bundle['fxs.ads.carsGearbox']}</th>
                                                 <th class="second-th-color"><h:outputText
-                                                        value="#{adsBean.adsEntityTest.carsByIdCars.carsGearboxByIdCarsGearBox.label}"/>
+                                                        value="#{adsBean.adsEntity.carsByIdCars.carsGearboxByIdCarsGearBox.label}"/>
                                                 </th>
                                             </tr>
                                         </table>
@@ -111,7 +160,7 @@
                                             <tr>
                                                 <th class="first-th-color">#{bundle['fxs.ads.carsFuels']}</th>
                                                 <th class="second-th-color"><h:outputText
-                                                        value="#{adsBean.adsEntityTest.carsByIdCars.carsFuelsByIdCarsFuels.label}"/>
+                                                        value="#{adsBean.adsEntity.carsByIdCars.carsFuelsByIdCarsFuels.label}"/>
                                                 </th>
                                             </tr>
                                         </table>
@@ -125,19 +174,19 @@
                                             <tr>
                                                 <th class="first-th-color">#{bundle['fxs.ads.brands']}</th>
                                                 <th class="second-th-color"><h:outputText
-                                                        value="#{adsBean.adsEntityTest.carsByIdCars.modelsByIdModels.brandsByIdBrands.label}"/>
+                                                        value="#{adsBean.adsEntity.carsByIdCars.modelsByIdModels.brandsByIdBrands.label}"/>
                                                 </th>
                                             </tr>
                                             <tr>
                                                 <th class="first-th-color">#{bundle['fxs.models.label']}</th>
                                                 <th class="second-th-color"><h:outputText
-                                                        value="#{adsBean.adsEntityTest.carsByIdCars.modelsByIdModels.label}"/>
+                                                        value="#{adsBean.adsEntity.carsByIdCars.modelsByIdModels.label}"/>
                                                 </th>
                                             </tr>
                                             <tr>
                                                 <th class="first-th-color">#{bundle['fxs.ads.releaseYear']}</th>
                                                 <th class="second-th-color"><h:outputText
-                                                        value="#{adsBean.adsEntityTest.carsByIdCars.releaseYear}">
+                                                        value="#{adsBean.adsEntity.carsByIdCars.releaseYear}">
                                                     <f:convertDateTime type="localDate" pattern="yyyy"/>
                                                 </h:outputText></th>
                                             </tr>
@@ -145,41 +194,42 @@
                                                 <th class="first-th-color">#{bundle['fxs.ads.carsColor']}</th>
                                                 <th class="second-th-color">
                                                     <h:outputText
-                                                            value="#{adsBean.adsEntityTest.carsByIdCars.carsColorsByIdCarsColors.label}"/>
+                                                            value="#{adsBean.adsEntity.carsByIdCars.carsColorsByIdCarsColors.label}"/>
                                                 </th>
                                             </tr>
                                             <tr>
                                                 <th class="first-th-color">#{bundle['adsdetails.carbody']}</th>
                                                 <th class="second-th-color">
                                                     <h:outputText
-                                                            value="#{adsBean.adsEntityTest.carsByIdCars.carsTypesByIdCarsTypes.label}"/>
+                                                            value="#{adsBean.adsEntity.carsByIdCars.carsTypesByIdCarsTypes.label}"/>
                                                 </th>
                                             </tr>
                                             <tr>
                                                 <th class="first-th-color">#{bundle['adsdetails.doorsNumbers']}</th>
                                                 <th class="second-th-color">
                                                     <h:outputText
-                                                            value="#{adsBean.adsEntityTest.carsByIdCars.carsTypesByIdCarsTypes.doorsNumbers}"/>
+                                                            value="#{adsBean.adsEntity.carsByIdCars.carsTypesByIdCarsTypes.doorsNumbers}"/>
                                                 </th>
                                             </tr>
                                             <tr>
                                                 <th class="first-th-color">#{bundle['adsdetails.seatsNumbers']}</th>
                                                 <th class="second-th-color">
                                                     <h:outputText
-                                                            value="#{adsBean.adsEntityTest.carsByIdCars.carsTypesByIdCarsTypes.seatsNumbers}"/>
+                                                            value="#{adsBean.adsEntity.carsByIdCars.carsTypesByIdCarsTypes.seatsNumbers}"/>
                                                 </th>
                                             </tr>
                                         </table>
                                     </div>
                                 </div>
                             </div>
+
                             <div class="tab-pane fade" id="options" role="tabpanel" aria-labelledby="options-tab">
+
                                 <ul class="options-list">
                                     <ui:repeat value="#{adsBean.carsOptionsEntityList}" var="carOptions">
-
-                                        <li><h:outputText value="#{carOptions.optionsByIdOptions.label}"></h:outputText>
+                                        <li>
+                                            <h:outputText value="#{carOptions.optionsByIdOptions.label}"></h:outputText>
                                         </li>
-
                                     </ui:repeat>
                                 </ul>
                             </div>

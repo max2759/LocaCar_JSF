@@ -1,6 +1,5 @@
 package be.atc.LocacarJSF.beans;
 
-import be.atc.LocacarJSF.classes.Constants;
 import be.atc.LocacarJSF.dao.entities.CarsEntity;
 import be.atc.LocacarJSF.dao.entities.CarsPicturesEntity;
 import be.atc.LocacarJSF.services.CarsPicturesServices;
@@ -33,9 +32,10 @@ public class PicturesBean extends ExtendBean implements Serializable {
     private CarsPicturesServices carsPicturesServices = new CarsPicturesServicesImpl();
     private List<CarsPicturesEntity> carsPicturesEntityList;
 
-    private String folder = Constants.FILE_OUTPUT_IMAGE;
+//    private String folder = Constants.FILE_OUTPUT_IMAGE;
 
-    //    private String folder = "A:\\Applications\\Drive\\Work\\IntelliJ\\LocacarJSF\\src\\main\\webapp\\resources\\upload";
+    private String folder = "A:\\Applications\\Drive\\Work\\IntelliJ\\LocacarJSF\\src\\main\\webapp\\resources\\upload";
+
     private Part file;
 
 
@@ -112,15 +112,6 @@ public class PicturesBean extends ExtendBean implements Serializable {
         log.info("Sauvegardé dans la DB");
     }
 
-    /**
-     * @param idCars
-     * @return list of CarsPicturesEntity
-     */
-    public List<CarsPicturesEntity> findPictures(int idCars) {
-        return carsPicturesServices.findByCarsId(idCars);
-    }
-
-
     public List<CarsPicturesEntity> findCarsPicturesByIdCars(int idCars) {
         return carsPicturesServices.findCarsPicturesByIdCars(idCars);
     }
@@ -150,5 +141,13 @@ public class PicturesBean extends ExtendBean implements Serializable {
 
     public void setCarsPicturesEntityList(List<CarsPicturesEntity> carsPicturesEntityList) {
         this.carsPicturesEntityList = carsPicturesEntityList;
+    }
+
+    public String getFolder() {
+        return folder;
+    }
+
+    public void setFolder(String folder) {
+        this.folder = folder;
     }
 }
