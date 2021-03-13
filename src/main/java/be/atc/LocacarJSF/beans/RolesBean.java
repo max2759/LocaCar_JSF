@@ -33,7 +33,8 @@ public class RolesBean implements Serializable {
     private RolesServices rolesServices = new RolesServicesImpl();
     private List<RolesEntity> rolesEntities;
 
-    private boolean showPopup;
+    private boolean inList = false;
+    private boolean showPopupEdit;
     private boolean showPopupAdd;
     private String success;
     private String fail;
@@ -49,10 +50,14 @@ public class RolesBean implements Serializable {
     }
 
     public void init() {
-        //creer quelque chose avec Roles.findByIdUser afin de recuperer une liste de role ?
-        rolesEntity = new RolesEntity();
-        rolesEntities = rolesServices.findAll();
-        log.info("rolesEntities dans init rolesBean "+rolesEntities);
+        //creer quelque chose avec Roles.findByIdUser afin de recuperer une liste de role ?   rolesEntity = new RolesEntity();
+        if (inList == true) {
+            rolesEntity = new RolesEntity();
+        } else {
+            rolesEntities = rolesServices.findAll();
+        }
+
+        log.info("rolesEntities dans init rolesBean " + rolesEntities);
 
     }
 
@@ -78,14 +83,14 @@ public class RolesBean implements Serializable {
     /**
      * Ouvrir le popup d'edition ou d'ajout
      */
-    public void showPopupModal() {
+    public void showPopupModalEdit() {
         log.info("Show PopupModal");
-        showPopup = true;
-        int idRole = parseInt(getParam("roleId"));
-        log.info("idRolePerm in popup " + idRole);
-        rolesEntity = rolesServices.findById(idRole);
+        showPopupEdit = true;
+        int roleId = parseInt(getParam("id"));
+        log.info("idRolePerm in popup " + roleId);
+        rolesEntity = rolesServices.findById(roleId);
         log.info(rolesEntity.getId());
-
+        log.info(rolesEntity.getLabel());
     }
 
     /**
@@ -104,7 +109,7 @@ public class RolesBean implements Serializable {
     public void hidePopupModal() {
         log.info("Hide PopupModal");
         initialisationFields();
-        showPopup = false;
+        showPopupEdit = false;
         showPopupAdd = false;
     }
 
@@ -170,17 +175,19 @@ public class RolesBean implements Serializable {
 
 
     public List<SelectItem> getRolesEntitiesSelectItems() {
-        log.info("begin getRolesEntitiesSelectItems() + rolesEntities "+rolesEntities);
+        log.info("begin getRolesEntitiesSelectItems() + rolesEntities " + rolesEntities);
+        inList = true;
+        init();
+        inList = false;
         return rolesEntities.stream().map(c -> new SelectItem(c.getId(), c.getLabel())).collect(Collectors.toList());
+
     }
-
-
 
     public RolesEntity getRolesEntity() {
         return rolesEntity;
     }
 
-    public void setRolesEntity(be.atc.LocacarJSF.dao.entities.RolesEntity rolesEntity) {
+    public void setRolesEntity(RolesEntity rolesEntity) {
         this.rolesEntity = rolesEntity;
     }
 
@@ -200,12 +207,20 @@ public class RolesBean implements Serializable {
         this.rolesEntities = rolesEntities;
     }
 
-    public boolean isShowPopup() {
-        return showPopup;
+    public boolean isShowPopupEdit() {
+        return showPopupEdit;
     }
 
-    public void setShowPopup(boolean showPopup) {
-        this.showPopup = showPopup;
+    public void setShowPopupEdit(boolean showPopupEdit) {
+        this.showPopupEdit = showPopupEdit;
+    }
+
+    public boolean isShowPopupAdd() {
+        return showPopupAdd;
+    }
+
+    public void setShowPopupAdd(boolean showPopupAdd) {
+        this.showPopupAdd = showPopupAdd;
     }
 
     public String getSuccess() {
@@ -224,11 +239,27 @@ public class RolesBean implements Serializable {
         this.fail = fail;
     }
 
-    public boolean isShowPopupAdd() {
-        return showPopupAdd;
+    public boolean isEditRolesEntity() {
+        return editRolesEntity;
     }
 
-    public void setShowPopupAdd(boolean showPopupAdd) {
-        this.showPopupAdd = showPopupAdd;
+    public void setEditRolesEntity(boolean editRolesEntity) {
+        this.editRolesEntity = editRolesEntity;
+    }
+
+    public boolean isAddRolesEntity() {
+        return addRolesEntity;
+    }
+
+    public void setAddRolesEntity(boolean addRolesEntity) {
+        this.addRolesEntity = addRolesEntity;
+    }
+
+    public RolesBean getRolesBean() {
+        return rolesBean;
+    }
+
+    public void setRolesBean(RolesBean rolesBean) {
+        this.rolesBean = rolesBean;
     }
 }

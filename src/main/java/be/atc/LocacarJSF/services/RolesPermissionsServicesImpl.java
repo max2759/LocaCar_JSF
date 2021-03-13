@@ -32,7 +32,12 @@ public class RolesPermissionsServicesImpl implements RolesPermissionsServices {
     }
 
     @Override
-    public boolean delete(RolesPermissionsEntity rolesPermissionsEntity) {
+    public boolean delete(int idRolePerm) {
+        log.info("begin delete");
+        if (idRolePerm != 0) {
+            log.info("in the if: idRolePerm: " + idRolePerm);
+            return rolesPermissionsDAO.delete(idRolePerm);
+        }
         return false;
     }
 

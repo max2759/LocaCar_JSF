@@ -33,6 +33,10 @@
                 <f:facet name="header">#{bundle['fxs.connexion.label']}</f:facet>
                 <h:outputText value="#{role.label}"></h:outputText>
             </h:column>
+            <h:column>
+                <f:facet name="header">#{bundle['fxs.connexion.label']}</f:facet>
+                <h:outputText value="#{role.id}"></h:outputText>
+            </h:column>
 
 
             <h:column>
@@ -40,8 +44,8 @@
                 <f:facet name="header">#{bundle['fxs.rolesList.edit']}</f:facet>
                 <!-- appel de showmodalPopup -->
                 <h:commandLink styleClass="btn btn-outline-primary btn-sm"
-                               action="#{rolesBean.showPopupModal}">
-                    <f:param name="roleId" value="#{role.id}"></f:param>
+                               action="#{rolesBean.showPopupModalEdit}">
+                    <f:param name="id" value="#{role.id}"></f:param>
                     <f:ajax render="@all"/>
                     <i class="fas fa-edit"></i>
                 </h:commandLink>
@@ -54,7 +58,7 @@
     <!-- affichage du modal edit-->
     <f:view>
         <h:panelGroup id="popupEdit" layout="block" styleClass="popup-panel-overlay"
-                      rendered="#{rolesBean.showPopup}">
+                      rendered="#{rolesBean.showPopupEdit}">
 
             <h:form id="formPopupEdit">
 
@@ -66,7 +70,7 @@
 
                     <div class="form-group">
                         <h:outputLabel value="ID" for="idRoles"></h:outputLabel>
-                        <h:outputText id="idRoles" value="#{rolesBean.rolesEntity.id} test"
+                        <h:outputText id="idRoles" value="#{rolesBean.rolesEntity.id}"
                                       styleClass="form-control"></h:outputText>
                     </div>
 
@@ -102,6 +106,7 @@
             </h:form>
         </h:panelGroup>
     </f:view>
+
 
     <!-- add role -->
     <f:view>
