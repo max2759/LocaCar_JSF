@@ -17,6 +17,9 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * @author Maximilien - Zabbara
+ */
 @Named(value = "carsBean")
 @SessionScoped
 public class CarsBean extends ExtendBean implements Serializable {
@@ -47,6 +50,12 @@ public class CarsBean extends ExtendBean implements Serializable {
         carsEntities = carsServices.findAll();
     }
 
+    /**
+     * add Car entity to DB
+     *
+     * @throws ServletException
+     * @throws IOException
+     */
     public void addCar() throws ServletException, IOException {
         log.info("Début ajout voiture");
 
@@ -58,6 +67,22 @@ public class CarsBean extends ExtendBean implements Serializable {
     }
 
 
+    public void updateAddedCar(CarsEntity carsEntity) throws ServletException, IOException {
+        log.info("Début de l'update de la voiture");
+
+        log.info(carsEntity);
+        carsServices.update(carsEntity);
+        carsOptionsBean.addOptionsToCarsOptions(carsEntity);
+        picturesBean.save(carsEntity);
+    }
+
+
+    /**
+     * Return a car entity by passing an ID
+     *
+     * @param idCars
+     * @return carsEntity
+     */
     public CarsEntity findCarsById(int idCars) {
         return carsServices.findById(idCars);
     }

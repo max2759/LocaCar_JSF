@@ -18,10 +18,7 @@ import javax.servlet.ServletException;
 import java.io.IOException;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static java.lang.Integer.parseInt;
 
@@ -38,7 +35,6 @@ public class AdsBean extends ExtendBean implements Serializable {
     private LocalDateTime dateEnd = dateStart.plusMonths(1);
 
     private AdsEntity adsEntity;
-    private AdsEntity adsEntityTest;
     private AdsServices adsServices = new AdsServicesImpl();
     private RepeatPaginator paginator;
     Map<Integer, List<CarsPicturesEntity>> carsPicturesMap = new HashMap<>();
@@ -46,6 +42,9 @@ public class AdsBean extends ExtendBean implements Serializable {
     private List<AdsEntity> allDisabledAds;
     private List<AdsEntity> allAdsByLabelEntities;
     private List<CarsOptionsEntity> carsOptionsEntityList;
+    private List<String> imagePath = new ArrayList<>();
+    //    private String folder = Constants.FILE_OUTPUT_IMAGE;
+    private String folder = "resources/upload/";
 
     private List<CarsPicturesEntity> carsPicturesEntityList;
     private String page;
@@ -132,19 +131,25 @@ public class AdsBean extends ExtendBean implements Serializable {
     }
 
     /**
-     * @return
+     * Call service method for adding an ads entity to DB
+     *
+     * @return true or false
      */
     public boolean createAds() {
         return adsServices.add(adsEntity);
     }
 
 
+    /**
+     * Add ads with form
+     *
+     * @throws ServletException
+     * @throws IOException
+     */
     public void addAds() throws ServletException, IOException {
         log.info("Sauvegarde");
 
         FacesContext context = FacesContext.getCurrentInstance();
-
-        boolean adsSucces = true;
 
         carsBean.addCar();
         adsEntity.setCarsByIdCars(carsBean.getCarsEntity());
@@ -153,22 +158,17 @@ public class AdsBean extends ExtendBean implements Serializable {
         adsEntity.setActive(true);
 
 
-        if (adsSucces) {
-            adsSucces = createAds();
-        }
-
-        if (adsSucces) {
+        if (createAds()) {
             context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, JsfUtils.returnMessage(getLocale(), "addAdsSuccess"), null));
         } else {
             context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, JsfUtils.returnMessage(getLocale(), "addAdsError"), null));
-
         }
         init();
     }
 
 
     /**
-     * Find all ads by label
+     * Find all ads with search string
      */
     public void allAdsByLabel() {
         log.info("AdsBean : allAdsByLabel");
@@ -202,7 +202,11 @@ public class AdsBean extends ExtendBean implements Serializable {
         log.info("Adsbean : displayOneAd");
 
         int idAd = parseInt(getParam("adsId"));
-        adsEntityTest = adsServices.findById(idAd);
+        adsEntity = adsServices.findById(idAd);
+        carsPicturesEntityList = picturesBean.findCarsPicturesByIdCars(adsEntity.getCarsByIdCars().getId());
+        for (CarsPicturesEntity c : carsPicturesEntityList) {
+            imagePath.add(folder + c.getLabel());
+        }
     }
 
     /**
@@ -218,10 +222,28 @@ public class AdsBean extends ExtendBean implements Serializable {
     /**
      * Update ads entity
      *
-     * @return
+     * @return true or false
      */
     public boolean updateAds() {
         return adsServices.update(adsEntity);
+    }
+
+    public void updateAddedAds() throws ServletException, IOException {
+        log.info("Update");
+
+        boolean updateSucces = true;
+
+        FacesContext context = FacesContext.getCurrentInstance();
+
+        carsBean.updateAddedCar(adsEntity.getCarsByIdCars());
+
+        if (updateAds()) {
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, JsfUtils.returnMessage(getLocale(), "addAdsSuccess"), null));
+        } else {
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, JsfUtils.returnMessage(getLocale(), "addAdsError"), null));
+        }
+
+
     }
 
 
@@ -248,12 +270,20 @@ public class AdsBean extends ExtendBean implements Serializable {
         }
     }
 
+    /**
+     * Return list of car options by carsID
+     */
     public void getAllCarOptions() {
 
-        int idCars = adsEntityTest.getCarsByIdCars().getId();
+        int idCars = adsEntity.getCarsByIdCars().getId();
         carsOptionsEntityList = carsOptionsBean.findCarsOptionsByCarsId(idCars);
     }
 
+    /**
+     * Return one ads by its id
+     *
+     * @param id
+     */
     public void getAdsId(int id) {
         adsEntity = adsServices.findById(id);
     }
@@ -374,19 +404,19 @@ public class AdsBean extends ExtendBean implements Serializable {
         this.allDisabledAds = allDisabledAds;
     }
 
-    public AdsEntity getAdsEntityTest() {
-        return adsEntityTest;
-    }
-
-    public void setAdsEntityTest(AdsEntity adsEntityTest) {
-        this.adsEntityTest = adsEntityTest;
-    }
-
     public List<CarsOptionsEntity> getCarsOptionsEntityList() {
         return carsOptionsEntityList;
     }
 
     public void setCarsOptionsEntityList(List<CarsOptionsEntity> carsOptionsEntityList) {
         this.carsOptionsEntityList = carsOptionsEntityList;
+    }
+
+    public List<String> getImagePath() {
+        return imagePath;
+    }
+
+    public void setImagePath(List<String> imagePath) {
+        this.imagePath = imagePath;
     }
 }

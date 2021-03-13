@@ -9,7 +9,7 @@
 
 <cc:interface name="adsList"/>
 <cc:implementation>
-    <h:dataTable id="adsList" styleClass="table table-hover table-responsive account-list text-center"
+    <h:dataTable id="adsList" styleClass="table table-hover account-list text-center"
                  value="#{adsBean.adsEntities}" var="ads">
         <h:column>
             <f:facet name="header">#{bundle['fxs.adsList.title']}</f:facet>
@@ -48,6 +48,24 @@
                     <f:param name="idAds" value="#{ads.id}"/>
                     <f:ajax render="@all"/>
                 </h:commandLink>
+            </h:form>
+        </h:column>
+        <h:column>
+            <f:facet name="header">#{bundle['fxs.disableAdsList.see']}</f:facet>
+            <h:form styleClass="text-center">
+                <h:link sstyleClass="adsId-a" outcome="adsDetails">
+                    <i class="far fa-eye"></i>
+                    <f:param name="adsId" value="#{ads.id}"/>
+                </h:link>
+            </h:form>
+        </h:column>
+        <h:column>
+            <f:facet name="header">#{bundle['fxs.disableAdsList.disable']}</f:facet>
+            <h:form styleClass="text-center">
+                <h:link sstyleClass="adsId-a" outcome="updateads">
+                    <i class="far fa-edit"></i>
+                    <f:param name="adsId" value="#{ads.id}"/>
+                </h:link>
             </h:form>
         </h:column>
     </h:dataTable>

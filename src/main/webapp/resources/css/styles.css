@@ -122,14 +122,6 @@ a:hover {
     margin-bottom: 28px;
 }
 
-.myarea-content-display {
-    display: flex;
-    margin: 0;
-    padding-left: 36px;
-    padding-right: 16px;
-    justify-content: center;
-}
-
 .sellCarLink {
     width: 233px;
     height: 236px;
@@ -556,4 +548,18 @@ a#options-tab:hover {
     -webkit-column-gap: 20px;
     column-count: 4;
     column-gap: 20px;
+}
+
+.btn-width {
+    width: 100%;
+}
+
+.addToShop {
+    margin-bottom: 5%;
+}
+
+.leasing-options {
+    margin: 20px 0 20px 0;
+    display: flex;
+    flex-wrap: wrap;
 }

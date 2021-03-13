@@ -90,23 +90,6 @@ public class CarsPicturesDAOImpl implements CarsPicturesDAO {
     }
 
     @Override
-    public List<CarsPicturesEntity> findByCarsId(int id) {
-        EntityManager em = EMF.getEM();
-        try {
-            return em.createNamedQuery("carsPictures.findByCarsId",
-                    CarsPicturesEntity.class)
-                    .setParameter("id", id)
-                    .getResultList();
-        } catch (Exception ex) {
-            log.info("Liste vide");
-            return null;
-        } finally {
-            em.clear();
-            em.close();
-        }
-    }
-
-    @Override
     public CarsPicturesEntity findByLabel(String label) {
         EntityManager em = EMF.getEM();
         try {
