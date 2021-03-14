@@ -10,7 +10,7 @@ public interface RolesServices {
 
     public boolean update(RolesEntity rolesEntity);
 
-    public boolean delete(RolesEntity rolesEntity);
+    public boolean delete(int idRole);
 
     public List<RolesEntity> findAll();
 

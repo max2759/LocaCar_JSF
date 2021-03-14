@@ -12,8 +12,8 @@ import java.util.Objects;
         @NamedQuery(name = "Users.findByUsername", query = "SELECT u from UsersEntity u where u.username = :username"),
         @NamedQuery(name = "Users.findByOneUsername", query = "SELECT u from UsersEntity u where u.username = :username"),
         @NamedQuery(name = "Users.connexion", query = "SELECT u from UsersEntity u where u.username = :username and u.password = :password"),
-        @NamedQuery(name = "Users.findUserWithAddresses", query = "SELECT u FROM UsersEntity u join AddressesEntity a on u.id = a.usersByIdUsers.id where u.id = :idUser"),
-        @NamedQuery(name = "Users.delete", query = "UPDATE UsersEntity u SET u.active = false where u.id = :idUser")
+        @NamedQuery(name = "Users.findUserWithAddresses", query = "SELECT u FROM UsersEntity u join AddressesEntity a on u.id = a.usersByIdUsers.id join CitiesEntity c on a.citiesByIdCities = c.id  where u.id = :idUser"),
+        @NamedQuery(name = "Users.delete", query = "UPDATE UsersEntity u SET u.active = false where u.id = :idUser"),
 })
 public class UsersEntity {
 

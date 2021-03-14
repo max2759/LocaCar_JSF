@@ -70,4 +70,12 @@ public class CitiesServicesImpl implements CitiesServices {
         }
         return Collections.emptyList();
     }
+
+    @Override
+    public CitiesEntity findByUser(int idUser) {
+        if (idUser != 0) {
+            return citiesDAO.findByUser(idUser);
+        }
+        return null;
+    }
 }

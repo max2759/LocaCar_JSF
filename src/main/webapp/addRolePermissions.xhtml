@@ -13,8 +13,19 @@
             <f:metadata>
                 <f:event type="preRenderView" listener="#{rolesPermissionsBean.init}"/>
             </f:metadata>
+            <script>
+                $( document ).ready( function () {
+                    $( '.datatableRolePerm' ).DataTable( {
+                        retrieve: true,
+                        orderFixed: [0, 'asc'],
+                        rowGroup: {
+                            dataSrc: 0
+                        }
+                    } );
+                } );
+            </script>
         </h:head>
-        z
+
         <h:body>
             <div class="container">
                 <h2>#{bundle['fxs.users.title']}</h2>

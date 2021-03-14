@@ -5,7 +5,6 @@ import be.atc.LocacarJSF.dao.entities.UsersEntity;
 import be.atc.LocacarJSF.services.UsersServices;
 import be.atc.LocacarJSF.services.UsersServicesImpl;
 import org.apache.log4j.Logger;
-import sun.invoke.empty.Empty;
 import utils.JsfUtils;
 
 import javax.annotation.PostConstruct;
@@ -13,7 +12,6 @@ import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.servlet.http.HttpSession;
 import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -23,10 +21,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-
-import java.util.regex.*;
-
-import static java.lang.Integer.parseInt;
+import java.util.regex.Pattern;
 
 @Named(value = "registerBean")
 @SessionScoped
@@ -211,7 +206,7 @@ public class RegisterBean extends ExtendBean implements Serializable {
         return usersServices.findById(idUser);
     }
 
-    public List<UsersEntity> findUserWithAdresses(int idUser) {
+    public UsersEntity findUserWithAdresses(int idUser) {
         log.info("begin findUserWithAdress in userBean");
         return usersServices.findUserWithAddresses(idUser);
     }

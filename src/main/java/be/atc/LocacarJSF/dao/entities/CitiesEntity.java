@@ -8,7 +8,8 @@ import java.util.Objects;
 @Table(name = "cities", schema = "locacarjsf", catalog = "")
 @NamedQueries({
         @NamedQuery(name = "Cities.findAll", query = "SELECT c from CitiesEntity c"),
-        @NamedQuery(name = "Cities.findByLabel", query = "select c from CitiesEntity c where c.label = :label")
+        @NamedQuery(name = "Cities.findByLabel", query = "select c from CitiesEntity c where c.label = :label"),
+        @NamedQuery(name = "Cities.findByUser", query = "SELECT c FROM CitiesEntity c join AddressesEntity a on a.citiesByIdCities.id =  c.id join UsersEntity u on a.usersByIdUsers.id = u.id where u.id = :idUser ")
 })
 public class CitiesEntity {
     private int id;

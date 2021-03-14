@@ -13,6 +13,19 @@
             <f:metadata>
                 <f:event type="preRenderView" listener="#{usersBean.init}"/>
             </f:metadata>
+            <script>
+
+                $( document ).ready( function () {
+                    $( '.dataUser' ).DataTable( {
+                        retrieve: true,
+                        orderFixed: [[2, 'desc'], [0, 'asc']],
+                        rowGroup: {
+                            dataSrc: 2
+                        }
+                    } );
+                } );
+
+            </script>
         </h:head>
 
         <h:body>

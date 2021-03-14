@@ -122,7 +122,7 @@ public class CitiesDAOImpl implements CitiesDAO {
         //   List<CitiesEntity> resultList = null;
         log.info("cvall to findAudiuser DAO");
         try {
-            return em.createNamedQuery("Adresses.findByIdUser",
+            return em.createNamedQuery("Cities.findByUser",
                     CitiesEntity.class)
                     .setParameter("idUser", idUser)
                     .getResultList();
@@ -137,6 +137,25 @@ public class CitiesDAOImpl implements CitiesDAO {
             em.close();
         }
         // return resultList;
+    }
+
+    @Override
+    public CitiesEntity findByUser(int idUser) {
+        EntityManager em = EMF.getEM();
+        //   List<AddressesEntity> resultList = null;
+        log.info("cvall to findAudiuser DAO");
+        try {
+            return em.createNamedQuery("Cities.findByUser",
+                    CitiesEntity.class)
+                    .setParameter("idUser", idUser)
+                    .getSingleResult();
+        } catch (Exception ex) {
+            log.info("Nothing");
+            return null;
+        } finally {
+            em.clear();
+            em.close();
+        }
     }
 
 

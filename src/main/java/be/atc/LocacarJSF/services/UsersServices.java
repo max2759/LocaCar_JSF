@@ -24,7 +24,7 @@ public interface UsersServices {
 
     public UsersEntity findByUsernameAndPassword(String username, String password);
 
-    public List<UsersEntity> findUserWithAddresses(int idUser);
+    public UsersEntity findUserWithAddresses(int idUser);
 
 
 }

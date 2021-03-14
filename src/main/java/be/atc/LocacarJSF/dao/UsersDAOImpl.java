@@ -1,6 +1,5 @@
 package be.atc.LocacarJSF.dao;
 
-import be.atc.LocacarJSF.dao.entities.ContractInsurancesEntity;
 import be.atc.LocacarJSF.dao.entities.UsersEntity;
 import org.apache.log4j.Logger;
 import utils.EMF;
@@ -181,17 +180,17 @@ public class UsersDAOImpl implements UsersDAO {
         }
     }
 
-    public List<UsersEntity> findUserWithAddresses(int idUser) {
+    public UsersEntity findUserWithAddresses(int idUser) {
         log.info("begin findUserWithAdress ine DAO");
         EntityManager em = EMF.getEM();
 
         log.info("id in DAO : " + idUser);
 
         try {
-            List<UsersEntity> list = em.createNamedQuery("Users.findUserWithAddresses",
+            UsersEntity list = em.createNamedQuery("Users.findUserWithAddresses",
                     UsersEntity.class)
                     .setParameter("idUser", idUser)
-                    .getResultList();
+                    .getSingleResult();
             return list;
         } catch (Exception ex) {
             log.info("Nothing");

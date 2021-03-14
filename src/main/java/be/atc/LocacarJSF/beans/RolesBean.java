@@ -155,6 +155,21 @@ public class RolesBean implements Serializable {
         success = JsfUtils.returnMessage(locale, "fxs.options.successUpdate");
     }
 
+    public void delete() {
+        log.info("begin deleteUser logic");
+
+        int idRole = parseInt(getParam("idDel"));
+        log.info(idRole);
+        rolesEntity = rolesServices.findById(idRole);
+        //faut appeler le service aprés
+        rolesEntity.setActive(false);
+        rolesServices.update(rolesEntity);
+
+        log.info("end deleteUser logic");
+
+
+    }
+
 
     public RolesEntity findById(int id) {
         return rolesServices.findById(id);

@@ -15,19 +15,19 @@
 <cc:implementation>
 
     <!-- LIST -->
-    <h:form>
+   <h:form>
 
-        <h:commandLink styleClass="btn btn-success"
-                       value="#{bundle['fxs.optionsList.add']}"
-                       action="#{rolesPermissionsBean.showPopupModalAdd}">
-            <f:param name="addRolesPermissionsEntity" value="addRolesPermissionsEntity"></f:param>
-            <f:ajax render="@all"/>
-            <i class="fas fa-plus"></i>
-        </h:commandLink>
-    </h:form>
+       <h:commandLink styleClass="btn btn-success"
+                      value="#{bundle['fxs.optionsList.add']}"
+                      action="#{rolesPermissionsBean.showPopupModalAdd}">
+           <f:param name="addRolesPermissionsEntity" value="addRolesPermissionsEntity"></f:param>
+           <f:ajax render="@all"/>
+           <i class="fas fa-plus"></i>
+       </h:commandLink>
+   </h:form>
 
     <h:form>
-        <h:dataTable id="outputMessage" styleClass="table table-hover table-responsive"
+        <h:dataTable id="example" styleClass="datatableRolePerm table table-hover table-responsive"
                      value="#{rolesPermissionsBean.rolesPermissionsEntities}" var="roleP">
 
             <h:column>
