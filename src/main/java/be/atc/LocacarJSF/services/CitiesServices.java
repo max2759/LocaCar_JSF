@@ -19,4 +19,6 @@ public interface CitiesServices {
     public List<CitiesEntity> findByLabel(String label);
 
     public List<CitiesEntity> findByIdUser(int idUser);
+
+    public CitiesEntity findByUser(int idUser);
 }

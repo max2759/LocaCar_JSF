@@ -47,6 +47,9 @@ public class CitiesBean implements Serializable {
             citiesEntities = citiesServices.findAll();
             citiesEntity = new CitiesEntity();
         }
+        if (usersBean.isConnected() == true) {
+            citiesEntity = new CitiesEntity();
+        }
         log.info("init() - end");
     }
 

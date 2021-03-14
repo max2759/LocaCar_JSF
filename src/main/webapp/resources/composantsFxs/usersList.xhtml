@@ -5,7 +5,9 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:cc="http://java.sun.com/jsf/composite"
-      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+>
 
 <cc:interface name="usersList"
               displayName="#{bundle['fxs.usersList.displayName']}"
@@ -17,15 +19,16 @@
         <h:form>
             <h:commandLink styleClass="btn btn-success"
                            value="#{bundle['fxs.optionsList.add']}"
-                           action="#{usersBean.showPopupModal}">
-                <f:param name="editUserEntity" value="editUserEntity"></f:param>
+                           action="#{rolesPermissionsBean.showPopupModalAdd}">
+                <f:param name="addUserEntity" value="addUserEntity"></f:param>
+                <f:ajax render="@all"/>
                 <i class="fas fa-plus"></i>
             </h:commandLink>
         </h:form>
     </div>
 
     <h:form>
-        <h:dataTable id="outputMessage" styleClass="table table-hover table-responsive"
+        <h:dataTable id="outputMessage" styleClass="dataUser table table-hover table-responsive"
                      value="#{usersBean.usersEntities}" var="user">
 
             <h:column>
@@ -59,6 +62,31 @@
                     <i class="fas fa-edit"></i>
                 </h:commandLink>
             </h:column>
+
+
+            <h:column>
+                <c:if test="#{usersBean.usersEntity.active}">
+                    <h:commandButton styleClass="btn btn-outline-success btn-sm"
+                                     value="#{bundle['fxs.insurancesList.delete']}"
+                                     action="#{usersBean.deleteUser}">
+                        <f:param name="id" value="#{user.id}"></f:param>
+                        <f:ajax execute="formPopupEdit" render="@all"></f:ajax>
+                    </h:commandButton>
+                </c:if>
+            </h:column>
+
+
+            <h:column>
+                <c:if test="#{not usersBean.usersEntity.active}">
+                    <h:commandButton styleClass="btn btn-outline-success btn-sm"
+                                     value="#{bundle['fxs.insurancesList.activeUser']}"
+                                     action="#{usersBean.activeUser}">
+                        <f:param name="id" value="#{user.id}"></f:param>
+                        <f:ajax execute="formPopupEdit" render="@all"></f:ajax>
+                    </h:commandButton>
+                </c:if>
+            </h:column>>
+
 
         </h:dataTable>
     </h:form>
@@ -97,7 +125,7 @@
                         <h:outputLabel value="mail" for="mail"></h:outputLabel>
                         <h:inputText value="#{usersBean.usersEntity.email}" styleClass="form-control"
                                      required="true"
-                                     pt:placeholder="Votre user ici..."
+                                     pt:placeholder="Votre user ici et la..."
                                      requiredMessage="#{bundle['fxs.insurancesList.required']}"
                                      id="mail">
                         </h:inputText>
@@ -146,14 +174,6 @@
 
                     </span>
 
-                    <span>
-                        <h:commandButton styleClass="btn btn-outline-success btn-sm"
-                                         value="#{bundle['fxs.insurancesList.delete']}"
-                                         action="#{usersBean.deleteUser}">
-                            <f:ajax execute="formPopupEdit" render="@all"></f:ajax>
-                        </h:commandButton>
-
-                    </span>
 
                     <span>
                         <h:commandButton styleClass="btn btn-outline-dark btn-sm"
@@ -166,5 +186,97 @@
             </h:form>
         </h:panelGroup>
     </f:view>
+
+
+    <!-- affichage du modal ajout d'user -->
+    <f:view>
+        <h:panelGroup id="popupAdd" layout="block" styleClass="popup-panel-overlay"
+                      rendered="#{rolesPermissionsBean.showPopupAdd}">
+            <h:form id="formPopupAdd">
+                <h:outputLabel value="#{bundle['fxs.register.register']}"></h:outputLabel>
+                <br/>
+                <h:outputText value="#{bundle['fxs.user.firstName']}"></h:outputText>
+                <h:inputText value="#{usersBean.usersEntity.firstname}" required="true"></h:inputText>
+                <br/>
+                <h:outputText value="#{bundle['fxs.user.lastName']}"></h:outputText>
+                <h:inputText value="#{usersBean.usersEntity.lastname}" required="true"></h:inputText>
+                <br/>
+                <h:outputText value="#{bundle['fxs.user.username']}"></h:outputText>
+                <h:inputText value="#{usersBean.usersEntity.username}" required="true"></h:inputText>
+                <br/>
+                <h:outputText value="#{bundle['fxs.user.password']}"></h:outputText>
+                <h:inputSecret value="#{usersBean.usersEntity.password}" required="true">
+                    <f:validateRegex
+                            pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,}$"></f:validateRegex></h:inputSecret>
+                <br/>
+                <h:outputText value="#{bundle['fxs.user.email']}"></h:outputText>
+                <h:inputText value="#{usersBean.usersEntity.email}" required="true">
+                    <f:validateRegex pattern="[a-zA-Z0-9].+@[a-zA-Z0-9]+\.[a-zA-Z0-9]+"></f:validateRegex></h:inputText>
+                <br/>
+
+                <h:outputText value="#{bundle['fxs.user.birthdate']}"></h:outputText>
+                <h:inputText value="#{usersBean.usersEntity.birthdate}" required="true"
+                             converter="localDateTimeConverter">>
+                    <!--<f:convertDateTime pattern="yyyy-mm-dd"/> -->
+                </h:inputText>
+                <br/>
+                <h:outputText value="#{bundle['fxs.user.VATNumber']}"></h:outputText>
+                <h:inputText value="#{usersBean.usersEntity.vatNumber}"></h:inputText>
+                <br/>
+
+                <h:outputText value="#{bundle['fxs.adresse.street']}"></h:outputText>
+                <h:inputText value="#{addressesBean.addressesEntity.street}"></h:inputText>
+                <br/>
+
+                <h:outputText value="#{bundle['fxs.adresse.number']}"></h:outputText>
+                <h:inputText value="#{addressesBean.addressesEntity.number}"></h:inputText>
+                <br/>
+
+                <h:outputText value="#{bundle['fxs.adresse.box']}"></h:outputText>
+                <h:inputText value="#{addressesBean.addressesEntity.box}"></h:inputText>
+                <br/>
+                <h:inputHidden value="admin" id="admin" class="admin"></h:inputHidden>
+
+                <h:panelGroup styleClass="form-group">
+                    <h:selectOneMenu id="citiesDisplay" styleClass="form-group"
+                                     value="#{citiesBean.citiesEntity.id}">
+                        <f:selectItem itemValue="#{null}" itemLabel=" "/>
+                        <f:selectItems value="#{citiesBean.citiesEntitiesSelectItems}"/>
+                    </h:selectOneMenu>
+                    <h:message for="citiesDisplay"/>
+                </h:panelGroup>
+
+                <h:panelGroup styleClass="form-group">
+                    <h:selectOneMenu id="roleDisplay" styleClass="form-group"
+                                     value="#{rolesBean.rolesEntity.id}">
+                        <f:selectItem itemValue="#{null}" itemLabel=" "/>
+                        <f:selectItems value="#{rolesBean.rolesEntitiesSelectItems}"/>
+                    </h:selectOneMenu>
+                    <h:message for="roleDisplay"/>
+                </h:panelGroup>
+
+                <span>
+                        <h:commandButton styleClass="btn btn-outline-success btn-sm"
+                                         value="#{bundle['fxs.insurancesList.save']}"
+                                         action="#{usersBean.addUser}">
+                            <f:ajax execute="formPopupAdd" render="@all"></f:ajax>
+                        </h:commandButton>
+
+                    </span>
+
+
+                <span>
+                        <h:commandButton styleClass="btn btn-outline-dark btn-sm"
+                                         value="#{bundle['fxs.insurancesList.close']}"
+                                         action="#{usersBean.hidePopupModal}">
+                            <f:ajax render="@all"></f:ajax>
+                        </h:commandButton>
+                    </span>
+
+            </h:form>
+        </h:panelGroup>
+    </f:view>
+
+
 </cc:implementation>
 </html>

@@ -1,0 +1,54 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                template="WEB-INF/templates/template.xhtml"
+>
+
+    <ui:define name="title">#{bundle['fxs.roles.title']}</ui:define>
+    <ui:define name="content">
+
+        <h:head>
+            <title>Utilisateurs</title>
+            <f:metadata>
+                <f:event type="preRenderView" listener="#{rolesBean.init}"/>
+            </f:metadata>
+            <script>
+                $( document ).ready( function () {
+
+                        $( '.dataPerm' ).dataTable().fnDestroy();
+                        loadTable();
+
+                        function loadTable() {
+                            $( '.dataPerm' ).DataTable( {
+                                'language': {
+                                    'url': '//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/French.json'
+                                }
+                            } );
+                        }
+                    }
+                );
+            </script>
+        </h:head>
+
+        <h:body>
+            <div class="container">
+                <h2>#{bundle['fxs.roles.title']}</h2>
+
+                <h:form>
+                    <h:dataTable id="outputMessage" styleClass="dataPerm table table-hover table-responsive"
+                                 value="#{permissionsBean.permissionsEntities}" var="permissions">
+
+                        <h:column>
+                            <f:facet name="header">#{bundle['fxs.permissions.label']}</f:facet>
+                            <h:outputText value="#{permissions.label}"></h:outputText>
+                        </h:column>
+
+                    </h:dataTable>
+                </h:form>
+
+            </div>
+        </h:body>
+
+    </ui:define>
+</ui:composition>

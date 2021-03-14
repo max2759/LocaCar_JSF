@@ -59,8 +59,30 @@ public class RolesDAOImpl implements RolesDAO {
     }
 
     @Override
-    public boolean delete(RolesEntity rolesEntity) {
-        return false;
+    public boolean delete(int idRole) {
+        EntityManager em = EMF.getEM();
+        em.getTransaction();
+
+        EntityTransaction tx = null;
+        try {
+            tx = em.getTransaction();
+            tx.begin();
+
+            RolesEntity u = findById(idRole);
+            em.remove(em.merge(u));
+
+            tx.commit();
+            log.info("Delete ok");
+            return true;
+        } catch (
+                Exception ex) {
+            if (tx != null && tx.isActive()) tx.rollback();
+            log.error("Delete Error");
+            return false;
+        } finally {
+            em.clear();
+            em.close();
+        }
     }
 
     @Override
