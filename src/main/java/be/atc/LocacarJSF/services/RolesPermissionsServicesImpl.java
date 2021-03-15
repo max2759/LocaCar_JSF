@@ -5,6 +5,7 @@ import be.atc.LocacarJSF.dao.RolesPermissionsDAOImpl;
 import be.atc.LocacarJSF.dao.entities.RolesPermissionsEntity;
 import org.apache.log4j.Logger;
 
+import java.util.Collections;
 import java.util.List;
 
 public class RolesPermissionsServicesImpl implements RolesPermissionsServices {
@@ -63,5 +64,14 @@ public class RolesPermissionsServicesImpl implements RolesPermissionsServices {
             return rolesPermissionsDAO.findByIDRoles(idRoles);
         }
         return null;
+    }
+
+    @Override
+    public List<RolesPermissionsEntity> findAllForRolesAndPerm(int idRole) {
+        if (idRole != 0) {
+            return rolesPermissionsDAO.findAllForRolesAndPerm(idRole);
+        } else {
+            return Collections.emptyList();
+        }
     }
 }

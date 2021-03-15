@@ -127,4 +127,27 @@ public class RolesPermissionsDAOImpl implements RolesPermissionsDAO {
     public List<RolesPermissionsEntity> findByIDRoles(int idRoles) {
         return null;
     }
+
+    @Override
+    public List<RolesPermissionsEntity> findAllForRolesAndPerm(int idRole) {
+        EntityManager em = EMF.getEM();
+        List<RolesPermissionsEntity> resultList = null;
+        log.info("cvall to findAll DAO");
+        try {
+            log.info("begin try findall in DAO");
+            resultList = em.createNamedQuery("RolesPermissions.findForRolesAndPermissions",
+                    RolesPermissionsEntity.class)
+                    .setParameter("id", idRole)
+                    .getResultList();
+            if (resultList != null) {
+                log.info(resultList.size() + " results found.");
+            }
+        } catch (Exception ex) {
+            log.error(ex);
+        } finally {
+            em.clear();
+            em.close();
+        }
+        return resultList;
+    }
 }

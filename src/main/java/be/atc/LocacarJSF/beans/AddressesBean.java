@@ -75,6 +75,9 @@ public class AddressesBean implements Serializable {
         fail = "";
     }
 
+    /**
+     * adresse entity for user co
+     */
     public void connect() {
         if (usersBean.isConnected() == true) {
             userId = usersBean.getUsersEntity().getId();
@@ -86,7 +89,12 @@ public class AddressesBean implements Serializable {
         }
     }
 
-
+    /**
+     * @param idUser
+     * @param idCity
+     * @throws ParseException
+     * @throws NoSuchAlgorithmException
+     */
     public void addAddresse(int idUser, int idCity) throws ParseException, NoSuchAlgorithmException {
 
         log.info("begin addAddresseBean");

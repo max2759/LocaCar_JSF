@@ -16,4 +16,6 @@ public interface RolesPermissionsDAO {
     public RolesPermissionsEntity findById(int id);
 
     public List<RolesPermissionsEntity> findByIDRoles(int idRoles);
+
+    public List<RolesPermissionsEntity> findAllForRolesAndPerm(int idRole);
 }

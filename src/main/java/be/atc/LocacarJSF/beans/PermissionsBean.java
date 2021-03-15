@@ -4,7 +4,6 @@ import be.atc.LocacarJSF.dao.entities.PermissionsEntity;
 import be.atc.LocacarJSF.services.PermissionsServices;
 import be.atc.LocacarJSF.services.PermissionsServicesImpl;
 import org.apache.log4j.Logger;
-import utils.JsfUtils;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
@@ -13,14 +12,10 @@ import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
-import java.security.NoSuchAlgorithmException;
-import java.text.ParseException;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
-
-import static java.lang.Integer.parseInt;
 
 @Named(value = "permissionsBean")
 @SessionScoped
@@ -37,15 +32,11 @@ public class PermissionsBean implements Serializable {
     private String success;
     private String fail;
 
+
     @Inject
-    private PermissionsBean permissionsBean;
+    private RolesPermissionsBean rolesPermissionsBean;
 
     @PostConstruct
-    public void postConstruct() {
-        log.info("begin postConstruct permissionsBean");
-        init();
-    }
-
     public void init() {
         permissionsEntity = new PermissionsEntity();
         //creer quelque chose avec permissions.findByIdUser afin de recuperer une liste de permission ?
