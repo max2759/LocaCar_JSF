@@ -16,12 +16,14 @@
         </h:head>
 
         <h:body>
-            <div class="container">
-                <h1>#{bundle['fxs.addAds.displayName']}</h1>
-                <div id="displayAdsForm">
-                    <fxs:addAds/>
+            <h:panelGroup rendered="#{rolesPermissionsBean.createAds}">
+                <div class="container">
+                    <h1>#{bundle['fxs.addAds.displayName']}</h1>
+                    <div id="displayAdsForm">
+                        <fxs:addAds/>
+                    </div>
                 </div>
-            </div>
+            </h:panelGroup>
         </h:body>
     </ui:define>
 </ui:composition>

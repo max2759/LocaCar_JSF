@@ -48,6 +48,8 @@ public class UsersBean extends ExtendBean implements Serializable {
     private AddressesBean addressesBean;
     @Inject
     private CitiesBean citiesBean;
+    @Inject
+    private RolesPermissionsBean rolesPermissionsBean;
 
 
     private boolean showPopup;
@@ -70,7 +72,7 @@ public class UsersBean extends ExtendBean implements Serializable {
     private boolean connected;
 
     public String toPageAddUser() {
-        return "addUser";
+        return "register";
     }
 
     public String toPageConnexion() {
@@ -104,7 +106,9 @@ public class UsersBean extends ExtendBean implements Serializable {
         //  log.info("Initialization done : "+usersEntities != null ? usersEntities.size() : 0+" results found.");
     }
 
-
+    /**
+     * initializations
+     */
     public void initialisationFields() {
         success = "";
         fail = "";
@@ -135,7 +139,7 @@ public class UsersBean extends ExtendBean implements Serializable {
         if (usersByUsernameAndPassword != null) {
             usersEntity = usersServices.findByOneUsername(usersEntity.getUsername());
 
-            if (usersEntity.isActive() == true) {
+            if (usersEntity.isActive()) {
                 connexion = true;
                 connected = true;
                 //recupere l'user
@@ -152,6 +156,9 @@ public class UsersBean extends ExtendBean implements Serializable {
 
                 roleLabel = usersEntity.getRolesByIdRoles().getLabel();
                 userIdConnect = usersEntity.getId();
+
+                rolesPermissionsBean.listAllPermissions();
+                rolesPermissionsBean.listPermissionsUser();
 
                 FacesContext.getCurrentInstance().getApplication().getNavigationHandler().handleNavigation(FacesContext.getCurrentInstance(), null, "index.xhtml");
 
@@ -201,7 +208,7 @@ public class UsersBean extends ExtendBean implements Serializable {
             boolean bool = Pattern.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,}$", password);
             log.info(bool);
 
-            if(bool == true){
+            if (bool) {
                 MessageDigest digest = MessageDigest.getInstance("SHA-256");
                 byte[] hash = digest.digest(password.getBytes(StandardCharsets.UTF_8));
                 // convertir bytes en hexadécimal
@@ -217,7 +224,7 @@ public class UsersBean extends ExtendBean implements Serializable {
                 usersEntity.setPassword(hashPass);
                 usersEntity.setActive(true);
                 usersEntity.setRegisterDate(currentDate);
-                if (connexion == true) {
+                if (connexion) {
 
                     log.info(roleLabel);
                     if (roleLabel == "Admin") {
@@ -272,24 +279,32 @@ public class UsersBean extends ExtendBean implements Serializable {
                     fail = JsfUtils.returnMessage(getLocale(), "fxs.user.errorInsert");
                 }
 
-            }else{
+            } else {
                 fail = JsfUtils.returnMessage(getLocale(), "fxs.user.errorPassword");
             }
-        }else{
+        } else {
             fail = JsfUtils.returnMessage(getLocale(), "fxs.user.usernameError");
         }
 
     }
 
-
-    public String doLogoutUser(){
+    /**
+     * deconnexion
+     *
+     * @return
+     */
+    public void doLogoutUser() {
         log.info("befin logOut");
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
         usersEntity = new UsersEntity();
         connected = false;
-        return "successLogOut";
+        FacesContext.getCurrentInstance().getApplication().getNavigationHandler().handleNavigation(FacesContext.getCurrentInstance(), null, "connexion.xhtml");
+
     }
 
+    /**
+     * delete user logic whit boolean to 0
+     */
     public void deleteUser() {
         log.info("begin deleteUser logic");
 
@@ -303,6 +318,9 @@ public class UsersBean extends ExtendBean implements Serializable {
         log.info("end deleteUser logic");
     }
 
+    /**
+     * active user logic with boolean to 1
+     */
     public void activeUser() {
         log.info("begin deleteUser logic");
 
@@ -316,6 +334,9 @@ public class UsersBean extends ExtendBean implements Serializable {
         log.info("end deleteUser logic");
     }
 
+    /**
+     * delete physic (in the add if add addresse don't work)
+     */
     public void deletePhysic() {
         //faut appeler le service apréssetActive(false);
         usersServices.delete(usersEntity.getId());

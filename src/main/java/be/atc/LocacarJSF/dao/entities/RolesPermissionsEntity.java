@@ -8,6 +8,7 @@ import java.util.Objects;
 @NamedQueries({
         @NamedQuery(name = "RolesPermissions.findAll", query = "SELECT r from RolesPermissionsEntity r"),
         @NamedQuery(name = "RolesPermissions.findByIDRoles", query = "SELECT r from RolesPermissionsEntity r where r.rolesByIdRoles.id = :idRoles"),
+        @NamedQuery(name = "RolesPermissions.findForRolesAndPermissions", query = "SELECT rp FROM RolesPermissionsEntity rp WHERE rp.rolesByIdRoles.id = :id ")
 })
 public class RolesPermissionsEntity {
     private int id;

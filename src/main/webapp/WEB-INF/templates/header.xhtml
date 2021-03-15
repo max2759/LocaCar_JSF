@@ -26,7 +26,7 @@
             </h:form>
             <h:panelGroup id="menu">
                 <h:form>
-                    <f:ajax render=":content">
+
                         <ul class="navbar-nav mr-auto">
                             <li class="nav-item"><h:commandLink styleClass="nav-link " value="Options"
                                                                 action="#{optionsBean.toPageOption}"/></li>
@@ -39,7 +39,7 @@
                             <li class="nav-item"><h:commandLink styleClass="nav-link" value="Connexion"
                                                                 action="#{usersBean.toPageConnexion}"/></li>
                             <li class="nav-item"><h:commandLink styleClass="nav-link" value="LogOut"
-                                                                action="#{usersBean.toPageLogOut}"/></li>
+                                                                action="#{usersBean.doLogoutUser}"/></li>
 
                             <c:if test="#{usersBean.connected}">
 
@@ -56,7 +56,7 @@
                                 <fxs:priceOrder id="priceOrder"></fxs:priceOrder>
                             </li>
                         </ul>
-                    </f:ajax>
+
                 </h:form>
             </h:panelGroup>
         </nav>
