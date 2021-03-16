@@ -29,6 +29,10 @@ public class BrandsConverter implements Converter {
 
         BrandsEntity brandsEntity;
 
+        if (value == null || value.isEmpty()) {
+            return null; // Let required="true" do its job on this.
+        }
+
         if (value != null) {
             brandsEntity = brandsServices.findByLabel(value);
             return brandsEntity;

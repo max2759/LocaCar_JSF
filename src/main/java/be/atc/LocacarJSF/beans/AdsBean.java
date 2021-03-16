@@ -47,6 +47,8 @@ public class AdsBean extends ExtendBean implements Serializable {
     private String folder = "resources/upload/";
 
     private List<CarsPicturesEntity> carsPicturesEntityList;
+    private int idModelSearch;
+    private double priceSearch;
     private String page;
     @Inject
     private PicturesBean picturesBean;
@@ -66,6 +68,12 @@ public class AdsBean extends ExtendBean implements Serializable {
     @Inject
     private CarsOptionsBean carsOptionsBean;
 
+    @Inject
+    private ModelsBean modelsBean;
+
+    @Inject
+    private UsersBean usersBean;
+
 
     private boolean showPopup;
     private boolean addAdsEntity;
@@ -82,6 +90,7 @@ public class AdsBean extends ExtendBean implements Serializable {
     public void init() {
         adsEntity = new AdsEntity();
         adsEntities = adsServices.findAll();
+        paginator = new RepeatPaginator(adsEntities);
         allDisabledAds = adsServices.findAllDisabledAds();
         fieldsInitialization();
     }
@@ -152,6 +161,7 @@ public class AdsBean extends ExtendBean implements Serializable {
         FacesContext context = FacesContext.getCurrentInstance();
 
         carsBean.addCar();
+        adsEntity.setUsersByIdUsers(usersBean.getUsersEntity());
         adsEntity.setCarsByIdCars(carsBean.getCarsEntity());
         adsEntity.setDateStart(dateStart);
         adsEntity.setDateEnd(dateEnd);
@@ -288,6 +298,12 @@ public class AdsBean extends ExtendBean implements Serializable {
         adsEntity = adsServices.findById(id);
     }
 
+    public void advancedSearch() {
+        log.info("Début advanceSearch" + idModelSearch);
+
+
+    }
+
 
     /////// Getters and Setters
 
@@ -418,5 +434,21 @@ public class AdsBean extends ExtendBean implements Serializable {
 
     public void setImagePath(List<String> imagePath) {
         this.imagePath = imagePath;
+    }
+
+    public int getIdModelSearch() {
+        return idModelSearch;
+    }
+
+    public void setIdModelSearch(int idModelSearch) {
+        this.idModelSearch = idModelSearch;
+    }
+
+    public double getPriceSearch() {
+        return priceSearch;
+    }
+
+    public void setPriceSearch(double priceSearch) {
+        this.priceSearch = priceSearch;
     }
 }

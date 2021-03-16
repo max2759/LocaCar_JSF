@@ -18,4 +18,5 @@ public interface AdsDAO {
 
     public List<AdsEntity> findAllDisabledAds();
 
+    List<AdsEntity> findAdsByModels(int id);
 }

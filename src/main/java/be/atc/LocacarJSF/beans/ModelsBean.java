@@ -2,8 +2,6 @@ package be.atc.LocacarJSF.beans;
 
 
 import be.atc.LocacarJSF.dao.entities.ModelsEntity;
-import be.atc.LocacarJSF.services.BrandsServices;
-import be.atc.LocacarJSF.services.BrandsServicesImpl;
 import be.atc.LocacarJSF.services.ModelsServices;
 import be.atc.LocacarJSF.services.ModelsServicesImpl;
 import org.apache.log4j.Logger;
@@ -17,7 +15,6 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.List;
-import java.util.Locale;
 
 import static java.lang.Integer.parseInt;
 
@@ -30,20 +27,17 @@ public class ModelsBean extends ExtendBean implements Serializable {
 
     private static final long serialVersionUID = 4362706276284973700L;
     public static Logger log = Logger.getLogger(ModelsBean.class);
-    Locale locale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
 
     private ModelsServices modelsServices = new ModelsServicesImpl();
     private ModelsEntity modelsEntity = new ModelsEntity();
-    private BrandsServices brandsServices = new BrandsServicesImpl();
 
     private List<ModelsEntity> modelsEntities;
-
-    @Inject
-    private BrandsBean brandsBean;
 
     private boolean showPopup;
     private boolean addModelsEntity;
     private boolean showModel;
+    private boolean showInput;
+
     private String page;
 
     public String getPage() {
@@ -58,6 +52,9 @@ public class ModelsBean extends ExtendBean implements Serializable {
         return "models";
     }
 
+    @Inject
+    private AdsBean adsBean;
+
     /**
      * PostConstruct : appelé après le constructeur.
      * Met à jour la liste optionsEntities
@@ -66,7 +63,7 @@ public class ModelsBean extends ExtendBean implements Serializable {
     public void init() {
         showModel = false;
         modelsEntities = modelsServices.findAll();
-
+        showInput = true;
     }
 
     /**
@@ -147,8 +144,37 @@ public class ModelsBean extends ExtendBean implements Serializable {
     }
 
     public void findModelsByBrands() {
-        modelsEntities = modelsServices.findModelsByBrandsId(modelsEntity.getBrandsByIdBrands().getId());
-        showModel = true;
+
+        FacesContext context = FacesContext.getCurrentInstance();
+
+        if (modelsEntity.getBrandsByIdBrands().getId() == 0) {
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, JsfUtils.returnMessage(getLocale(), "fxs.models.errorAdd"), null));
+        } else {
+            modelsEntities = modelsServices.findModelsByBrandsId(modelsEntity.getBrandsByIdBrands().getId());
+        }
+
+        if (!modelsEntities.isEmpty()) {
+            showModel = true;
+        } else {
+            showModel = false;
+        }
+    }
+
+    public void findBrandsByAds() {
+
+        FacesContext context = FacesContext.getCurrentInstance();
+
+        if (adsBean.getAdsEntity().getCarsByIdCars().getModelsByIdModels().getBrandsByIdBrands().getId() == 0) {
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, JsfUtils.returnMessage(getLocale(), "fxs.models.errorAdd"), null));
+        } else {
+            modelsEntities = modelsServices.findModelsByBrandsId(adsBean.getAdsEntity().getCarsByIdCars().getModelsByIdModels().getBrandsByIdBrands().getId());
+        }
+
+        if (!modelsEntities.isEmpty()) {
+            showInput = true;
+        } else {
+            showInput = false;
+        }
     }
 
     //////Getters and setters
@@ -199,5 +225,13 @@ public class ModelsBean extends ExtendBean implements Serializable {
 
     public void setShowModel(boolean showModel) {
         this.showModel = showModel;
+    }
+
+    public boolean isShowInput() {
+        return showInput;
+    }
+
+    public void setShowInput(boolean showInput) {
+        this.showInput = showInput;
     }
 }

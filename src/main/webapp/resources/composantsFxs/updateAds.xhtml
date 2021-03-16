@@ -30,12 +30,12 @@
                         <f:selectItems value="#{brandsBean.brandsEntities}" var="brands"
                                        itemValue="#{brands}"
                                        itemLabel="#{brands.label}"/>
-                        <f:ajax render="@all" listener="#{modelsBean.findModelsByBrands}"/>
+                        <f:ajax render="@all" listener="#{modelsBean.findBrandsByAds}"/>
                     </h:selectOneMenu>
                     <h:message for="brandsDisplay" errorClass="error"/>
                 </h:panelGroup>
 
-                <h:panelGroup id="showModels" styleClass="row mb-3">
+                <h:panelGroup id="showModels" rendered="#{modelsBean.showInput}" styleClass="row mb-3">
                     <h:outputLabel value="#{bundle['fxs.ads.models']}" styleClass="col-sm-2 col-form-label"/>
                     <h:selectOneMenu id="modelsDisplay" value="#{adsBean.adsEntity.carsByIdCars.modelsByIdModels}"
                                      converter="modelsConverter" styleClass="form-group" required="true"
@@ -138,7 +138,8 @@
                                      converterMessage="#{bundle['not.a.valid.number']}"
                                      validatorMessage="#{bundle['fxs.ads.validatorRange']}"
                                      id="horsePower">
-                            <f:validateLongRange minFractionDigits="0" minimum="2" maximum="2000"/>
+                            <f:convertNumber minFractionDigits="0"/>
+                            <f:validateLongRange minimum="2" maximum="2000"/>
                         </h:inputText>
                     </div>
                     <h:message for="horsePower" styleClass="error"/>
@@ -207,12 +208,11 @@
                     <h:outputLabel value="Images"
                                    styleClass="col-sm-2 col-form-label"/>
                     <h:inputFile value="#{picturesBean.file}" id="picturesInput" required="true"
-                                 requiredMessage="#{bundle['fxs.adsPicture.required']}">
+                                 requiredMessage="#{bundle['fxs.adsPicture.required']}" pt:multiple="true">
                         <f:validator validatorId="carsPicturesValidator"/>
                     </h:inputFile>
                     <h:message for="picturesInput" styleClass="error"/>
                 </h:panelGroup>
-
             </div>
 
             <div class="info-save">

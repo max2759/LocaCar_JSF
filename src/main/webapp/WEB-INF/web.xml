@@ -57,5 +57,4 @@
         <url-pattern>/restreint/*</url-pattern>
     </filter-mapping>
 
-
 </web-app>

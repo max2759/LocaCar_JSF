@@ -12,8 +12,8 @@ import java.util.Objects;
         @NamedQuery(name = "Users.findByUsername", query = "SELECT u from UsersEntity u where u.username = :username"),
         @NamedQuery(name = "Users.findByOneUsername", query = "SELECT u from UsersEntity u where u.username = :username"),
         @NamedQuery(name = "Users.connexion", query = "SELECT u from UsersEntity u where u.username = :username and u.password = :password"),
-        @NamedQuery(name = "Users.findUserWithAddresses", query = "SELECT u FROM UsersEntity u join AddressesEntity a on u.id = a.usersByIdUsers.id join CitiesEntity c on a.citiesByIdCities = c.id  where u.id = :idUser"),
-        @NamedQuery(name = "Users.delete", query = "UPDATE UsersEntity u SET u.active = false where u.id = :idUser"),
+        @NamedQuery(name = "Users.findUserWithAddresses", query = "SELECT u FROM UsersEntity u join AddressesEntity a on u.id = a.usersByIdUsers.id where u.id = :idUser"),
+        @NamedQuery(name = "Users.delete", query = "UPDATE UsersEntity u SET u.active = false where u.id = :idUser")
 })
 public class UsersEntity {
 
@@ -30,7 +30,7 @@ public class UsersEntity {
     private Collection<AddressesEntity> addressesById;
     private Collection<OrdersEntity> ordersById;
     private RolesEntity rolesByIdRoles;
-    private Collection<UsersAdsEntity> usersAdsById;
+    private Collection<AdsEntity> adsById;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -176,11 +176,11 @@ public class UsersEntity {
     }
 
     @OneToMany(mappedBy = "usersByIdUsers")
-    public Collection<UsersAdsEntity> getUsersAdsById() {
-        return usersAdsById;
+    public Collection<AdsEntity> getAdsById() {
+        return adsById;
     }
 
-    public void setUsersAdsById(Collection<UsersAdsEntity> usersAdsById) {
-        this.usersAdsById = usersAdsById;
+    public void setAdsById(Collection<AdsEntity> adsById) {
+        this.adsById = adsById;
     }
 }
