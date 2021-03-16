@@ -51,19 +51,19 @@
             </h:form>
         </h:column>
         <h:column>
-            <f:facet name="header">#{bundle['fxs.disableAdsList.see']}</f:facet>
+            <f:facet name="header">#{bundle['fxs.updateAds.update']}</f:facet>
             <h:form styleClass="text-center">
-                <h:link sstyleClass="adsId-a" outcome="adsDetails">
-                    <i class="far fa-eye"></i>
+                <h:link sstyleClass="adsId-a" outcome="updateads">
+                    <i class="far fa-edit"></i>
                     <f:param name="adsId" value="#{ads.id}"/>
                 </h:link>
             </h:form>
         </h:column>
         <h:column>
-            <f:facet name="header">#{bundle['fxs.disableAdsList.disable']}</f:facet>
-            <h:form styleClass="text-center">
-                <h:link sstyleClass="adsId-a" outcome="updateads">
-                    <i class="far fa-edit"></i>
+            <f:facet name="header">#{bundle['fxs.disableAdsList.see']}</f:facet>
+            <h:form>
+                <h:link sstyleClass="adsId-a" outcome="adsDetails">
+                    <i class="far fa-eye"></i>
                     <f:param name="adsId" value="#{ads.id}"/>
                 </h:link>
             </h:form>

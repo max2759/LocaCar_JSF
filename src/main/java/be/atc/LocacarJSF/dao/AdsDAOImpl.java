@@ -121,4 +121,21 @@ public class AdsDAOImpl extends EntityFinderImpl<AdsEntity> implements AdsDAO {
         return this.findByNamedQuery("ads.findAllDisabledAds", new AdsEntity());
     }
 
+    @Override
+    public List<AdsEntity> findAdsByModels(int id) {
+        EntityManager em = EMF.getEM();
+        try {
+            return em.createNamedQuery("ads.findAdsByModels",
+                    AdsEntity.class)
+                    .setParameter("id", id)
+                    .getResultList();
+        } catch (Exception ex) {
+            log.info("Entité vide");
+            return null;
+        } finally {
+            em.clear();
+            em.close();
+        }
+    }
+
 }

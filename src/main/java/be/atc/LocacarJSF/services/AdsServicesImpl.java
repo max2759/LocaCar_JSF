@@ -83,4 +83,12 @@ public class AdsServicesImpl implements AdsServices {
     public List<AdsEntity> findAllDisabledAds() {
         return adsDAO.findAllDisabledAds();
     }
+
+    @Override
+    public List<AdsEntity> findAdsByModels(int id) {
+        if (id != 0) {
+            return adsDAO.findAdsByModels(id);
+        }
+        return null;
+    }
 }

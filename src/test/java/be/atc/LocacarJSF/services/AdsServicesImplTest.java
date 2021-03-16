@@ -137,4 +137,28 @@ class AdsServicesImplTest {
 
         assertThat(test).isEqualTo(false);
     }
+
+    @Test
+    void findAdsByModels_shouldReturnTrue() {
+        int id = 6;
+        List<AdsEntity> adsEntityList;
+        adsEntityList = adsServices.findAdsByModels(id);
+
+        boolean test = adsEntityList.isEmpty() ? false : true;
+
+        assertThat(test).isEqualTo(true);
+
+    }
+
+    @Test
+    void findAdsByModels_shouldReturnFalse() {
+        int id = 200;
+        List<AdsEntity> adsEntityList;
+        adsEntityList = adsServices.findAdsByModels(id);
+
+        boolean test = adsEntityList.isEmpty() ? false : true;
+
+        assertThat(test).isEqualTo(false);
+
+    }
 }

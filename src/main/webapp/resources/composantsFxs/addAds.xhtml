@@ -136,7 +136,8 @@
                                      converterMessage="#{bundle['not.a.valid.number']}"
                                      validatorMessage="#{bundle['fxs.ads.validatorRange']}"
                                      id="horsePower">
-                            <f:validateLongRange minFractionDigits="0" minimum="2" maximum="2000"/>
+                            <f:convertNumber minFractionDigits="0"/>
+                            <f:validateLongRange minimum="2" maximum="2000"/>
                         </h:inputText>
                     </div>
                     <h:message for="horsePower" styleClass="error"/>

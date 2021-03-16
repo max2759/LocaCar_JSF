@@ -4,15 +4,15 @@ import be.atc.LocacarJSF.enums.EnumTypeAds;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Collection;
 import java.util.Objects;
 
 @Entity
 @Table(name = "ads", schema = "locacarjsf", catalog = "")
 @NamedQueries({
-        @NamedQuery(name = "Ads.findAll", query = "SELECT a from AdsEntity a where a.active=true and a.carsByIdCars.active=true"),
+        @NamedQuery(name = "Ads.findAll", query = "SELECT a from AdsEntity a where a.active=true and a.carsByIdCars.active=true order by a.id DESC"),
         @NamedQuery(name = "ads.findAllDisabledAds", query = "SELECT a from AdsEntity a where a.active=false and a.carsByIdCars.active=false "),
-        @NamedQuery(name = "ads.findByLabel", query = "select a from AdsEntity a where lower(a.label) like lower(concat('%', :label ,'%') ) and a.active = true and a.carsByIdCars.active=true")
+        @NamedQuery(name = "ads.findAdsByModels", query = "SELECT a from AdsEntity a where a.carsByIdCars.modelsByIdModels.id = :id and a.active=true and a.carsByIdCars.active=true"),
+        @NamedQuery(name = "ads.findByLabel", query = "select a from AdsEntity a where lower(a.label) like lower(concat('%', :label ,'%') ) or lower(a.carsByIdCars.modelsByIdModels.label) like lower(concat('%', :label ,'%') ) or lower(a.carsByIdCars.modelsByIdModels.brandsByIdBrands.label) like lower(concat('%', :label ,'%') ) or lower(a.price) like lower(concat('%', :label ,'%') ) and a.active = true and a.carsByIdCars.active=true")
 })
 public class AdsEntity {
     private int id;
@@ -22,7 +22,7 @@ public class AdsEntity {
     private String label;
     private boolean isActive;
     private CarsEntity carsByIdCars;
-    private Collection<UsersAdsEntity> usersAdsById;
+    private UsersEntity usersByIdUsers;
     private double price;
     private EnumTypeAds typeAds;
 
@@ -121,14 +121,13 @@ public class AdsEntity {
         this.carsByIdCars = carsByIdCars;
     }
 
-    @OneToMany(mappedBy = "adsByIdAds")
-    public Collection<UsersAdsEntity> getUsersAdsById() {
-        return usersAdsById;
+    @ManyToOne
+    @JoinColumn(name = "ID_Users", referencedColumnName = "ID", nullable = false)
+    public UsersEntity getUsersByIdUsers() {
+        return usersByIdUsers;
     }
 
-    public void setUsersAdsById(Collection<UsersAdsEntity> usersAdsById) {
-        this.usersAdsById = usersAdsById;
+    public void setUsersByIdUsers(UsersEntity usersByIdUsers) {
+        this.usersByIdUsers = usersByIdUsers;
     }
-
-
 }

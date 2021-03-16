@@ -17,4 +17,5 @@ public interface AdsServices {
 
     List<AdsEntity> findAllDisabledAds();
 
+    List<AdsEntity> findAdsByModels(int id);
 }
