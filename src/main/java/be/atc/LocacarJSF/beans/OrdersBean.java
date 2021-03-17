@@ -33,8 +33,6 @@ import static java.lang.Integer.parseInt;
 public class OrdersBean extends ExtendBean implements Serializable {
     private static final long serialVersionUID = -5251107202124824837L;
 
-//    private int idUser = 7;
-
     private OrdersEntity ordersEntity;
     private final OrdersServices ordersServices = new OrdersServicesImpl();
     private double priceOrder;
