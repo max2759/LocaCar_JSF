@@ -21,7 +21,7 @@
                     <f:ajax render="@all"></f:ajax>
                 </h:commandLink>
                 <h:outputText styleClass="container-fluid badge bg-warning"
-                              value="#{bundle['fxs.modalContractsOrder.orderNum']} #{contractsBean.contractsEntitiesFind[0].ordersByIdOrders.id}"></h:outputText>
+                              value="#{bundle['fxs.modalContractsOrder.orderNum']} #{contractsBean.contractsEntitiesFind[0].ordersByIdOrders.id}"/>
 
                 <h:dataTable id="outPutContracts" styleClass="table table-hover table-responsive"
                              value="#{contractsBean.contractsEntitiesFind}" var="c">

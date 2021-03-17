@@ -17,18 +17,18 @@
                       rendered="#{contractInsurancesBean.showPopup}">
 
             <h:form id="formPopupEdit">
-                <div class="popup-panel pre-scrollable">
-                    <h:panelGrid>
-                        <h:messages id="messages" showSummary="true" globalOnly="true" infoClass="alert-success"
-                                    errorClass="alert-danger"/>
-                    </h:panelGrid>
+                <div class="popup-panel pre-scrollable w-50">
                     <h:commandLink styleClass="close text-info"
                                    action="#{contractInsurancesBean.hidePopupModal}">
                         <i class="fas fa-times"></i>
                         <f:ajax render="@all"/>
                     </h:commandLink>
-                    <h:outputLabel value="#{bundle['fxs.basket.insuranceActual']}"/>
-                    <br/>
+                    <h:panelGrid>
+                        <h:messages id="messages" showSummary="true" globalOnly="true" infoClass="alert-success"
+                                    errorClass="alert-danger"/>
+                    </h:panelGrid>
+                    <h:outputText styleClass="container-fluid badge bg-warning"
+                                  value="#{bundle['fxs.basket.insuranceActual']}"/>
                     <h:outputText styleClass="font-weight-bold"
                                   value="#{contractInsurancesBean.contractInsurancesEntity.insurancesByIdInsurance.label}"/>
                     <br/><br/>
@@ -50,6 +50,7 @@
                         <f:convertNumber type="currency" currencySymbol="€"/>
                     </h:outputText>
                     <h:outputText styleClass="font-weight-bold" value="#{bundle['pdf.insuranceMonth']} "/>
+                    <br/>
                     <br/>
                     <h:outputLabel value="#{bundle['fxs.basket.leasingTime']}&nbsp;"/>
                     <h:selectOneMenu styleClass="form-check" value="#{contractsBean.timeLeasing}" id="leasingTime"

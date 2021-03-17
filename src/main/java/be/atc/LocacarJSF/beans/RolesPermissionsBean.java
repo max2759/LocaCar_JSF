@@ -292,6 +292,24 @@ public class RolesPermissionsBean implements Serializable {
         return addRolesPermissionsEntity;
     }
 
+    /**
+     * check permission user with string
+     *
+     * @param permission String
+     * @return boolean
+     */
+    public boolean checkPermissionUserWithString(String permission) {
+        if (permission == null || listOfUserPermissions.isEmpty()) {
+            return false;
+        }
+        for (RolesPermissionsEntity rp : listOfUserPermissions) {
+            if (rp.getPermissionsByIdPermissions().getLabel().equalsIgnoreCase(permission)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void listPermissionsUser() {
         if (!listOfUserPermissions.isEmpty()) {
             for (RolesPermissionsEntity rp : listOfUserPermissions) {
