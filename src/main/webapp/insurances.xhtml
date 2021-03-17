@@ -2,10 +2,15 @@
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:fxs="http://java.sun.com/jsf/composite/composantsFxs"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
                 template="WEB-INF/templates/template.xhtml">
 
     <ui:define name="title">#{bundle['fxs.insurances.title']}</ui:define>
     <ui:define name="content">
+        <f:metadata>
+            <f:event listener="#{accessControlBean.checkPermission}" type="preRenderView"/>
+            <f:attribute name="permRequired" value="read_insurances"/>
+        </f:metadata>
         <h:body>
             <div class="container">
                 <h2>#{bundle['fxs.insurances.title']}</h2>

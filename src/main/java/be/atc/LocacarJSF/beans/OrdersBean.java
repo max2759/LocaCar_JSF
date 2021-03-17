@@ -33,8 +33,7 @@ import static java.lang.Integer.parseInt;
 public class OrdersBean extends ExtendBean implements Serializable {
     private static final long serialVersionUID = -5251107202124824837L;
 
-    // Remplacer par l'utilisateur
-    private int idUser = 7;
+//    private int idUser = 7;
 
     private OrdersEntity ordersEntity;
     private final OrdersServices ordersServices = new OrdersServicesImpl();
@@ -49,7 +48,6 @@ public class OrdersBean extends ExtendBean implements Serializable {
     private UsersBean usersBean;
     @Inject
     private AdsBean adsBean;
-
 
     /**
      * Method post construct
@@ -240,7 +238,7 @@ public class OrdersBean extends ExtendBean implements Serializable {
         log.info("OrdersBean : findAllMyOrders");
         FacesContext context = FacesContext.getCurrentInstance();
 
-        ordersEntities = ordersServices.findAllByIdUsersAndStatusIsValidateOrCanceled(idUser);
+        ordersEntities = ordersServices.findAllByIdUsersAndStatusIsValidateOrCanceled(usersBean.getUsersEntity().getId());
         if (ordersEntities.isEmpty()) {
             context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, JsfUtils.returnMessage(getLocale(), "fxs.modalContractsOrder.listOrderEmpty"), null));
         } else {
@@ -253,7 +251,7 @@ public class OrdersBean extends ExtendBean implements Serializable {
      */
     protected void deadlineLeasing() {
         log.info("OrdersBean : deadlineLeasing");
-        List<OrdersEntity> ordersEntitiesDeadline = ordersServices.findAllOrdersByIdUserAndStatusIsValidate(idUser);
+        List<OrdersEntity> ordersEntitiesDeadline = ordersServices.findAllOrdersByIdUserAndStatusIsValidate(usersBean.getUsersEntity().getId());
         if (!ordersEntitiesDeadline.isEmpty()) {
             contractsBean.findAllContractsInAllMyOrdersForLeasingAndDeadlineIsLowerThan1Month(ordersEntitiesDeadline);
         }
@@ -334,7 +332,7 @@ public class OrdersBean extends ExtendBean implements Serializable {
      */
     protected OrdersEntity findOrders_ByIdUsers_andStatusIsPending() {
         log.info("OrdersBean : findOrders_ByIdUsers_andStatusIsPending!");
-        return ordersServices.findByIdUsersAndStatusIsPending(idUser);
+        return ordersServices.findByIdUsersAndStatusIsPending(usersBean.getUsersEntity().getId());
     }
 
 
@@ -344,7 +342,7 @@ public class OrdersBean extends ExtendBean implements Serializable {
     protected boolean createOrders() {
         log.info("OrdersBean : createOrders!");
         ordersEntity = new OrdersEntity();
-        ordersEntity.setUsersByIdUsers(usersBean.findUserById(idUser));
+        ordersEntity.setUsersByIdUsers(usersBean.getUsersEntity());
         ordersEntity.setOrderDate(getDate());
         ordersEntity.setOrderStatut(EnumOrderStatut.Pending);
         return ordersServices.add(ordersEntity);
@@ -352,14 +350,6 @@ public class OrdersBean extends ExtendBean implements Serializable {
 
     protected void generatePDF() {
         PDFUtil.generatePDF(ordersEntity, contractsBean.getContractsEntities(), priceOrder);
-    }
-
-    public int getIdUser() {
-        return idUser;
-    }
-
-    public void setIdUser(int idUser) {
-        this.idUser = idUser;
     }
 
     public OrdersEntity getOrdersEntity() {

@@ -27,26 +27,28 @@
             <h:panelGroup id="menu">
                 <h:form>
 
-                        <ul class="navbar-nav mr-auto">
-                            <li class="nav-item"><h:commandLink styleClass="nav-link " value="Options"
-                                                                action="#{optionsBean.toPageOption}"/></li>
-                            <li class="nav-item"><h:commandLink styleClass="nav-link " value="Colors"
-                                                                action="#{carsColorsBean.toPageColors}"/></li>
-                            <li class="nav-item"><h:commandLink styleClass="nav-link " value="Models"
-                                                                action="#{modelsBean.toPageModels}"/></li>
-                            <li class="nav-item"><h:commandLink styleClass="nav-link" value="Register"
-                                                                action="#{usersBean.toPageAddUser}"/></li>
-                            <li class="nav-item"><h:commandLink styleClass="nav-link" value="Connexion"
-                                                                action="#{usersBean.toPageConnexion}"/></li>
-                            <li class="nav-item"><h:commandLink styleClass="nav-link" value="LogOut"
-                                                                action="#{usersBean.doLogoutUser}"/></li>
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item"><h:commandLink styleClass="nav-link " value="Options"
+                                                            action="#{optionsBean.toPageOption}"/></li>
+                        <li class="nav-item"><h:commandLink styleClass="nav-link " value="Colors"
+                                                            action="#{carsColorsBean.toPageColors}"/></li>
+                        <li class="nav-item"><h:commandLink styleClass="nav-link " value="Models"
+                                                            action="#{modelsBean.toPageModels}"/></li>
+                        <li class="nav-item"><h:commandLink styleClass="nav-link" value="Register"
+                                                            action="#{usersBean.toPageAddUser}"/></li>
+                        <li class="nav-item"><h:commandLink styleClass="nav-link" value="Connexion"
+                                                            action="#{usersBean.toPageConnexion}"/></li>
+                        <li class="nav-item"><h:commandLink styleClass="nav-link" value="LogOut"
+                                                            action="#{usersBean.doLogoutUser}"/></li>
 
-                            <c:if test="#{usersBean.connected}">
+                        <c:if test="#{usersBean.connected}">
 
-                                <li class="nav-item"><h:commandLink styleClass="nav-link" value="bonjour #{usersBean.usersEntity.username}"/> </li>
+                            <li class="nav-item"><h:commandLink styleClass="nav-link"
+                                                                value="bonjour #{usersBean.usersEntity.username}"/></li>
 
-                            </c:if>
+                        </c:if>
 
+                        <h:panelGroup rendered="#{usersBean.connected}">
                             <li class="nav-item">
                                 <fxs:countContracts id="countContracts"></fxs:countContracts>
                                 <h:link outcome="basket">
@@ -55,7 +57,8 @@
                                 <br/>
                                 <fxs:priceOrder id="priceOrder"></fxs:priceOrder>
                             </li>
-                        </ul>
+                        </h:panelGroup>
+                    </ul>
 
                 </h:form>
             </h:panelGroup>
