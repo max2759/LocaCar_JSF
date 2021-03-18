@@ -208,10 +208,8 @@ public class OrdersBean extends ExtendBean implements Serializable {
             setCptContracts(0);
 
             context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, JsfUtils.returnMessage(getLocale(), "validateOrder.success"), null));
-            return "orderValidate";
-        } else {
-            return "orderValidate";
         }
+        return "orderValidate";
     }
 
     /**

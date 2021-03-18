@@ -7,7 +7,7 @@ public enum EnumTypeAds {
 
     private final String label;
 
-    private EnumTypeAds(String label) {
+    EnumTypeAds(String label) {
         this.label = label;
     }
 

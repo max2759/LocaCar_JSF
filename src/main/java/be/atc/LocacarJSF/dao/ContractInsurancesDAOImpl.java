@@ -17,8 +17,8 @@ public class ContractInsurancesDAOImpl implements ContractInsurancesDAO {
     /**
      * Add entity
      *
-     * @param contractInsurancesEntity
-     * @return
+     * @param contractInsurancesEntity ContractInsurancesEntity
+     * @return boolean
      */
     @Override
     public boolean add(ContractInsurancesEntity contractInsurancesEntity) {
@@ -45,8 +45,8 @@ public class ContractInsurancesDAOImpl implements ContractInsurancesDAO {
     /**
      * Update entity
      *
-     * @param contractInsurancesEntity
-     * @return
+     * @param contractInsurancesEntity ContractInsurancesEntity
+     * @return boolean
      */
     @Override
     public boolean update(ContractInsurancesEntity contractInsurancesEntity) {
@@ -106,8 +106,8 @@ public class ContractInsurancesDAOImpl implements ContractInsurancesDAO {
     /**
      * find entity by id
      *
-     * @param id
-     * @return
+     * @param id int
+     * @return ContractInsurancesEntity
      */
     @Override
     public ContractInsurancesEntity findById(int id) {
@@ -123,6 +123,12 @@ public class ContractInsurancesDAOImpl implements ContractInsurancesDAO {
         }
     }
 
+    /**
+     * Find ContractInsurance by id Contract
+     *
+     * @param idContract int
+     * @return ContractInsurancesEntity
+     */
     @Override
     public ContractInsurancesEntity findByIdContract(int idContract) {
         EntityManager em = EMF.getEM();

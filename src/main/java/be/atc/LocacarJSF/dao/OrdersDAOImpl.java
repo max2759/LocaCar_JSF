@@ -15,13 +15,14 @@ import java.util.List;
  */
 public class OrdersDAOImpl extends EntityFinderImpl<OrdersEntity> implements OrdersDAO {
 
+    private static final long serialVersionUID = -3781319900371047868L;
     public static Logger log = Logger.getLogger(OrdersDAOImpl.class);
 
     /**
      * Add entity
      *
-     * @param OrdersEntity
-     * @return
+     * @param OrdersEntity OrdersEntity
+     * @return boolean
      */
     @Override
     public boolean add(OrdersEntity OrdersEntity) {
@@ -48,8 +49,8 @@ public class OrdersDAOImpl extends EntityFinderImpl<OrdersEntity> implements Ord
     /**
      * Update entity
      *
-     * @param OrdersEntity
-     * @return
+     * @param OrdersEntity OrdersEntity
+     * @return boolean
      */
     @Override
     public boolean update(OrdersEntity OrdersEntity) {
@@ -76,7 +77,7 @@ public class OrdersDAOImpl extends EntityFinderImpl<OrdersEntity> implements Ord
     /**
      * Find all entities
      *
-     * @return
+     * @return List<OrdersEntity>
      */
     @Override
     public List<OrdersEntity> findAll() {
@@ -86,8 +87,8 @@ public class OrdersDAOImpl extends EntityFinderImpl<OrdersEntity> implements Ord
     /**
      * find entity by id
      *
-     * @param id
-     * @return
+     * @param id int
+     * @return OrdersEntity
      */
     @Override
     public OrdersEntity findById(int id) {
@@ -103,6 +104,12 @@ public class OrdersDAOImpl extends EntityFinderImpl<OrdersEntity> implements Ord
         }
     }
 
+    /**
+     * Find OrdersEntity by Id User And Status is Pending
+     *
+     * @param idUser int
+     * @return OrdersEntity
+     */
     @Override
     public OrdersEntity findByIdUsersAndStatusIsPending(int idUser) {
         EntityManager em = EMF.getEM();
@@ -120,6 +127,12 @@ public class OrdersDAOImpl extends EntityFinderImpl<OrdersEntity> implements Ord
         }
     }
 
+    /**
+     * Find all orders by Id User and statusis validate or canceled
+     *
+     * @param idUser int
+     * @return List<OrdersEntity>
+     */
     @Override
     public List<OrdersEntity> findAllByIdUsersAndStatusIsValidateOrCanceled(int idUser) {
         EntityManager em = EMF.getEM();
@@ -137,6 +150,12 @@ public class OrdersDAOImpl extends EntityFinderImpl<OrdersEntity> implements Ord
         }
     }
 
+    /**
+     * Find All orders By Username Users And Status Is Validate Or Canceled
+     *
+     * @param username String
+     * @return List<OrdersEntity>
+     */
     @Override
     public List<OrdersEntity> findAllByUsernameUsersAndStatusIsValidateOrCanceled(String username) {
         EntityManager em = EMF.getEM();
@@ -154,6 +173,12 @@ public class OrdersDAOImpl extends EntityFinderImpl<OrdersEntity> implements Ord
         }
     }
 
+    /**
+     * Find All Orders By Id Order And Status Is Validate Or Canceled
+     *
+     * @param idOrder int
+     * @return List<OrdersEntity>
+     */
     @Override
     public List<OrdersEntity> findAllByIdOrderAndStatusIsValidateOrCanceled(int idOrder) {
         EntityManager em = EMF.getEM();
@@ -171,6 +196,12 @@ public class OrdersDAOImpl extends EntityFinderImpl<OrdersEntity> implements Ord
         }
     }
 
+    /**
+     * Find All Orders By Id User And Status Is Validate
+     *
+     * @param idUser int
+     * @return List<OrdersEntity>
+     */
     @Override
     public List<OrdersEntity> findAllOrdersByIdUserAndStatusIsValidate(int idUser) {
         EntityManager em = EMF.getEM();

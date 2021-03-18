@@ -104,6 +104,12 @@ public class InsurancesDAOImpl extends EntityFinderImpl<InsurancesEntity> implem
         }
     }
 
+    /**
+     * Find insurances by label
+     *
+     * @param label String
+     * @return List<InsurancesEntity>
+     */
     @Override
     public List<InsurancesEntity> findByLabel(String label) {
         EntityManager em = EMF.getEM();
@@ -122,6 +128,11 @@ public class InsurancesDAOImpl extends EntityFinderImpl<InsurancesEntity> implem
         }
     }
 
+    /**
+     * Find All Active Insurance
+     *
+     * @return List<InsurancesEntity>
+     */
     @Override
     public List<InsurancesEntity> findAllActiveInsurance() {
         return this.findByNamedQuery("Insurances.findAllActiveInsurance", new InsurancesEntity());

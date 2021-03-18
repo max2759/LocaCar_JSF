@@ -4,7 +4,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:cc="http://java.sun.com/jsf/composite">
 
 <cc:interface name="insurancesList"
@@ -44,35 +43,32 @@
                     <f:convertNumber type="currency" currencySymbol="€"/>
                 </h:outputText>
             </h:column>
-            <h:column>
+            <h:column rendered="#{rolesPermissionsBean.deleteInsurances}">
                 <f:facet name="header">#{bundle['fxs.insurancesList.edit']}</f:facet>
                 <h:commandLink styleClass="text-info" action="#{insurancesBean.showPopupModal}">
-
                     <i class="far fa-edit"></i>
                     <f:param name="id" value="#{i.id}"/>
                     <f:ajax render="@all"/>
                 </h:commandLink>
             </h:column>
 
-            <h:column>
+            <h:column rendered="#{rolesPermissionsBean.deleteInsurances}">
                 <f:facet name="header">#{bundle['fxs.insurancesList.isActive']}</f:facet>
-                <ui:fragment rendered="#{rolesPermissionsBean.deleteInsurances}">
-                    <h:commandLink id="activeInsurance" styleClass="text-primary"
-                                   action="#{insurancesBean.deleteOrActivateInsurance}"
-                                   rendered="#{i.active eq true}"
-                                   onclick="return confirmer();">
-                        <i class="fas fa-toggle-on"></i>
-                        <f:param name="id" value="#{i.id}"/>
-                        <f:ajax render="@form"/>
-                    </h:commandLink>
-                    <h:commandLink id="desactiveInsurance" styleClass="text-secondary"
+                <h:commandLink id="activeInsurance" styleClass="text-primary"
+                               action="#{insurancesBean.deleteOrActivateInsurance}"
+                               rendered="#{i.active eq true}"
+                               onclick="return confirmer();">
+                    <i class="fas fa-toggle-on"></i>
+                    <f:param name="id" value="#{i.id}"/>
+                    <f:ajax render="@form"/>
+                </h:commandLink>
+                <h:commandLink id="desactiveInsurance" styleClass="text-secondary"
                                    action="#{insurancesBean.deleteOrActivateInsurance}"
                                    rendered="#{i.active eq false}">
                         <i class="fas fa-toggle-off"></i>
                         <f:param name="id" value="#{i.id}"/>
                         <f:ajax render="@form"/>
                     </h:commandLink>
-                </ui:fragment>
             </h:column>
         </h:dataTable>
     </h:form>
@@ -92,7 +88,7 @@
                                     errorClass="alert-danger"/>
                     </h:panelGrid>
                     <h:outputText styleClass="container-fluid badge bg-warning"
-                                  value="#{bundle['insurance']}"></h:outputText>
+                                  value="#{bundle['insurance']}"/>
                     <div class="form-group">
                         <h:outputLabel value="#{bundle['fxs.insurancesList.title']}" for="label"/>
                         <h:inputText value="#{insurancesBean.insurancesEntity.label}" styleClass="form-control"
@@ -104,7 +100,7 @@
                     </div>
                     <div class="form-group">
                         <h:outputLabel value="#{bundle['fxs.insurancesList.description']}"
-                                       for="description"></h:outputLabel>
+                                       for="description"/>
                         <h:inputTextarea cols="70" id="description" styleClass="form-control" rows="3"
                                          value="#{insurancesBean.insurancesEntity.description}"/>
                     </div>

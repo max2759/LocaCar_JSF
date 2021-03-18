@@ -27,7 +27,6 @@
         <class>be.atc.LocacarJSF.dao.entities.RolesEntity</class>
         <class>be.atc.LocacarJSF.dao.entities.RolesPermissionsEntity</class>
         <class>be.atc.LocacarJSF.dao.entities.UsersEntity</class>
-        <class>be.atc.LocacarJSF.dao.entities.UsersAdsEntity</class>
 
         <properties>
             <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>

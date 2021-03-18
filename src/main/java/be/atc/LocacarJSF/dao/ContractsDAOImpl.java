@@ -138,6 +138,13 @@ public class ContractsDAOImpl extends EntityFinderImpl<ContractsEntity> implemen
         }
     }
 
+    /**
+     * Find Contract By Id Orders And By Id Cars
+     *
+     * @param idOrder int
+     * @param idCar   int
+     * @return ContractsEntity
+     */
     @Override
     public ContractsEntity findContractByIdOrdersAndByIdCars(int idOrder, int idCar) {
         EntityManager em = EMF.getEM();
@@ -156,6 +163,12 @@ public class ContractsDAOImpl extends EntityFinderImpl<ContractsEntity> implemen
         }
     }
 
+    /**
+     * Find All Contracts By Id Order
+     *
+     * @param idOrder int
+     * @return List<ContractsEntity>
+     */
     @Override
     public List<ContractsEntity> findAllContractsByIdOrder(int idOrder) {
         EntityManager em = EMF.getEM();
@@ -173,6 +186,12 @@ public class ContractsDAOImpl extends EntityFinderImpl<ContractsEntity> implemen
         }
     }
 
+    /**
+     * Count Contracts By Id Order
+     *
+     * @param idOrder int
+     * @return Number
+     */
     @Override
     public Number countContractsByIdOrder(int idOrder) {
         EntityManager em = EMF.getEM();
@@ -189,6 +208,12 @@ public class ContractsDAOImpl extends EntityFinderImpl<ContractsEntity> implemen
         }
     }
 
+    /**
+     * Find All Contracts By Id Order And Deadline Is Lower Than 1 Month
+     *
+     * @param idOrder int
+     * @return List<ContractsEntity>
+     */
     @Override
     public List<ContractsEntity> findAllContractsByIdOrderAndDeadlineIsLowerThan1Month(int idOrder) {
         EntityManager em = EMF.getEM();
@@ -207,6 +232,12 @@ public class ContractsDAOImpl extends EntityFinderImpl<ContractsEntity> implemen
         }
     }
 
+    /**
+     * Find Contract By Id Car And Type Is Leasing
+     *
+     * @param idCar int
+     * @return ContractsEntity
+     */
     @Override
     public ContractsEntity findContractByIdCarAndTypeIsLeasing(int idCar) {
         EntityManager em = EMF.getEM();

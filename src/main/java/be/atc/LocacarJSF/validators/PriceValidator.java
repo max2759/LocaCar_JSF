@@ -1,6 +1,5 @@
 package be.atc.LocacarJSF.validators;
 
-import be.atc.LocacarJSF.beans.InsurancesBean;
 import org.apache.log4j.Logger;
 import utils.JsfUtils;
 
@@ -20,7 +19,7 @@ import java.util.regex.Pattern;
 @FacesValidator("priceValidator")
 public class PriceValidator implements Validator {
 
-    public static Logger log = Logger.getLogger(InsurancesBean.class);
+    public static Logger log = Logger.getLogger(PriceValidator.class);
     Locale locale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
 
     /**

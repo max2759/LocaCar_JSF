@@ -26,10 +26,10 @@ public class AddBasketValidator implements Validator {
     /**
      * Validator for Price
      *
-     * @param context
-     * @param component
-     * @param value
-     * @throws ValidatorException
+     * @param context   FacesContext
+     * @param component UIComponent
+     * @param value     Object
+     * @throws ValidatorException ValidatorException
      */
     @Override
     public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
@@ -38,7 +38,7 @@ public class AddBasketValidator implements Validator {
 
         AdsEntity adsEntity = (AdsEntity) value;
 
-        Boolean test = (adsEntity.isActive() == true) && (adsEntity.getCarsByIdCars().isActive() == true) && (!adsEntity.getDateEnd().isBefore(date)) ? true : false;
+        boolean test = (adsEntity.isActive()) && (adsEntity.getCarsByIdCars().isActive()) && (!adsEntity.getDateEnd().isBefore(date));
 
         log.info("Validator : ads active, car active, dateEnd !");
 
@@ -52,7 +52,7 @@ public class AddBasketValidator implements Validator {
     /**
      * Return message for exception
      *
-     * @return
+     * @return String
      */
     private String getMessageError() {
         return JsfUtils.returnMessage(locale, "fxs.addShopButton.adsOrVehiculeError");

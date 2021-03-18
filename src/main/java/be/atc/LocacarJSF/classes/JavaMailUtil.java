@@ -22,7 +22,7 @@ public class JavaMailUtil {
 
     public static Logger log = Logger.getLogger(JavaMailUtil.class);
 
-    public static void sendMail(OrdersEntity ordersEntity) throws Exception {
+    public static void sendMail(OrdersEntity ordersEntity) {
 
         log.info("Preparing to send email");
 
@@ -48,8 +48,10 @@ public class JavaMailUtil {
         try {
             Message message = prepareMessage(session, myAccountEmail, ordersEntity);
 
-            Transport.send(message);
-            log.info("Message sent successfully");
+            if (message != null) {
+                Transport.send(message);
+                log.info("Message sent successfully");
+            }
         } catch (MessagingException e) {
             log.error("ERROR Sent message");
             throw new RuntimeException(e);
@@ -73,11 +75,9 @@ public class JavaMailUtil {
             MimeBodyPart textBodyPart = new MimeBodyPart();
             textBodyPart.setText(JsfUtils.returnMessage(locale, "mail.hello") + "\n\n" + JsfUtils.returnMessage(locale, "mail.body") + "\n\n" + JsfUtils.returnMessage(locale, "mail.thankU"));
 
-            if (sourcePath != null) {
-                MimeBodyPart pdfAttachement = new MimeBodyPart();
-                pdfAttachement.attachFile(sourcePath);
-                emailContent.addBodyPart(pdfAttachement);
-            }
+            MimeBodyPart pdfAttachement = new MimeBodyPart();
+            pdfAttachement.attachFile(sourcePath);
+            emailContent.addBodyPart(pdfAttachement);
             emailContent.addBodyPart(textBodyPart);
 
             message.setContent(emailContent);

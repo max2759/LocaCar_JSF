@@ -8,7 +8,7 @@ public enum EnumOrderStatut {
 
     private final String label;
 
-    private EnumOrderStatut(String label) {
+    EnumOrderStatut(String label) {
         this.label = label;
     }
 
