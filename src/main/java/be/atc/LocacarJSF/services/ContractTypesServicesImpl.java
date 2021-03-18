@@ -17,8 +17,8 @@ public class ContractTypesServicesImpl implements ContractTypesServices {
     /**
      * Add entity
      *
-     * @param contractTypesEntity
-     * @return
+     * @param contractTypesEntity ContractTypesEntity
+     * @return boolean
      */
     @Override
     public boolean add(ContractTypesEntity contractTypesEntity) {
@@ -31,8 +31,8 @@ public class ContractTypesServicesImpl implements ContractTypesServices {
     /**
      * Update entity
      *
-     * @param contractTypesEntity
-     * @return
+     * @param contractTypesEntity ContractTypesEntity
+     * @return boolean
      */
     @Override
     public boolean update(ContractTypesEntity contractTypesEntity) {
@@ -46,7 +46,7 @@ public class ContractTypesServicesImpl implements ContractTypesServices {
     /**
      * Find all entities
      *
-     * @return
+     * @return List<ContractTypesEntity>
      */
     @Override
     public List<ContractTypesEntity> findAll() {
@@ -56,8 +56,8 @@ public class ContractTypesServicesImpl implements ContractTypesServices {
     /**
      * Find entity by id
      *
-     * @param id
-     * @return
+     * @param id int
+     * @return ContractTypesEntity
      */
     @Override
     public ContractTypesEntity findById(int id) {

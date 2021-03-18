@@ -8,9 +8,13 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 
+/**
+ * @author Marie-Elise Larche
+ * Class check Access Control
+ */
 @Named(value = "accessControlBean")
 @RequestScoped
-public class AccessControlBean implements Serializable {
+public class AccessControlBean extends ExtendBean implements Serializable {
     private static final long serialVersionUID = 7486573412145610272L;
 
     private final FacesContext fc = FacesContext.getCurrentInstance();
@@ -20,12 +24,21 @@ public class AccessControlBean implements Serializable {
     @Inject
     private RolesPermissionsBean rolesPermissionsBean;
 
+    /**
+     * Check if user isn't Logged => Redirect to accessDenied
+     */
     public void isNotLogged() {
+        log.info("AccessControlBean isNotLogged()");
         if (!usersBean.isConnected()) {
-            nav.performNavigation("/errorPages/accessDenied.xhtml");
+            nav.performNavigation("/connexion.xhtml");
         }
     }
 
+    /**
+     * Check permission user.
+     *
+     * @param event ComponentSystemEvent
+     */
     public void checkPermission(ComponentSystemEvent event) {
         if (usersBean.isConnected()) {
             String permission = (String) event.getComponent().getAttributes().get("permRequired");
@@ -40,9 +53,11 @@ public class AccessControlBean implements Serializable {
         }
     }
 
+    /**
+     * Redirect user to AccessDenied !
+     */
     public void hasNotPermission() {
         nav.performNavigation("/errorPages/accessDenied.xhtml");
-
     }
 
 }

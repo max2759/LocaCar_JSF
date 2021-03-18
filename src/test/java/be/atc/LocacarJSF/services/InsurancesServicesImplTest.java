@@ -144,8 +144,7 @@ class InsurancesServicesImplTest {
 
     @Test
     void findByLabelInsuranceEqualsNull_shouldBeReturnFalse() {
-        String label = null;
-        List<InsurancesEntity> insurancesEntities = insurancesServices.findByLabel(label);
+        List<InsurancesEntity> insurancesEntities = insurancesServices.findByLabel(null);
         Boolean test;
         test = !insurancesEntities.isEmpty();
 

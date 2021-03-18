@@ -15,13 +15,14 @@ import java.util.List;
  */
 public class ContractTypesDAOImpl extends EntityFinderImpl<ContractTypesEntity> implements ContractTypesDAO {
 
+    private static final long serialVersionUID = 6858411659195542003L;
     public static Logger log = Logger.getLogger(ContractTypesDAOImpl.class);
 
     /**
      * Add entity
      *
-     * @param ContractTypesEntity
-     * @return
+     * @param ContractTypesEntity ContractTypesEntity
+     * @return boolean
      */
     @Override
     public boolean add(ContractTypesEntity ContractTypesEntity) {
@@ -48,8 +49,8 @@ public class ContractTypesDAOImpl extends EntityFinderImpl<ContractTypesEntity> 
     /**
      * Update entity
      *
-     * @param ContractTypesEntity
-     * @return
+     * @param ContractTypesEntity ContractTypesEntity
+     * @return boolean
      */
     @Override
     public boolean update(ContractTypesEntity ContractTypesEntity) {
@@ -76,7 +77,7 @@ public class ContractTypesDAOImpl extends EntityFinderImpl<ContractTypesEntity> 
     /**
      * Find all entities
      *
-     * @return
+     * @return List<ContractTypesEntity>
      */
     @Override
     public List<ContractTypesEntity> findAll() {
@@ -86,8 +87,8 @@ public class ContractTypesDAOImpl extends EntityFinderImpl<ContractTypesEntity> 
     /**
      * find entity by id
      *
-     * @param id
-     * @return
+     * @param id int
+     * @return ContractTypesEntity
      */
     @Override
     public ContractTypesEntity findById(int id) {

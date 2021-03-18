@@ -56,7 +56,7 @@
                 <f:facet name="header">#{bundle['fxs.ordersList.status']}</f:facet>
                 <h:outputText value="#{o.orderStatut}"/>
             </h:column>
-            <h:column>
+            <h:column rendered="#{rolesPermissionsBean.deleteOrders}">
                 <f:facet name="header">#{bundle['cancel']}</f:facet>
                 <h:panelGroup rendered="#{o.orderStatut != 'Canceled'}">
                     <h:form>

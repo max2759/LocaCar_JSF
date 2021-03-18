@@ -15,8 +15,8 @@ public class ContractInsurancesServicesImpl implements ContractInsurancesService
     /**
      * Add entity
      *
-     * @param contractInsurancesEntity
-     * @return
+     * @param contractInsurancesEntity ContractInsurancesEntity
+     * @return boolean
      */
     @Override
     public boolean add(ContractInsurancesEntity contractInsurancesEntity) {
@@ -29,8 +29,8 @@ public class ContractInsurancesServicesImpl implements ContractInsurancesService
     /**
      * Update entity
      *
-     * @param contractInsurancesEntity
-     * @return
+     * @param contractInsurancesEntity ContractInsurancesEntity
+     * @return boolean
      */
     @Override
     public boolean update(ContractInsurancesEntity contractInsurancesEntity) {
@@ -52,8 +52,8 @@ public class ContractInsurancesServicesImpl implements ContractInsurancesService
     /**
      * Find entity by id
      *
-     * @param id
-     * @return
+     * @param id int
+     * @return ContractInsurancesEntity
      */
     @Override
     public ContractInsurancesEntity findById(int id) {

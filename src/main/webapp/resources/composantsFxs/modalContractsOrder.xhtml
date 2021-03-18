@@ -18,7 +18,7 @@
                 <h:commandLink styleClass="close text-info"
                                action="#{ordersBean.hidePopupModal}">
                     <i class="fas fa-times"></i>
-                    <f:ajax render="@all"></f:ajax>
+                    <f:ajax render="@all"/>
                 </h:commandLink>
                 <h:outputText styleClass="container-fluid badge bg-warning"
                               value="#{bundle['fxs.modalContractsOrder.orderNum']} #{contractsBean.contractsEntitiesFind[0].ordersByIdOrders.id}"/>
@@ -27,31 +27,31 @@
                              value="#{contractsBean.contractsEntitiesFind}" var="c">
                     <h:column>
                         <f:facet name="header">#{bundle['code']}</f:facet>
-                        <h:outputText value="#{c.id}"></h:outputText>
+                        <h:outputText value="#{c.id}"/>
                     </h:column>
                     <h:column>
                         <f:facet name="header">#{bundle['description']}</f:facet>
                         <h:outputText styleClass="font-weight-bold"
-                                      value="#{bundle['fxs.ordersList.contractType']} "></h:outputText>
-                        <h:outputText value="#{c.contractTypesByIdContractType.label}"></h:outputText>
+                                      value="#{bundle['fxs.ordersList.contractType']} "/>
+                        <h:outputText value="#{c.contractTypesByIdContractType.label}"/>
                         <br/>
                         <h:outputText
                                 styleClass="font-weight-bold"
-                                value="#{c.carsByIdCars.modelsByIdModels.brandsByIdBrands.label} "></h:outputText>
+                                value="#{c.carsByIdCars.modelsByIdModels.brandsByIdBrands.label} "/>
                         <h:outputText styleClass="font-weight-bold"
-                                      value="#{c.carsByIdCars.modelsByIdModels.label} "></h:outputText>
+                                      value="#{c.carsByIdCars.modelsByIdModels.label} "/>
                         <h:outputText value="#{c.carsByIdCars.releaseYear}">
                             <f:convertDateTime type="localDate" pattern="y"/>
                         </h:outputText>
                         <br/>
-                        <h:outputText value="#{c.carsByIdCars.carsTypesByIdCarsTypes.label} "></h:outputText>
-                        <h:outputText value="#{c.carsByIdCars.carsColorsByIdCarsColors.label} "></h:outputText>
-                        <h:outputText value="#{c.carsByIdCars.carsGearboxByIdCarsGearBox.label} "></h:outputText>
-                        <h:outputText value="#{c.carsByIdCars.carsFuelsByIdCarsFuels.label} "></h:outputText>
-                        <h:outputText value="#{c.carsByIdCars.horsePower} ch"></h:outputText>
-                        <h:outputText value=", #{c.carsByIdCars.kilometer} #{bundle['km']}"></h:outputText>
+                        <h:outputText value="#{c.carsByIdCars.carsTypesByIdCarsTypes.label} "/>
+                        <h:outputText value="#{c.carsByIdCars.carsColorsByIdCarsColors.label} "/>
+                        <h:outputText value="#{c.carsByIdCars.carsGearboxByIdCarsGearBox.label} "/>
+                        <h:outputText value="#{c.carsByIdCars.carsFuelsByIdCarsFuels.label} "/>
+                        <h:outputText value="#{c.carsByIdCars.horsePower} ch"/>
+                        <h:outputText value=", #{c.carsByIdCars.kilometer} #{bundle['km']}"/>
                         <br/>
-                        <h:outputLabel value="#{bundle['fxs.ordersList.carPrice']}&nbsp;"></h:outputLabel>
+                        <h:outputLabel value="#{bundle['fxs.ordersList.carPrice']}&nbsp;"/>
                         <h:outputText value="#{c.carPrice}">
                             <f:convertNumber type="currency" currencySymbol="€"/>
                         </h:outputText>
@@ -64,19 +64,19 @@
                                           value="#{contractsBean.hmContractInsurancesFind[c.id].insurancesByIdInsurance.label}">
                             </h:outputText>
                             <br/>
-                            <h:outputLabel value="#{bundle['fxs.ordersList.insurancePrice']}&nbsp;"></h:outputLabel>
+                            <h:outputLabel value="#{bundle['fxs.ordersList.insurancePrice']}&nbsp;"/>
                             <h:outputText
                                     value="#{contractsBean.hmContractInsurancesFind[c.id].insurancePrice}">
                                 <f:convertNumber type="currency" currencySymbol="€"/>
                             </h:outputText>
-                            <h:outputText value=" #{bundle['fxs.ordersList.perMonth']}"></h:outputText>
+                            <h:outputText value=" #{bundle['fxs.ordersList.perMonth']}"/>
                             <br/>
-                            <h:outputLabel value="#{bundle['fxs.ordersList.dateStart']}&nbsp;"></h:outputLabel>
+                            <h:outputLabel value="#{bundle['fxs.ordersList.dateStart']}&nbsp;"/>
                             <h:outputText value="#{c.dateStart}">
                                 <f:convertDateTime type="localDate" pattern="dd/MM/yyyy"/>
                             </h:outputText>
                             <br/>
-                            <h:outputLabel value="#{bundle['fxs.ordersList.dateEnd']}&nbsp;"></h:outputLabel>
+                            <h:outputLabel value="#{bundle['fxs.ordersList.dateEnd']}&nbsp;"/>
                             <h:outputText value="#{c.dateEnd}">
                                 <f:convertDateTime type="localDate" pattern="dd/MM/yyyy"/>
                             </h:outputText>

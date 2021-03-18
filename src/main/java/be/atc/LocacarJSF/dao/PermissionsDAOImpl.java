@@ -1,6 +1,5 @@
 package be.atc.LocacarJSF.dao;
 
-import be.atc.LocacarJSF.dao.entities.AddressesEntity;
 import be.atc.LocacarJSF.dao.entities.PermissionsEntity;
 import org.apache.log4j.Logger;
 import utils.EMF;

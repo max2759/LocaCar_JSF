@@ -1,6 +1,5 @@
 package be.atc.LocacarJSF.validators;
 
-import be.atc.LocacarJSF.beans.InsurancesBean;
 import org.apache.log4j.Logger;
 import utils.JsfUtils;
 
@@ -18,16 +17,16 @@ import java.util.Locale;
 @FacesValidator("leasingTimeValidator")
 public class LeasingTimeValidator implements Validator {
 
-    public static Logger log = Logger.getLogger(InsurancesBean.class);
+    public static Logger log = Logger.getLogger(LeasingTimeValidator.class);
     Locale locale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
 
     /**
      * Validator for Price
      *
-     * @param context
-     * @param component
-     * @param value
-     * @throws ValidatorException
+     * @param context   FacesContext
+     * @param component UIComponent
+     * @param value     Object
+     * @throws ValidatorException ValidatorException
      */
     @Override
     public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {

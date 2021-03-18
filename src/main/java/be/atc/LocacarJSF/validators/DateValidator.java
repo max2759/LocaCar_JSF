@@ -33,7 +33,7 @@ public class DateValidator implements Validator {
     /**
      * Return message for exception
      *
-     * @return
+     * @return String
      */
     private String getMessageErrorDate() {
         return JsfUtils.returnMessage(locale, "fxs.dateError");

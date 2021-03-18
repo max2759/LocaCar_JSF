@@ -28,6 +28,8 @@
             </script>
         </h:head>
         <f:metadata>
+            <f:event listener="#{accessControlBean.checkPermission}" type="preRenderView"/>
+            <f:attribute name="permRequired" value="read_orders"/>
             <f:viewAction action="#{ordersBean.fieldsInitialization}"/>
         </f:metadata>
 

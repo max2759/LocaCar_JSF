@@ -9,12 +9,12 @@ import java.util.List;
  */
 public interface ContractTypesDAO {
 
-    public boolean add(ContractTypesEntity ContractTypesEntity);
+    boolean add(ContractTypesEntity ContractTypesEntity);
 
-    public boolean update(ContractTypesEntity ContractTypesEntity);
+    boolean update(ContractTypesEntity ContractTypesEntity);
 
-    public List<ContractTypesEntity> findAll();
+    List<ContractTypesEntity> findAll();
 
-    public ContractTypesEntity findById(int id);
+    ContractTypesEntity findById(int id);
 
 }

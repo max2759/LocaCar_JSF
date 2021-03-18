@@ -6,19 +6,13 @@ import be.atc.LocacarJSF.services.UsersServices;
 import be.atc.LocacarJSF.services.UsersServicesImpl;
 import org.apache.log4j.Logger;
 
-import java.io.IOException;
-import java.util.List;
-
 import javax.inject.Inject;
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
+import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.util.List;
 
 
 public class RestrictionsFilter implements Filter {
@@ -26,7 +20,7 @@ public class RestrictionsFilter implements Filter {
     public static Logger log = Logger.getLogger(RestrictionsFilter.class);
 
     private UsersEntity usersEntity;
-    private UsersServices usersServices = new UsersServicesImpl();
+    private final UsersServices usersServices = new UsersServicesImpl();
     private List<UsersEntity> usersEntities;
 
     @Inject

@@ -1,6 +1,5 @@
 package be.atc.LocacarJSF.converters;
 
-import be.atc.LocacarJSF.beans.InsurancesBean;
 import be.atc.LocacarJSF.dao.entities.InsurancesEntity;
 import be.atc.LocacarJSF.services.InsurancesServices;
 import be.atc.LocacarJSF.services.InsurancesServicesImpl;
@@ -23,7 +22,7 @@ import java.util.Locale;
 @FacesConverter(value = "contractInsurancesConverter")
 public class ContractInsurancesConverter implements Converter {
 
-    public static Logger log = Logger.getLogger(InsurancesBean.class);
+    public static Logger log = Logger.getLogger(ContractInsurancesConverter.class);
     Locale locale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
 
     @Override
