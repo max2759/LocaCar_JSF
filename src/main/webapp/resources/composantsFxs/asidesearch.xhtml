@@ -12,7 +12,7 @@
 <cc:implementation>
 
     <div class="searchbox-title">
-        <h4>Affiner la recherche</h4>
+        <h4>#{bundle['asideSearch.title']}</h4>
     </div>
     <hr/>
     <h:form id="asideSearch">
@@ -21,7 +21,7 @@
             <h:selectOneMenu id="brandsDisplay" styleClass="form-control"
                              value="#{modelsBean.modelsEntity.brandsByIdBrands}"
                              converter="brandsConverter">
-                <f:selectItem itemValue="#{null}" itemLabel="Choisir une marque"/>
+                <f:selectItem itemValue="#{null}" itemLabel="#{bundle['ads.chooseBrands']}"/>
                 <f:selectItems value="#{brandsBean.brandsEntities}" var="brands"
                                itemValue="#{brands}"
                                itemLabel="#{brands.label}"/>
@@ -45,7 +45,7 @@
 
             <h:selectOneMenu id="typesAds" styleClass="form-control"
                              value="#{adsBean.typeAdsSearch}">
-                <f:selectItem itemValue="#{null}" itemLabel="Type d'annonce"/>
+                <f:selectItem itemValue="#{null}" itemLabel="#{bundle['fxs.ads.adsType']}"/>
                 <f:selectItems value="#{adsBean.enumTypes}" var="enumTypes"
                                itemValue="#{enumTypes}"
                                itemLabel="#{enumTypes.label}"/>
@@ -56,9 +56,8 @@
         <h:panelGroup styleClass="col-md-6 mb-3">
             <h:selectOneMenu id="priceSearch"
                              styleClass="form-control"
-                             value="#{adsBean.priceSearch}"
-            >
-                <f:selectItem itemValue="#{null}" itemLabel="Jusqu'à"/>
+                             value="#{adsBean.priceSearch}">
+                <f:selectItem itemValue="#{null}" itemLabel="#{bundle['ads.priceUpTo']} €"/>
                 <f:selectItem itemValue="500" itemLabel="500 €"/>
                 <f:selectItem itemValue="1000" itemLabel="1.000 €"/>
                 <f:selectItem itemValue="1500" itemLabel="1.500 €"/>

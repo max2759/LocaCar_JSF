@@ -16,13 +16,17 @@
         </h:head>
 
         <h:body>
+            <div class="container">
+                <div class="return-div">
 
-        <div class="container">
-                    <h1>#{bundle['fxs.addAds.displayName']}</h1>
-                    <div id="displayAdsForm">
-                        <fxs:addAds/>
-                    </div>
+                    <h:link outcome="index"> <i class="fas fa-chevron-left"></i> #{bundle['adsdetails.return']}
+                    </h:link>
                 </div>
+                <h1>#{bundle['fxs.addAds.displayName']}</h1>
+                <div id="displayAdsForm">
+                    <fxs:addAds/>
+                </div>
+            </div>
         </h:body>
     </ui:define>
 </ui:composition>

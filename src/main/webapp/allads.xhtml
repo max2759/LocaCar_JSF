@@ -113,17 +113,19 @@
                                     <f:param name="adsId" value="#{ads.id}"/>
                                 </h:link>
                             </ui:repeat>
-                            <div class="pagination justify-content-center">
-                                <h:commandButton value="&lt; #{bundle['fxs.allads.previous']}"
-                                                 action="#{adsBean.paginator.prev}"
-                                                 styleClass="pagination-btn page-link"/>
-                                <h:outputText value="#{adsBean.paginator.pageIndex} / #{adsBean.paginator.pages}"
-                                              styleClass="pagination-btn page-link"/>
-                                <h:commandButton value="#{bundle['fxs.allads.next']} &gt;"
-                                                 action="#{adsBean.paginator.next}"
-                                                 styleClass="pagination-btn page-link"/>
-                                <h:inputHidden value="#{adsBean.paginator.pageIndex}"/>
-                            </div>
+                            <h:panelGroup rendered="#{empty adsBean.adsEntities ? false : true}">
+                                <div class="pagination justify-content-center">
+                                    <h:commandButton value="&lt; #{bundle['fxs.allads.previous']}"
+                                                     action="#{adsBean.paginator.prev}"
+                                                     styleClass="pagination-btn page-link"/>
+                                    <h:outputText value="#{adsBean.paginator.pageIndex} / #{adsBean.paginator.pages}"
+                                                  styleClass="pagination-btn page-link"/>
+                                    <h:commandButton value="#{bundle['fxs.allads.next']} &gt;"
+                                                     action="#{adsBean.paginator.next}"
+                                                     styleClass="pagination-btn page-link"/>
+                                    <h:inputHidden value="#{adsBean.paginator.pageIndex}"/>
+                                </div>
+                            </h:panelGroup>
                         </h:form>
                     </div>
                 </div>

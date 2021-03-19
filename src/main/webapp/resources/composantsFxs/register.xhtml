@@ -7,9 +7,7 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
 
-<cc:interface name="register"
-
->
+<cc:interface name="register">
 </cc:interface>
 
 <cc:implementation>
@@ -19,7 +17,6 @@
         <h:outputText value="#{usersBean.fail}"
                       style="color: darkred; font-weight: bold"></h:outputText>
 
-        <h:outputLabel value="#{bundle['fxs.register.register']}"></h:outputLabel>
         <br/>
         <h:outputText value="#{bundle['fxs.user.firstName']}"></h:outputText>
         <h:inputText value="#{usersBean.usersEntity.firstname}" required="true"></h:inputText>
