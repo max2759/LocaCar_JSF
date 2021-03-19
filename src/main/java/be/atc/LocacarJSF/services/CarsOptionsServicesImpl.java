@@ -28,6 +28,15 @@ public class CarsOptionsServicesImpl implements CarsOptionsServices {
     }
 
     @Override
+    public boolean delete(int idCars) {
+        if (idCars != 0) {
+            carsOptionsDAO.delete(idCars);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
     public List<CarsOptionsEntity> findAll() {
         return carsOptionsDAO.findAll();
     }
@@ -44,6 +53,14 @@ public class CarsOptionsServicesImpl implements CarsOptionsServices {
     public List<CarsOptionsEntity> findCarsOptionsByCarsId(int idCars) {
         if (idCars != 0) {
             return carsOptionsDAO.findCarsOptionsByCarsId(idCars);
+        }
+        return null;
+    }
+
+    @Override
+    public CarsOptionsEntity oneCarsOptionsByCarsId(int idCars) {
+        if (idCars != 0) {
+            return carsOptionsDAO.oneCarsOptionsByCarsId(idCars);
         }
         return null;
     }

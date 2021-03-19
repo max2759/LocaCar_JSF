@@ -21,6 +21,7 @@
             <h:selectOneMenu id="brandsDisplay" styleClass="form-control"
                              value="#{modelsBean.modelsEntity.brandsByIdBrands}"
                              converter="brandsConverter">
+                <f:selectItem itemValue="#{null}" itemLabel="Choisir une marque"/>
                 <f:selectItems value="#{brandsBean.brandsEntities}" var="brands"
                                itemValue="#{brands}"
                                itemLabel="#{brands.label}"/>
@@ -43,9 +44,10 @@
         <h:panelGroup styleClass="col-md-6 mb-3">
 
             <h:selectOneMenu id="typesAds" styleClass="form-control"
-                             required="true"
-                             value="#{adsBean.adsEntity.typeAds}">
-                <f:selectItems value="#{adsBean.enumTypes}" var="enumTypes" itemValue="#{enumTypes}"
+                             value="#{adsBean.typeAdsSearch}">
+                <f:selectItem itemValue="#{null}" itemLabel="Type d'annonce"/>
+                <f:selectItems value="#{adsBean.enumTypes}" var="enumTypes"
+                               itemValue="#{enumTypes}"
                                itemLabel="#{enumTypes.label}"/>
             </h:selectOneMenu>
             <h:message for="typesAds" errorClass="error"/>
@@ -53,9 +55,10 @@
 
         <h:panelGroup styleClass="col-md-6 mb-3">
             <h:selectOneMenu id="priceSearch"
-                             styleClass="form-control" required="true"
+                             styleClass="form-control"
                              value="#{adsBean.priceSearch}"
-                             requiredMessage="#{bundle['fxs.adsModels.required']}">
+            >
+                <f:selectItem itemValue="#{null}" itemLabel="Jusqu'à"/>
                 <f:selectItem itemValue="500" itemLabel="500 €"/>
                 <f:selectItem itemValue="1000" itemLabel="1.000 €"/>
                 <f:selectItem itemValue="1500" itemLabel="1.500 €"/>

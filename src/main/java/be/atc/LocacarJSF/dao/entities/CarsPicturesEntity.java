@@ -7,6 +7,7 @@ import java.util.Objects;
 @Table(name = "cars_pictures", schema = "locacarjsf", catalog = "")
 @NamedQueries({
         @NamedQuery(name = "carsPictures.findAll", query = "SELECT cp FROM CarsPicturesEntity cp"),
+        @NamedQuery(name = "carsPictures.findOnePicturesByIdCars", query = "SELECT cp FROM CarsPicturesEntity cp where cp.carsByIdCars.id = :idCars"),
         @NamedQuery(name = "carsPictures.findById", query = "SELECT cp FROM CarsPicturesEntity cp WHERE cp.id = :id"),
         @NamedQuery(name = "carsPictures.findByCarsId", query = "SELECT cp FROM CarsPicturesEntity cp WHERE cp.carsByIdCars.id = :id"),
         @NamedQuery(name = "carsPictures.findByLabel", query = "SELECT cp FROM CarsPicturesEntity cp WHERE cp.label = :label"),

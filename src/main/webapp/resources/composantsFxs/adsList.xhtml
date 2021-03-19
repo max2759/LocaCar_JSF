@@ -4,13 +4,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:cc="http://java.sun.com/jsf/composite"
->
+      xmlns:cc="http://java.sun.com/jsf/composite">
 
 <cc:interface name="adsList"/>
 <cc:implementation>
     <h:dataTable id="adsList" styleClass="table table-hover account-list text-center"
-                 value="#{adsBean.adsEntities}" var="ads">
+                 value="#{adsBean.allAdsByUser}" var="ads">
         <h:column>
             <f:facet name="header">#{bundle['fxs.adsList.title']}</f:facet>
             <h:outputText value="#{ads.label}"></h:outputText>
@@ -43,7 +42,7 @@
             <f:facet name="header">#{bundle['fxs.disableAdsList.disable']}</f:facet>
             <h:form styleClass="text-center">
                 <h:commandLink styleClass="text-danger" action="#{adsBean.setAdsStatus}"
-                               onclick="return confirmer();">
+                               onclick="return DisabledConfirm();">
                     <i class="far fa-times-circle"/>
                     <f:param name="idAds" value="#{ads.id}"/>
                     <f:ajax render="@all"/>
@@ -61,7 +60,7 @@
         </h:column>
         <h:column>
             <f:facet name="header">#{bundle['fxs.disableAdsList.see']}</f:facet>
-            <h:form>
+            <h:form id="reload-disabled">
                 <h:link sstyleClass="adsId-a" outcome="adsDetails">
                     <i class="far fa-eye"></i>
                     <f:param name="adsId" value="#{ads.id}"/>

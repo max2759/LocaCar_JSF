@@ -10,9 +10,13 @@ public interface CarsOptionsServices {
 
     boolean update(CarsOptionsEntity carsOptionsEntity);
 
+    boolean delete(int idCars);
+
     List<CarsOptionsEntity> findAll();
 
     CarsOptionsEntity findById(int id);
 
     List<CarsOptionsEntity> findCarsOptionsByCarsId(int idCars);
+
+    CarsOptionsEntity oneCarsOptionsByCarsId(int idCars);
 }

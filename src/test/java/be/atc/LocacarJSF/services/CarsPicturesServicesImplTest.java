@@ -55,6 +55,21 @@ class CarsPicturesServicesImplTest {
             test = false;
         }
         assertThat(test).isEqualTo(false);
+    }
 
+    @Test
+    void findOnePicturesByIdCars_shouldReturnTrue() {
+        int idCars = 52;
+        CarsPicturesEntity carsPicturesEntity = carsPicturesServices.findOnePicturesByIdCars(idCars);
+        Boolean test = carsPicturesEntity == null ? false : true;
+        assertThat(test).isEqualTo(true);
+    }
+
+    @Test
+    void findOnePicturesByIdCars_shouldReturnFalse() {
+        int idCars = 200;
+        CarsPicturesEntity carsPicturesEntity = carsPicturesServices.findOnePicturesByIdCars(idCars);
+        Boolean test = carsPicturesEntity == null ? false : true;
+        assertThat(test).isEqualTo(false);
     }
 }

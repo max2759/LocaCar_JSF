@@ -13,5 +13,4 @@ public interface CarsServices {
     List<CarsEntity> findAll();
 
     CarsEntity findById(int id);
-
 }

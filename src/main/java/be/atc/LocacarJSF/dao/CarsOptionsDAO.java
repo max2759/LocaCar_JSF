@@ -11,9 +11,14 @@ public interface CarsOptionsDAO {
 
     public boolean update(CarsOptionsEntity carsOptionsEntity);
 
+    public boolean delete(int idCars);
+
     public List<CarsOptionsEntity> findAll();
 
     public CarsOptionsEntity findById(int id);
 
     List<CarsOptionsEntity> findCarsOptionsByCarsId(int idCars);
+
+    CarsOptionsEntity oneCarsOptionsByCarsId(int idCars);
+
 }

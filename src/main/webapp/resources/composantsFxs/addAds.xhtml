@@ -26,20 +26,21 @@
                                      value="#{modelsBean.modelsEntity.brandsByIdBrands}"
                                      converter="brandsConverter" required="true"
                                      requiredMessage="#{bundle['fxs.adsbrands.required']}">
-                        <f:selectItem itemValue="#{null}" itemLabel="Veuillez sélectionner"/>
+                        <f:selectItem itemValue="#{null}" itemLabel="Veuillez sélectionner" itemDisabled="true"/>
                         <f:selectItems value="#{brandsBean.brandsEntities}" var="brands"
                                        itemValue="#{brands}"
                                        itemLabel="#{brands.label}"/>
-                        <f:ajax render="@all" listener="#{modelsBean.findModelsByBrands}"/>
+                        <f:ajax render="adsForm:showModels" listener="#{modelsBean.findModelsByBrands}"/>
                     </h:selectOneMenu>
                     <h:message for="brandsDisplay" errorClass="error"/>
                 </h:panelGroup>
 
-                <h:panelGroup id="showModels" rendered="#{modelsBean.showModel}" styleClass="row mb-3">
+                <h:panelGroup id="showModels" styleClass="row mb-3">
                     <h:outputLabel value="#{bundle['fxs.ads.models']}" styleClass="col-sm-2 col-form-label"/>
                     <h:selectOneMenu id="modelsDisplay" value="#{carsBean.carsEntity.modelsByIdModels}"
                                      converter="modelsConverter" styleClass="form-group" required="true"
-                                     requiredMessage="#{bundle['fxs.adsModels.required']}">
+                                     requiredMessage="#{bundle['fxs.adsModels.required']}"
+                                     disabled="#{modelsBean.showModel eq 'false'}">
                         <f:selectItems value="#{modelsBean.modelsEntities}" var="models"
                                        itemValue="#{models}"
                                        itemLabel="#{models.label}"/>

@@ -72,6 +72,7 @@ public class CarsBean extends ExtendBean implements Serializable {
 
         log.info(carsEntity);
         carsServices.update(carsEntity);
+        carsOptionsBean.deleteCarOption(carsEntity.getId());
         carsOptionsBean.addOptionsToCarsOptions(carsEntity);
         picturesBean.save(carsEntity);
     }

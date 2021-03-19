@@ -58,4 +58,12 @@ public class CarsPicturesServicesImpl implements CarsPicturesServices {
 
         return Collections.emptyList();
     }
+
+    @Override
+    public CarsPicturesEntity findOnePicturesByIdCars(int idCars) {
+        if (idCars != 0) {
+            return carsPicturesDAO.findOnePicturesByIdCars(idCars);
+        }
+        return null;
+    }
 }
