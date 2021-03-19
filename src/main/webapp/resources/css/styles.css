@@ -46,6 +46,14 @@ a:hover {
     color: #575f67;
 }
 
+.french-flag {
+    height: fit-content;
+}
+
+.en-flag {
+    height: 1.3rem;
+}
+
 /**
 ** Bootstrap
 *
@@ -669,4 +677,14 @@ a#options-tab:hover {
     .prev-slide, .next-slide {
         font-size: 11px
     }
+}
+
+/**
+**User form
+**
+ */
+
+.user-form {
+    background-color: white;
+    padding: 1rem;
 }

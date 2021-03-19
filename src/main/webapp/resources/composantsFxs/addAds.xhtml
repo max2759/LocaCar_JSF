@@ -26,7 +26,8 @@
                                      value="#{modelsBean.modelsEntity.brandsByIdBrands}"
                                      converter="brandsConverter" required="true"
                                      requiredMessage="#{bundle['fxs.adsbrands.required']}">
-                        <f:selectItem itemValue="#{null}" itemLabel="Veuillez sélectionner" itemDisabled="true"/>
+                        <f:selectItem itemValue="#{null}" itemLabel="#{bundle['ads.chooseBrands']}"
+                                      itemDisabled="true"/>
                         <f:selectItems value="#{brandsBean.brandsEntities}" var="brands"
                                        itemValue="#{brands}"
                                        itemLabel="#{brands.label}"/>
@@ -54,7 +55,8 @@
                                      value="#{carsBean.carsEntity.carsTypesByIdCarsTypes}"
                                      converter="carTypesConverter" required="true"
                                      requiredMessage="#{bundle['fxs.adsCarTypes.required']}">
-                        <f:selectItem itemValue="#{null}" itemLabel="Veuillez sélectionner"/>
+                        <f:selectItem itemValue="#{null}" itemLabel="#{bundle['fxs.addAds.selectNoValue']}"
+                                      itemDisabled="true"/>
                         <f:selectItems value="#{carTypesbean.carsTypesEntities}" var="carTypes"
                                        itemValue="#{carTypes}"
                                        itemLabel="#{carTypes.label}"/>
@@ -68,7 +70,8 @@
                                      value="#{carsBean.carsEntity.carsGearboxByIdCarsGearBox}"
                                      converter="carsGearboxConverter" required="true"
                                      requiredMessage="#{bundle['fxs.adsCarsGearbox.required']}">
-                        <f:selectItem itemValue="#{null}" itemLabel="Veuillez sélectionner"/>
+                        <f:selectItem itemValue="#{null}" itemLabel="#{bundle['fxs.addAds.selectNoValue']}"
+                                      itemDisabled="true"/>
                         <f:selectItems value="#{carsGearboxBean.carsGearboxEntities}" var="carsGearbox"
                                        itemValue="#{carsGearbox}"
                                        itemLabel="#{carsGearbox.label}"/>
@@ -82,7 +85,8 @@
                                      value="#{carsBean.carsEntity.carsFuelsByIdCarsFuels}"
                                      converter="carsFuelsConverter" required="true"
                                      requiredMessage="#{bundle['fxs.adsCarsFuels.required']}">
-                        <f:selectItem itemValue="#{null}" itemLabel="Veuillez sélectionner"/>
+                        <f:selectItem itemValue="#{null}" itemLabel="#{bundle['fxs.addAds.selectNoValue']}"
+                                      itemDisabled="true"/>
                         <f:selectItems value="#{carsFuelsBean.carsFuelsEntities}" var="carsFuels"
                                        itemValue="#{carsFuels}"
                                        itemLabel="#{carsFuels.label}"/>
@@ -96,7 +100,8 @@
                                      value="#{carsBean.carsEntity.carsColorsByIdCarsColors}"
                                      converter="carsColorsConverter" required="true"
                                      requiredMessage="#{bundle['fxs.adsCarsColors.required']}">
-                        <f:selectItem itemValue="#{null}" itemLabel="Veuillez sélectionner"/>
+                        <f:selectItem itemValue="#{null}" itemLabel="#{bundle['fxs.addAds.selectNoValue']}"
+                                      itemDisabled="true"/>
                         <f:selectItems value="#{carsColorsBean.carsColorsEntities}" var="carsColors"
                                        itemValue="#{carsColors}"
                                        itemLabel="#{carsColors.label}"/>
@@ -204,7 +209,7 @@
                 </h:panelGroup>
 
                 <h:panelGroup styleClass="row mb-3">
-                    <h:outputLabel value="Images"
+                    <h:outputLabel value="#{bundle['fxs.addAds.image']}"
                                    styleClass="col-sm-2 col-form-label"/>
                     <h:inputFile value="#{picturesBean.file}" id="picturesInput" required="true"
                                  requiredMessage="#{bundle['fxs.adsPicture.required']}">

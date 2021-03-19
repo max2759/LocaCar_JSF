@@ -6,18 +6,6 @@
 >
     <div class="container">
 
-        <f:view>
-            <h:form>
-                <h:commandButton value="#{bundle['french1']}" id="fr" styleClass="french"
-                                 actionListener="#{internalizationBean.langChoice}">
-                </h:commandButton>
-                <h:commandButton value="#{bundle['english1']}" id="en"
-                                 actionListener="#{internalizationBean.langChoice}">
-                </h:commandButton>
-            </h:form>
-        </f:view>
-
-
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <h:form>
                 <h:commandLink styleClass="navbar-brand"
@@ -58,7 +46,22 @@
                                 <fxs:priceOrder id="priceOrder"></fxs:priceOrder>
                             </li>
                         </h:panelGroup>
+
+                        <f:view>
+                            <h:form>
+                                <h:commandButton id="fr" styleClass="french-flag"
+                                                 actionListener="#{internalizationBean.langChoice}"
+                                                 image="/resources/images/france-flag-icon-32.png">
+                                </h:commandButton>
+                                <h:outputText value="/"></h:outputText>
+                                <h:commandButton id="en" styleClass="en-flag"
+                                                 actionListener="#{internalizationBean.langChoice}"
+                                                 image="/resources/images/united-kingdom-flag-icon-64.png">
+                                </h:commandButton>
+                            </h:form>
+                        </f:view>
                     </ul>
+
 
                 </h:form>
             </h:panelGroup>
