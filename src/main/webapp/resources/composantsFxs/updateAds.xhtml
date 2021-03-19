@@ -207,8 +207,7 @@
                 <h:panelGroup styleClass="row mb-3">
                     <h:outputLabel value="Images"
                                    styleClass="col-sm-2 col-form-label"/>
-                    <h:inputFile value="#{picturesBean.file}" id="picturesInput" required="true"
-                                 requiredMessage="#{bundle['fxs.adsPicture.required']}" pt:multiple="true">
+                    <h:inputFile value="#{picturesBean.file}" id="picturesInput">
                         <f:validator validatorId="carsPicturesValidator"/>
                     </h:inputFile>
                     <h:message for="picturesInput" styleClass="error"/>
@@ -219,6 +218,7 @@
 
                 <h:panelGroup styleClass="form-group">
                     <h:commandButton styleClass="btn btn-lg btn-ads-save"
+                                     immediate="true"
                                      value="#{bundle['fxs.updateAds.update']}"
                                      action="#{adsBean.updateAddedAds}">
                         <f:ajax render="@all" execute="adsForm"/>

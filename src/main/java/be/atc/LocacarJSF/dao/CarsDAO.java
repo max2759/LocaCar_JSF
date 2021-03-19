@@ -14,4 +14,5 @@ public interface CarsDAO {
 
     public CarsEntity findById(int id);
 
+    List<CarsEntity> deleteAdsByCarsID(int idCars);
 }

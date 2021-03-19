@@ -1,6 +1,7 @@
 package be.atc.LocacarJSF.dao;
 
 import be.atc.LocacarJSF.dao.entities.AdsEntity;
+import be.atc.LocacarJSF.enums.EnumTypeAds;
 import org.apache.log4j.Logger;
 import utils.EMF;
 import utils.EntityFinderImpl;
@@ -137,5 +138,147 @@ public class AdsDAOImpl extends EntityFinderImpl<AdsEntity> implements AdsDAO {
             em.close();
         }
     }
+
+    @Override
+    public List<AdsEntity> findAdsByIdUser(int id) {
+        EntityManager em = EMF.getEM();
+        try {
+            return em.createNamedQuery("ads.findAdsByIdUser",
+                    AdsEntity.class)
+                    .setParameter("id", id)
+                    .getResultList();
+        } catch (Exception ex) {
+            log.info("Entité vide");
+            return null;
+        } finally {
+            em.clear();
+            em.close();
+        }
+    }
+
+    @Override
+    public List<AdsEntity> findDisabledAdsByUser(int id) {
+        EntityManager em = EMF.getEM();
+        try {
+            return em.createNamedQuery("ads.findDisabledAdsByUser",
+                    AdsEntity.class)
+                    .setParameter("id", id)
+                    .getResultList();
+        } catch (Exception ex) {
+            log.info("Entité vide");
+            return null;
+        } finally {
+            em.clear();
+            em.close();
+        }
+    }
+
+    @Override
+    public List<AdsEntity> findAdsByPrice(double price) {
+        EntityManager em = EMF.getEM();
+        try {
+            return em.createNamedQuery("ads.findAdsByPrice",
+                    AdsEntity.class)
+                    .setParameter("price", price)
+                    .getResultList();
+        } catch (Exception ex) {
+            log.info("Entité vide");
+            return null;
+        } finally {
+            em.clear();
+            em.close();
+        }
+    }
+
+    @Override
+    public List<AdsEntity> findAdsByTypeAds(EnumTypeAds typeAds) {
+        EntityManager em = EMF.getEM();
+        try {
+            return em.createNamedQuery("ads.findAdsByTypeAds",
+                    AdsEntity.class)
+                    .setParameter("typeAds", typeAds)
+                    .getResultList();
+        } catch (Exception ex) {
+            log.info("Entité vide");
+            return null;
+        } finally {
+            em.clear();
+            em.close();
+        }
+    }
+
+    @Override
+    public List<AdsEntity> findAdsByModelsAndPrice(int idModels, double price) {
+        EntityManager em = EMF.getEM();
+        try {
+            return em.createNamedQuery("ads.findAdsByModelsAndPrice",
+                    AdsEntity.class)
+                    .setParameter("idModels", idModels)
+                    .setParameter("price", price)
+                    .getResultList();
+        } catch (Exception ex) {
+            log.info("Entité vide");
+            return null;
+        } finally {
+            em.clear();
+            em.close();
+        }
+    }
+
+    @Override
+    public List<AdsEntity> findAdsByPriceAndTypeAds(EnumTypeAds enumTypeAds, double price) {
+        EntityManager em = EMF.getEM();
+        try {
+            return em.createNamedQuery("ads.findAdsByPriceAndTypeAds",
+                    AdsEntity.class)
+                    .setParameter("enumTypeAds", enumTypeAds)
+                    .setParameter("price", price)
+                    .getResultList();
+        } catch (Exception ex) {
+            log.info("Entité vide");
+            return null;
+        } finally {
+            em.clear();
+            em.close();
+        }
+    }
+
+    @Override
+    public List<AdsEntity> findAdsByModelAndTypeAds(EnumTypeAds enumTypeAds, int idModel) {
+        EntityManager em = EMF.getEM();
+        try {
+            return em.createNamedQuery("ads.findAdsByModelAndTypeAds",
+                    AdsEntity.class)
+                    .setParameter("enumTypeAds", enumTypeAds)
+                    .setParameter("idModel", idModel)
+                    .getResultList();
+        } catch (Exception ex) {
+            log.info("Entité vide");
+            return null;
+        } finally {
+            em.clear();
+            em.close();
+        }
+    }
+
+    @Override
+    public List<AdsEntity> findAdsByModelsAndPriceAndTypeAds(EnumTypeAds enumTypeAds, int idModel, double price) {
+        EntityManager em = EMF.getEM();
+        try {
+            return em.createNamedQuery("ads.findAdsByModelsAndPriceAndTypeAds",
+                    AdsEntity.class)
+                    .setParameter("enumTypeAds", enumTypeAds)
+                    .setParameter("idModel", idModel)
+                    .setParameter("price", price)
+                    .getResultList();
+        } catch (Exception ex) {
+            log.info("Entité vide");
+            return null;
+        } finally {
+            em.clear();
+            em.close();
+        }
+    }
+
 
 }

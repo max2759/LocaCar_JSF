@@ -48,12 +48,20 @@
         <h:column>
             <f:facet name="header">#{bundle['fxs.disableAdsList.activate']}</f:facet>
             <h:form styleClass="text-center">
-                <h:commandLink styleClass="text-danger" action="#{adsBean.setAdsStatus}"
-                               onclick="return confirmer();">
+                <h:commandLink styleClass="text-danger" action="#{adsBean.setAdsStatus}">
                     <i class="far fa-check-circle circle-color"/>
                     <f:param name="idAds" value="#{ads.id}"/>
-                    <f:ajax render="@all"/>
                 </h:commandLink>
+            </h:form>
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">#{bundle['fxs.updateAds.update']}</f:facet>
+            <h:form styleClass="text-center">
+                <h:link sstyleClass="adsId-a" outcome="updateads">
+                    <i class="far fa-edit"></i>
+                    <f:param name="adsId" value="#{ads.id}"/>
+                </h:link>
             </h:form>
         </h:column>
 

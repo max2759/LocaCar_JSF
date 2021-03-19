@@ -10,9 +10,17 @@ import java.util.Objects;
 @Table(name = "ads", schema = "locacarjsf", catalog = "")
 @NamedQueries({
         @NamedQuery(name = "Ads.findAll", query = "SELECT a from AdsEntity a where a.active=true and a.carsByIdCars.active=true order by a.id DESC"),
+        @NamedQuery(name = "ads.findAdsByPrice", query = "SELECT a from AdsEntity a where a.price <= :price and a.active=true and a.carsByIdCars.active=true"),
+        @NamedQuery(name = "ads.findAdsByIdUser", query = "SELECT a from AdsEntity a where a.usersByIdUsers.id = :id and a.active=true and a.carsByIdCars.active=true"),
+        @NamedQuery(name = "ads.findAdsByTypeAds", query = "SELECT a from AdsEntity a where a.typeAds = :typeAds and a.active=true and a.carsByIdCars.active=true"),
         @NamedQuery(name = "ads.findAllDisabledAds", query = "SELECT a from AdsEntity a where a.active=false and a.carsByIdCars.active=false "),
+        @NamedQuery(name = "ads.findDisabledAdsByUser", query = "SELECT a from AdsEntity a where a.usersByIdUsers.id = :id and a.active=false and a.carsByIdCars.active=false "),
         @NamedQuery(name = "ads.findAdsByModels", query = "SELECT a from AdsEntity a where a.carsByIdCars.modelsByIdModels.id = :id and a.active=true and a.carsByIdCars.active=true"),
-        @NamedQuery(name = "ads.findByLabel", query = "select a from AdsEntity a where lower(a.label) like lower(concat('%', :label ,'%') ) or lower(a.carsByIdCars.modelsByIdModels.label) like lower(concat('%', :label ,'%') ) or lower(a.carsByIdCars.modelsByIdModels.brandsByIdBrands.label) like lower(concat('%', :label ,'%') ) or lower(a.price) like lower(concat('%', :label ,'%') ) and a.active = true and a.carsByIdCars.active=true")
+        @NamedQuery(name = "ads.findByLabel", query = "select a from AdsEntity a where lower(a.label) like lower(concat('%', :label ,'%') ) or lower(a.carsByIdCars.modelsByIdModels.label) like lower(concat('%', :label ,'%') ) or lower(a.carsByIdCars.modelsByIdModels.brandsByIdBrands.label) like lower(concat('%', :label ,'%') ) or lower(a.price) like lower(concat('%', :label ,'%') ) and a.active = true and a.carsByIdCars.active=true"),
+        @NamedQuery(name = "ads.findAdsByModelsAndPrice", query = "select a from AdsEntity a where a.carsByIdCars.modelsByIdModels.id = :idModels and a.price <= :price and a.active = true and a.carsByIdCars.active=true"),
+        @NamedQuery(name = "ads.findAdsByPriceAndTypeAds", query = "select a from AdsEntity a where a.typeAds = :enumTypeAds and a.price <= :price and a.active = true and a.carsByIdCars.active=true"),
+        @NamedQuery(name = "ads.findAdsByModelAndTypeAds", query = "select a from AdsEntity a where a.typeAds = :enumTypeAds and a.carsByIdCars.modelsByIdModels.id = :idModel and a.active = true and a.carsByIdCars.active=true"),
+        @NamedQuery(name = "ads.findAdsByModelsAndPriceAndTypeAds", query = "select a from AdsEntity a where a.typeAds = :enumTypeAds and a.carsByIdCars.modelsByIdModels.id = :idModel and a.price <= :price and a.active = true and a.carsByIdCars.active=true")
 })
 public class AdsEntity {
     private int id;

@@ -147,6 +147,10 @@ public class ModelsBean extends ExtendBean implements Serializable {
 
         FacesContext context = FacesContext.getCurrentInstance();
 
+        if (modelsEntity.getBrandsByIdBrands() == null) {
+            showModel = false;
+        }
+
         if (modelsEntity.getBrandsByIdBrands().getId() == 0) {
             context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, JsfUtils.returnMessage(getLocale(), "fxs.models.errorAdd"), null));
         } else {

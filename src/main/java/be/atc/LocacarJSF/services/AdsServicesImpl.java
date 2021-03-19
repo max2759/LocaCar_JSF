@@ -3,6 +3,7 @@ package be.atc.LocacarJSF.services;
 import be.atc.LocacarJSF.dao.AdsDAO;
 import be.atc.LocacarJSF.dao.AdsDAOImpl;
 import be.atc.LocacarJSF.dao.entities.AdsEntity;
+import be.atc.LocacarJSF.enums.EnumTypeAds;
 
 import java.util.List;
 
@@ -88,6 +89,70 @@ public class AdsServicesImpl implements AdsServices {
     public List<AdsEntity> findAdsByModels(int id) {
         if (id != 0) {
             return adsDAO.findAdsByModels(id);
+        }
+        return null;
+    }
+
+    @Override
+    public List<AdsEntity> findAdsByIdUser(int id) {
+        if (id != 0) {
+            return adsDAO.findAdsByIdUser(id);
+        }
+        return null;
+    }
+
+    @Override
+    public List<AdsEntity> findDisabledAdsByUser(int id) {
+        if (id != 0) {
+            return adsDAO.findDisabledAdsByUser(id);
+        }
+        return null;
+    }
+
+    @Override
+    public List<AdsEntity> findAdsByPrice(double price) {
+        if (price != 0) {
+            return adsDAO.findAdsByPrice(price);
+        }
+        return null;
+    }
+
+    @Override
+    public List<AdsEntity> findAdsByTypeAds(EnumTypeAds typeAds) {
+        if (typeAds != null) {
+            return adsDAO.findAdsByTypeAds(typeAds);
+        }
+        return null;
+    }
+
+    @Override
+    public List<AdsEntity> findAdsByModelsAndPrice(int idModels, double price) {
+        if (idModels != 0 && price != 0) {
+            return adsDAO.findAdsByModelsAndPrice(idModels, price);
+        }
+        return null;
+    }
+
+    @Override
+    public List<AdsEntity> findAdsByPriceAndTypeAds(EnumTypeAds enumTypeAds, double price) {
+        if (enumTypeAds != null && price != 0) {
+            return adsDAO.findAdsByPriceAndTypeAds(enumTypeAds, price);
+        }
+        return null;
+    }
+
+    @Override
+    public List<AdsEntity> findAdsByModelAndTypeAds(EnumTypeAds enumTypeAds, int idModel) {
+        if (enumTypeAds != null && idModel != 0) {
+            return adsDAO.findAdsByModelAndTypeAds(enumTypeAds, idModel);
+        }
+        return null;
+    }
+
+    @Override
+    public List<AdsEntity> findAdsByModelsAndPriceAndTypeAds(EnumTypeAds enumTypeAds, int idModel, double price) {
+        if (enumTypeAds != null && idModel != 0 && price != 0) {
+            return adsDAO.findAdsByModelsAndPriceAndTypeAds(enumTypeAds, idModel, price);
         }
         return null;
     }

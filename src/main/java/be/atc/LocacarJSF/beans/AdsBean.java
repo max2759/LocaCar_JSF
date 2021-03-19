@@ -41,14 +41,16 @@ public class AdsBean extends ExtendBean implements Serializable {
     private List<AdsEntity> adsEntities;
     private List<AdsEntity> allDisabledAds;
     private List<AdsEntity> allAdsByLabelEntities;
+    private CarsPicturesEntity carsPicturesEntity;
+    private List<AdsEntity> allAdsByUser;
     private List<CarsOptionsEntity> carsOptionsEntityList;
     private List<String> imagePath = new ArrayList<>();
-    //    private String folder = Constants.FILE_OUTPUT_IMAGE;
     private String folder = "resources/upload/";
 
     private List<CarsPicturesEntity> carsPicturesEntityList;
     private int idModelSearch;
     private double priceSearch;
+    private EnumTypeAds typeAdsSearch;
     private String page;
     @Inject
     private PicturesBean picturesBean;
@@ -89,16 +91,8 @@ public class AdsBean extends ExtendBean implements Serializable {
     @PostConstruct
     public void init() {
         adsEntity = new AdsEntity();
-        adsEntities = adsServices.findAll();
-        paginator = new RepeatPaginator(adsEntities);
-        allDisabledAds = adsServices.findAllDisabledAds();
-        fieldsInitialization();
     }
 
-    public void fieldsInitialization() {
-        log.info("AdsBean : Field initialization !");
-        allAdsByLabelEntities = Collections.emptyList();
-    }
 
     public void initialisationFields() {
         success = "";
@@ -176,6 +170,10 @@ public class AdsBean extends ExtendBean implements Serializable {
         init();
     }
 
+    public void displayAllActiveAds() {
+        adsEntities = adsServices.findAll();
+        paginator = new RepeatPaginator(adsEntities);
+    }
 
     /**
      * Find all ads with search string
@@ -187,10 +185,16 @@ public class AdsBean extends ExtendBean implements Serializable {
 
         if (searchString.equals("") || (!findAdsByLabel())) {
             context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, JsfUtils.returnMessage(getLocale(), "fxs.allads.searchError"), null));
-            allAdsByLabelEntities = Collections.emptyList();
+            adsEntities = Collections.emptyList();
         }
 
-        paginator = new RepeatPaginator(allAdsByLabelEntities);
+        adsEntities = adsServices.findByLabel(searchString);
+        paginator = new RepeatPaginator(adsEntities);
+    }
+
+    public void findAllAdsByUsers() {
+        int idUser = usersBean.getUsersEntity().getId();
+        allAdsByUser = adsServices.findAdsByIdUser(idUser);
     }
 
     /**
@@ -217,6 +221,12 @@ public class AdsBean extends ExtendBean implements Serializable {
         for (CarsPicturesEntity c : carsPicturesEntityList) {
             imagePath.add(folder + c.getLabel());
         }
+    }
+
+    public void displayDisabeldAdsByUser() {
+        log.info("AdsBean : displayDisabeldAdsByUser");
+        int idUser = usersBean.getUsersEntity().getId();
+        allDisabledAds = adsServices.findDisabledAdsByUser(idUser);
     }
 
     /**
@@ -268,7 +278,8 @@ public class AdsBean extends ExtendBean implements Serializable {
             adsEntity.getCarsByIdCars().setActive(false);
             carsBean.updateCar(adsEntity.getCarsByIdCars());
             updateAds();
-            init();
+            findAllAdsByUsers();
+
         } else {
             adsEntity.setActive(true);
             adsEntity.setDateStart(dateStart);
@@ -276,7 +287,7 @@ public class AdsBean extends ExtendBean implements Serializable {
             adsEntity.getCarsByIdCars().setActive(true);
             carsBean.updateCar(adsEntity.getCarsByIdCars());
             updateAds();
-            init();
+            displayDisabeldAdsByUser();
         }
     }
 
@@ -298,9 +309,69 @@ public class AdsBean extends ExtendBean implements Serializable {
         adsEntity = adsServices.findById(id);
     }
 
+    /**
+     * Return result of search by model, type ads and price or combination
+     */
     public void advancedSearch() {
-        log.info("Début advanceSearch" + idModelSearch);
 
+        log.info("Début advanceSearch" + idModelSearch + typeAdsSearch + priceSearch);
+
+        FacesContext context = FacesContext.getCurrentInstance();
+
+        if (idModelSearch != 0 && typeAdsSearch != null && priceSearch != 0) {
+            adsEntities = adsServices.findAdsByModelsAndPriceAndTypeAds(typeAdsSearch, idModelSearch, priceSearch);
+            if (adsEntities.isEmpty()) {
+                context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, JsfUtils.returnMessage(getLocale(), "fxs.allads.searchError"), null));
+            }
+            paginator = new RepeatPaginator(adsEntities);
+        } else {
+            if (idModelSearch != 0) {
+                if (typeAdsSearch != null) {
+                    if (priceSearch == 0) {
+                        adsEntities = adsServices.findAdsByModelAndTypeAds(typeAdsSearch, idModelSearch);
+                        paginator = new RepeatPaginator(adsEntities);
+                    } else {
+                        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, JsfUtils.returnMessage(getLocale(), "fxs.allads.searchError"), null));
+                    }
+                } else {
+                    if (priceSearch != 0) {
+                        adsEntities = adsServices.findAdsByModelsAndPrice(idModelSearch, priceSearch);
+                        if (adsEntities.isEmpty()) {
+                            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, JsfUtils.returnMessage(getLocale(), "fxs.allads.searchError"), null));
+                        }
+                        paginator = new RepeatPaginator(adsEntities);
+                    } else {
+                        adsEntities = adsServices.findAdsByModels(idModelSearch);
+                        if (adsEntities.isEmpty()) {
+                            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, JsfUtils.returnMessage(getLocale(), "fxs.allads.searchError"), null));
+                        }
+                        paginator = new RepeatPaginator(adsEntities);
+                    }
+                }
+            } else {
+                if (typeAdsSearch != null) {
+                    if (priceSearch != 0) {
+                        adsEntities = adsServices.findAdsByPriceAndTypeAds(typeAdsSearch, priceSearch);
+                    } else {
+                        adsEntities = adsServices.findAdsByTypeAds(typeAdsSearch);
+                    }
+                    if (adsEntities.isEmpty()) {
+                        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, JsfUtils.returnMessage(getLocale(), "fxs.allads.searchError"), null));
+                    }
+                    paginator = new RepeatPaginator(adsEntities);
+                } else {
+                    if (priceSearch != 0) {
+                        adsEntities = adsServices.findAdsByPrice(priceSearch);
+                        if (adsEntities.isEmpty()) {
+                            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, JsfUtils.returnMessage(getLocale(), "fxs.allads.searchError"), null));
+                        }
+                        paginator = new RepeatPaginator(adsEntities);
+                    } else {
+                        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, JsfUtils.returnMessage(getLocale(), "fxs.allads.searchError"), null));
+                    }
+                }
+            }
+        }
 
     }
 
@@ -450,5 +521,29 @@ public class AdsBean extends ExtendBean implements Serializable {
 
     public void setPriceSearch(double priceSearch) {
         this.priceSearch = priceSearch;
+    }
+
+    public List<AdsEntity> getAllAdsByUser() {
+        return allAdsByUser;
+    }
+
+    public void setAllAdsByUser(List<AdsEntity> allAdsByUser) {
+        this.allAdsByUser = allAdsByUser;
+    }
+
+    public CarsPicturesEntity getCarsPicturesEntity() {
+        return carsPicturesEntity;
+    }
+
+    public void setCarsPicturesEntity(CarsPicturesEntity carsPicturesEntity) {
+        this.carsPicturesEntity = carsPicturesEntity;
+    }
+
+    public EnumTypeAds getTypeAdsSearch() {
+        return typeAdsSearch;
+    }
+
+    public void setTypeAdsSearch(EnumTypeAds typeAdsSearch) {
+        this.typeAdsSearch = typeAdsSearch;
     }
 }

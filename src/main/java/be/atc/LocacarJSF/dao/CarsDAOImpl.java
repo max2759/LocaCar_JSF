@@ -99,4 +99,9 @@ public class CarsDAOImpl extends EntityFinderImpl<CarsEntity> implements CarsDAO
         }
     }
 
+    @Override
+    public List<CarsEntity> deleteAdsByCarsID(int idCars) {
+        return null;
+    }
+
 }

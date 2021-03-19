@@ -1,10 +1,15 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-                xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
                 template="WEB-INF/templates/template.xhtml">
 
     <ui:define name="title">#{bundle['homepage.title']}</ui:define>
     <ui:define name="content">
+
+        <f:metadata>
+            <f:viewAction action="#{adsBean.displayAllActiveAds}"/>
+        </f:metadata>
 
         <h:head>
             <meta http-equiv="content-language" content="text/html; charset=UTF-8"/>
@@ -12,9 +17,6 @@
         </h:head>
         <h:body>
             <div class="container">
-
-                <h:outputText value="#{usersBean.success} #{usersBean.usersEntity.username}"
-                              style="color: green; font-weight: bold"></h:outputText>
 
                 <h:form>
                     <ui:repeat rendered="#{empty adsBean.adsEntities ? false :true}"
@@ -37,9 +39,8 @@
                                     </div>
                                 </div>
                                 <div class="summary-image-item">
-                                    <ui:repeat value="#{adsBean.imagePath}" var="image">
-                                        <h:graphicImage value="#{image}" styleClass="img-thumbnail"/>
-                                    </ui:repeat>
+                                    <h:graphicImage url="resources/upload/815515898_opel-mokka-512751.jpg"
+                                                    styleClass="img-thumbnail"/>
                                 </div>
                                 <div class="summary-field">
                                     <div class="summary-pricing">

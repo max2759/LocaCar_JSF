@@ -112,8 +112,24 @@ public class PicturesBean extends ExtendBean implements Serializable {
         log.info("Sauvegardé dans la DB");
     }
 
+    /**
+     * Get a list of pictures by cars id
+     *
+     * @param idCars
+     * @return List of Cars pictures Entity
+     */
     public List<CarsPicturesEntity> findCarsPicturesByIdCars(int idCars) {
         return carsPicturesServices.findCarsPicturesByIdCars(idCars);
+    }
+
+    /**
+     * Get one picture from its cars id
+     *
+     * @param idCars
+     * @return cars picture entity
+     */
+    public CarsPicturesEntity findOnePicturesByIdCars(int idCars) {
+        return carsPicturesServices.findOnePicturesByIdCars(idCars);
     }
 
 
