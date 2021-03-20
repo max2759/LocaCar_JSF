@@ -30,6 +30,9 @@ import java.util.stream.Collectors;
 
 import static java.lang.Integer.parseInt;
 
+/**
+ * Larche Marie-ellise
+ */
 @Named(value = "usersBean")
 @SessionScoped
 public class UsersBean extends ExtendBean implements Serializable {
@@ -75,9 +78,14 @@ public class UsersBean extends ExtendBean implements Serializable {
         return "register?faces-redirect=true";
     }
 
+    public String toPageUserUpdateByUsers() {
+        return "userUpdateByUsers";
+    }
+
     public String toPageConnexion() {
         return "connexion?faces-redirect=true";
     }
+
     public String toPageLogOut() {
         return "doLogoutUser";
     }
@@ -147,12 +155,15 @@ public class UsersBean extends ExtendBean implements Serializable {
                 int idUser = usersEntity.getId();
                 log.info(idUser);
                 addressesEntity = addressesBean.findByUserId(idUser);
+                int idCities = addressesEntity.getCitiesByIdCities().getId();
+                citiesEntity = citiesBean.findById(idCities);
 
                 log.info(addressesEntity.getStreet()); //ok
                 log.info(usersEntity.getLastname());  //ok
+                log.info(citiesEntity.getLabel());  //ok
 
                 //je ne recoit tjrs pas dans ma vue !
-                addressesBean.connect();
+                //  addressesBean.connect();
 
                 roleLabel = usersEntity.getRolesByIdRoles().getLabel();
                 userIdConnect = usersEntity.getId();
@@ -178,8 +189,6 @@ public class UsersBean extends ExtendBean implements Serializable {
     }
 
 
-
-
     /**
      * @throws ParseException
      * @throws NoSuchAlgorithmException
@@ -188,7 +197,8 @@ public class UsersBean extends ExtendBean implements Serializable {
 
         log.info("begin addUserBean");
 
-        if (connexion) {
+        if (connected && rolesPermissionsBean.isCreateUsers()) {
+            //permet d'ajouter dans userList par un admin
             log.info("restart de la session");
             FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
             usersEntity.setId(0);
@@ -208,6 +218,7 @@ public class UsersBean extends ExtendBean implements Serializable {
             boolean bool = Pattern.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,}$", password);
             log.info(bool);
 
+
             if (bool) {
                 MessageDigest digest = MessageDigest.getInstance("SHA-256");
                 byte[] hash = digest.digest(password.getBytes(StandardCharsets.UTF_8));
@@ -225,9 +236,8 @@ public class UsersBean extends ExtendBean implements Serializable {
                 usersEntity.setActive(true);
                 usersEntity.setRegisterDate(currentDate);
                 if (connexion) {
-
                     log.info(roleLabel);
-                    if (roleLabel == "Admin") {
+                    if (rolesPermissionsBean.isCreateUsers()) {
                         log.info("role = admin, en gros userEntity.setRole()");
                         usersEntity.setRolesByIdRoles(rolesBean.findById(rolesEntity.getId()));
                     }
@@ -257,11 +267,18 @@ public class UsersBean extends ExtendBean implements Serializable {
 
                     if (userId.size() == 1) {
                         log.info("bein add addresse, id: " + idUser);
-                        addressesBean.addAddresse(idUser, idCity);
-                        log.info("end add addresse");
+                        boolean add = addressesBean.validateAddresse();
+                        log.info("addresse true ou false? " + add);
+                        if (add) {
+                            addressesBean.addAddresse(idUser, idCity);
+                            log.info("end add addresse");
+                        } else {
+                            fail = JsfUtils.returnMessage(getLocale(), "fxs.user.errorPassword");
+                        }
+
                     }
 
-                    if (connected) {
+                    if (connected && rolesPermissionsBean.isCreateUsers()) {
                         usersEntity = usersServices.findById(userIdConnect);
                     } else {
                         //   String logOut = doLogoutUser();
@@ -474,6 +491,13 @@ public class UsersBean extends ExtendBean implements Serializable {
         return usersEntities.stream().map(c -> new SelectItem(c.getId(), c.getUsername())).collect(Collectors.toList());
     }
 
+    public CitiesEntity getCitiesEntity() {
+        return citiesEntity;
+    }
+
+    public void setCitiesEntity(CitiesEntity citiesEntity) {
+        this.citiesEntity = citiesEntity;
+    }
 
     public boolean isConnected() {
         return connected;

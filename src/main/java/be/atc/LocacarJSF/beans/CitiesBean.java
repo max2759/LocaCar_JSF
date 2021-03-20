@@ -17,6 +17,10 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * @author Larche Marie-ellise
+ */
+
 @Named(value = "citiesBean")
 @SessionScoped
 public class CitiesBean implements Serializable {
@@ -47,8 +51,10 @@ public class CitiesBean implements Serializable {
             citiesEntities = citiesServices.findAll();
             citiesEntity = new CitiesEntity();
         }
-        if (usersBean.isConnected() == true) {
-            citiesEntity = new CitiesEntity();
+        log.info(usersBean.isConnected());
+        if (citiesEntity == null) {
+            log.info("citiesEntity == null");
+
         }
         log.info("init() - end");
     }

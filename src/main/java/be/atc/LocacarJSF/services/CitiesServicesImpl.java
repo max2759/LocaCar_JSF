@@ -9,6 +9,9 @@ import org.apache.log4j.Logger;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * @author Larche Marie-ellise
+ */
 public class CitiesServicesImpl implements CitiesServices {
 
     public static Logger log = Logger.getLogger(CitiesServicesImpl.class);

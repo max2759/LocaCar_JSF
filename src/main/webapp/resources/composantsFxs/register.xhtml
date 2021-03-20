@@ -27,16 +27,26 @@
         <h:outputText value="#{bundle['fxs.user.username']}"></h:outputText>
         <h:inputText value="#{usersBean.usersEntity.username}" required="true"></h:inputText>
         <br/>
+
         <h:outputText value="#{bundle['fxs.user.password']}"></h:outputText>
-        <h:inputSecret  value="#{usersBean.usersEntity.password}" required="true">
+        <h:inputSecret value="#{usersBean.usersEntity.password}" required="true" binding="#{passwordComponent}">
             <f:validateRegex pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,}$"></f:validateRegex></h:inputSecret>
         <br/>
+        <h:outputText value="#{bundle['fxs.user.confirmpassword']}"></h:outputText>
+        <h:inputSecret id="confirmPassword" required="#{not empty passwordComponent.value}"
+                       requiredMessage="Please confirm password" validatorMessage="Passwords are not equal">
+            <f:validator validatorId="UserValidator"/>
+            <f:attribute name="otherValue" value="#{passwordComponent.value}"/>
+        </h:inputSecret>
+        <h:message for="confirmPassword"/>
+        <br/>
+
         <h:outputText value="#{bundle['fxs.user.email']}"></h:outputText>
         <h:inputText value="#{usersBean.usersEntity.email}" required="true">
             <f:validateRegex pattern="[a-zA-Z0-9].+@[a-zA-Z0-9]+\.[a-zA-Z0-9]+"></f:validateRegex></h:inputText>
         <br/>
 
-        <h:outputText value="#{bundle['fxs.user.birthdate']}"></h:outputText>
+        <h:outputText value="#{bundle['fxs.user.birthdate']} *"></h:outputText>
         <h:inputText value="#{usersBean.usersEntity.birthdate}" required="true" converter="localDateTimeConverter">>
             <!--<f:convertDateTime pattern="yyyy-mm-dd"/> -->
         </h:inputText>
@@ -45,16 +55,16 @@
         <h:inputText value="#{usersBean.usersEntity.vatNumber}"></h:inputText>
         <br/>
 
-        <h:outputText value="#{bundle['fxs.adresse.street']}"></h:outputText>
-        <h:inputText value="#{addressesBean.addressesEntity.street}"></h:inputText>
+        <h:outputText value="#{bundle['fxs.user.street']} *"></h:outputText>
+        <h:inputText value="#{addressesBean.addressesEntity.street}" required="true"></h:inputText>
         <br/>
 
-        <h:outputText value="#{bundle['fxs.adresse.number']}"></h:outputText>
-        <h:inputText value="#{addressesBean.addressesEntity.number}"></h:inputText>
+        <h:outputText value="#{bundle['fxs.user.number']} *"></h:outputText>
+        <h:inputText value="#{addressesBean.addressesEntity.number}" required="true"></h:inputText>
         <br/>
 
-        <h:outputText value="#{bundle['fxs.adresse.box']}"></h:outputText>
-        <h:inputText value="#{addressesBean.addressesEntity.box}"></h:inputText>
+        <h:outputText value="#{bundle['fxs.user.box']}"></h:outputText>
+        <h:inputText value="#{addressesBean.addressesEntity.box}" required="true"></h:inputText>
         <br/>
 
         <h:panelGroup styleClass="form-group">
@@ -62,7 +72,7 @@
             <h:selectOneMenu id="citiesDisplay" styleClass="form-group"
                              value="#{citiesBean.citiesEntity.id}">
                 <f:selectItem itemValue="#{null}" itemLabel=" "/>
-                <f:selectItems value="#{citiesBean.citiesEntitiesSelectItems}"/>
+                <f:selectItems value="#{citiesBean.citiesEntitiesSelectItems}" required="true"/>
             </h:selectOneMenu>
             <h:message for="citiesDisplay"/>
         </h:panelGroup>
