@@ -5,7 +5,7 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
-      xmlns:cc="http://java.sun.com/jsf/composite" xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:cc="http://java.sun.com/jsf/composite"
 >
 
 <cc:interface name="userUpdateByUsers"
@@ -17,18 +17,8 @@
 <cc:implementation>
 
 
-<c:if test="#{usersBean.connected}">
+
    <h:form>
-
-       <!--  <h:column>
-           <f:facet name="header">#{bundle['fxs.user.street']}</f:facet>
-           <h:dataTable id="outputMessage" styleClass="table table-hover table-responsive"
-                        value="#{addressesBean.addressesEntities}" var="add">
-              <h:column><h:outputText value="#{add.street}"></h:outputText></h:column>
-           </h:dataTable>
-        </h:column>
-  -->
-
        <h:panelGrid columns="2" styleClass="table table-hover table-responsive">
            <h:panelGroup>#{bundle['fxs.user.username']}</h:panelGroup>
            <h:panelGroup>#{usersBean.usersEntity.username}"</h:panelGroup>
@@ -41,6 +31,12 @@
 
            <h:panelGroup>#{bundle['fxs.user.number']}</h:panelGroup>
            <h:panelGroup>#{addressesBean.addressesEntity.number}</h:panelGroup>
+
+           <h:panelGroup>#{bundle['fxs.user.box']}</h:panelGroup>
+           <h:panelGroup>#{addressesBean.addressesEntity.box}</h:panelGroup>
+
+           <h:panelGroup>#{bundle['fxs.user.cities']}</h:panelGroup>
+           <h:panelGroup>#{usersBean.citiesEntity.label}</h:panelGroup>
        </h:panelGrid>
 
 
@@ -69,10 +65,8 @@
            </h:commandLink>
        </h:column>
 
-
-
    </h:form>
-</c:if>
+
 
    <!-- affichage du modal -->
    <f:view>
@@ -157,6 +151,10 @@
                               style="color: green; font-weight: bold"></h:outputText>
                 <h:outputText value="#{usersBean.fail}"
                               style="color: darkred; font-weight: bold"></h:outputText>
+                <h:outputText value="#{addressesBean.success}"
+                              style="color: green; font-weight: bold"></h:outputText>
+                <h:outputText value="#{addressesBean.fail}"
+                              style="color: darkred; font-weight: bold"></h:outputText>
                 <div class="popup-panel">
 
                     <div class="form-group">
@@ -197,6 +195,16 @@
                         </h:inputText>
                         <h:message styleClass="alert alert-danger" role="alert" for="box"></h:message>
                     </div>
+
+                    <h:panelGroup styleClass="form-group">
+
+                        <h:selectOneMenu id="citiesDisplay" styleClass="form-group"
+                                         value="#{citiesBean.citiesEntity.id}">
+                            <f:selectItem itemValue="#{null}" itemLabel=" "/>
+                            <f:selectItems value="#{citiesBean.citiesEntitiesSelectItems}"/>
+                        </h:selectOneMenu>
+                        <h:message for="citiesDisplay"/>
+                    </h:panelGroup>
 
 
                     <span>

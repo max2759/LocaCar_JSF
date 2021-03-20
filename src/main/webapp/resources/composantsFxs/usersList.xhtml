@@ -19,7 +19,7 @@
         <h:form>
             <h:commandLink styleClass="btn btn-success"
                            value="#{bundle['fxs.optionsList.add']}"
-                           action="#{rolesPermissionsBean.showPopupModalAdd}">
+                           action="#{usersBean.showPopupModalAdd}">
                 <f:param name="addUserEntity" value="addUserEntity"></f:param>
                 <f:ajax render="@all"/>
                 <i class="fas fa-plus"></i>
@@ -191,71 +191,72 @@
     <!-- affichage du modal ajout d'user -->
     <f:view>
         <h:panelGroup id="popupAdd" layout="block" styleClass="popup-panel-overlay"
-                      rendered="#{rolesPermissionsBean.showPopupAdd}">
+                      rendered="#{usersBean.showPopupAdd}">
             <h:form id="formPopupAdd">
-                <h:outputLabel value="#{bundle['fxs.register.register']}"></h:outputLabel>
-                <br/>
-                <h:outputText value="#{bundle['fxs.user.firstName']}"></h:outputText>
-                <h:inputText value="#{usersBean.usersEntity.firstname}" required="true"></h:inputText>
-                <br/>
-                <h:outputText value="#{bundle['fxs.user.lastName']}"></h:outputText>
-                <h:inputText value="#{usersBean.usersEntity.lastname}" required="true"></h:inputText>
-                <br/>
-                <h:outputText value="#{bundle['fxs.user.username']}"></h:outputText>
-                <h:inputText value="#{usersBean.usersEntity.username}" required="true"></h:inputText>
-                <br/>
-                <h:outputText value="#{bundle['fxs.user.password']}"></h:outputText>
-                <h:inputSecret value="#{usersBean.usersEntity.password}" required="true">
-                    <f:validateRegex
-                            pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,}$"></f:validateRegex></h:inputSecret>
-                <br/>
-                <h:outputText value="#{bundle['fxs.user.email']}"></h:outputText>
-                <h:inputText value="#{usersBean.usersEntity.email}" required="true">
-                    <f:validateRegex pattern="[a-zA-Z0-9].+@[a-zA-Z0-9]+\.[a-zA-Z0-9]+"></f:validateRegex></h:inputText>
-                <br/>
+                <div class="popup-panel">
+                    <h:outputLabel value="#{bundle['fxs.register.register']}"></h:outputLabel>
+                    <br/>
+                    <h:outputText value="#{bundle['fxs.user.firstName']}"></h:outputText>
+                    <h:inputText value="#{usersBean.usersEntity.firstname}" required="true"></h:inputText>
+                    <br/>
+                    <h:outputText value="#{bundle['fxs.user.lastName']}"></h:outputText>
+                    <h:inputText value="#{usersBean.usersEntity.lastname}" required="true"></h:inputText>
+                    <br/>
+                    <h:outputText value="#{bundle['fxs.user.username']}"></h:outputText>
+                    <h:inputText value="#{usersBean.usersEntity.username}" required="true"></h:inputText>
+                    <br/>
+                    <h:outputText value="#{bundle['fxs.user.password']}"></h:outputText>
+                    <h:inputSecret value="#{usersBean.usersEntity.password}" required="true">
+                        <f:validateRegex
+                                pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,}$"></f:validateRegex></h:inputSecret>
+                    <br/>
+                    <h:outputText value="#{bundle['fxs.user.email']}"></h:outputText>
+                    <h:inputText value="#{usersBean.usersEntity.email}" required="true">
+                        <f:validateRegex pattern="[a-zA-Z0-9].+@[a-zA-Z0-9]+\.[a-zA-Z0-9]+"></f:validateRegex></h:inputText>
+                    <br/>
 
-                <h:outputText value="#{bundle['fxs.user.birthdate']}"></h:outputText>
-                <h:inputText value="#{usersBean.usersEntity.birthdate}" required="true"
-                             converter="localDateTimeConverter">>
-                    <!--<f:convertDateTime pattern="yyyy-mm-dd"/> -->
-                </h:inputText>
-                <br/>
-                <h:outputText value="#{bundle['fxs.user.VATNumber']}"></h:outputText>
-                <h:inputText value="#{usersBean.usersEntity.vatNumber}"></h:inputText>
-                <br/>
+                    <h:outputText value="#{bundle['fxs.user.birthdate']}"></h:outputText>
+                    <h:inputText value="#{usersBean.usersEntity.birthdate}" required="true"
+                                 converter="localDateTimeConverter">>
+                        <!--<f:convertDateTime pattern="yyyy-mm-dd"/> -->
+                    </h:inputText>
+                    <br/>
+                    <h:outputText value="#{bundle['fxs.user.VATNumber']}"></h:outputText>
+                    <h:inputText value="#{usersBean.usersEntity.vatNumber}"></h:inputText>
+                    <br/>
 
-                <h:outputText value="#{bundle['fxs.adresse.street']}"></h:outputText>
-                <h:inputText value="#{addressesBean.addressesEntity.street}"></h:inputText>
-                <br/>
+                    <h:outputText value="#{bundle['fxs.adresse.street']}"></h:outputText>
+                    <h:inputText value="#{addressesBean.addressesEntity.street}"></h:inputText>
+                    <br/>
 
-                <h:outputText value="#{bundle['fxs.adresse.number']}"></h:outputText>
-                <h:inputText value="#{addressesBean.addressesEntity.number}"></h:inputText>
-                <br/>
+                    <h:outputText value="#{bundle['fxs.adresse.number']}"></h:outputText>
+                    <h:inputText value="#{addressesBean.addressesEntity.number}"></h:inputText>
+                    <br/>
 
-                <h:outputText value="#{bundle['fxs.adresse.box']}"></h:outputText>
-                <h:inputText value="#{addressesBean.addressesEntity.box}"></h:inputText>
-                <br/>
-                <h:inputHidden value="admin" id="admin" class="admin"></h:inputHidden>
+                    <h:outputText value="#{bundle['fxs.adresse.box']}"></h:outputText>
+                    <h:inputText value="#{addressesBean.addressesEntity.box}"></h:inputText>
+                    <br/>
+                    <h:inputHidden value="admin" id="admin" class="admin"></h:inputHidden>
 
-                <h:panelGroup styleClass="form-group">
-                    <h:selectOneMenu id="citiesDisplay" styleClass="form-group"
-                                     value="#{citiesBean.citiesEntity.id}">
-                        <f:selectItem itemValue="#{null}" itemLabel=" "/>
-                        <f:selectItems value="#{citiesBean.citiesEntitiesSelectItems}"/>
-                    </h:selectOneMenu>
-                    <h:message for="citiesDisplay"/>
-                </h:panelGroup>
+                    <h:panelGroup styleClass="form-group">
+                        <h:selectOneMenu id="citiesDisplay" styleClass="form-group"
+                                         value="#{citiesBean.citiesEntity.id}">
+                            <f:selectItem itemValue="#{null}" itemLabel=" "/>
+                            <f:selectItems value="#{citiesBean.citiesEntitiesSelectItems}"/>
+                        </h:selectOneMenu>
+                        <h:message for="citiesDisplay"/>
+                    </h:panelGroup>
 
-                <h:panelGroup styleClass="form-group">
-                    <h:selectOneMenu id="roleDisplay" styleClass="form-group"
-                                     value="#{rolesBean.rolesEntity.id}">
-                        <f:selectItem itemValue="#{null}" itemLabel=" "/>
-                        <f:selectItems value="#{rolesBean.rolesEntitiesSelectItems}"/>
-                    </h:selectOneMenu>
-                    <h:message for="roleDisplay"/>
-                </h:panelGroup>
+                    <h:panelGroup styleClass="form-group">
+                        <h:selectOneMenu id="roleDisplay" styleClass="form-group"
+                                         value="#{rolesBean.rolesEntity.id}">
+                            <f:selectItem itemValue="#{null}" itemLabel=" "/>
+                            <f:selectItems value="#{rolesBean.rolesEntitiesSelectItems}"/>
+                        </h:selectOneMenu>
+                        <h:message for="roleDisplay"/>
+                    </h:panelGroup>
 
-                <span>
+                    <span>
                         <h:commandButton styleClass="btn btn-outline-success btn-sm"
                                          value="#{bundle['fxs.insurancesList.save']}"
                                          action="#{usersBean.addUser}">
@@ -265,14 +266,14 @@
                     </span>
 
 
-                <span>
+                    <span>
                         <h:commandButton styleClass="btn btn-outline-dark btn-sm"
                                          value="#{bundle['fxs.insurancesList.close']}"
                                          action="#{usersBean.hidePopupModal}">
                             <f:ajax render="@all"></f:ajax>
                         </h:commandButton>
                     </span>
-
+                </div>
             </h:form>
         </h:panelGroup>
     </f:view>

@@ -130,6 +130,27 @@ public class AddressesDAOImpl implements AddressesDAO {
         // return resultList;
     }
 
+    @Override
+    public List<AddressesEntity> findAllAddressesByUserId(int idUser) {
+        EntityManager em = EMF.getEM();
+        List<AddressesEntity> resultList = null;
+        log.info("cvall to findAll DAO");
+        try {
+            resultList = em.createNamedQuery("Adresses.findByIdUser",
+                    AddressesEntity.class)
+                    .getResultList();
+            if (resultList != null) {
+                log.info(resultList.size() + " results found.");
+            }
+        } catch (Exception ex) {
+            log.error(ex);
+        } finally {
+            em.clear();
+            em.close();
+        }
+        return resultList;
+    }
+
    /* @Override
     public List<AddressesEntity> findByLabel(String label) {
         EntityManager em = EMF.getEM();
