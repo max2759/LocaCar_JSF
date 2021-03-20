@@ -29,12 +29,12 @@ public class PicturesBean extends ExtendBean implements Serializable {
     private static final long serialVersionUID = -7193767475781021472L;
 
     private CarsPicturesEntity carsPicturesEntity;
-    private CarsPicturesServices carsPicturesServices = new CarsPicturesServicesImpl();
+    private final CarsPicturesServices carsPicturesServices = new CarsPicturesServicesImpl();
     private List<CarsPicturesEntity> carsPicturesEntityList;
 
 //    private String folder = Constants.FILE_OUTPUT_IMAGE;
 
-    private String folder = "A:\\Applications\\Drive\\Work\\IntelliJ\\LocacarJSF\\src\\main\\webapp\\resources\\upload";
+    private String folder = "C:\\Users\\kameh\\OneDrive\\Documents\\Cours\\Bac Info\\3e\\Projet d'integration de dev\\Projet\\JAVA\\LocacarJSF\\src\\main\\webapp\\resources\\upload";
 
     private Part file;
 

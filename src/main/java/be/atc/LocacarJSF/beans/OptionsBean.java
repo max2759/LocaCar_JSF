@@ -27,7 +27,7 @@ public class OptionsBean extends ExtendBean implements Serializable {
     Locale locale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
 
 
-    private OptionsServices optionsServices = new OptionsServicesImpl();
+    private final OptionsServices optionsServices = new OptionsServicesImpl();
     private OptionsEntity optionsEntity = new OptionsEntity();
     private List<OptionsEntity> optionsEntities;
     private List<OptionsEntity> optionsEntityList = new ArrayList<>();
@@ -45,7 +45,7 @@ public class OptionsBean extends ExtendBean implements Serializable {
     }
 
     public String toPageOption() {
-        return "options?faces-redirect = true";
+        return "options??faces-redirect=true";
     }
 
     /**

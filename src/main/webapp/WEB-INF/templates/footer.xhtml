@@ -1,7 +1,37 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
 >
+
     <div class="container">
-        Footer ici !
+        <footer class="bg-light text-right text-lg-start">
+            <div class="container p-2 pb-0">
+                <div class="col-auto mb-4 mb-md-0">
+                    <i class="fas fa-globe-europe" style="margin-top: 4px;"></i>
+                    <h:form>
+                        <h:commandLink action="#{internalizationBean.changeLanguage}">
+                            <h:graphicImage
+                                    value="/resources/images/united_kingdom_icon_127821.png"
+                                    style="width: 15px; height: auto"/>
+                            <f:setPropertyActionListener target="#{internalizationBean.language}"
+                                                         value="en"></f:setPropertyActionListener>
+                        </h:commandLink>
+                        <h:outputText value=" / "/>
+                        <h:commandLink action="#{internalizationBean.changeLanguage}">
+                            <h:graphicImage
+                                    value="/resources/images/french_guiana_icon_127817.png"
+                                    style="width: 15px; height: auto"/>
+                            <f:setPropertyActionListener target="#{internalizationBean.language}"
+                                                         value="fr"></f:setPropertyActionListener>
+                        </h:commandLink>
+                    </h:form>
+                </div>
+                <div class="text-center p-2">
+                    © 2021 Copyright:
+                    Younes Arifi - Maximilien Zabbarra - Marie-Elise Larche
+                </div>
+            </div>
+        </footer>
     </div>
 </ui:composition>

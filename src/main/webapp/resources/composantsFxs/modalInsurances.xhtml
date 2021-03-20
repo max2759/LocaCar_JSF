@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:cc="http://java.sun.com/jsf/composite">
+
+<cc:interface name="modalInsurance"
+              displayName="#{bundle['fxs.insurancesList.displayName']}"
+              shortDescription="#{bundle['fxs.insurancesList.shortDescription']}"
+>
+</cc:interface>
+<cc:implementation>
+    <f:view>
+        <h:panelGroup id="popupEdit" layout="block" styleClass="popup-panel-overlay"
+                      rendered="#{insurancesBean.showPopup}">
+
+            <h:form id="formPopupEdit">
+                <div class="popup-panel pre-scrollable">
+                    <h:commandLink styleClass="close text-info"
+                                   action="#{insurancesBean.hidePopupModal}">
+                        <i class="fas fa-times"></i>
+                        <f:ajax render="@all"/>
+                    </h:commandLink>
+                    <h:panelGrid>
+                        <h:messages id="messagesPopup" showSummary="true" globalOnly="true" infoClass="alert-success"
+                                    errorClass="alert-danger"/>
+                    </h:panelGrid>
+                    <h:outputText styleClass="container-fluid badge bg-warning"
+                                  value="#{bundle['insurance']}"/>
+                    <div class="form-group">
+                        <h:outputLabel value="#{bundle['fxs.insurancesList.title']}" for="label"/>
+                        <h:inputText value="#{insurancesBean.insurancesEntity.label}" styleClass="form-control"
+                                     required="true"
+                                     requiredMessage="#{bundle['fxs.insurancesList.required']}"
+                                     id="label">
+                        </h:inputText>
+                        <h:message styleClass="alert-danger" role="alert" for="label"/>
+                    </div>
+                    <div class="form-group">
+                        <h:outputLabel value="#{bundle['fxs.insurancesList.description']}"
+                                       for="description"/>
+                        <h:inputTextarea cols="70" id="description" styleClass="form-control" rows="3"
+                                         value="#{insurancesBean.insurancesEntity.description}"/>
+                    </div>
+                    <div class="form-group">
+                        <h:outputLabel value="#{bundle['fxs.insurancesList.price']}" for="price"/>
+                        <h:inputText value="#{insurancesBean.insurancesEntity.price}" styleClass="form-control"
+                                     id="price" required="true"
+                                     requiredMessage="#{bundle['fxs.insurancesList.required']}"
+                                     converterMessage="#{bundle['fxs.insurancesList.priceError']}">
+                            <f:validator validatorId="priceValidator"/>
+                        </h:inputText>
+                        <h:message for="price" id="messageValidator" styleClass="alert-danger "/>
+                    </div>
+                    <span>
+                        <h:commandButton styleClass="btn btn-outline-success btn-sm"
+                                         value="#{bundle['fxs.insurancesList.save']}"
+                                         action="#{insurancesBean.saveEdit}">
+                            <f:ajax execute="formPopupEdit" render="@all"/>
+                        </h:commandButton>
+                    </span>
+                </div>
+            </h:form>
+        </h:panelGroup>
+    </f:view>
+</cc:implementation>
+</html>
