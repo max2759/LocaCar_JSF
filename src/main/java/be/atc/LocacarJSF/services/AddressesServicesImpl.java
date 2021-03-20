@@ -67,4 +67,12 @@ public class AddressesServicesImpl implements AddressesServices {
         }
         return null;
     }
+
+    @Override
+    public List<AddressesEntity> findAllAddressesByUserId(int idUser) {
+        if (idUser != 0) {
+            return addressesDAO.findAllAddressesByUserId(idUser);
+        }
+        return null;
+    }
 }

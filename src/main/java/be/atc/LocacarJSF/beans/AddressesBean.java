@@ -22,6 +22,9 @@ import java.util.Map;
 
 import static java.lang.Integer.parseInt;
 
+/**
+ * @author Larche Marie-ellise
+ */
 @Named(value = "addressesBean")
 @SessionScoped
 public class AddressesBean implements Serializable {
@@ -49,6 +52,8 @@ public class AddressesBean implements Serializable {
     @Inject
     private UsersBean usersBean;
 
+    private boolean update;
+
 
     @PostConstruct
     public void postContruct() {
@@ -57,6 +62,7 @@ public class AddressesBean implements Serializable {
         if (userId != 0) {
             log.info("connexion = true? :" + userId);
             addressesEntity = findByUserId(userId);
+
         } else {
             log.info("connexion = false? : " + userId);
             addressesEntity = new AddressesEntity();
@@ -96,7 +102,6 @@ public class AddressesBean implements Serializable {
      * @throws NoSuchAlgorithmException
      */
     public void addAddresse(int idUser, int idCity) throws ParseException, NoSuchAlgorithmException {
-
         log.info("begin addAddresseBean");
 
         addressesEntity.setUsersByIdUsers(usersBean.findUserById(idUser));
@@ -107,6 +112,18 @@ public class AddressesBean implements Serializable {
         addressesEntity.setCitiesByIdCities(citiesBean.findById(idCity));
         addressesServices.add(addressesEntity);
         log.info("addresse inscrit");
+    }
+
+
+    public boolean validateAddresse() {
+        String streetVer = addressesEntity.getStreet();
+        log.info(streetVer);
+        boolean add = false;
+        if (streetVer != null) {
+            add = true;
+        }
+        log.info(add);
+        return add;
     }
 
     /**
@@ -143,13 +160,21 @@ public class AddressesBean implements Serializable {
 
         log.info(addressesEntity);
         log.info(addressesEntity.getNumber());
+        int idCity = citiesBean.getCitiesEntity().getId();
+        log.info(idCity);
 
-        log.info("Save edit");
-        if (addressesEntity != null) {
+        if (idCity != 0) {
+            addressesEntity.setCitiesByIdCities(citiesBean.findById(idCity));
+            functionUpdateAddresse();
+            update = true;
+        } else if (addressesEntity != null && update == false) {
             functionUpdateAddresse();
         } else {
             fail = JsfUtils.returnMessage(locale, "fxs.users.errorAdd");
         }
+
+        log.info("Save edit");
+
 
         init();
     }
@@ -160,7 +185,21 @@ public class AddressesBean implements Serializable {
     public void functionUpdateAddresse() {
         log.info("begin - updateAddresse");
         log.info(addressesEntity.getNumber());
-        addressesServices.update(addressesEntity);
+        log.info(addressesEntity.getCitiesByIdCities().getId());
+
+
+        log.info(citiesBean.getCitiesEntity().getId());
+        int idCity = citiesBean.getCitiesEntity().getId();
+        if (idCity != 0) {
+            addressesEntity.setCitiesByIdCities(citiesBean.findById(idCity));
+
+            addressesServices.update(addressesEntity);
+
+        } else {
+            success = JsfUtils.returnMessage(locale, "fxs.users.idCity0");
+        }
+
+
         log.info("end updateaddresse");
     }
 
