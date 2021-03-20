@@ -1,8 +1,8 @@
 package be.atc.LocacarJSF.beans;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ActionEvent;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.Locale;
@@ -10,14 +10,48 @@ import java.util.Locale;
 @Named
 @SessionScoped
 public class InternalizationBean implements Serializable {
-    private static final long serialVersionUID = 3233925319240020562L;
 
-    public void langChoice(ActionEvent actionEvent) {
-        Locale locale;
-        String idComponent = actionEvent.getComponent().getId();
 
-        locale = new Locale(idComponent);
+    private static final long serialVersionUID = -8171657472426005417L;
+    private Locale locale;
+    private String language;
 
-        FacesContext.getCurrentInstance().getViewRoot().setLocale(locale);
+    /**
+     * Method PostContruct : Called first
+     * Gets current Faces context instance Locale value
+     */
+    @PostConstruct
+    public void init() {
+        locale = FacesContext.getCurrentInstance().getExternalContext().getRequestLocale();
     }
+
+
+    /**
+     * This method sets the current locale in language User
+     *
+     * @return String
+     */
+    public String changeLanguage() {
+        locale = new Locale(language);
+        FacesContext.getCurrentInstance().getViewRoot().setLocale(locale);
+        return null;
+    }
+
+    public String getLanguage() {
+        return locale.getLanguage();
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
+    }
+
+    public Locale getLocale() {
+        return locale;
+    }
+
+    public void setLocale(Locale locale) {
+        this.locale = locale;
+    }
+
+
 }

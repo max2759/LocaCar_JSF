@@ -49,7 +49,7 @@ public class ModelsBean extends ExtendBean implements Serializable {
     }
 
     public String toPageModels() {
-        return "models";
+        return "models?faces-redirect=true";
     }
 
     @Inject
@@ -157,11 +157,7 @@ public class ModelsBean extends ExtendBean implements Serializable {
             modelsEntities = modelsServices.findModelsByBrandsId(modelsEntity.getBrandsByIdBrands().getId());
         }
 
-        if (!modelsEntities.isEmpty()) {
-            showModel = true;
-        } else {
-            showModel = false;
-        }
+        showModel = !modelsEntities.isEmpty();
     }
 
     public void findBrandsByAds() {
@@ -174,11 +170,7 @@ public class ModelsBean extends ExtendBean implements Serializable {
             modelsEntities = modelsServices.findModelsByBrandsId(adsBean.getAdsEntity().getCarsByIdCars().getModelsByIdModels().getBrandsByIdBrands().getId());
         }
 
-        if (!modelsEntities.isEmpty()) {
-            showInput = true;
-        } else {
-            showInput = false;
-        }
+        showInput = !modelsEntities.isEmpty();
     }
 
     //////Getters and setters

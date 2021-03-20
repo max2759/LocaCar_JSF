@@ -38,7 +38,7 @@ public class UsersBean extends ExtendBean implements Serializable {
     Locale locale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
 
     private UsersEntity usersEntity;
-    private UsersServices usersServices = new UsersServicesImpl();
+    private final UsersServices usersServices = new UsersServicesImpl();
     private List<UsersEntity> usersEntities;
 
     private AddressesEntity addressesEntity;
@@ -72,11 +72,11 @@ public class UsersBean extends ExtendBean implements Serializable {
     private boolean connected;
 
     public String toPageAddUser() {
-        return "register";
+        return "register?faces-redirect=true";
     }
 
     public String toPageConnexion() {
-        return "connexion";
+        return "connexion?faces-redirect=true";
     }
     public String toPageLogOut() {
         return "doLogoutUser";

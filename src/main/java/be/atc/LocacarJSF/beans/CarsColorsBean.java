@@ -44,7 +44,7 @@ public class CarsColorsBean extends ExtendBean implements Serializable {
     }
 
     public String toPageColors() {
-        return "colors";
+        return "colors?faces-redirect=true";
     }
 
     /**
