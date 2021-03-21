@@ -122,13 +122,8 @@ public class UsersBean extends ExtendBean implements Serializable {
         fail = "";
     }
 
-    /**
-     * @throws NoSuchAlgorithmException
-     */
-    public void connexion() throws NoSuchAlgorithmException {
+    public String hashPassword(String password) throws NoSuchAlgorithmException {
 
-        String username = usersEntity.getUsername();
-        String password = usersEntity.getPassword();
         MessageDigest digest = MessageDigest.getInstance("SHA-256");
 ///
         byte[] hash = digest.digest(password.getBytes(StandardCharsets.UTF_8));
@@ -140,10 +135,24 @@ public class UsersBean extends ExtendBean implements Serializable {
         System.out.println(s.toString());
         String hashPass = s.toString();
 
+        return hashPass;
+
+    }
+
+    /**
+     * @throws NoSuchAlgorithmException
+     */
+    public String connexion() throws NoSuchAlgorithmException {
+
+        String username = usersEntity.getUsername();
+        String password = usersEntity.getPassword();
+
+        String hashPass = hashPassword(password);
+
 ////
         UsersEntity usersByUsernameAndPassword = usersServices.findByUsernameAndPassword(username, hashPass);
         log.info(usersByUsernameAndPassword);
-        log.info("username recup + pass:" + username + " " + hashPass   );
+        log.info("username recup + pass:" + username + " " + hashPass);
         if (usersByUsernameAndPassword != null) {
             usersEntity = usersServices.findByOneUsername(usersEntity.getUsername());
 
@@ -175,15 +184,17 @@ public class UsersBean extends ExtendBean implements Serializable {
                 //              FacesContext.getCurrentInstance().getApplication().getNavigationHandler().handleNavigation(FacesContext.getCurrentInstance(), null, "index.xhtml");
 
                 success = JsfUtils.returnMessage(getLocale(), "fxs.user.welcome");
+                return "index?faces-redirect=true";
 
 
-                log.info("existe");
             } else {
                 fail = JsfUtils.returnMessage(getLocale(), "fxs.user.badConnexion");
+                return "connexion?faces-redirect=true";
             }
         } else {
             fail = JsfUtils.returnMessage(getLocale(), "fxs.user.badConnexion");
             log.info("existe pas");
+            return "connexion?faces-redirect=true";
         }
 
 
@@ -221,17 +232,7 @@ public class UsersBean extends ExtendBean implements Serializable {
 
 
             if (bool) {
-                MessageDigest digest = MessageDigest.getInstance("SHA-256");
-                byte[] hash = digest.digest(password.getBytes(StandardCharsets.UTF_8));
-                // convertir bytes en hexadécimal
-                StringBuilder s = new StringBuilder();
-                for (byte b : hash) {
-                    s.append(Integer.toString((b & 0xff) + 0x100, 16).substring(1));
-                }
-                System.out.println(s.toString());
-                String hashPass = s.toString();
-
-                log.info("mdp: " + hash);
+                String hashPass = hashPassword(password);
 
                 usersEntity.setPassword(hashPass);
                 usersEntity.setActive(true);
@@ -418,7 +419,7 @@ public class UsersBean extends ExtendBean implements Serializable {
     /**
      * Sauvegarde l'entité modifiée
      */
-    public void saveEdit() {
+    public void saveEdit() throws NoSuchAlgorithmException {
 
         List<UsersEntity> usersEntitiesByLabel = usersServices.findByUsername(usersEntity.getUsername());
 
@@ -453,10 +454,23 @@ public class UsersBean extends ExtendBean implements Serializable {
     /**
      * Repetition code for update UserEntity
      */
-    public void functionUpdateUser() {
+    public void functionUpdateUser() throws NoSuchAlgorithmException {
         log.info(usersEntity.getRolesByIdRoles().getLabel());
-        usersServices.update(usersEntity);
-        success = JsfUtils.returnMessage(getLocale(), "successUpdate");
+        String password = usersEntity.getPassword();
+        boolean bool = Pattern.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,}$", password);
+
+        if (bool) {
+            String hashPass = hashPassword(password);
+
+            usersEntity.setPassword(hashPass);
+
+            usersServices.update(usersEntity);
+            success = JsfUtils.returnMessage(getLocale(), "successUpdate");
+        } else {
+            fail = JsfUtils.returnMessage(getLocale(), "failUpdate");
+        }
+
+
     }
 
     public UsersEntity findUserById(int idUser) {

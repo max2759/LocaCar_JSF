@@ -118,7 +118,8 @@ public class RolesPermissionsBean implements Serializable {
         log.info("show popupmodal edit");
         showPopupEdit = true;
         editRolesPermissionsEntity = true;
-        int idRolesPerm = parseInt(getParam("idRolePerm"));
+        log.info(parseInt(getParam("id")));
+        int idRolesPerm = parseInt(getParam("id"));
         log.info("idRolePerm in popup " + idRolesPerm);
         rolesPermissionsEntity = rolesPermissionsServices.findById(idRolesPerm);
     }
@@ -182,8 +183,24 @@ public class RolesPermissionsBean implements Serializable {
      */
     public void functionUpdateRolePermissions() {
         log.info("appel a fonctionUpdateRole dans les permissions");
-        rolesPermissionsServices.update(rolesPermissionsEntity);
-        success = JsfUtils.returnMessage(locale, "fxs.options.successUpdate");
+        int idRole = rolesBean.getRolesEntity().getId();
+        int idPerm = permissionsBean.getPermissionsEntity().getId();
+
+        boolean testAdd = controlAdd(idRole, idPerm);
+        log.info(testAdd);
+
+        if (testAdd) {
+            rolesPermissionsEntity.setRolesByIdRoles(rolesBean.findById(idRole));
+            rolesPermissionsEntity.setPermissionsByIdPermissions(permissionsBean.findById(idPerm));
+            log.info("id recu du form perm : " + rolesPermissionsEntity.getPermissionsByIdPermissions());
+            log.info("label recu du form role: " + rolesPermissionsEntity.getRolesByIdRoles());
+            //log.info("num de reole: " + rolesPermissionsBean.findById(1));
+            rolesPermissionsServices.update(rolesPermissionsEntity);
+            success = JsfUtils.returnMessage(locale, "fxs.rolePerm.successUpdate");
+        } else {
+            fail = JsfUtils.returnMessage(getLocale(), "fxs.rolesPerm.doble");
+        }
+
     }
 
 
