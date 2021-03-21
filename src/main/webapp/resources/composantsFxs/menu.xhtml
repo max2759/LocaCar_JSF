@@ -12,25 +12,30 @@
 </cc:interface>
 <cc:implementation>
     <h:form styleClass="test-form">
-        <h:commandLink class="nav-link account-a account-a-active"
-                       action="account?faces-redirect=true" value="#{bundle['account.ads']}"/>
-        <h:commandLink class="nav-link account-a" value="#{bundle['account.deactivate']}"
-                       action="disabledads?faces-redirect=true"/>
-        <h:commandLink class="nav-link account-a"
-                       action="myOrders?faces-redirect=true" value="#{bundle['account.myOrders']}"/>
-        <h:commandLink class="nav-link account-a" action="accountsellcar?faces-redirect=true"
-                       value="#{bundle['account.sell']}"/>
-        <h:commandLink class="nav-link account-a" action="orders?faces-redirect=true"
-                       value="#{bundle['account.orders']}"/>
-        <h:commandLink class="nav-link account-a" action="insurances?faces-redirect=true"
-                       value="#{bundle['account.insurances']}"/>
-        <h:commandLink class="nav-link account-a" value="#{bundle['account.parameter']}"/>
-        <h:commandLink class="nav-link account-a" action="options?faces-redirect=true"
-                       value="#{bundle['account.option']}"/>
-        <h:commandLink class="nav-link account-a" action="colors?faces-redirect=true"
-                       value="#{bundle['account.color']}"/>
-        <h:commandLink class="nav-link account-a" action="models?faces-redirect=true"
-                       value="#{bundle['account.model']}"/>
+        <h:panelGroup rendered="#{usersBean.connected}">
+            <h:commandLink class="nav-link account-a"
+                           action="account?faces-redirect=true" value="#{bundle['account.ads']}"/>
+            <h:commandLink class="nav-link account-a"
+                           action="disabledads?faces-redirect=true" value="#{bundle['account.deactivate']}"/>
+            <h:commandLink class="nav-link account-a"
+                           action="myOrders?faces-redirect=true" value="#{bundle['account.myOrders']}"/>
+            <h:commandLink class="nav-link account-a"
+                           action="accountsellcar?faces-redirect=true" value="#{bundle['account.sell']}"/>
+            <h:commandLink rendered="#{rolesPermissionsBean.readOrders}"
+                           class="nav-link account-a"
+                           action="orders?faces-redirect=true" value="#{bundle['account.orders']}"/>
+            <h:commandLink rendered="#{rolesPermissionsBean.readInsurances}"
+                           class="nav-link account-a"
+                           action="insurances?faces-redirect=true" value="#{bundle['account.insurances']}"/>
+            <h:commandLink class="nav-link account-a"
+                           value="#{bundle['account.parameter']}"/>
+            <h:commandLink class="nav-link account-a"
+                           action="options?faces-redirect=true" value="#{bundle['account.option']}"/>
+            <h:commandLink class="nav-link account-a"
+                           action="colors?faces-redirect=true" value="#{bundle['account.color']}"/>
+            <h:commandLink class="nav-link account-a"
+                           action="models?faces-redirect=true" value="#{bundle['account.model']}"/>
+        </h:panelGroup>
     </h:form>
 </cc:implementation>
 </html>
