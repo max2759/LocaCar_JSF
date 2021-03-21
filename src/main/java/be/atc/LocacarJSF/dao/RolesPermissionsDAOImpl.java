@@ -150,4 +150,26 @@ public class RolesPermissionsDAOImpl implements RolesPermissionsDAO {
         }
         return resultList;
     }
+
+    @Override
+    public RolesPermissionsEntity findByRoleAndPerm(int idRole, int idPerm) {
+        EntityManager em = EMF.getEM();
+
+        log.info("idrole in DAO : " + idRole);
+
+        try {
+            return em.createNamedQuery("RolesPermissions.addControl",
+                    RolesPermissionsEntity.class)
+                    .setParameter("idRole", idRole)
+                    .setParameter("idPerm", idPerm)
+                    .getSingleResult();
+        } catch (Exception ex) {
+            log.info("Nothing");
+            return null;
+        } finally {
+            em.clear();
+            em.close();
+        }
+    }
+
 }

@@ -27,6 +27,11 @@
    </h:form>
 
     <h:form>
+        <h:outputText value="#{rolesPermissionsBean.success}"
+                      style="color: green; font-weight: bold"></h:outputText>
+        <h:outputText value="#{rolesPermissionsBean.fail}"
+                      style="color: darkred; font-weight: bold"></h:outputText>
+
         <h:dataTable id="example" styleClass="datatableRolePerm table table-hover table-responsive"
                      value="#{rolesPermissionsBean.rolesPermissionsEntities}" var="roleP">
 

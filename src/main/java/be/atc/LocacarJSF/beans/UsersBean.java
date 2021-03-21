@@ -170,10 +170,12 @@ public class UsersBean extends ExtendBean implements Serializable {
 
                 rolesPermissionsBean.listAllPermissions();
                 rolesPermissionsBean.listPermissionsUser();
+                log.info(rolesPermissionsBean.isReadUsers());
 
-                FacesContext.getCurrentInstance().getApplication().getNavigationHandler().handleNavigation(FacesContext.getCurrentInstance(), null, "index.xhtml");
+                //              FacesContext.getCurrentInstance().getApplication().getNavigationHandler().handleNavigation(FacesContext.getCurrentInstance(), null, "index.xhtml");
 
                 success = JsfUtils.returnMessage(getLocale(), "fxs.user.welcome");
+
 
                 log.info("existe");
             } else {
@@ -184,7 +186,6 @@ public class UsersBean extends ExtendBean implements Serializable {
             log.info("existe pas");
         }
 
-        log.info("je suis dans le connexion");
 
     }
 
