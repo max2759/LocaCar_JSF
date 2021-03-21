@@ -2,11 +2,16 @@
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:fxs="http://java.sun.com/jsf/composite/composantsFxs"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
                 template="WEB-INF/templates/template.xhtml">
 
     <ui:define name="title">#{bundle['fxs.options.title']}</ui:define>
     <ui:define name="content">
 
+        <f:metadata>
+            <f:event listener="#{accessControlBean.checkPermission}" type="preRenderView"/>
+            <f:attribute name="permRequired" value="read_options"/>
+        </f:metadata>
         <h:head>
             <script>
                 $( document ).ready( function () {
@@ -14,9 +19,9 @@
                     $( '.optionTable' ).dataTable().fnDestroy();
                     loadTable();
 
-                        function loadTable() {
-                            $( '.optionTable' ).DataTable( {
-                                'language': {
+                    function loadTable() {
+                        $( '.optionTable' ).DataTable( {
+                            'language': {
                                     'url': '//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/French.json'
                                 }
                             } );
@@ -26,14 +31,26 @@
             </script>
 
         </h:head>
-
         <h:body>
-                <div class="carsComposantHeader">
-                    <h1>#{bundle['fxs.options.title']}</h1>
+            <div class="account-title">
+                <h1>#{bundle['account.title']}</h1>
+            </div>
+            <div class="row">
+                <aside class="col-md-3">
+                    <nav class="nav flex-column">
+                        <fxs:menu/>
+                    </nav>
+                </aside>
+                <div class="col-md-offset-2 col-md-9 myarea-content">
+                    <div class="myarea-content-title">
+                        <h2>#{bundle['fxs.options.title']}</h2>
+                    </div>
+                    <div class="myarea-content-display table-responsive">
+                        <fxs:optionsList/>
+                    </div>
                 </div>
-                <div class="carsComposantList">
-                    <fxs:optionsList id="displayOptionsList"></fxs:optionsList>
-                </div>
+            </div>
+            <fxs:modalOption/>
         </h:body>
     </ui:define>
 </ui:composition>

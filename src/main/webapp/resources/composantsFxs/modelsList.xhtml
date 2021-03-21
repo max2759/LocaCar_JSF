@@ -4,8 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:cc="http://java.sun.com/jsf/composite"
-      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+      xmlns:cc="http://java.sun.com/jsf/composite">
 
 <cc:interface name="modelsList"
               displayName="#{bundle['fxs.modelsList.displayName']}"
@@ -28,12 +27,8 @@
 
     <h:form>
         <!-- datatable == equivalant foreach -->
-        <h:dataTable id="outputMessage" styleClass="table table-hover table-responsive modelTable"
+        <h:dataTable id="outputMessage" styleClass="table table-hover modelTable"
                      value="#{modelsBean.modelsEntities}" var="models">
-            <h:column>
-                <f:facet name="header">#{bundle['fxs.insurancesList.code']}</f:facet>
-                <h:outputText value="#{models.id}"></h:outputText>
-            </h:column>
             <h:column>
                 <f:facet name="header">#{bundle['fxs.models.label']}</f:facet>
                 <h:outputText value="#{models.label}"></h:outputText>
@@ -54,61 +49,5 @@
 
         </h:dataTable>
     </h:form>
-
-    <f:view>
-        <h:panelGroup id="popupEdit" layout="block" styleClass="popup-panel-overlay"
-                      rendered="#{modelsBean.showPopup}">
-
-            <h:form id="formPopupEdit">
-                <div class="popup-panel">
-                    <h:messages id="messages" styleClass="messageConfirmation" infoClass="succesAdd"
-                                errorClass="error"/>
-                    <div class="modal-header">
-                        <h5 class="modal-title">#{bundle['fxs.modelsList.modalTitle']}</h5>
-                    </div>
-                    <div class="modal-body">
-
-                        <div class="form-group">
-                            <h:outputLabel value="Modèle" for="modelsLabel" styleClass="col-form-label"/>
-                            <h:inputText value="#{modelsBean.modelsEntity.label}" styleClass="form-control"
-                                         required="true"
-                                         pt:placeholder="Ajouter un modèle"
-                                         requiredMessage="#{bundle['fxs.insurancesList.required']}"
-                                         id="modelsLabel">
-                            </h:inputText>
-                            <h:message styleClass="error" role="alert" for="modelsLabel"></h:message>
-                        </div>
-                        <div class="form-group">
-                            <h:outputLabel value="Marque" for="modelsLabel" styleClass="col-form-label"/>
-                            <h:selectOneMenu id="brandsDisplay" styleClass="form-control"
-                                             value="#{modelsBean.modelsEntity.brandsByIdBrands}" required="true"
-                                             requiredMessage="#{bundle['fxs.adsbrands.required']}"
-                                             converter="brandsConverter">
-                                <f:selectItem itemValue="#{null}" itemLabel=""/>
-                                <f:selectItems value="#{brandsBean.brandsEntities}" var="brands"
-                                               itemValue="#{brands}"
-                                               itemLabel="#{brands.label}"/>
-                                <h:message styleClass="error" role="alert" for="brandsDisplay"/>
-                            </h:selectOneMenu>
-                        </div>
-                    </div>
-
-                    <div class="modal-footer">
-                        <h:commandButton styleClass="btn btn-outline-success btn-sm"
-                                         value="#{bundle['fxs.insurancesList.save']}"
-                                         action="#{modelsBean.saveEdit}">
-
-                        </h:commandButton>
-
-                        <h:commandButton styleClass="btn btn-outline-dark btn-sm"
-                                         value="#{bundle['fxs.insurancesList.close']}"
-                                         action="#{modelsBean.hidePopupModal}">
-                            <f:ajax render="@all"></f:ajax>
-                        </h:commandButton>
-                    </div>
-                </div>
-            </h:form>
-        </h:panelGroup>
-    </f:view>
 </cc:implementation>
 </html>
