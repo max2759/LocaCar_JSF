@@ -74,4 +74,14 @@ public class RolesPermissionsServicesImpl implements RolesPermissionsServices {
             return Collections.emptyList();
         }
     }
+
+    @Override
+    public RolesPermissionsEntity findByRoleAndPerm(int idRole, int idPerm) {
+        if (idRole != 0 && idPerm != 0) {
+            return rolesPermissionsDAO.findByRoleAndPerm(idRole, idPerm);
+        }
+        return null;
+    }
+
+
 }

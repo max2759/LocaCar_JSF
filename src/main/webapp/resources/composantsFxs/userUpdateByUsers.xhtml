@@ -17,101 +17,106 @@
 <cc:implementation>
 
 
+    <h:form>
+        <h:panelGrid columns="2" styleClass="table table-hover table-responsive">
+            <h:panelGroup>#{bundle['fxs.user.username']}</h:panelGroup>
+            <h:panelGroup>#{usersBean.usersEntity.username}</h:panelGroup>
 
-   <h:form>
-       <h:panelGrid columns="2" styleClass="table table-hover table-responsive">
-           <h:panelGroup>#{bundle['fxs.user.username']}</h:panelGroup>
-           <h:panelGroup>#{usersBean.usersEntity.username}"</h:panelGroup>
+            <h:panelGroup>#{bundle['fxs.user.mail']}</h:panelGroup>
+            <h:panelGroup>#{usersBean.usersEntity.email}</h:panelGroup>
 
-           <h:panelGroup>#{bundle['fxs.user.mail']}</h:panelGroup>
-           <h:panelGroup>#{usersBean.usersEntity.email}</h:panelGroup>
+            <h:panelGroup>#{bundle['fxs.user.street']}</h:panelGroup>
+            <h:panelGroup>#{addressesBean.addressesEntity.street}</h:panelGroup>
 
-           <h:panelGroup>#{bundle['fxs.user.street']}</h:panelGroup>
-           <h:panelGroup>#{addressesBean.addressesEntity.street}</h:panelGroup>
+            <h:panelGroup>#{bundle['fxs.user.number']}</h:panelGroup>
+            <h:panelGroup>#{addressesBean.addressesEntity.number}</h:panelGroup>
 
-           <h:panelGroup>#{bundle['fxs.user.number']}</h:panelGroup>
-           <h:panelGroup>#{addressesBean.addressesEntity.number}</h:panelGroup>
+            <h:panelGroup>#{bundle['fxs.user.box']}</h:panelGroup>
+            <h:panelGroup>#{addressesBean.addressesEntity.box}</h:panelGroup>
 
-           <h:panelGroup>#{bundle['fxs.user.box']}</h:panelGroup>
-           <h:panelGroup>#{addressesBean.addressesEntity.box}</h:panelGroup>
+            <h:panelGroup>#{bundle['fxs.user.cities']}</h:panelGroup>
+            <h:panelGroup>#{usersBean.citiesEntity.label}</h:panelGroup>
+        </h:panelGrid>
 
-           <h:panelGroup>#{bundle['fxs.user.cities']}</h:panelGroup>
-           <h:panelGroup>#{usersBean.citiesEntity.label}</h:panelGroup>
-       </h:panelGrid>
+        <p>Données personnelles :
+            <h:column>
+                <!-- bouton edit -->
+                <f:facet name="header">#{bundle['fxs.users.editUser']}</f:facet>
+                <!-- appel de showmodalPopup -->
+                <h:commandLink styleClass="btn btn-outline-primary btn-sm"
+                               action="#{usersBean.showPopupModal}">
+                    <f:param name="id" value="#{usersBean.usersEntity.id}"></f:param>
+                    <f:ajax render="@all"/>
+                    <i class="fas fa-edit"></i>
+                </h:commandLink>
+            </h:column>
+        </p>
 
+        <p>addresse
+            <h:column>
+                <!-- bouton edit -->
+                <f:facet name="header">#{bundle['fxs.users.editAddresse']}</f:facet>
+                <!-- appel de showmodalPopup -->
+                <h:commandLink styleClass="btn btn-outline-primary btn-sm"
+                               action="#{addressesBean.showPopupModal}">
+                    <f:param name="id" value="#{usersBean.usersEntity.id}"></f:param>
+                    <f:ajax render="@all"/>
+                    <i class="fas fa-edit"></i>
+                </h:commandLink>
+            </h:column>
+        </p>
 
-       <h:column>
-           <!-- bouton edit -->
-           <f:facet name="header">#{bundle['fxs.users.editUser']}</f:facet>
-           <!-- appel de showmodalPopup -->
-           <h:commandLink styleClass="btn btn-outline-primary btn-sm"
-                          action="#{usersBean.showPopupModal}">
-               <f:param name="id" value="#{usersBean.usersEntity.id}"></f:param>
-               <f:ajax render="@all"/>
-               <i class="fas fa-edit"></i>
-           </h:commandLink>
-       </h:column>
-
-       addresse
-       <h:column>
-           <!-- bouton edit -->
-           <f:facet name="header">#{bundle['fxs.users.editAddresse']}</f:facet>
-           <!-- appel de showmodalPopup -->
-           <h:commandLink styleClass="btn btn-outline-primary btn-sm"
-                          action="#{addressesBean.showPopupModal}">
-               <f:param name="id" value="#{usersBean.usersEntity.id}"></f:param>
-               <f:ajax render="@all"/>
-               <i class="fas fa-edit"></i>
-           </h:commandLink>
-       </h:column>
-
-   </h:form>
-
-
-   <!-- affichage du modal -->
-   <f:view>
-      <h:panelGroup id="popupEdit" layout="block" styleClass="popup-panel-overlay"
-                    rendered="#{usersBean.showPopup}">
-
-         <h:form id="formPopupEdit">
-            <h:outputText value="#{usersBean.success}"
-                          style="color: green; font-weight: bold"></h:outputText>
-            <h:outputText value="#{usersBean.fail}"
-                          style="color: darkred; font-weight: bold"></h:outputText>
-            <div class="popup-panel">
-
-               <div class="form-group">
-                  <h:outputLabel value="ID" for="idUsers"></h:outputLabel>
-                  <h:outputText id="idUsers" value="#{usersBean.usersEntity.id}"
-                                styleClass="form-control"></h:outputText>
-               </div>
-
-               <div class="form-group">
-                  <h:outputLabel value="username" for="userName"></h:outputLabel>
-                  <h:inputText value="#{usersBean.usersEntity.username}" styleClass="form-control"
-                               required="true"
-                               pt:placeholder="#{usersBean.usersEntity.username}"
-                               requiredMessage="#{bundle['fxs.insurancesList.required']}"
-                               id="userName">
-                  </h:inputText>
-                  <h:message styleClass="alert alert-danger" role="alert" for="userName"></h:message>
-               </div>
-
-               <div class="form-group">
-                  <h:outputLabel value="password" for="password"></h:outputLabel>
-                  <h:inputText value="#{usersBean.usersEntity.password}" styleClass="form-control"
-                               required="true"
-                               pt:placeholder="Votre mdp ici..."
-                               requiredMessage="#{bundle['fxs.insurancesList.required']}"
-                               id="password">
-                  </h:inputText>
-                  <h:message styleClass="alert alert-danger" role="alert" for="password"></h:message>
-               </div>
+    </h:form>
 
 
+    <!-- affichage du modal -->
+    <f:view>
+        <h:panelGroup id="popupEdit" layout="block" styleClass="popup-panel-overlay"
+                      rendered="#{usersBean.showPopup}">
+
+            <h:form id="formPopupEdit">
+                <h:outputText value="#{usersBean.success}"
+                              style="color: green; font-weight: bold"></h:outputText>
+                <h:outputText value="#{usersBean.fail}"
+                              style="color: darkred; font-weight: bold"></h:outputText>
+                <div class="popup-panel">
+
+                    <div class="form-group">
+                        <h:outputLabel value="ID" for="idUsers"></h:outputLabel>
+                        <h:outputText id="idUsers" value="#{usersBean.usersEntity.id}"
+                                      styleClass="form-control"></h:outputText>
+                    </div>
+
+                    <div class="form-group">
+                        <h:outputLabel value="username" for="userName"></h:outputLabel>
+                        <h:inputText value="#{usersBean.usersEntity.username}" styleClass="form-control"
+                                     required="true"
+                                     pt:placeholder="#{usersBean.usersEntity.username}"
+                                     requiredMessage="#{bundle['fxs.insurancesList.required']}"
+                                     id="userName">
+                        </h:inputText>
+                        <h:message styleClass="alert alert-danger" role="alert" for="userName"></h:message>
+                    </div>
+
+                    <div class="form-group">
+                        <h:outputText value="#{bundle['fxs.user.password']}"></h:outputText>
+                        <h:inputSecret value="#{usersBean.usersEntity.password}" required="true"
+                                       binding="#{passwordComponent}">
+                            <f:validateRegex
+                                    pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,}$"></f:validateRegex></h:inputSecret>
+                        <br/>
+                        <h:outputText value="#{bundle['fxs.user.confirmpassword']}"></h:outputText>
+                        <h:inputSecret id="confirmPassword" required="#{not empty passwordComponent.value}"
+                                       requiredMessage="Please confirm password"
+                                       validatorMessage="Passwords are not equal">
+                            <f:validator validatorId="UserValidator"/>
+                            <f:attribute name="otherValue" value="#{passwordComponent.value}"/>
+                        </h:inputSecret>
+                        <h:message for="confirmPassword"/>
+                    </div>
 
 
-               <span>
+                    <span>
                         <h:commandButton styleClass="btn btn-outline-success btn-sm"
                                          value="#{bundle['fxs.insurancesList.save']}"
                                          action="#{usersBean.saveEdit}">
@@ -120,7 +125,7 @@
 
                     </span>
 
-               <span>
+                    <span>
                         <h:commandButton styleClass="btn btn-outline-success btn-sm"
                                          value="#{bundle['fxs.insurancesList.delete']}"
                                          action="#{usersBean.deleteUser}">
@@ -129,19 +134,19 @@
 
                     </span>
 
-               <span>
+                    <span>
                         <h:commandButton styleClass="btn btn-outline-dark btn-sm"
                                          value="#{bundle['fxs.insurancesList.close']}"
                                          action="#{usersBean.hidePopupModal}">
                             <f:ajax render="@all"></f:ajax>
                         </h:commandButton>
                     </span>
-            </div>
-         </h:form>
-      </h:panelGroup>
-   </f:view>
+                </div>
+            </h:form>
+        </h:panelGroup>
+    </f:view>
 
-<!--                                 -->
+    <!--                                 -->
     <f:view>
         <h:panelGroup id="popupEditAdd" layout="block" styleClass="popup-panel-overlay"
                       rendered="#{addressesBean.showPopup}">
@@ -227,7 +232,6 @@
             </h:form>
         </h:panelGroup>
     </f:view>
-
 
 
 </cc:implementation>
