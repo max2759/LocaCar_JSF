@@ -11,8 +11,8 @@
 >
 </cc:interface>
 <cc:implementation>
-    <h:form>
-        <h:commandLink class="nav-link account-a"
+    <h:form styleClass="test-form">
+        <h:commandLink class="nav-link account-a account-a-active"
                        action="account?faces-redirect=true" value="#{bundle['account.ads']}"/>
         <h:commandLink class="nav-link account-a" value="#{bundle['account.deactivate']}"
                        action="disabledads?faces-redirect=true"/>
@@ -25,6 +25,12 @@
         <h:commandLink class="nav-link account-a" action="insurances?faces-redirect=true"
                        value="#{bundle['account.insurances']}"/>
         <h:commandLink class="nav-link account-a" value="#{bundle['account.parameter']}"/>
+        <h:commandLink class="nav-link account-a" action="options?faces-redirect=true"
+                       value="#{bundle['account.option']}"/>
+        <h:commandLink class="nav-link account-a" action="colors?faces-redirect=true"
+                       value="#{bundle['account.color']}"/>
+        <h:commandLink class="nav-link account-a" action="models?faces-redirect=true"
+                       value="#{bundle['account.model']}"/>
     </h:form>
 </cc:implementation>
 </html>

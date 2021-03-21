@@ -9,11 +9,9 @@
         <f:metadata>
             <f:event listener="#{accessControlBean.isNotLogged}" type="preRenderView"/>
         </f:metadata>
-        <div class="container">
             <h:panelGrid>
                 <h:messages id="messages" showSummary="true" globalOnly="true" infoClass="alert-success"
                             errorClass="alert-danger"/>
             </h:panelGrid>
-        </div>
     </ui:define>
 </ui:composition>

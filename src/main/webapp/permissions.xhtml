@@ -34,22 +34,20 @@
 
         <h:body>
             <c:if test="#{usersBean.connected}">
-                <div class="container">
-                    <h2>#{bundle['fxs.roles.title']}</h2>
 
-                    <h:form>
-                        <h:dataTable id="outputMessage" styleClass="dataPerm table table-hover table-responsive"
-                                     value="#{permissionsBean.permissionsEntities}" var="permissions">
+                <h2>#{bundle['fxs.roles.title']}</h2>
 
-                            <h:column>
-                                <f:facet name="header">#{bundle['fxs.permissions.label']}</f:facet>
-                                <h:outputText value="#{permissions.label}"></h:outputText>
-                            </h:column>
+                <h:form>
+                    <h:dataTable id="outputMessage" styleClass="dataPerm table table-hover table-responsive"
+                                 value="#{permissionsBean.permissionsEntities}" var="permissions">
 
-                        </h:dataTable>
-                    </h:form>
+                        <h:column>
+                            <f:facet name="header">#{bundle['fxs.permissions.label']}</f:facet>
+                            <h:outputText value="#{permissions.label}"></h:outputText>
+                        </h:column>
 
-                </div>
+                    </h:dataTable>
+                </h:form>
             </c:if>
         </h:body>
 

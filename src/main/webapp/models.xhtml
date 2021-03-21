@@ -6,16 +6,15 @@
 
     <ui:define name="title">#{bundle['fxs.models.title']}</ui:define>
     <ui:define name="content">
-
         <h:head>
             <script>
                 $( document ).ready( function () {
 
-                    $( '.mytable' ).dataTable().fnDestroy();
-                    loadTable();
+                        $( '.modelTable' ).dataTable().fnDestroy();
+                        loadTable();
 
                         function loadTable() {
-                            $( '.mytable' ).DataTable( {
+                            $( '.modelTable' ).DataTable( {
                                 'language': {
                                     'url': '//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/French.json'
                                 }
@@ -24,19 +23,29 @@
                     }
                 );
             </script>
+
         </h:head>
-
         <h:body>
-            <div class="container">
-                <div class="carsComposantHeader">
-                    <h1>#{bundle['fxs.models.title']}</h1>
-                </div>
-
-                <div class="carsComposantList">
-                    <fxs:modelsList id="displayModelsList"></fxs:modelsList>
-                </div>
-
+            <div class="account-title">
+                <h1>#{bundle['fxs.models.title']}</h1>
             </div>
+            <div class="row">
+                <aside class="col-md-3">
+                    <nav class="nav flex-column">
+                        <fxs:menu/>
+                    </nav>
+                </aside>
+                <div class="col-md-offset-2 col-md-9 myarea-content">
+                    <div class="myarea-content-title">
+                        <h2>#{bundle['fxs.insurances.title']}</h2>
+                    </div>
+                    <div class="myarea-content-display table-responsive">
+                        <fxs:modelsList></fxs:modelsList>
+                    </div>
+                </div>
+            </div>
+
         </h:body>
+
     </ui:define>
 </ui:composition>
