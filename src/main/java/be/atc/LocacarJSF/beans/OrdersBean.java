@@ -33,9 +33,6 @@ import static java.lang.Integer.parseInt;
 public class OrdersBean extends ExtendBean implements Serializable {
     private static final long serialVersionUID = -5251107202124824837L;
 
-    // Remplacer par l'utilisateur
-    private int idUser = 38;
-
     private OrdersEntity ordersEntity;
     private final OrdersServices ordersServices = new OrdersServicesImpl();
     private double priceOrder;
@@ -49,7 +46,6 @@ public class OrdersBean extends ExtendBean implements Serializable {
     private UsersBean usersBean;
     @Inject
     private AdsBean adsBean;
-
 
     /**
      * Method post construct
@@ -251,7 +247,7 @@ public class OrdersBean extends ExtendBean implements Serializable {
      */
     protected void deadlineLeasing() {
         log.info("OrdersBean : deadlineLeasing");
-        List<OrdersEntity> ordersEntitiesDeadline = ordersServices.findAllOrdersByIdUserAndStatusIsValidate(idUser);
+        List<OrdersEntity> ordersEntitiesDeadline = ordersServices.findAllOrdersByIdUserAndStatusIsValidate(usersBean.getUsersEntity().getId());
         if (!ordersEntitiesDeadline.isEmpty()) {
             contractsBean.findAllContractsInAllMyOrdersForLeasingAndDeadlineIsLowerThan1Month(ordersEntitiesDeadline);
         }
@@ -350,14 +346,6 @@ public class OrdersBean extends ExtendBean implements Serializable {
 
     protected void generatePDF() {
         PDFUtil.generatePDF(ordersEntity, contractsBean.getContractsEntities(), priceOrder);
-    }
-
-    public int getIdUser() {
-        return idUser;
-    }
-
-    public void setIdUser(int idUser) {
-        this.idUser = idUser;
     }
 
     public OrdersEntity getOrdersEntity() {
