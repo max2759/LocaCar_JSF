@@ -72,4 +72,5 @@ class CarsPicturesServicesImplTest {
         Boolean test = carsPicturesEntity == null ? false : true;
         assertThat(test).isEqualTo(false);
     }
+
 }

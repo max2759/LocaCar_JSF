@@ -7,7 +7,8 @@ import be.atc.LocacarJSF.services.CarsOptionsServices;
 import be.atc.LocacarJSF.services.CarsOptionsServicesImpl;
 
 import javax.annotation.PostConstruct;
-import javax.faces.view.ViewScoped;
+import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -17,15 +18,17 @@ import java.util.List;
  * @author Maximilien - Zabbara
  */
 @Named(value = "carsOptionsBean")
-@ViewScoped
+@SessionScoped
 public class CarsOptionsBean extends ExtendBean implements Serializable {
 
     private static final long serialVersionUID = -8836402876857939542L;
 
     private CarsOptionsEntity carsOptionsEntity;
-    private List<CarsOptionsEntity> carsOptionsEntityList;
     private CarsOptionsServices carsOptionsServices = new CarsOptionsServicesImpl();
     private List<OptionsEntity> optionsEntityList = new ArrayList<>();
+
+    @Inject
+    private OptionsBean optionsBean;
 
     /**
      * PostConstruct : appelé après le constructeur.
@@ -58,10 +61,26 @@ public class CarsOptionsBean extends ExtendBean implements Serializable {
 
     }
 
-    public void deleteCarOption(int id) {
+    protected void findAllCarOptionByIdCar(int idCars) {
+
+        optionsEntityList = new ArrayList<>();
+        List<CarsOptionsEntity> carsOptionsEntityList = carsOptionsServices.findCarsOptionsByCarsId(idCars);
+
+        for (CarsOptionsEntity c : carsOptionsEntityList) {
+            optionsEntityList.add(c.getOptionsByIdOptions());
+        }
+
+    }
+
+    public void deleteCarOption(CarsEntity carsEntity) {
         log.info("CarsOptionBean : DeleteCarOption");
 
-        carsOptionsServices.delete(id);
+        List<CarsOptionsEntity> carsOptionsEntityList = carsOptionsServices.findCarsOptionsByCarsId(carsEntity.getId());
+
+        for (CarsOptionsEntity c : carsOptionsEntityList) {
+            log.info("Début foreach" + c.getId());
+            carsOptionsServices.deleteCarOptionByID(c.getId());
+        }
     }
 
     public void updateCarOptions(CarsEntity carsEntity) {

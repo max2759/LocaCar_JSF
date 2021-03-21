@@ -134,7 +134,6 @@ public class OptionsBean extends ExtendBean implements Serializable {
         init();
     }
 
-
     /*
      * Getters and Setters
      *

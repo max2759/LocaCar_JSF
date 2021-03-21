@@ -149,6 +149,7 @@ public class ModelsBean extends ExtendBean implements Serializable {
 
         if (modelsEntity.getBrandsByIdBrands() == null) {
             showModel = false;
+            return;
         }
 
         if (modelsEntity.getBrandsByIdBrands().getId() == 0) {

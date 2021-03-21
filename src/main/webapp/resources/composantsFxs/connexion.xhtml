@@ -12,11 +12,25 @@
 <cc:implementation>
     <h:form>
         <br/>
-        <h:outputText value="#{bundle['fxs.user.username']}"></h:outputText>
-        <h:inputText value="#{usersBean.usersEntity.username}" required="true"></h:inputText>
-        <h:outputText value="#{bundle['fxs.user.password']}"></h:outputText>
-        <h:inputSecret value="#{usersBean.usersEntity.password}" required="true"></h:inputSecret>
-        <h:commandButton value="valider" action="#{usersBean.connexion}"/>
+
+        <h:panelGroup rendered="#{not usersBean.connected}">
+            <h:outputText value="#{bundle['fxs.user.username']}"></h:outputText>
+            <h:inputText value="#{usersBean.usersEntity.username}" required="true"></h:inputText>
+            <h:outputText value="#{bundle['fxs.user.password']}"></h:outputText>
+            <h:inputSecret value="#{usersBean.usersEntity.password}" required="true"></h:inputSecret>
+            <h:commandButton value="valider" action="#{usersBean.connexion}"/>
+        </h:panelGroup>
+
+    </h:form>
+    <h:form>
+
+        <h:panelGroup rendered="#{usersBean.connected}">
+            <h:commandLink class="nav-link account-a account-a-active" value="#{bundle['fxs.user.welcomeUser']}"
+                           action="index?faces-redirect=true"/>
+            <h:commandLink class="nav-link account-a account-a-active"
+                           action="account?faces-redirect=true" value="#{bundle['account.ads']}"/>
+
+        </h:panelGroup>
     </h:form>
 </cc:implementation>
 </html>

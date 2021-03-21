@@ -26,11 +26,12 @@
                                      value="#{adsBean.adsEntity.carsByIdCars.modelsByIdModels.brandsByIdBrands}"
                                      converter="brandsConverter" required="true"
                                      requiredMessage="#{bundle['fxs.adsbrands.required']}">
-                        <f:selectItem itemValue="#{null}" itemLabel="Veuillez sélectionner"/>
+                        <f:selectItem itemValue="#{null}" itemLabel="#{bundle['ads.chooseBrands']}"
+                                      itemDisabled="true"/>
                         <f:selectItems value="#{brandsBean.brandsEntities}" var="brands"
                                        itemValue="#{brands}"
                                        itemLabel="#{brands.label}"/>
-                        <f:ajax render="@all" listener="#{modelsBean.findBrandsByAds}"/>
+                        <f:ajax render="adsForm:showModels" listener="#{modelsBean.findBrandsByAds}"/>
                     </h:selectOneMenu>
                     <h:message for="brandsDisplay" errorClass="error"/>
                 </h:panelGroup>
@@ -40,6 +41,8 @@
                     <h:selectOneMenu id="modelsDisplay" value="#{adsBean.adsEntity.carsByIdCars.modelsByIdModels}"
                                      converter="modelsConverter" styleClass="form-group" required="true"
                                      requiredMessage="#{bundle['fxs.adsModels.required']}">
+                        <f:selectItem itemValue="#{null}" itemLabel="#{bundle['ads.chooseModels']}"
+                                      itemDisabled="true"/>
                         <f:selectItems value="#{modelsBean.modelsEntities}" var="models"
                                        itemValue="#{models}"
                                        itemLabel="#{models.label}"/>
@@ -53,7 +56,8 @@
                                      value="#{adsBean.adsEntity.carsByIdCars.carsTypesByIdCarsTypes}"
                                      converter="carTypesConverter" required="true"
                                      requiredMessage="#{bundle['fxs.adsCarTypes.required']}">
-                        <f:selectItem itemValue="#{null}" itemLabel="Veuillez sélectionner"/>
+                        <f:selectItem itemValue="#{null}" itemLabel="#{bundle['fxs.addAds.selectNoValue']}"
+                                      itemDisabled="true"/>
                         <f:selectItems value="#{carTypesbean.carsTypesEntities}" var="carTypes"
                                        itemValue="#{carTypes}"
                                        itemLabel="#{carTypes.label}"/>
@@ -67,7 +71,8 @@
                                      value="#{adsBean.adsEntity.carsByIdCars.carsGearboxByIdCarsGearBox}"
                                      converter="carsGearboxConverter" required="true"
                                      requiredMessage="#{bundle['fxs.adsCarsGearbox.required']}">
-                        <f:selectItem itemValue="#{null}" itemLabel="Veuillez sélectionner"/>
+                        <f:selectItem itemValue="#{null}" itemLabel="#{bundle['fxs.addAds.selectNoValue']}"
+                                      itemDisabled="true"/>
                         <f:selectItems value="#{carsGearboxBean.carsGearboxEntities}" var="carsGearbox"
                                        itemValue="#{carsGearbox}"
                                        itemLabel="#{carsGearbox.label}"/>
@@ -81,7 +86,8 @@
                                      value="#{adsBean.adsEntity.carsByIdCars.carsFuelsByIdCarsFuels}"
                                      converter="carsFuelsConverter" required="true"
                                      requiredMessage="#{bundle['fxs.adsCarsFuels.required']}">
-                        <f:selectItem itemValue="#{null}" itemLabel="Veuillez sélectionner"/>
+                        <f:selectItem itemValue="#{null}" itemLabel="#{bundle['fxs.addAds.selectNoValue']}"
+                                      itemDisabled="true"/>
                         <f:selectItems value="#{carsFuelsBean.carsFuelsEntities}" var="carsFuels"
                                        itemValue="#{carsFuels}"
                                        itemLabel="#{carsFuels.label}"/>
@@ -95,7 +101,8 @@
                                      value="#{adsBean.adsEntity.carsByIdCars.carsColorsByIdCarsColors}"
                                      converter="carsColorsConverter" required="true"
                                      requiredMessage="#{bundle['fxs.adsCarsColors.required']}">
-                        <f:selectItem itemValue="#{null}" itemLabel="Veuillez sélectionner"/>
+                        <f:selectItem itemValue="#{null}" itemLabel="#{bundle['fxs.addAds.selectNoValue']}"
+                                      itemDisabled="true"/>
                         <f:selectItems value="#{carsColorsBean.carsColorsEntities}" var="carsColors"
                                        itemValue="#{carsColors}"
                                        itemLabel="#{carsColors.label}"/>
@@ -110,7 +117,6 @@
                         <f:selectItems value="#{optionsBean.optionsEntities}" var="options"
                                        itemValue="#{options}" itemLabel="#{options.label}"/>
                     </h:selectManyCheckbox>
-
                 </h:panelGroup>
 
                 <h:panelGroup styleClass="row mb-3">
@@ -167,7 +173,7 @@
             <div class="ads-info">
                 <h:panelGroup class="row mb-3">
                     <h:outputLabel value="#{bundle['fxs.ads.adsTitle']}" for="adsLabel"
-                                   styleClass="col-sm-2 col-form-label"></h:outputLabel>
+                                   styleClass="col-sm-2 col-form-label"/>
                     <div class="col-sm-10">
                         <h:inputText value="#{adsBean.adsEntity.label}" styleClass="form-control col-6"
                                      required="true"
@@ -181,7 +187,7 @@
 
                 <h:panelGroup class="row mb-3">
                     <h:outputLabel value="#{bundle['fxs.insurancesList.price']}" for="adsPrice"
-                                   styleClass="col-sm-2 col-form-label"></h:outputLabel>
+                                   styleClass="col-sm-2 col-form-label"/>
                     <div class="col-sm-10">
                         <h:inputText value="#{adsBean.adsEntity.price}" styleClass="form-control col-2"
                                      id="adsPrice" required="true"
@@ -204,24 +210,13 @@
                     </h:selectOneMenu>
                 </h:panelGroup>
 
-                <h:panelGroup styleClass="row mb-3">
-                    <h:outputLabel value="Images"
-                                   styleClass="col-sm-2 col-form-label"/>
-                    <h:inputFile value="#{picturesBean.file}" id="picturesInput">
-                        <f:validator validatorId="carsPicturesValidator"/>
-                    </h:inputFile>
-                    <h:message for="picturesInput" styleClass="error"/>
-                </h:panelGroup>
             </div>
 
             <div class="info-save">
-
                 <h:panelGroup styleClass="form-group">
                     <h:commandButton styleClass="btn btn-lg btn-ads-save"
-                                     immediate="true"
                                      value="#{bundle['fxs.updateAds.update']}"
                                      action="#{adsBean.updateAddedAds}">
-                        <f:ajax render="@all" execute="adsForm"/>
                     </h:commandButton>
                 </h:panelGroup>
 

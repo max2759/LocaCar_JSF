@@ -18,4 +18,6 @@ public interface RolesPermissionsServices {
     public List<RolesPermissionsEntity> findByIDRoles(int idRole);
 
     public List<RolesPermissionsEntity> findAllForRolesAndPerm(int idRole);
+
+    public RolesPermissionsEntity findByRoleAndPerm(int idRole, int idPerm);
 }

@@ -10,6 +10,7 @@
     <ui:define name="content">
 
         <f:metadata>
+            <f:event listener="#{accessControlBean.isNotLogged}" type="preRenderView"/>
             <f:viewAction action="#{adsBean.findAllAdsByUsers}"/>
         </f:metadata>
 
@@ -44,7 +45,6 @@
         </h:head>
 
         <h:body>
-            <div class="container">
                 <div class="account-title">
                     <h1>#{bundle['account.title']}</h1>
                 </div>
@@ -58,7 +58,8 @@
                                                action="disabledads?faces-redirect=true"/>
                                 <h:commandLink class="nav-link account-a" action="accountsellcar?faces-redirect=true"
                                                value="#{bundle['account.sell']}"/>
-                                <h:commandLink class="nav-link account-a" value="#{bundle['account.parameter']}"/>
+                                <h:commandLink class="nav-link account-a" action="userUpdateByUsers"
+                                               value="#{bundle['account.parameter']}"/>
                             </h:form>
                         </nav>
                     </aside>
@@ -71,7 +72,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
 
         </h:body>
 

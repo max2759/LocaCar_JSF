@@ -15,18 +15,22 @@
 
 
         <h:body>
-            <div class="container">
                 <div class="return-div">
-
                     <h:link outcome="allads"> <i class="fas fa-chevron-left"></i> #{bundle['adsdetails.return']}
                     </h:link>
                 </div>
                 <div class="wrapping-details">
                     <div class="row details-title">
-                        <div class="col-md-12">
+                        <div class="row pl-sm-3">
                             <h1>
                                 <h:outputText value="#{adsBean.adsEntity.label}"/>
                             </h1>
+                            <h:panelGroup styleClass="row">
+                                <h2>
+                                    <h:messages id="adsDetails-msg" showSummary="true" globalOnly="true"
+                                                infoClass="alert-info ml-1" errorClass="alert-danger ml-1"/>
+                                </h2>
+                            </h:panelGroup>
                         </div>
                         <div class="col-md-12">
                             <h6 class="h6-details-title">
@@ -80,57 +84,58 @@
                             </div>
                             <hr/>
                             <div class="addToShop">
-                                <h:form>
-                                    <div class="leasing-options">
+                                <h:panelGroup rendered="#{usersBean.connected}">
+                                    <h:form>
+                                        <div class="leasing-options">
+                                            <h:panelGroup
+                                                    rendered="#{adsBean.adsEntity.typeAds eq 'Leasing' ? true : false}">
+                                                <h:panelGroup styleClass="form-group">
+                                                    <h:selectOneMenu id="insuranceId"
+                                                                     styleClass="form-control"
+                                                                     value="#{insurancesBean.insurancesEntity}"
+                                                                     converter="contractInsurancesConverter">
+                                                        <f:ajax render="@all"/>
+                                                        <f:selectItems value="#{insurancesBean.insurancesEntitiesActive}"
+                                                                       var="insurance"
+                                                                       itemValue="#{insurance}"
+                                                                       itemLabel="#{insurance.label}"/>
+                                                        <h:message styleClass="alert-danger" for="insuranceId"/>
+                                                    </h:selectOneMenu>
+                                                    <h:outputLabel styleClass="mt-1 pr-1"
+                                                                   value="#{bundle['fxs.ordersList.insurancePrice']} "/>
+                                                    <h:outputText styleClass="font-weight-bold"
+                                                                  value="#{insurancesBean.insurancesEntity.price}">
+                                                        <f:convertNumber type="currency" currencySymbol="€"/>
+                                                    </h:outputText>
+                                                    <h:outputText styleClass="font-weight-bold"
+                                                                  value="#{bundle['pdf.insuranceMonth']} "/>
+                                                </h:panelGroup>
 
-                                        <h:panelGroup
-                                                rendered="#{adsBean.adsEntity.typeAds eq 'Leasing' ? true : false}">
-                                            <h:panelGroup styleClass="form-group">
-                                                <h:selectOneMenu id="insuranceId"
-                                                                 styleClass="form-control"
-                                                                 value="#{insurancesBean.insurancesEntity}"
-                                                                 converter="contractInsurancesConverter">
-                                                    <f:ajax render="@all"/>
-                                                    <f:selectItems value="#{insurancesBean.insurancesEntitiesActive}"
-                                                                   var="insurance"
-                                                                   itemValue="#{insurance}"
-                                                                   itemLabel="#{insurance.label}"/>
-                                                    <h:message styleClass="alert-danger" for="insuranceId"/>
-                                                </h:selectOneMenu>
-                                                <h:outputLabel styleClass="mt-1 pr-1"
-                                                               value="#{bundle['fxs.ordersList.insurancePrice']} "/>
-                                                <h:outputText styleClass="font-weight-bold"
-                                                              value="#{insurancesBean.insurancesEntity.price}">
-                                                    <f:convertNumber type="currency" currencySymbol="€"/>
-                                                </h:outputText>
-                                                <h:outputText styleClass="font-weight-bold"
-                                                              value="#{bundle['pdf.insuranceMonth']} "/>
+                                                <h:panelGroup styleClass="form-group row">
+                                                    <h:outputLabel value="#{bundle['fxs.basket.leasingTime']}"/>
+                                                    <h:selectOneMenu value="#{contractsBean.timeLeasing}"
+                                                                     id="leasingTime"
+                                                                     required="true"
+                                                                     styleClass="form-control"
+                                                                     validator="leasingTimeValidator">
+                                                        <f:selectItem itemValue="36"
+                                                                      itemLabel="#{bundle['fxs.basket.36Month']}"/>
+                                                        <f:selectItem itemValue="48"
+                                                                      itemLabel="#{bundle['fxs.basket.48Month']}"/>
+                                                        <f:selectItem itemValue="60"
+                                                                      itemLabel="#{bundle['fxs.basket.60Month']}"/>
+                                                        <h:message styleClass="alert-danger" for="leasingTime"/>
+                                                    </h:selectOneMenu>
+                                                </h:panelGroup>
+
                                             </h:panelGroup>
-
-                                            <h:panelGroup styleClass="form-group row">
-                                                <h:outputLabel value="#{bundle['fxs.basket.leasingTime']}"/>
-                                                <h:selectOneMenu value="#{contractsBean.timeLeasing}"
-                                                                 id="leasingTime"
-                                                                 required="true"
-                                                                 styleClass="form-control"
-                                                                 validator="leasingTimeValidator">
-                                                    <f:selectItem itemValue="36"
-                                                                  itemLabel="#{bundle['fxs.basket.36Month']}"/>
-                                                    <f:selectItem itemValue="48"
-                                                                  itemLabel="#{bundle['fxs.basket.48Month']}"/>
-                                                    <f:selectItem itemValue="60"
-                                                                  itemLabel="#{bundle['fxs.basket.60Month']}"/>
-                                                    <h:message styleClass="alert-danger" for="leasingTime"/>
-                                                </h:selectOneMenu>
-                                            </h:panelGroup>
-
-                                        </h:panelGroup>
-                                    </div>
-                                    <h:commandButton value="#{bundle['addBasket']}" action="#{ordersBean.addShop}"
-                                                     styleClass="btn btn-warning btn-sm btn-width">
-                                        <f:param name="adsId" value="#{adsBean.adsEntity.id}"/>
-                                    </h:commandButton>
-                                </h:form>
+                                        </div>
+                                        <h:commandButton value="#{bundle['addBasket']}" action="#{ordersBean.addShop}"
+                                                         styleClass="btn btn-warning btn-sm btn-width">
+                                            <f:param name="adsId" value="#{adsBean.adsEntity.id}"/>
+                                        </h:commandButton>
+                                    </h:form>
+                                </h:panelGroup>
                             </div>
                         </div>
                     </div>
@@ -249,8 +254,6 @@
                         </div>
                     </div>
                 </div>
-
-            </div>
         </h:body>
         <h:head>
             <script>

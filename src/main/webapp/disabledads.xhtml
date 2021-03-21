@@ -10,6 +10,7 @@
 
         <f:metadata>
             <f:viewAction action="#{adsBean.displayDisabeldAdsByUser}"/>
+            <f:event listener="#{accessControlBean.isNotLogged}" type="preRenderView"/>
         </f:metadata>
 
 
@@ -44,31 +45,29 @@
         </h:head>
 
         <h:body>
-            <div class="container">
-                <div class="account-title">
-                    <h1>#{bundle['disabledAds.title']}</h1>
-                </div>
-                <div class="row">
-                    <aside class="col-md-3">
-                        <nav class="nav flex-column">
-                            <h:form>
-                                <h:commandLink class="nav-link account-a "
-                                               action="account?faces-redirect=true" value="#{bundle['account.ads']}"/>
-                                <h:commandLink class="nav-link account-a account-a-active"
-                                               value="#{bundle['account.deactivate']}"/>
-                                <h:commandLink class="nav-link account-a" action="accountsellcar?faces-redirect=true"
-                                               value="#{bundle['account.sell']}"/>
-                                <h:commandLink class="nav-link account-a" value="#{bundle['account.parameter']}"/>
-                            </h:form>
-                        </nav>
-                    </aside>
-                    <div class="col-md-offset-2 col-md-9 myarea-content">
-                        <div class="myarea-content-title">
-                            <h3 class="myarea-content-h3">#{bundle['disabledAds.title']}</h3>
-                        </div>
-                        <div class="myarea-content-display table-responsive">
-                            <fxs:disabledAdsList/>
-                        </div>
+            <div class="account-title">
+                <h1>#{bundle['disabledAds.title']}</h1>
+            </div>
+            <div class="row">
+                <aside class="col-md-3">
+                    <nav class="nav flex-column">
+                        <h:form>
+                            <h:commandLink class="nav-link account-a "
+                                           action="account?faces-redirect=true" value="#{bundle['account.ads']}"/>
+                            <h:commandLink class="nav-link account-a account-a-active"
+                                           value="#{bundle['account.deactivate']}"/>
+                            <h:commandLink class="nav-link account-a" action="accountsellcar?faces-redirect=true"
+                                           value="#{bundle['account.sell']}"/>
+                            <h:commandLink class="nav-link account-a" value="#{bundle['account.parameter']}"/>
+                        </h:form>
+                    </nav>
+                </aside>
+                <div class="col-md-offset-2 col-md-9 myarea-content">
+                    <div class="myarea-content-title">
+                        <h3 class="myarea-content-h3">#{bundle['disabledAds.title']}</h3>
+                    </div>
+                    <div class="myarea-content-display table-responsive">
+                        <fxs:disabledAdsList/>
                     </div>
                 </div>
             </div>

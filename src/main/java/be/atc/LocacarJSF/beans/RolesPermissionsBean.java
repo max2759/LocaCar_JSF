@@ -133,6 +133,19 @@ public class RolesPermissionsBean implements Serializable {
         showPopupEdit = false;
     }
 
+    public boolean controlAdd(int idRole, int idPerm) {
+        boolean control = false;
+
+        RolesPermissionsEntity findByIdRoleAnIdPerm = rolesPermissionsServices.findByRoleAndPerm(idRole, idPerm);
+        log.info(findByIdRoleAnIdPerm);
+
+        if (findByIdRoleAnIdPerm == null) {
+            control = true;
+        }
+
+        return control;
+    }
+
     public void delete() {
         log.info("begin deleteroleperm");
 
@@ -190,11 +203,20 @@ public class RolesPermissionsBean implements Serializable {
         rolesPermissionsEntity.setRolesByIdRoles(rolesBean.findById(idRole));
         rolesPermissionsEntity.setPermissionsByIdPermissions(permissionsBean.findById(idPerm));
 
+        boolean testAdd = controlAdd(idRole, idPerm);
+        log.info(testAdd);
 
-        log.info("id recu du form perm : " + rolesPermissionsEntity.getPermissionsByIdPermissions());
-        log.info("label recu du form role: " + rolesPermissionsEntity.getRolesByIdRoles());
-        //log.info("num de reole: " + rolesPermissionsBean.findById(1));
-        rolesPermissionsServices.add(rolesPermissionsEntity);
+        if (testAdd) {
+            log.info("id recu du form perm : " + rolesPermissionsEntity.getPermissionsByIdPermissions());
+            log.info("label recu du form role: " + rolesPermissionsEntity.getRolesByIdRoles());
+            //log.info("num de reole: " + rolesPermissionsBean.findById(1));
+            rolesPermissionsServices.add(rolesPermissionsEntity);
+            success = JsfUtils.returnMessage(getLocale(), "fxs.user.welcome");
+        } else {
+            fail = JsfUtils.returnMessage(getLocale(), "fxs.user.welcome");
+        }
+
+
         log.info("role inscrit");
     }
 
@@ -448,6 +470,14 @@ public class RolesPermissionsBean implements Serializable {
 
     public void setDeleteUsers(boolean deleteUsers) {
         this.deleteUsers = deleteUsers;
+    }
+
+    public Locale getLocale() {
+        return locale;
+    }
+
+    public void setLocale(Locale locale) {
+        this.locale = locale;
     }
 
     public boolean isReadUsers() {

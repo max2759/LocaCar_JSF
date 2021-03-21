@@ -6,7 +6,7 @@ import be.atc.LocacarJSF.services.CarsPicturesServices;
 import be.atc.LocacarJSF.services.CarsPicturesServicesImpl;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.SessionScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import javax.servlet.ServletException;
 import javax.servlet.http.Part;
@@ -23,7 +23,7 @@ import java.util.Random;
  * @Author: Maximilien - Zabbara
  */
 @Named("picturesBean")
-@SessionScoped
+@ViewScoped
 public class PicturesBean extends ExtendBean implements Serializable {
 
     private static final long serialVersionUID = -7193767475781021472L;
@@ -32,9 +32,13 @@ public class PicturesBean extends ExtendBean implements Serializable {
     private final CarsPicturesServices carsPicturesServices = new CarsPicturesServicesImpl();
     private List<CarsPicturesEntity> carsPicturesEntityList;
 
-//    private String folder = Constants.FILE_OUTPUT_IMAGE;
 
-    private String folder = "C:\\Users\\kameh\\OneDrive\\Documents\\Cours\\Bac Info\\3e\\Projet d'integration de dev\\Projet\\JAVA\\LocacarJSF\\src\\main\\webapp\\resources\\upload";
+//   private String folder = Constants.FILE_OUTPUT_IMAGE;
+
+    private String folder = "A:\\Applications\\Drive\\Work\\IntelliJ\\LocacarJSF\\src\\main\\webapp\\resources\\upload";
+
+//   private static String folder = application.getRealPath()
+
 
     private Part file;
 
@@ -122,15 +126,6 @@ public class PicturesBean extends ExtendBean implements Serializable {
         return carsPicturesServices.findCarsPicturesByIdCars(idCars);
     }
 
-    /**
-     * Get one picture from its cars id
-     *
-     * @param idCars
-     * @return cars picture entity
-     */
-    public CarsPicturesEntity findOnePicturesByIdCars(int idCars) {
-        return carsPicturesServices.findOnePicturesByIdCars(idCars);
-    }
 
 
     ////// Getters and setters /////

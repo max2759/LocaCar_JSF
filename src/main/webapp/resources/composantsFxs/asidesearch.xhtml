@@ -21,7 +21,7 @@
             <h:selectOneMenu id="brandsDisplay" styleClass="form-control"
                              value="#{modelsBean.modelsEntity.brandsByIdBrands}"
                              converter="brandsConverter">
-                <f:selectItem itemValue="#{null}" itemLabel="#{bundle['ads.chooseBrands']}"/>
+                <f:selectItem itemValue="#{null}" itemLabel="#{bundle['ads.chooseBrands']}" itemDisabled="true"/>
                 <f:selectItems value="#{brandsBean.brandsEntities}" var="brands"
                                itemValue="#{brands}"
                                itemLabel="#{brands.label}"/>
@@ -33,6 +33,7 @@
         <h:panelGroup id="showModels" styleClass="col-md-6 mb-3">
             <h:selectOneMenu id="modelsDisplay" value="#{adsBean.idModelSearch}"
                              styleClass="form-control" disabled="#{modelsBean.showModel eq 'false'}">
+                <f:selectItem itemValue="#{null}" itemLabel="#{bundle['ads.chooseModels']}" itemDisabled="true"/>
                 <f:selectItems value="#{modelsBean.modelsEntities}" var="models"
                                itemValue="#{models.id}"
                                itemLabel="#{models.label}"/>
