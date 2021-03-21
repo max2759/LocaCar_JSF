@@ -12,63 +12,90 @@
 
 <cc:implementation>
     <h:form>
+
         <h:outputText value="#{usersBean.success}"
                       style="color: green; font-weight: bold"></h:outputText>
         <h:outputText value="#{usersBean.fail}"
                       style="color: darkred; font-weight: bold"></h:outputText>
 
-        <br/>
-        <h:outputText value="#{bundle['fxs.user.firstName']}"></h:outputText>
-        <h:inputText value="#{usersBean.usersEntity.firstname}" required="true"></h:inputText>
-        <br/>
-        <h:outputText value="#{bundle['fxs.user.lastName']}"></h:outputText>
-        <h:inputText value="#{usersBean.usersEntity.lastname}" required="true"></h:inputText>
-        <br/>
-        <h:outputText value="#{bundle['fxs.user.username']}"></h:outputText>
-        <h:inputText value="#{usersBean.usersEntity.username}" required="true"></h:inputText>
-        <br/>
 
-        <h:outputText value="#{bundle['fxs.user.password']}"></h:outputText>
-        <h:inputSecret value="#{usersBean.usersEntity.password}" required="true" binding="#{passwordComponent}">
-            <f:validateRegex pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,}$"></f:validateRegex></h:inputSecret>
-        <br/>
-        <h:outputText value="#{bundle['fxs.user.confirmpassword']}"></h:outputText>
-        <h:inputSecret id="confirmPassword" required="#{not empty passwordComponent.value}"
-                       requiredMessage="Please confirm password" validatorMessage="Passwords are not equal">
-            <f:validator validatorId="UserValidator"/>
-            <f:attribute name="otherValue" value="#{passwordComponent.value}"/>
-        </h:inputSecret>
-        <h:message for="confirmPassword"/>
-        <br/>
+        <h:panelGroup styleClass="row mb-2">
+            <h:outputText value="#{bundle['fxs.user.firstName']}" styleClass="col-sm-2 col-form-label"></h:outputText>
+            <h:inputText value="#{usersBean.usersEntity.firstname}" required="true"
+                         styleClass="form-control col-2 ry"></h:inputText>
+        </h:panelGroup>
 
-        <h:outputText value="#{bundle['fxs.user.email']}"></h:outputText>
-        <h:inputText value="#{usersBean.usersEntity.email}" required="true">
-            <f:validateRegex pattern="[a-zA-Z0-9].+@[a-zA-Z0-9]+\.[a-zA-Z0-9]+"></f:validateRegex></h:inputText>
-        <br/>
+        <h:panelGroup styleClass="row mb-2">
+            <h:outputText value="#{bundle['fxs.user.lastName']}" styleClass="col-sm-2 col-form-label"></h:outputText>
+            <h:inputText value="#{usersBean.usersEntity.lastname}" required="true"
+                         styleClass="form-control col-2 ry"></h:inputText>
 
-        <h:outputText value="#{bundle['fxs.user.birthdate']} *"></h:outputText>
-        <h:inputText value="#{usersBean.usersEntity.birthdate}" required="true" converter="localDateTimeConverter">>
-            <!--<f:convertDateTime pattern="yyyy-mm-dd"/> -->
-        </h:inputText>
-        <br/>
-        <h:outputText value="#{bundle['fxs.user.VATNumber']}"></h:outputText>
-        <h:inputText value="#{usersBean.usersEntity.vatNumber}"></h:inputText>
-        <br/>
+        </h:panelGroup>
+        <h:panelGroup styleClass="row mb-2">
+            <h:outputText value="#{bundle['fxs.user.username']}" styleClass="col-sm-2 col-form-label"></h:outputText>
+            <h:inputText value="#{usersBean.usersEntity.username}" required="true"
+                         styleClass="form-control col-2 ry"></h:inputText>
+        </h:panelGroup>
 
-        <h:outputText value="#{bundle['fxs.user.street']} *"></h:outputText>
-        <h:inputText value="#{addressesBean.addressesEntity.street}" required="true"></h:inputText>
-        <br/>
+        <h:panelGroup styleClass="row mb-2">
+            <h:outputText value="#{bundle['fxs.user.password']}" styleClass="col-sm-2 col-form-label"></h:outputText>
+            <h:inputSecret value="#{usersBean.usersEntity.password}" required="true" binding="#{passwordComponent}"
+                           styleClass="form-control col-2 ry">
+                <f:validateRegex pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,}$"></f:validateRegex></h:inputSecret>
+        </h:panelGroup>
 
-        <h:outputText value="#{bundle['fxs.user.number']} *"></h:outputText>
-        <h:inputText value="#{addressesBean.addressesEntity.number}" required="true"></h:inputText>
-        <br/>
+        <h:panelGroup styleClass="row mb-2">
+            <h:outputText value="#{bundle['fxs.user.confirmpassword']}"
+                          styleClass="col-sm-2 col-form-label"></h:outputText>
+            <h:inputSecret id="confirmPassword" required="#{not empty passwordComponent.value}"
+                           requiredMessage="Please confirm password" validatorMessage="Passwords are not equal"
+                           styleClass="form-control col-2 ry">
+                <f:validator validatorId="UserValidator"/>
+                <f:attribute name="otherValue" value="#{passwordComponent.value}"/>
+            </h:inputSecret>
+            <h:message for="confirmPassword"/>
+        </h:panelGroup>
 
-        <h:outputText value="#{bundle['fxs.user.box']}"></h:outputText>
-        <h:inputText value="#{addressesBean.addressesEntity.box}" required="true"></h:inputText>
-        <br/>
+        <h:panelGroup styleClass="row mb-2">
+            <h:outputText value="#{bundle['fxs.user.email']}" styleClass="col-sm-2 col-form-label"></h:outputText>
+            <h:inputText value="#{usersBean.usersEntity.email}" required="true" styleClass="form-control col-2 ry">
+                <f:validateRegex pattern="[a-zA-Z0-9].+@[a-zA-Z0-9]+\.[a-zA-Z0-9]+"></f:validateRegex></h:inputText>
+        </h:panelGroup>
+
+        <h:panelGroup styleClass="row mb-2">
+            <h:outputText value="#{bundle['fxs.user.birthdate']} *" styleClass="col-sm-2 col-form-label"></h:outputText>
+            <h:inputText value="#{usersBean.usersEntity.birthdate}" required="true" converter="localDateTimeConverter"
+                         styleClass="form-control col-2 ry">
+                <!--<f:convertDateTime pattern="yyyy-mm-dd"/> -->
+            </h:inputText>
+        </h:panelGroup>
+
+        <h:panelGroup styleClass="row mb-2">
+            <h:outputText value="#{bundle['fxs.user.VATNumber']}" styleClass="col-sm-2 col-form-label"></h:outputText>
+            <h:inputText value="#{usersBean.usersEntity.vatNumber}" styleClass="form-control col-2 ry"></h:inputText>
+        </h:panelGroup>
+
+        <h:panelGroup styleClass="row mb-2">
+            <h:outputText value="#{bundle['fxs.user.street']} *" styleClass="col-sm-2 col-form-label"></h:outputText>
+            <h:inputText value="#{addressesBean.addressesEntity.street}" required="true"
+                         styleClass="form-control col-2 ry"></h:inputText>
+        </h:panelGroup>
+
+        <h:panelGroup styleClass="row mb-2">
+            <h:outputText value="#{bundle['fxs.user.number']} *" styleClass="col-sm-2 col-form-label"></h:outputText>
+            <h:inputText value="#{addressesBean.addressesEntity.number}" required="true"
+                         styleClass="form-control col-2 ry"></h:inputText>
+        </h:panelGroup>
+
+        <h:panelGroup styleClass="row mb-2">
+            <h:outputText value="#{bundle['fxs.user.box']}" styleClass="col-sm-2 col-form-label"></h:outputText>
+            <h:inputText value="#{addressesBean.addressesEntity.box}" required="true"
+                         styleClass="form-control col-2 ry"></h:inputText>
+        </h:panelGroup>
+
 
         <h:panelGroup styleClass="form-group">
-
+            <h:outputText value="#{bundle['fxs.user.cities']}" styleClass="col-sm-2 col-form-label"></h:outputText>
             <h:selectOneMenu id="citiesDisplay" styleClass="form-group"
                              value="#{citiesBean.citiesEntity.id}">
                 <f:selectItem itemValue="#{null}" itemLabel=" "/>
@@ -78,6 +105,7 @@
         </h:panelGroup>
 
         <h:commandButton value="valider" action="#{usersBean.addUser}"/>
+
     </h:form>
 </cc:implementation>
 </html>

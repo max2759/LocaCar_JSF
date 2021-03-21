@@ -38,33 +38,38 @@
             <h:panelGroup>#{usersBean.citiesEntity.label}</h:panelGroup>
         </h:panelGrid>
 
-        <p>Données personnelles :
-            <h:column>
-                <!-- bouton edit -->
-                <f:facet name="header">#{bundle['fxs.users.editUser']}</f:facet>
-                <!-- appel de showmodalPopup -->
-                <h:commandLink styleClass="btn btn-outline-primary btn-sm"
-                               action="#{usersBean.showPopupModal}">
-                    <f:param name="id" value="#{usersBean.usersEntity.id}"></f:param>
-                    <f:ajax render="@all"/>
-                    <i class="fas fa-edit"></i>
-                </h:commandLink>
-            </h:column>
-        </p>
+        <h:column>
+            <!-- bouton edit -->
 
-        <p>addresse
-            <h:column>
+            <f:facet name="header">#{bundle['fxs.optionsList.edit']}</f:facet>
+            <!-- appel de showmodalPopup -->
+            <h:commandLink styleClass="btn btn-outline-primary btn-sm"
+                           action="#{usersBean.showPopupModal}"
+                           value="#{bundle['fxs.optionsList.edit']}"
+            >
+                <f:param name="id" value="#{usersBean.usersEntity.id}"></f:param>
+                <f:ajax render="@all"/>
+                <i class="fas fa-edit"></i>
+            </h:commandLink>
+
+        </h:column>
+
+        <h:column>
+            <h:panelGroup styleClass="form-group">
                 <!-- bouton edit -->
                 <f:facet name="header">#{bundle['fxs.users.editAddresse']}</f:facet>
                 <!-- appel de showmodalPopup -->
                 <h:commandLink styleClass="btn btn-outline-primary btn-sm"
-                               action="#{addressesBean.showPopupModal}">
+                               action="#{addressesBean.showPopupModal}"
+                               value="#{bundle['fxs.users.editAddresse']}"
+                >
                     <f:param name="id" value="#{usersBean.usersEntity.id}"></f:param>
                     <f:ajax render="@all"/>
                     <i class="fas fa-edit"></i>
                 </h:commandLink>
-            </h:column>
-        </p>
+            </h:panelGroup>
+        </h:column>
+
 
     </h:form>
 
@@ -187,7 +192,7 @@
                                      requiredMessage="#{bundle['fxs.insurancesList.required']}"
                                      id="street">
                         </h:inputText>
-                        <h:message styleClass="alert alert-danger" role="alert" for="password"></h:message>
+                        <h:message styleClass="alert alert-danger" role="alert" for="street"></h:message>
                     </div>
 
                     <div class="form-group">
@@ -202,7 +207,8 @@
                     </div>
 
                     <h:panelGroup styleClass="form-group">
-
+                        <h:outputText value="#{bundle['fxs.user.cities']}"
+                                      styleClass="col-sm-2 col-form-label"></h:outputText>
                         <h:selectOneMenu id="citiesDisplay" styleClass="form-group"
                                          value="#{citiesBean.citiesEntity.id}">
                             <f:selectItem itemValue="#{null}" itemLabel=" "/>
@@ -212,7 +218,7 @@
                     </h:panelGroup>
 
 
-                    <span>
+                    <h:panelGroup styleClass="form-group">
                         <h:commandButton
                                 styleClass="btn btn-outline-success btn-sm"
                                 value="#{bundle['fxs.insurancesList.save']}"
@@ -220,14 +226,14 @@
                             <f:ajax execute="formPopupEditAdd" render="@all"></f:ajax>
                         </h:commandButton>
 
-                    </span>
+                    </h:panelGroup>
 
-                    <span>
+                    <h:panelGroup styleClass="form-group">
                         <h:commandButton styleClass="btn btn-outline-dark btn-sm"
                                          value="#{bundle['fxs.insurancesList.close']}"
                                          action="#{addressesBean.hidePopupModal}">
                         </h:commandButton>
-                    </span>
+                    </h:panelGroup>
                 </div>
             </h:form>
         </h:panelGroup>

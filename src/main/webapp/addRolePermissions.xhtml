@@ -17,6 +17,7 @@
                 $( document ).ready( function () {
                     $( '.datatableRolePerm' ).DataTable( {
                         retrieve: true,
+                        paging: false,
                         orderFixed: [0, 'asc'],
                         rowGroup: {
                             dataSrc: 0
@@ -27,11 +28,14 @@
         </h:head>
 
         <h:body>
-            <div class="container">
-                <h2>#{bundle['fxs.users.title']}</h2>
-                testtttt
-                <fxs:rolePermissions id="displayUsersList"></fxs:rolePermissions>
-            </div>
+            <h:panelGroup rendered="#{usersBean.connected}">
+                <h:panelGroup rendered="#{rolesPermissionsBean.readRoles}">
+                    <div class="container">
+                        <h2>#{bundle['fxs.users.title']}</h2>
+                        <fxs:rolePermissions id="displayUsersList"></fxs:rolePermissions>
+                    </div>
+                </h:panelGroup>
+            </h:panelGroup>
         </h:body>
 
     </ui:define>

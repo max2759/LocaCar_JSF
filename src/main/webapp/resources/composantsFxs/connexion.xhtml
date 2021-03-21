@@ -13,12 +13,14 @@
     <h:form>
         <br/>
 
-        <h:panelGroup rendered="#{not usersBean.connected}">
-            <h:outputText value="#{bundle['fxs.user.username']}"></h:outputText>
-            <h:inputText value="#{usersBean.usersEntity.username}" required="true"></h:inputText>
-            <h:outputText value="#{bundle['fxs.user.password']}"></h:outputText>
-            <h:inputSecret value="#{usersBean.usersEntity.password}" required="true"></h:inputSecret>
-            <h:commandButton value="valider" action="#{usersBean.connexion}"/>
+        <h:panelGroup rendered="#{not usersBean.connected}" styleClass="row mb-2">
+            <h:outputText value="#{bundle['fxs.user.username']}" styleClass="col-sm-2 col-form-label"></h:outputText>
+            <h:inputText value="#{usersBean.usersEntity.username}" required="true"
+                         styleClass="form-control col-2 ry"></h:inputText>
+            <h:outputText value="#{bundle['fxs.user.password']}" styleClass="col-sm-2 col-form-label"></h:outputText>
+            <h:inputSecret value="#{usersBean.usersEntity.password}" required="true"
+                           styleClass="form-control col-2 ry"></h:inputSecret>
+            <h:commandButton styleClass="btn btn-warning" value="valider" action="#{usersBean.connexion}"/>
         </h:panelGroup>
 
     </h:form>
@@ -29,6 +31,20 @@
                            action="index?faces-redirect=true"/>
             <h:commandLink class="nav-link account-a account-a-active"
                            action="account?faces-redirect=true" value="#{bundle['account.ads']}"/>
+            <!-- for admin -->
+            <h:panelGroup rendered="#{rolesPermissionsBean.readRoles}">
+                <h:commandLink class="nav-link account-a account-a-active" value="#{bundle['fxs.user.role']}"
+                               action="roles?faces-redirect=true"/>
+                <h:commandLink class="nav-link account-a account-a-active" value="#{bundle['fxs.users.permissions']}"
+                               action="permissions?faces-redirect=true"/>
+                <h:commandLink class="nav-link account-a account-a-active"
+                               value="#{bundle['fxs.users.RolesPermissions']}"
+                               action="addRolePermissions?faces-redirect=true"/>
+                <h:commandLink class="nav-link account-a account-a-active" value="#{bundle['fxs.user.role']}"
+                               action="roles?faces-redirect=true"/>
+                <h:commandLink class="nav-link account-a account-a-active" value="#{bundle['fxs.users.list']}"
+                               action="users?faces-redirect=true"/>
+            </h:panelGroup>
 
         </h:panelGroup>
     </h:form>

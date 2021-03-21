@@ -10,6 +10,7 @@ import java.util.Objects;
         @NamedQuery(name = "RolesPermissions.findByIDRoles", query = "SELECT r from RolesPermissionsEntity r where r.rolesByIdRoles.id = :idRoles"),
         @NamedQuery(name = "RolesPermissions.findForRolesAndPermissions", query = "SELECT rp FROM RolesPermissionsEntity rp WHERE rp.rolesByIdRoles.id = :id "),
         @NamedQuery(name = "RolesPermissions.addControl", query = "SELECT rp from RolesPermissionsEntity rp where rp.rolesByIdRoles.id = :idRole and rp.permissionsByIdPermissions.id = :idPerm"),
+
 })
 public class RolesPermissionsEntity {
     private int id;
