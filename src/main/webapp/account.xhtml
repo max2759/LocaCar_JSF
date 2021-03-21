@@ -10,6 +10,7 @@
     <ui:define name="content">
 
         <f:metadata>
+            <f:event listener="#{accessControlBean.isNotLogged}" type="preRenderView"/>
             <f:viewAction action="#{adsBean.findAllAdsByUsers}"/>
         </f:metadata>
 
@@ -44,7 +45,6 @@
         </h:head>
 
         <h:body>
-            <div class="container">
                 <div class="account-title">
                     <h1>#{bundle['account.title']}</h1>
                 </div>
@@ -71,7 +71,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
 
         </h:body>
 

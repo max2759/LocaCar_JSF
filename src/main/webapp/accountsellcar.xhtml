@@ -1,10 +1,15 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
-                template="WEB-INF/templates/template.xhtml">
+                template="WEB-INF/templates/template.xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:define name="title">#{bundle['account.page.accountsellcar']}</ui:define>
     <ui:define name="content">
+
+        <f:metadata>
+            <f:event listener="#{accessControlBean.isNotLogged}" type="preRenderView"/>
+        </f:metadata>
 
         <h:head>
             <title>#{bundle['account.page.accountsellcar']}</title>
@@ -29,8 +34,8 @@
         </h:head>
 
         <h:body>
-            <div class="container">
-                <div class="account-title">
+
+        <div class="account-title">
                     <h1>#{bundle['account.title']}</h1>
                 </div>
                 <div class="row">
@@ -62,7 +67,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+
 
         </h:body>
 

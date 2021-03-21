@@ -35,8 +35,6 @@
         <h:body>
             <c:if test="#{usersBean.connected}">
                 <h:panelGroup rendered="#{rolesPermissionsBean.readRoles}">
-
-                    <div class="container">
                         <h2>#{bundle['fxs.roles.title']}</h2>
                         <h:form>
 
@@ -190,7 +188,6 @@
                                 </h:form>
                             </h:panelGroup>
                         </f:view>
-                    </div>
                 </h:panelGroup>
             </c:if>
         </h:body>

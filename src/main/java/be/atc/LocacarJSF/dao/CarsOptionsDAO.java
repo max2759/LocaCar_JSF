@@ -21,4 +21,5 @@ public interface CarsOptionsDAO {
 
     CarsOptionsEntity oneCarsOptionsByCarsId(int idCars);
 
+    boolean deleteCarOptionByID(int id);
 }

@@ -59,29 +59,47 @@ public class CarsOptionsDAOImpl implements CarsOptionsDAO {
     @Override
     public boolean delete(int idCars) {
         EntityManager em = EMF.getEM();
-        em.getTransaction();
-
-        EntityTransaction tx = null;
         try {
-            tx = em.getTransaction();
-            tx.begin();
-
-            List<CarsOptionsEntity> carsOptionsEntityList = findCarsOptionsByCarsId(idCars);
-            em.remove(em.merge(carsOptionsEntityList));
-
-            tx.commit();
-            log.info("Delete ok");
+            em.createNamedQuery("carsOptions.deleteByCarsID",
+                    CarsOptionsEntity.class)
+                    .setParameter("idCars", idCars)
+                    .executeUpdate();
             return true;
-        } catch (
-                Exception ex) {
-            if (tx != null && tx.isActive()) tx.rollback();
-            log.error("Delete Error");
+        } catch (Exception ex) {
+            log.info("Liste vide");
             return false;
         } finally {
             em.clear();
             em.close();
         }
     }
+
+//    @Override
+//    public boolean delete(int idCars) {
+//        EntityManager em = EMF.getEM();
+//        em.getTransaction();
+//
+//        EntityTransaction tx = null;
+//        try {
+//            tx = em.getTransaction();
+//            tx.begin();
+//
+//            List<CarsOptionsEntity> carsOptionsEntityList = findCarsOptionsByCarsId(idCars);
+//            em.remove(em.merge(carsOptionsEntityList));
+//
+//            tx.commit();
+//            log.info("Delete ok");
+//            return true;
+//        } catch (
+//                Exception ex) {
+//            if (tx != null && tx.isActive()) tx.rollback();
+//            log.error("Delete Error");
+//            return false;
+//        } finally {
+//            em.clear();
+//            em.close();
+//        }
+//    }
 
     @Override
     public List<CarsOptionsEntity> findAll() {
@@ -141,6 +159,33 @@ public class CarsOptionsDAOImpl implements CarsOptionsDAO {
         } catch (Exception ex) {
             log.info("Entité vide");
             return null;
+        } finally {
+            em.clear();
+            em.close();
+        }
+    }
+
+    @Override
+    public boolean deleteCarOptionByID(int id) {
+        EntityManager em = EMF.getEM();
+        em.getTransaction();
+
+        EntityTransaction tx = null;
+        try {
+            tx = em.getTransaction();
+            tx.begin();
+
+            CarsOptionsEntity c = findById(id);
+            em.remove(em.merge(c));
+
+            tx.commit();
+            log.info("Delete ok");
+            return true;
+        } catch (
+                Exception ex) {
+            if (tx != null && tx.isActive()) tx.rollback();
+            log.error("Delete Error");
+            return false;
         } finally {
             em.clear();
             em.close();

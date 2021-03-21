@@ -19,4 +19,6 @@ public interface CarsOptionsServices {
     List<CarsOptionsEntity> findCarsOptionsByCarsId(int idCars);
 
     CarsOptionsEntity oneCarsOptionsByCarsId(int idCars);
+
+    boolean deleteCarOptionByID(int id);
 }

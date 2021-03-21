@@ -9,7 +9,7 @@ import be.atc.LocacarJSF.services.CarsServices;
 import be.atc.LocacarJSF.services.CarsServicesImpl;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.SessionScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.ServletException;
@@ -21,7 +21,7 @@ import java.util.List;
  * @author Maximilien - Zabbara
  */
 @Named(value = "carsBean")
-@SessionScoped
+@ViewScoped
 public class CarsBean extends ExtendBean implements Serializable {
 
     private static final long serialVersionUID = -293903106522268390L;
@@ -68,13 +68,13 @@ public class CarsBean extends ExtendBean implements Serializable {
 
 
     public void updateAddedCar(CarsEntity carsEntity) throws ServletException, IOException {
-        log.info("Début de l'update de la voiture");
+        log.info("Début de l'update de la voiture" + carsEntity);
 
         log.info(carsEntity);
         carsServices.update(carsEntity);
-        carsOptionsBean.deleteCarOption(carsEntity.getId());
+        carsOptionsBean.deleteCarOption(carsEntity);
         carsOptionsBean.addOptionsToCarsOptions(carsEntity);
-        picturesBean.save(carsEntity);
+        //       picturesBean.save(carsEntity);
     }
 
 

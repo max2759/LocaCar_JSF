@@ -16,7 +16,7 @@
             <title>Gestion de projet</title>
         </h:head>
         <h:body>
-            <div class="container">
+
 
                 <h:form>
                     <ui:repeat rendered="#{empty adsBean.adsEntities ? false :true}"
@@ -28,19 +28,20 @@
                             <div class="summary-full-item">
                                 <div class="summary-headline-item">
                                     <div class="summary-headline-h3">
-                                        <h3><h:outputText value="#{ads.label}"></h:outputText></h3>
+                                        <h3><h:outputText value="#{ads.label}"/></h3>
                                     </div>
                                     <div>
                                         <h:outputText
-                                                value="#{ads.carsByIdCars.modelsByIdModels.brandsByIdBrands.label}"></h:outputText>
+                                                value="#{ads.carsByIdCars.modelsByIdModels.brandsByIdBrands.label}"/>
                                         <h:outputText value="&#160;"/>
                                         <h:outputText
-                                                value="#{ads.carsByIdCars.modelsByIdModels.label}"></h:outputText>
+                                                value="#{ads.carsByIdCars.modelsByIdModels.label}"/>
                                     </div>
                                 </div>
                                 <div class="summary-image-item">
-                                    <h:graphicImage url="resources/upload/815515898_opel-mokka-512751.jpg"
-                                                    styleClass="img-thumbnail"/>
+                                    <h:graphicImage
+                                            url="resources/upload/#{adsBean.carsPicturesEntityMap[ads.carsByIdCars.id]}"
+                                            styleClass="img-thumbnail"/>
                                 </div>
                                 <div class="summary-field">
                                     <div class="summary-pricing">
@@ -54,18 +55,17 @@
                                                 <f:convertDateTime type="localDate" pattern="MM/yyyy"/>
                                             </h:outputText>
                                             </li>
-                                            <li><h:outputText
-                                                    value="#{ads.carsByIdCars.horsePower} CH"></h:outputText>
+                                            <li><h:outputText value="#{ads.carsByIdCars.horsePower} CH"/>
                                             </li>
                                             <li><h:outputText value="#{ads.carsByIdCars.kilometer} km">
                                                 <f:convertNumber minFractionDigits="2"/>
                                             </h:outputText></li>
                                             <li><h:outputText
-                                                    value="Boîte #{ads.carsByIdCars.carsGearboxByIdCarsGearBox.label}"></h:outputText>
+                                                    value="Boîte #{ads.carsByIdCars.carsGearboxByIdCarsGearBox.label}"/>
                                             </li>
-                                            <li><h:outputText value="#{ads.typeAds.label}"></h:outputText></li>
+                                            <li><h:outputText value="#{ads.typeAds.label}"/></li>
                                             <li><h:outputText
-                                                    value="#{ads.carsByIdCars.carsFuelsByIdCarsFuels.label}"></h:outputText>
+                                                    value="#{ads.carsByIdCars.carsFuelsByIdCarsFuels.label}"/>
                                             </li>
                                         </ul>
                                     </div>
@@ -89,7 +89,6 @@
                         </div>
                     </h:panelGroup>
                 </h:form>
-            </div>
 
 
         </h:body>

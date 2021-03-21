@@ -37,7 +37,6 @@ public class AdsBean extends ExtendBean implements Serializable {
     private AdsEntity adsEntity;
     private AdsServices adsServices = new AdsServicesImpl();
     private RepeatPaginator paginator;
-    Map<Integer, List<CarsPicturesEntity>> carsPicturesMap = new HashMap<>();
     private List<AdsEntity> adsEntities;
     private List<AdsEntity> allDisabledAds;
     private List<AdsEntity> allAdsByLabelEntities;
@@ -45,7 +44,9 @@ public class AdsBean extends ExtendBean implements Serializable {
     private List<AdsEntity> allAdsByUser;
     private List<CarsOptionsEntity> carsOptionsEntityList;
     private List<String> imagePath = new ArrayList<>();
+
     private String folder = "resources/upload/";
+    private Map<Integer, String> carsPicturesEntityMap = new HashMap<Integer, String>();
 
     private List<CarsPicturesEntity> carsPicturesEntityList;
     private int idModelSearch;
@@ -149,7 +150,7 @@ public class AdsBean extends ExtendBean implements Serializable {
      * @throws ServletException
      * @throws IOException
      */
-    public void addAds() throws ServletException, IOException {
+    public String addAds() throws ServletException, IOException {
         log.info("Sauvegarde");
 
         FacesContext context = FacesContext.getCurrentInstance();
@@ -167,12 +168,15 @@ public class AdsBean extends ExtendBean implements Serializable {
         } else {
             context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, JsfUtils.returnMessage(getLocale(), "addAdsError"), null));
         }
-        init();
+        context.getExternalContext().getFlash().setKeepMessages(true);
+
+        return "adsDetails?faces-redirect=true" + "adsId=" + adsEntity.getId();
     }
 
     public void displayAllActiveAds() {
         adsEntities = adsServices.findAll();
         paginator = new RepeatPaginator(adsEntities);
+        findOnePicturesByIdCars();
     }
 
     /**
@@ -229,15 +233,6 @@ public class AdsBean extends ExtendBean implements Serializable {
         allDisabledAds = adsServices.findDisabledAdsByUser(idUser);
     }
 
-    /**
-     *
-     */
-    public void linkCarsPictureMapWithAds() {
-        for (AdsEntity ads : adsEntities) {
-            List<CarsPicturesEntity> carsPicturesEntityList = picturesBean.findCarsPicturesByIdCars(ads.getCarsByIdCars().getId());
-            carsPicturesMap.put(ads.getId(), carsPicturesEntityList);
-        }
-    }
 
     /**
      * Update ads entity
@@ -248,21 +243,21 @@ public class AdsBean extends ExtendBean implements Serializable {
         return adsServices.update(adsEntity);
     }
 
-    public void updateAddedAds() throws ServletException, IOException {
-        log.info("Update");
-
-        boolean updateSucces = true;
+    public String updateAddedAds() throws ServletException, IOException {
+        log.info("Update" + adsEntity);
 
         FacesContext context = FacesContext.getCurrentInstance();
 
         carsBean.updateAddedCar(adsEntity.getCarsByIdCars());
 
         if (updateAds()) {
-            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, JsfUtils.returnMessage(getLocale(), "addAdsSuccess"), null));
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, JsfUtils.returnMessage(getLocale(), "updateAdsSucces"), null));
         } else {
             context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, JsfUtils.returnMessage(getLocale(), "addAdsError"), null));
         }
+        context.getExternalContext().getFlash().setKeepMessages(true);
 
+        return "adsDetails?faces-redirect=true" + "adsId=" + adsEntity.getId();
 
     }
 
@@ -298,6 +293,7 @@ public class AdsBean extends ExtendBean implements Serializable {
 
         int idCars = adsEntity.getCarsByIdCars().getId();
         carsOptionsEntityList = carsOptionsBean.findCarsOptionsByCarsId(idCars);
+        carsOptionsBean.findAllCarOptionByIdCar(idCars);
     }
 
     /**
@@ -329,6 +325,9 @@ public class AdsBean extends ExtendBean implements Serializable {
                 if (typeAdsSearch != null) {
                     if (priceSearch == 0) {
                         adsEntities = adsServices.findAdsByModelAndTypeAds(typeAdsSearch, idModelSearch);
+                        if (adsEntities.isEmpty()) {
+                            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, JsfUtils.returnMessage(getLocale(), "fxs.allads.searchError"), null));
+                        }
                         paginator = new RepeatPaginator(adsEntities);
                     } else {
                         context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, JsfUtils.returnMessage(getLocale(), "fxs.allads.searchError"), null));
@@ -352,13 +351,18 @@ public class AdsBean extends ExtendBean implements Serializable {
                 if (typeAdsSearch != null) {
                     if (priceSearch != 0) {
                         adsEntities = adsServices.findAdsByPriceAndTypeAds(typeAdsSearch, priceSearch);
+                        if (adsEntities.isEmpty()) {
+                            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, JsfUtils.returnMessage(getLocale(), "fxs.allads.searchError"), null));
+                        }
+                        paginator = new RepeatPaginator(adsEntities);
                     } else {
                         adsEntities = adsServices.findAdsByTypeAds(typeAdsSearch);
+                        if (adsEntities.isEmpty()) {
+                            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, JsfUtils.returnMessage(getLocale(), "fxs.allads.searchError"), null));
+                        }
+                        paginator = new RepeatPaginator(adsEntities);
                     }
-                    if (adsEntities.isEmpty()) {
-                        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, JsfUtils.returnMessage(getLocale(), "fxs.allads.searchError"), null));
-                    }
-                    paginator = new RepeatPaginator(adsEntities);
+
                 } else {
                     if (priceSearch != 0) {
                         adsEntities = adsServices.findAdsByPrice(priceSearch);
@@ -367,11 +371,32 @@ public class AdsBean extends ExtendBean implements Serializable {
                         }
                         paginator = new RepeatPaginator(adsEntities);
                     } else {
+                        adsEntities = Collections.emptyList();
                         context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, JsfUtils.returnMessage(getLocale(), "fxs.allads.searchError"), null));
                     }
                 }
             }
         }
+
+    }
+
+    /**
+     * Get one picture from its cars id
+     *
+     * @return cars picture entity
+     */
+    protected void findOnePicturesByIdCars() {
+        for (AdsEntity a : adsEntities
+        ) {
+            try {
+                CarsPicturesEntity cp = picturesBean.findCarsPicturesByIdCars(a.getCarsByIdCars().getId()).get(0);
+                carsPicturesEntityMap.put(a.getCarsByIdCars().getId(), cp.getLabel());
+            } catch (Exception e) {
+                e.getMessage();
+            }
+        }
+
+        log.info(carsPicturesEntityMap);
 
     }
 
@@ -475,14 +500,6 @@ public class AdsBean extends ExtendBean implements Serializable {
         this.paginator = paginator;
     }
 
-    public Map<Integer, List<CarsPicturesEntity>> getCarsPicturesMap() {
-        return carsPicturesMap;
-    }
-
-    public void setCarsPicturesMap(Map<Integer, List<CarsPicturesEntity>> carsPicturesMap) {
-        this.carsPicturesMap = carsPicturesMap;
-    }
-
     public List<AdsEntity> getAllDisabledAds() {
         return allDisabledAds;
     }
@@ -545,5 +562,21 @@ public class AdsBean extends ExtendBean implements Serializable {
 
     public void setTypeAdsSearch(EnumTypeAds typeAdsSearch) {
         this.typeAdsSearch = typeAdsSearch;
+    }
+
+    public Map<Integer, String> getCarsPicturesEntityMap() {
+        return carsPicturesEntityMap;
+    }
+
+    public void setCarsPicturesEntityMap(Map<Integer, String> carsPicturesEntityMap) {
+        this.carsPicturesEntityMap = carsPicturesEntityMap;
+    }
+
+    public String getFolder() {
+        return folder;
+    }
+
+    public void setFolder(String folder) {
+        this.folder = folder;
     }
 }

@@ -64,4 +64,12 @@ public class CarsOptionsServicesImpl implements CarsOptionsServices {
         }
         return null;
     }
+
+    @Override
+    public boolean deleteCarOptionByID(int id) {
+        if (id != 0) {
+            return carsOptionsDAO.deleteCarOptionByID(id);
+        }
+        return false;
+    }
 }
