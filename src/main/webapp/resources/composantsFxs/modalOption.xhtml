@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:cc="http://java.sun.com/jsf/composite">
+
+<cc:interface name="modalModel"/>
+
+<f:view>
+    <h:panelGroup id="popupEdit" layout="block" styleClass="popup-panel-overlay"
+                  rendered="#{optionsBean.showPopup}">
+
+        <h:form id="formPopupEdit">
+            <div class="popup-panel">
+                <h:messages id="messages" styleClass="messageConfirmation" showSummary="true" globalOnly="true"
+                            infoClass="succesAdd" errorClass="error"/>
+                <div class="modal-header">
+                    <h5 class="modal-title">#{bundle['fxs.optionsList.modalTitle']}</h5>
+                </div>
+                <div class="modal-body">
+                    <h:inputText value="#{optionsBean.optionsEntity.label}" styleClass="form-control"
+                                 required="true"
+                                 pt:placeholder="Nom de l'équipement"
+                                 requiredMessage="#{bundle['fxs.insurancesList.required']}"
+                                 id="optionLabel">
+                    </h:inputText>
+                    <h:message styleClass="error" role="alert" for="optionLabel"></h:message>
+                </div>
+
+                <div class="modal-footer">
+                    <h:commandButton styleClass="btn btn-outline-success btn-sm"
+                                     value="#{bundle['fxs.insurancesList.save']}"
+                                     action="#{optionsBean.saveEdit}">
+                        <f:ajax execute="formPopupEdit" render="@all"></f:ajax>
+                    </h:commandButton>
+
+
+                    <h:commandButton styleClass="btn btn-outline-dark btn-sm"
+                                     value="#{bundle['fxs.insurancesList.close']}"
+                                     action="#{optionsBean.hidePopupModal}">
+                        <f:ajax render="@all"></f:ajax>
+                    </h:commandButton>
+                </div>
+            </div>
+        </h:form>
+    </h:panelGroup>
+</f:view>
+
+</html>

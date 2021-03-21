@@ -27,13 +27,25 @@
         </h:head>
 
         <h:body>
-                <div class="carsComposantHeader">
-                    <h1>#{bundle['fxs.carscolors.title']}</h1>
+            <div class="account-title">
+                <h1>#{bundle['account.title']}</h1>
+            </div>
+            <div class="row">
+                <aside class="col-md-3">
+                    <nav class="nav flex-column">
+                        <fxs:menu/>
+                    </nav>
+                </aside>
+                <div class="col-md-offset-2 col-md-9 myarea-content">
+                    <div class="myarea-content-title">
+                        <h2>#{bundle['fxs.carscolors.displayName']}</h2>
+                    </div>
+                    <div class="myarea-content-display table-responsive">
+                        <fxs:colorsList/>
+                    </div>
                 </div>
-
-                <div class="carsComposantList">
-                    <fxs:colorsList id="displayCarsColorsList"></fxs:colorsList>
-                </div>
+            </div>
+            <fxs:modalColor/>
         </h:body>
     </ui:define>
 </ui:composition>

@@ -5,7 +5,7 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:cc="http://java.sun.com/jsf/composite"
-      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+>
 
 <cc:interface name="carcolorsList"
               displayName="#{bundle['fxs.carscolors.displayName']}"
@@ -25,12 +25,8 @@
     </div>
 
     <h:form>
-        <h:dataTable id="outputMessage" styleClass="table table-hover table-responsive colorsTable"
+        <h:dataTable id="outputMessage" styleClass="table table-hover colorsTable"
                      value="#{carsColorsBean.carsColorsEntities}" var="colors">
-            <h:column>
-                <f:facet name="header">#{bundle['fxs.optionsList.code']}</f:facet>
-                <h:outputText value="#{colors.id}"></h:outputText>
-            </h:column>
             <h:column>
                 <f:facet name="header">#{bundle['fxs.optionsList.title']}</f:facet>
                 <h:outputText value="#{colors.label}"></h:outputText>
@@ -49,44 +45,5 @@
             </h:column>
         </h:dataTable>
     </h:form>
-
-    <f:view>
-        <h:panelGroup id="popupEdit" layout="block" styleClass="popup-panel-overlay"
-                      rendered="#{carsColorsBean.showPopup}">
-
-            <h:form id="formPopupEdit">
-                <div class="popup-panel">
-                    <h:messages id="messages" styleClass="messageConfirmation" showSummary="true" globalOnly="true"
-                                infoClass="succesAdd" errorClass="error"/>
-                    <div class="modal-header">
-                        <h5 class="modal-title">#{bundle['fxs.carscolorsList.modalTitle']}</h5>
-                    </div>
-                    <div class="modal-body">
-                        <h:inputText value="#{carsColorsBean.carsColorsEntity.label}" styleClass="form-control"
-                                     required="true"
-                                     pt:placeholder="Votre couleur ici..."
-                                     requiredMessage="#{bundle['fxs.insurancesList.required']}"
-                                     id="carsColorsLabel">
-                        </h:inputText>
-                        <h:message styleClass="error" role="alert" for="carsColorsLabel"/>
-                    </div>
-
-                    <div class="modal-footer">
-                        <h:commandButton styleClass="btn btn-outline-success btn-sm"
-                                         value="#{bundle['fxs.insurancesList.save']}"
-                                         action="#{carsColorsBean.saveEdit}">
-                            <f:ajax execute="formPopupEdit" render="@all"></f:ajax>
-                        </h:commandButton>
-
-                        <h:commandButton styleClass="btn btn-outline-dark btn-sm"
-                                         value="#{bundle['fxs.insurancesList.close']}"
-                                         action="#{carsColorsBean.hidePopupModal}">
-                            <f:ajax render="@all"></f:ajax>
-                        </h:commandButton>
-                    </div>
-                </div>
-            </h:form>
-        </h:panelGroup>
-    </f:view>
 </cc:implementation>
 </html>
