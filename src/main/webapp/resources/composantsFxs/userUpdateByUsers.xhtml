@@ -28,7 +28,7 @@
             <div class="myarea-content-display table-responsive">
 
                 <h:form>
-                    <h:panelGrid columns="2" styleClass="table table-hover table-responsive">
+                    <h:panelGrid columns="2" styleClass="table table-hover">
                         <h:panelGroup>#{bundle['fxs.user.username']}</h:panelGroup>
                         <h:panelGroup>#{usersBean.usersEntity.username}</h:panelGroup>
 
@@ -194,7 +194,7 @@
                                      requiredMessage="#{bundle['fxs.insurancesList.required']}"
                                      id="number">
                         </h:inputText>
-                        <h:message styleClass="alert alert-danger" role="alert" for="userName"></h:message>
+                        <h:message styleClass="alert-danger" role="alert" for="userName"></h:message>
                     </div>
 
                     <div class="form-group">
@@ -205,7 +205,7 @@
                                      requiredMessage="#{bundle['fxs.insurancesList.required']}"
                                      id="street">
                         </h:inputText>
-                        <h:message styleClass="alert alert-danger" role="alert" for="street"></h:message>
+                        <h:message styleClass="alert-danger" role="alert" for="street"></h:message>
                     </div>
 
                     <div class="form-group">
@@ -216,7 +216,7 @@
                                      requiredMessage="#{bundle['fxs.insurancesList.required']}"
                                      id="box">
                         </h:inputText>
-                        <h:message styleClass="alert alert-danger" role="alert" for="box"></h:message>
+                        <h:message styleClass="alert-danger" role="alert" for="box"></h:message>
                     </div>
 
                     <h:panelGroup styleClass="form-group">

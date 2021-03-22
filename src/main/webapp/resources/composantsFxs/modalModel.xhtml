@@ -50,7 +50,7 @@
                     <h:commandButton styleClass="btn btn-outline-success btn-sm"
                                      value="#{bundle['fxs.insurancesList.save']}"
                                      action="#{modelsBean.saveEdit}">
-
+                        <f:ajax execute="formPopupEdit" render="@all"></f:ajax>
                     </h:commandButton>
 
                     <h:commandButton styleClass="btn btn-outline-dark btn-sm"

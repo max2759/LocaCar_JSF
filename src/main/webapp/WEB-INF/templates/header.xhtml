@@ -37,7 +37,8 @@
                             <h:panelGroup rendered="#{usersBean.connected}">
                                 <li class="nav-item">
                                     <h:commandLink styleClass="nav-link" action="/account?faces-redirect=true"
-                                                   value="Bonjour #{usersBean.usersEntity.username}"/>
+                                                   value="Bonjour #{usersBean.usersEntity.username}">
+                                    </h:commandLink>
                                 </li>
                                 <li class="nav-item">
                                     <fxs:countContracts id="countContracts"></fxs:countContracts>
