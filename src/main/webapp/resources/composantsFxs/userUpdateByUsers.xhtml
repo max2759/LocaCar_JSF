@@ -4,6 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:fxs="http://java.sun.com/jsf/composite/composantsFxs"
       xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
       xmlns:cc="http://java.sun.com/jsf/composite"
 >
@@ -15,64 +16,76 @@
 </cc:interface>
 
 <cc:implementation>
+    <div class="account-title">
+        <h1>#{bundle['account.title']}</h1>
+    </div>
+    <div class="row">
+        <fxs:menu/>
+        <div class="col-md-offset-2 col-md-9 myarea-content">
+            <div class="myarea-content-title">
+                <h2>#{bundle['fxs.insurances.title']}</h2>
+            </div>
+            <div class="myarea-content-display table-responsive">
+
+                <h:form>
+                    <h:panelGrid columns="2" styleClass="table table-hover table-responsive">
+                        <h:panelGroup>#{bundle['fxs.user.username']}</h:panelGroup>
+                        <h:panelGroup>#{usersBean.usersEntity.username}</h:panelGroup>
+
+                        <h:panelGroup>#{bundle['fxs.user.mail']}</h:panelGroup>
+                        <h:panelGroup>#{usersBean.usersEntity.email}</h:panelGroup>
+
+                        <h:panelGroup>#{bundle['fxs.user.street']}</h:panelGroup>
+                        <h:panelGroup>#{addressesBean.addressesEntity.street}</h:panelGroup>
+
+                        <h:panelGroup>#{bundle['fxs.user.number']}</h:panelGroup>
+                        <h:panelGroup>#{addressesBean.addressesEntity.number}</h:panelGroup>
+
+                        <h:panelGroup>#{bundle['fxs.user.box']}</h:panelGroup>
+                        <h:panelGroup>#{addressesBean.addressesEntity.box}</h:panelGroup>
+
+                        <h:panelGroup>#{bundle['fxs.user.cities']}</h:panelGroup>
+                        <h:panelGroup>#{usersBean.citiesEntity.label}</h:panelGroup>
+                    </h:panelGrid>
+
+                    <h:column>
+                        <!-- bouton edit -->
+
+                        <f:facet name="header">#{bundle['fxs.optionsList.edit']}</f:facet>
+                        <!-- appel de showmodalPopup -->
+                        <h:commandLink styleClass="btn btn-outline-primary btn-sm"
+                                       action="#{usersBean.showPopupModal}"
+                                       value="#{bundle['fxs.optionsList.edit']}"
+                        >
+                            <f:param name="id" value="#{usersBean.usersEntity.id}"></f:param>
+                            <f:ajax render="@all"/>
+                            <i class="fas fa-edit"></i>
+                        </h:commandLink>
+
+                    </h:column>
+
+                    <h:column>
+                        <h:panelGroup styleClass="form-group">
+                            <!-- bouton edit -->
+                            <f:facet name="header">#{bundle['fxs.users.editAddresse']}</f:facet>
+                            <!-- appel de showmodalPopup -->
+                            <h:commandLink styleClass="btn btn-outline-primary btn-sm"
+                                           action="#{addressesBean.showPopupModal}"
+                                           value="#{bundle['fxs.users.editAddresse']}"
+                            >
+                                <f:param name="id" value="#{usersBean.usersEntity.id}"></f:param>
+                                <f:ajax render="@all"/>
+                                <i class="fas fa-edit"></i>
+                            </h:commandLink>
+                        </h:panelGroup>
+                    </h:column>
 
 
-    <h:form>
-        <h:panelGrid columns="2" styleClass="table table-hover table-responsive">
-            <h:panelGroup>#{bundle['fxs.user.username']}</h:panelGroup>
-            <h:panelGroup>#{usersBean.usersEntity.username}</h:panelGroup>
+                </h:form>
 
-            <h:panelGroup>#{bundle['fxs.user.mail']}</h:panelGroup>
-            <h:panelGroup>#{usersBean.usersEntity.email}</h:panelGroup>
-
-            <h:panelGroup>#{bundle['fxs.user.street']}</h:panelGroup>
-            <h:panelGroup>#{addressesBean.addressesEntity.street}</h:panelGroup>
-
-            <h:panelGroup>#{bundle['fxs.user.number']}</h:panelGroup>
-            <h:panelGroup>#{addressesBean.addressesEntity.number}</h:panelGroup>
-
-            <h:panelGroup>#{bundle['fxs.user.box']}</h:panelGroup>
-            <h:panelGroup>#{addressesBean.addressesEntity.box}</h:panelGroup>
-
-            <h:panelGroup>#{bundle['fxs.user.cities']}</h:panelGroup>
-            <h:panelGroup>#{usersBean.citiesEntity.label}</h:panelGroup>
-        </h:panelGrid>
-
-        <h:column>
-            <!-- bouton edit -->
-
-            <f:facet name="header">#{bundle['fxs.optionsList.edit']}</f:facet>
-            <!-- appel de showmodalPopup -->
-            <h:commandLink styleClass="btn btn-outline-primary btn-sm"
-                           action="#{usersBean.showPopupModal}"
-                           value="#{bundle['fxs.optionsList.edit']}"
-            >
-                <f:param name="id" value="#{usersBean.usersEntity.id}"></f:param>
-                <f:ajax render="@all"/>
-                <i class="fas fa-edit"></i>
-            </h:commandLink>
-
-        </h:column>
-
-        <h:column>
-            <h:panelGroup styleClass="form-group">
-                <!-- bouton edit -->
-                <f:facet name="header">#{bundle['fxs.users.editAddresse']}</f:facet>
-                <!-- appel de showmodalPopup -->
-                <h:commandLink styleClass="btn btn-outline-primary btn-sm"
-                               action="#{addressesBean.showPopupModal}"
-                               value="#{bundle['fxs.users.editAddresse']}"
-                >
-                    <f:param name="id" value="#{usersBean.usersEntity.id}"></f:param>
-                    <f:ajax render="@all"/>
-                    <i class="fas fa-edit"></i>
-                </h:commandLink>
-            </h:panelGroup>
-        </h:column>
-
-
-    </h:form>
-
+            </div>
+        </div>
+    </div>
 
     <!-- affichage du modal -->
     <f:view>

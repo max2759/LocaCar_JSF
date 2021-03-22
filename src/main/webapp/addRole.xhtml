@@ -8,11 +8,24 @@
     <ui:define name="title">List insurances</ui:define>
     <ui:define name="content">
         <h:body>
-            <c:if test="#{usersBean.connected}">
-                <h2>add Role</h2>
-                <!--c'est dans composant qu'on crée tout ca-->
-                <fxs:addRole id="displayListProject"></fxs:addRole>
-            </c:if>
+            <div class="account-title">
+                <h1>#{bundle['account.title']}</h1>
+            </div>
+            <div class="row">
+                <fxs:menu/>
+                <div class="col-md-offset-2 col-md-9 myarea-content">
+                    <div class="myarea-content-title">
+                        <h2>#{bundle['fxs.insurances.title']}</h2>
+                    </div>
+                    <div class="myarea-content-display table-responsive">
+                        <c:if test="#{usersBean.connected}">
+                            <h2>add Role</h2>
+                            <!--c'est dans composant qu'on crée tout ca-->
+                            <fxs:addRole id="displayListProject"></fxs:addRole>
+                        </c:if>
+                    </div>
+                </div>
+            </div>
         </h:body>
     </ui:define>
 </ui:composition>

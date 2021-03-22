@@ -45,35 +45,20 @@
         </h:head>
 
         <h:body>
-                <div class="account-title">
-                    <h1>#{bundle['account.title']}</h1>
-                </div>
-                <div class="row">
-                    <aside class="col-md-3">
-                        <nav class="nav flex-column">
-                            <h:form>
-                                <h:commandLink class="nav-link account-a account-a-active"
-                                               action="account?faces-redirect=true" value="#{bundle['account.ads']}"/>
-                                <h:commandLink class="nav-link account-a" value="#{bundle['account.deactivate']}"
-                                               action="disabledads?faces-redirect=true"/>
-                                <h:commandLink class="nav-link account-a" action="accountsellcar?faces-redirect=true"
-                                               value="#{bundle['account.sell']}"/>
-                                <h:commandLink class="nav-link account-a" action="userUpdateByUsers"
-                                               value="#{bundle['account.parameter']}"/>
-                            </h:form>
-                        </nav>
-                    </aside>
-                    <div class="col-md-offset-2 col-md-9 myarea-content">
-                        <div class="myarea-content-title">
-                            <h3 class="myarea-content-h3">#{bundle['account.ads']}</h3>
-                        </div>
-                        <div class="myarea-content-display table-responsive">
-                            <fxs:adsList/>
-                        </div>
+            <div class="account-title">
+                <h1>#{bundle['account.title']}</h1>
+            </div>
+            <div class="row">
+                <fxs:menu/>
+                <div class="col-md-offset-2 col-md-9 myarea-content">
+                    <div class="myarea-content-title">
+                        <h2 class="myarea-content-h3">#{bundle['account.ads']}</h2>
+                    </div>
+                    <div class="myarea-content-display table-responsive">
+                        <fxs:adsList/>
                     </div>
                 </div>
-
+            </div>
         </h:body>
-
     </ui:define>
 </ui:composition>
