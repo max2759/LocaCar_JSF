@@ -58,7 +58,7 @@ public class CarsColorsBean extends ExtendBean implements Serializable {
 
 
     /**
-     * Ouvrir le popup d'édition ou d'ajout
+     * Open modal for update/add
      */
     public void showPopupModal() {
         log.info("Show PopupModal");
@@ -106,7 +106,7 @@ public class CarsColorsBean extends ExtendBean implements Serializable {
     }
 
     /**
-     * Sauvegarde l'entité ajouté ou modifié !
+     * Save updated or added CarsColors
      */
     public void saveEdit() {
 

@@ -3,15 +3,20 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://xmlns.jcp.org/jsf/html">
 
+    <h:head>
+        <h:outputScript name="splide.min.js" library="js"/>
+        <h:outputScript name="js.js" library="js"/>
+    </h:head>
 
     <footer class="bg-light text-right text-lg-start">
+
         <div class="container p-0 pb-0">
             <div class="col-auto mb-4 mb-md-0">
                 <h:form>
                     <h:commandLink action="#{internalizationBean.changeLanguage}">
                         <h:graphicImage
                                 value="/resources/images/united_kingdom_icon_127821.png"
-                                    style="width: 15px; height: auto"/>
+                                style="width: 15px; height: auto"/>
                             <f:setPropertyActionListener target="#{internalizationBean.language}"
                                                          value="en"></f:setPropertyActionListener>
                         </h:commandLink>
