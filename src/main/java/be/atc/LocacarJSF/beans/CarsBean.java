@@ -67,6 +67,13 @@ public class CarsBean extends ExtendBean implements Serializable {
     }
 
 
+    /**
+     * Update cars entity, carsOption and carsPicture
+     *
+     * @param carsEntity
+     * @throws ServletException
+     * @throws IOException
+     */
     public void updateAddedCar(CarsEntity carsEntity) throws ServletException, IOException {
         log.info("Début de l'update de la voiture" + carsEntity);
 
@@ -74,7 +81,12 @@ public class CarsBean extends ExtendBean implements Serializable {
         carsServices.update(carsEntity);
         carsOptionsBean.deleteCarOption(carsEntity);
         carsOptionsBean.addOptionsToCarsOptions(carsEntity);
-        //       picturesBean.save(carsEntity);
+        if (picturesBean.getFile() == null) {
+            return;
+        } else {
+            picturesBean.save(carsEntity);
+        }
+
     }
 
 

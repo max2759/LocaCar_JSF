@@ -61,6 +61,11 @@ public class CarsOptionsBean extends ExtendBean implements Serializable {
 
     }
 
+    /**
+     * Find all car options by cars ID
+     *
+     * @param idCars
+     */
     protected void findAllCarOptionByIdCar(int idCars) {
 
         optionsEntityList = new ArrayList<>();
@@ -72,6 +77,11 @@ public class CarsOptionsBean extends ExtendBean implements Serializable {
 
     }
 
+    /**
+     * Delete Car option by looping through carsOptionsEntity
+     *
+     * @param carsEntity
+     */
     public void deleteCarOption(CarsEntity carsEntity) {
         log.info("CarsOptionBean : DeleteCarOption");
 
@@ -83,15 +93,12 @@ public class CarsOptionsBean extends ExtendBean implements Serializable {
         }
     }
 
-    public void updateCarOptions(CarsEntity carsEntity) {
-        for (OptionsEntity optionsEntity : optionsEntityList) {
-            carsOptionsEntity.setCarsByIdCars(carsEntity);
-            carsOptionsEntity.setOptionsByIdOptions(optionsEntity);
-            carsOptionsServices.update(carsOptionsEntity);
-        }
-
-    }
-
+    /**
+     * Display all car option by Cars ID
+     *
+     * @param idCars
+     * @return
+     */
     public List<CarsOptionsEntity> findCarsOptionsByCarsId(int idCars) {
         return carsOptionsServices.findCarsOptionsByCarsId(idCars);
     }

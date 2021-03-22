@@ -210,6 +210,15 @@
                     </h:selectOneMenu>
                 </h:panelGroup>
 
+                <h:panelGroup styleClass="row mb-3">
+                    <h:outputLabel value="#{bundle['fxs.addAds.image']}"
+                                   styleClass="col-sm-2 col-form-label"/>
+                    <h:inputFile value="#{picturesBean.file}" id="picturesInput">
+                        <f:validator validatorId="carsPicturesNotRequiredValidator"/>
+                    </h:inputFile>
+                    <h:message for="picturesInput" styleClass="error"/>
+                </h:panelGroup>
+
             </div>
 
             <div class="info-save">

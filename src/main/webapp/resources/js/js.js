@@ -9,3 +9,5 @@ function DisabledConfirm() {
 function regExPass() {
     alert( 'je suis dedans' );
 }
+
+new Splide( '.splide' ).mount();

@@ -52,27 +52,15 @@ public class AdsBean extends ExtendBean implements Serializable {
     private int idModelSearch;
     private double priceSearch;
     private EnumTypeAds typeAdsSearch;
-    private String page;
+
     @Inject
     private PicturesBean picturesBean;
-
-    public String getPage() {
-        return page;
-    }
-
-    public void setPage(String page) {
-        this.page = page;
-    }
-
 
     @Inject
     private CarsBean carsBean;
 
     @Inject
     private CarsOptionsBean carsOptionsBean;
-
-    @Inject
-    private ModelsBean modelsBean;
 
     @Inject
     private UsersBean usersBean;
@@ -101,7 +89,7 @@ public class AdsBean extends ExtendBean implements Serializable {
     }
 
     /**
-     * Ouvrir le popup d'edition ou d'ajout
+     * Open edition/add pop up
      */
     public void showPopupModal() {
         log.info("Show PopupModal");
@@ -117,7 +105,7 @@ public class AdsBean extends ExtendBean implements Serializable {
     }
 
     /**
-     * Fermer le popup d'edition ou d'ajout
+     * Close edition/add pop up
      */
     public void hidePopupModal() {
         log.info("Hide PopupModal");
@@ -196,6 +184,9 @@ public class AdsBean extends ExtendBean implements Serializable {
         paginator = new RepeatPaginator(adsEntities);
     }
 
+    /**
+     * Find all ads by user ID
+     */
     public void findAllAdsByUsers() {
         int idUser = usersBean.getUsersEntity().getId();
         allAdsByUser = adsServices.findAdsByIdUser(idUser);
@@ -227,6 +218,9 @@ public class AdsBean extends ExtendBean implements Serializable {
         }
     }
 
+    /**
+     * Display disabled ads by user ID
+     */
     public void displayDisabeldAdsByUser() {
         log.info("AdsBean : displayDisabeldAdsByUser");
         int idUser = usersBean.getUsersEntity().getId();
@@ -243,6 +237,13 @@ public class AdsBean extends ExtendBean implements Serializable {
         return adsServices.update(adsEntity);
     }
 
+    /**
+     * Update ads and then redirect to adsDetails page
+     *
+     * @return page adsDetails.xhtml
+     * @throws ServletException
+     * @throws IOException
+     */
     public String updateAddedAds() throws ServletException, IOException {
         log.info("Update" + adsEntity);
 

@@ -2,20 +2,26 @@
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:fxs="http://java.sun.com/jsf/composite/composantsFxs"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
                 template="WEB-INF/templates/template.xhtml">
 
     <ui:define name="title">#{bundle['fxs.carscolors.title']}</ui:define>
     <ui:define name="content">
 
+        <f:metadata>
+            <f:event listener="#{accessControlBean.checkPermission}" type="preRenderView"/>
+            <f:attribute name="permRequired" value="read_colors"/>
+        </f:metadata>
+
         <h:head>
             <script>
                 $( document ).ready( function () {
 
-                        $( '.colorsTable' ).dataTable().fnDestroy();
-                        loadTable();
+                    $( '.colorsTable' ).dataTable().fnDestroy();
+                    loadTable();
 
-                        function loadTable() {
-                            $( '.colorsTable' ).DataTable( {
+                    function loadTable() {
+                        $( '.colorsTable' ).DataTable( {
                                 'language': {
                                     'url': '//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/French.json'
                                 }

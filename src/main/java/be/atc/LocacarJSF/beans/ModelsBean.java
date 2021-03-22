@@ -67,7 +67,7 @@ public class ModelsBean extends ExtendBean implements Serializable {
     }
 
     /**
-     * Ouvrir le popup d'edition ou d'ajout
+     * Open add or update modal
      */
     public void showPopupModal() {
         log.info("Show PopupModal");
@@ -83,7 +83,7 @@ public class ModelsBean extends ExtendBean implements Serializable {
     }
 
     /**
-     * Fermer le popup d'edition ou d'ajout
+     * Close add or update modal
      */
     public void hidePopupModal() {
         log.info("Hide PopupModal");
@@ -114,7 +114,7 @@ public class ModelsBean extends ExtendBean implements Serializable {
     }
 
     /**
-     * Sauvegarde l'entité ajouté ou modifié !
+     * Save updated/added entity
      */
     public void saveEdit() {
 
@@ -143,6 +143,9 @@ public class ModelsBean extends ExtendBean implements Serializable {
         init();
     }
 
+    /**
+     * Find models by brands ID
+     */
     public void findModelsByBrands() {
 
         FacesContext context = FacesContext.getCurrentInstance();
@@ -161,6 +164,9 @@ public class ModelsBean extends ExtendBean implements Serializable {
         showModel = !modelsEntities.isEmpty();
     }
 
+    /**
+     * find Brands by ads ID
+     */
     public void findBrandsByAds() {
 
         FacesContext context = FacesContext.getCurrentInstance();
