@@ -46,25 +46,13 @@
 
         <h:body>
             <div class="account-title">
-                <h1>#{bundle['disabledAds.title']}</h1>
+                <h1>#{bundle['account.title']}</h1>
             </div>
             <div class="row">
-                <aside class="col-md-3">
-                    <nav class="nav flex-column">
-                        <h:form>
-                            <h:commandLink class="nav-link account-a "
-                                           action="account?faces-redirect=true" value="#{bundle['account.ads']}"/>
-                            <h:commandLink class="nav-link account-a account-a-active"
-                                           value="#{bundle['account.deactivate']}"/>
-                            <h:commandLink class="nav-link account-a" action="accountsellcar?faces-redirect=true"
-                                           value="#{bundle['account.sell']}"/>
-                            <h:commandLink class="nav-link account-a" value="#{bundle['account.parameter']}"/>
-                        </h:form>
-                    </nav>
-                </aside>
+                <fxs:menu/>
                 <div class="col-md-offset-2 col-md-9 myarea-content">
                     <div class="myarea-content-title">
-                        <h3 class="myarea-content-h3">#{bundle['disabledAds.title']}</h3>
+                        <h2 class="myarea-content-h3">#{bundle['disabledAds.title']}</h2>
                     </div>
                     <div class="myarea-content-display table-responsive">
                         <fxs:disabledAdsList/>

@@ -16,12 +16,12 @@
             <script>
                 $( document ).ready( function () {
 
-                    $( '.optionTable' ).dataTable().fnDestroy();
-                    loadTable();
+                        $( '.optionTable' ).dataTable().fnDestroy();
+                        loadTable();
 
-                    function loadTable() {
-                        $( '.optionTable' ).DataTable( {
-                            'language': {
+                        function loadTable() {
+                            $( '.optionTable' ).DataTable( {
+                                'language': {
                                     'url': '//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/French.json'
                                 }
                             } );
@@ -36,11 +36,7 @@
                 <h1>#{bundle['account.title']}</h1>
             </div>
             <div class="row">
-                <aside class="col-md-3">
-                    <nav class="nav flex-column">
-                        <fxs:menu/>
-                    </nav>
-                </aside>
+                <fxs:menu/>
                 <div class="col-md-offset-2 col-md-9 myarea-content">
                     <div class="myarea-content-title">
                         <h2>#{bundle['fxs.options.title']}</h2>

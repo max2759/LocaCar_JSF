@@ -3,12 +3,17 @@
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 template="WEB-INF/templates/template.xhtml"
+                xmlns:fxs="http://java.sun.com/jsf/composite/composantsFxs"
                 xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
                 xmlns:c="http://java.sun.com/jsp/jstl/core">
 
     <ui:define name="title">#{bundle['fxs.roles.title']}</ui:define>
     <ui:define name="content">
 
+        <f:metadata>
+            <f:event listener="#{accessControlBean.checkPermission}" type="preRenderView"/>
+            <f:attribute name="permRequired" value="read_roles"/>
+        </f:metadata>
         <h:head>
             <title>Utilisateurs</title>
             <f:metadata>
@@ -17,8 +22,8 @@
             <script>
                 $( document ).ready( function () {
 
-                        $( '.dataRole' ).dataTable().fnDestroy();
-                        loadTable();
+                    $( '.dataRole' ).dataTable().fnDestroy();
+                    loadTable();
 
                         function loadTable() {
                             $( '.optionTable' ).DataTable( {
@@ -33,89 +38,106 @@
         </h:head>
 
         <h:body>
-            <c:if test="#{usersBean.connected}">
-                <h:panelGroup rendered="#{rolesPermissionsBean.readRoles}">
-                        <h2>#{bundle['fxs.roles.title']}</h2>
-                        <h:form>
+            <div class="account-title">
+                <h1>#{bundle['account.title']}</h1>
+            </div>
+            <div class="row">
+                <fxs:menu/>
+                <div class="col-md-offset-2 col-md-9 myarea-content">
+                    <div class="myarea-content-title">
+                        <h2>#{bundle['fxs.insurances.title']}</h2>
+                    </div>
+                    <div class="myarea-content-display table-responsive">
+                        <c:if test="#{usersBean.connected}">
+                            <h:panelGroup rendered="#{rolesPermissionsBean.readRoles}">
+                                <h2>#{bundle['fxs.roles.title']}</h2>
+                                <h:form>
 
-                            <h:commandLink styleClass="btn btn-success"
-                                           value="#{bundle['fxs.optionsList.add']}"
-                                           action="#{rolesBean.showPopupModalAdd}">
-                                <f:param name="addRolesEntity" value="addRolesEntity"></f:param>
-                                <i class="fas fa-plus"></i>
-                            </h:commandLink>
-                        </h:form>
-
-                        <h:form>
-                            <h:dataTable id="outputMessage" styleClass="dataRole table table-hover table-responsive"
-                                         value="#{rolesBean.rolesEntities}" var="role">
-
-                                <h:column>
-                                    <f:facet name="header">#{bundle['fxs.connexion.label']}</f:facet>
-                                    <h:outputText value="#{role.label}"></h:outputText>
-                                </h:column>
-
-                                <h:column>
-                                    <!-- bouton edit -->
-                                    <f:facet name="header">#{bundle['fxs.rolesList.edit']}</f:facet>
-                                    <!-- appel de showmodalPopup -->
-                                    <h:commandLink styleClass="btn btn-outline-primary btn-sm"
-                                                   action="#{rolesBean.showPopupModalEdit}">
-                                        <f:param name="id" value="#{role.id}"></f:param>
-                                        <f:ajax render="@all"/>
-                                        <i class="fas fa-edit"></i>
+                                    <h:commandLink styleClass="btn btn-success"
+                                                   value="#{bundle['fxs.optionsList.add']}"
+                                                   action="#{rolesBean.showPopupModalAdd}">
+                                        <f:param name="addRolesEntity" value="addRolesEntity"></f:param>
+                                        <i class="fas fa-plus"></i>
                                     </h:commandLink>
-                                </h:column>
-                                <h:column>
-                                    <!-- bouton delete -->
-                                    <f:facet name="header">#{bundle['fxs.roles.delete']}</f:facet>
-                                    <!-- appel de showmodalPopup -->
-                                    <h:commandLink styleClass="btn btn-outline-primary btn-sm"
-                                                   action="#{rolesBean.delete}">
-                                        <f:param name="idDel" value="#{role.id}"></f:param>
+                                </h:form>
 
-                                        <i class="fas fa-edit"></i>
-                                    </h:commandLink>
-                                </h:column>
+                                <h:form>
+                                    <h:dataTable id="outputMessage"
+                                                 styleClass="dataRole table table-hover table-responsive"
+                                                 value="#{rolesBean.rolesEntities}" var="role">
 
-                            </h:dataTable>
-                        </h:form>
+                                        <h:column>
+                                            <f:facet name="header">#{bundle['fxs.connexion.label']}</f:facet>
+                                            <h:outputText value="#{role.label}"></h:outputText>
+                                        </h:column>
+
+                                        <h:column>
+                                            <!-- bouton edit -->
+                                            <f:facet name="header">#{bundle['fxs.rolesList.edit']}</f:facet>
+                                            <!-- appel de showmodalPopup -->
+                                            <h:commandLink styleClass="btn btn-outline-primary btn-sm"
+                                                           action="#{rolesBean.showPopupModalEdit}">
+                                                <f:param name="id" value="#{role.id}"></f:param>
+                                                <f:ajax render="@all"/>
+                                                <i class="fas fa-edit"></i>
+                                            </h:commandLink>
+                                        </h:column>
+                                        <h:column>
+                                            <!-- bouton delete -->
+                                            <f:facet name="header">#{bundle['fxs.roles.delete']}</f:facet>
+                                            <!-- appel de showmodalPopup -->
+                                            <h:commandLink styleClass="btn btn-outline-primary btn-sm"
+                                                           action="#{rolesBean.delete}">
+                                                <f:param name="idDel" value="#{role.id}"></f:param>
+
+                                                <i class="fas fa-edit"></i>
+                                            </h:commandLink>
+                                        </h:column>
+
+                                    </h:dataTable>
+                                </h:form>
 
 
-                        <!-- affichage du modal edit-->
-                        <f:view>
-                            <h:panelGroup id="popupEdit" layout="block" styleClass="popup-panel-overlay"
-                                          rendered="#{rolesBean.showPopupEdit}">
+                            </h:panelGroup>
+                        </c:if>
+                    </div>
+                </div>
+            </div>
 
-                                <h:form id="formPopupEdit">
+            <!-- affichage du modal edit-->
+            <f:view>
+                <h:panelGroup id="popupEdit" layout="block" styleClass="popup-panel-overlay"
+                              rendered="#{rolesBean.showPopupEdit}">
 
-                                    <div class="popup-panel">
-                                        <h:outputText value="#{rolesBean.success}"
-                                                      style="color: green; font-weight: bold"></h:outputText>
-                                        <h:outputText value="#{rolesBean.fail}"
-                                                      style="color: darkred; font-weight: bold"></h:outputText>
+                    <h:form id="formPopupEdit">
 
-                                        <div class="form-group">
-                                            <h:outputLabel value="ID" for="idRoles"></h:outputLabel>
-                                            <h:outputText id="idRoles" value="#{rolesBean.rolesEntity.id}"
-                                                          styleClass="form-control"></h:outputText>
-                                        </div>
+                        <div class="popup-panel">
+                            <h:outputText value="#{rolesBean.success}"
+                                          style="color: green; font-weight: bold"></h:outputText>
+                            <h:outputText value="#{rolesBean.fail}"
+                                          style="color: darkred; font-weight: bold"></h:outputText>
 
-                                        <div class="form-group">
-                                            <h:outputLabel value="label" for="label"></h:outputLabel>
-                                            <h:inputText value="#{rolesBean.rolesEntity.label}"
-                                                         styleClass="form-control"
-                                                         required="true"
-                                                         pt:placeholder="Votre role ici..."
-                                                         requiredMessage="#{bundle['fxs.insurancesList.required']}"
-                                                         id="label">
-                                            </h:inputText>
-                                            <h:message styleClass="alert alert-danger" role="alert"
-                                                       for="label"></h:message>
-                                        </div>
+                            <div class="form-group">
+                                <h:outputLabel value="ID" for="idRoles"></h:outputLabel>
+                                <h:outputText id="idRoles" value="#{rolesBean.rolesEntity.id}"
+                                              styleClass="form-control"></h:outputText>
+                            </div>
 
-                                        <!-- button save edit -->
-                                        <span>
+                            <div class="form-group">
+                                <h:outputLabel value="label" for="label"></h:outputLabel>
+                                <h:inputText value="#{rolesBean.rolesEntity.label}"
+                                             styleClass="form-control"
+                                             required="true"
+                                             pt:placeholder="Votre role ici..."
+                                             requiredMessage="#{bundle['fxs.insurancesList.required']}"
+                                             id="label">
+                                </h:inputText>
+                                <h:message styleClass="alert alert-danger" role="alert"
+                                           for="label"></h:message>
+                            </div>
+
+                            <!-- button save edit -->
+                            <span>
                                             <h:commandButton styleClass="btn btn-outline-success btn-sm"
                                                              value="#{bundle['fxs.insurancesList.save']}"
                                                              action="#{rolesBean.saveEdit}">
@@ -124,52 +146,52 @@
 
                                         </span>
 
-                                        <span>
+                            <span>
                                             <h:commandButton styleClass="btn btn-outline-dark btn-sm"
                                                              value="#{bundle['fxs.insurancesList.close']}"
                                                              action="#{rolesBean.hidePopupModal}">
                                                 <f:ajax render="@all"></f:ajax>
                                             </h:commandButton>
                                         </span>
-                                    </div>
-                                </h:form>
-                            </h:panelGroup>
-                        </f:view>
+                        </div>
+                    </h:form>
+                </h:panelGroup>
+            </f:view>
 
 
-                        <!-- add role -->
-                        <f:view>
-                            <h:panelGroup id="popupAdd" layout="block" styleClass="popup-panel-overlay"
-                                          rendered="#{rolesBean.showPopupAdd}">
+            <!-- add role -->
+            <f:view>
+                <h:panelGroup id="popupAdd" layout="block" styleClass="popup-panel-overlay"
+                              rendered="#{rolesBean.showPopupAdd}">
 
-                                <h:form id="formPopupAdd">
-                                    <div class="popup-panel">
-                                        <h:outputText value="#{rolesBean.success}"
-                                                      style="color: green; font-weight: bold"></h:outputText>
-                                        <h:outputText value="#{rolesBean.fail}"
-                                                      style="color: darkred; font-weight: bold"></h:outputText>
+                    <h:form id="formPopupAdd">
+                        <div class="popup-panel">
+                            <h:outputText value="#{rolesBean.success}"
+                                          style="color: green; font-weight: bold"></h:outputText>
+                            <h:outputText value="#{rolesBean.fail}"
+                                          style="color: darkred; font-weight: bold"></h:outputText>
 
-                                        <div class="form-group">
-                                            <h:outputLabel value="ID" for="idRolesAdd"></h:outputLabel>
-                                            <h:outputText id="idRolesAdd" value="#{rolesBean.rolesEntity.id}"
-                                                          styleClass="form-control"></h:outputText>
-                                        </div>
+                            <div class="form-group">
+                                <h:outputLabel value="ID" for="idRolesAdd"></h:outputLabel>
+                                <h:outputText id="idRolesAdd" value="#{rolesBean.rolesEntity.id}"
+                                              styleClass="form-control"></h:outputText>
+                            </div>
 
-                                        <div class="form-group">
-                                            <h:outputLabel value="labelRole" for="labelRole"></h:outputLabel>
-                                            <h:inputText value="#{rolesBean.rolesEntity.label}"
-                                                         styleClass="form-control"
-                                                         required="true"
-                                                         pt:placeholder="Votre role ici..."
-                                                         requiredMessage="#{bundle['fxs.insurancesList.required']}"
-                                                         id="labelRole">
-                                            </h:inputText>
-                                            <h:message styleClass="alert alert-danger" role="alert"
-                                                       for="labelRole"></h:message>
-                                        </div>
+                            <div class="form-group">
+                                <h:outputLabel value="labelRole" for="labelRole"></h:outputLabel>
+                                <h:inputText value="#{rolesBean.rolesEntity.label}"
+                                             styleClass="form-control"
+                                             required="true"
+                                             pt:placeholder="Votre role ici..."
+                                             requiredMessage="#{bundle['fxs.insurancesList.required']}"
+                                             id="labelRole">
+                                </h:inputText>
+                                <h:message styleClass="alert alert-danger" role="alert"
+                                           for="labelRole"></h:message>
+                            </div>
 
-                                        <!-- button save add -->
-                                        <span>
+                            <!-- button save add -->
+                            <span>
                                             <h:commandButton styleClass="btn btn-outline-success btn-sm"
                                                              value="#{bundle['fxs.insurancesList.save']}"
                                                              action="#{rolesBean.addRole}">
@@ -177,19 +199,17 @@
                                             </h:commandButton>
 
                                         </span>
-                                        <span>
+                            <span>
                                             <h:commandButton styleClass="btn btn-outline-dark btn-sm"
                                                              value="#{bundle['fxs.insurancesList.close']}"
                                                              action="#{rolesBean.hidePopupModal}">
                                                 <f:ajax render="@all"></f:ajax>
                                             </h:commandButton>
                                         </span>
-                                    </div>
-                                </h:form>
-                            </h:panelGroup>
-                        </f:view>
+                        </div>
+                    </h:form>
                 </h:panelGroup>
-            </c:if>
+            </f:view>
         </h:body>
 
     </ui:define>

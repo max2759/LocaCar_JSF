@@ -11,6 +11,8 @@
         <h:head>
             <title>Utilisateurs</title>
             <f:metadata>
+                <f:event listener="#{accessControlBean.checkPermission}" type="preRenderView"/>
+                <f:attribute name="permRequired" value="read_roles"/>
                 <f:event type="preRenderView" listener="#{rolesPermissionsBean.init}"/>
             </f:metadata>
             <script>
@@ -28,14 +30,20 @@
         </h:head>
 
         <h:body>
-            <h:panelGroup rendered="#{usersBean.connected}">
-                <h:panelGroup rendered="#{rolesPermissionsBean.readRoles}">
-                    <div class="container">
+            <div class="account-title">
+                <h1>#{bundle['account.title']}</h1>
+            </div>
+            <div class="row">
+                <fxs:menu/>
+                <div class="col-md-offset-2 col-md-9 myarea-content">
+                    <div class="myarea-content-title">
                         <h2>#{bundle['fxs.users.title']}</h2>
+                    </div>
+                    <div class="myarea-content-display table-responsive">
                         <fxs:rolePermissions id="displayUsersList"></fxs:rolePermissions>
                     </div>
-                </h:panelGroup>
-            </h:panelGroup>
+                </div>
+            </div>
         </h:body>
 
     </ui:define>

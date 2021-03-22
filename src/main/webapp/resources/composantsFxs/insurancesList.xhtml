@@ -12,17 +12,18 @@
 >
 </cc:interface>
 <cc:implementation>
-    <br/>
-    <div>
-        <h:form>
-            <h:commandButton styleClass="btn btn-outline-primary" value="#{bundle['fxs.insurancesList.add']}"
-                             action="#{insurancesBean.showPopupModal}">
-                <f:param name="addEntity" value="addEntity"/>
-            </h:commandButton>
-        </h:form>
-    </div>
-    <br/>
-    <h:form>
+
+    <h:panelGroup rendered="#{rolesPermissionsBean.addInsurances}">
+        <div class="mt-2">
+            <h:form>
+                <h:commandButton styleClass="btn btn-outline-primary" value="#{bundle['fxs.insurancesList.add']}"
+                                 action="#{insurancesBean.showPopupModal}">
+                    <f:param name="addEntity" value="addEntity"/>
+                </h:commandButton>
+            </h:form>
+        </div>
+    </h:panelGroup>
+    <h:form styleClass="mt-3">
         <h:panelGrid>
             <h:messages id="messages" showSummary="true" globalOnly="true" infoClass="alert-success"
                         errorClass="alert-danger"/>
@@ -63,12 +64,12 @@
                     <f:ajax render="@form"/>
                 </h:commandLink>
                 <h:commandLink id="desactiveInsurance" styleClass="text-secondary"
-                                   action="#{insurancesBean.deleteOrActivateInsurance}"
-                                   rendered="#{i.active eq false}">
-                        <i class="fas fa-toggle-off"></i>
-                        <f:param name="id" value="#{i.id}"/>
-                        <f:ajax render="@form"/>
-                    </h:commandLink>
+                               action="#{insurancesBean.deleteOrActivateInsurance}"
+                               rendered="#{i.active eq false}">
+                    <i class="fas fa-toggle-off"></i>
+                    <f:param name="id" value="#{i.id}"/>
+                    <f:ajax render="@form"/>
+                </h:commandLink>
             </h:column>
         </h:dataTable>
     </h:form>
