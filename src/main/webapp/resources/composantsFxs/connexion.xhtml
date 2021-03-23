@@ -13,7 +13,14 @@
     <h:form>
         <br/>
 
+        <h:outputText value="#{usersBean.success}"
+                      style="color: green; font-weight: bold"></h:outputText>
+
         <h:panelGroup rendered="#{not usersBean.connected}" styleClass="row mb-2">
+            <h:outputText value="#{usersBean.success}"
+                          style="color: green; font-weight: bold"></h:outputText>
+            <h:outputText value="#{usersBean.fail}"
+                          style="color: darkred; font-weight: bold"></h:outputText>
             <h:outputText value="#{bundle['fxs.user.username']}" styleClass="col-sm-2 col-form-label"></h:outputText>
             <h:inputText value="#{usersBean.usersEntity.username}" required="true"
                          styleClass="form-control col-2 ry"></h:inputText>

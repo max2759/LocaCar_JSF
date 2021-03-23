@@ -31,6 +31,10 @@
                       style="color: green; font-weight: bold"></h:outputText>
         <h:outputText value="#{rolesPermissionsBean.fail}"
                       style="color: darkred; font-weight: bold"></h:outputText>
+        <h:panelGrid>
+            <h:messages id="message" showSummary="true" globalOnly="true" infoClass="alert-success"
+                        errorClass="alert-danger"/>
+        </h:panelGrid>
 
         <h:dataTable id="example" styleClass="datatableRolePerm table table-hover"
                      value="#{rolesPermissionsBean.rolesPermissionsEntities}" var="roleP">
@@ -76,120 +80,10 @@
         </h:dataTable>
     </h:form>
 
-    <!-- test add rolePerm -->
-    <f:view>
-        <h:panelGroup id="popupAdd" layout="block" styleClass="popup-panel-overlay"
-                      rendered="#{rolesPermissionsBean.showPopupAdd}">
 
-            <h:form id="formPopupAdd">
-                <div class="popup-panel">
-                    <h:outputText value="#{rolesPermissionsBean.success}"
-                                  style="color: green; font-weight: bold"></h:outputText>
-                    <h:outputText value="#{rolesPermissionsBean.fail}"
-                                  style="color: darkred; font-weight: bold"></h:outputText>
 
-                    <div class="form-group">
-                        <h:outputLabel value="ID" for="idRolesPermissions"></h:outputLabel>
-                        <h:outputText id="idRolesPermissions" value="#{rolesPermissionsBean.rolesPermissionsEntity.id}"
-                                      styleClass="form-control"></h:outputText>
-                    </div>
 
-                    <h:panelGroup styleClass="form-group">
-                        <h:selectOneMenu id="rolesDisplay" styleClass="form-group"
-                                         value="#{rolesBean.rolesEntity.id}">
-                            <f:selectItem itemValue="#{null}" itemLabel=" "/>
-                            <f:selectItems value="#{rolesBean.rolesEntitiesSelectItems}"/>
-                        </h:selectOneMenu>
-                        <h:message for="rolesDisplay"/>
-                    </h:panelGroup>
 
-                    <h:panelGroup styleClass="form-group">
-                        <h:selectOneMenu id="permissionsDisplay" styleClass="form-group"
-                                         value="#{permissionsBean.permissionsEntity.id}">
-                            <f:selectItem itemValue="#{null}" itemLabel=" "/>
-                            <f:selectItems value="#{permissionsBean.permissionsEntitiesSelectItems}"/>
-                        </h:selectOneMenu>
-                        <h:message for="rolesDisplay"/>
-                    </h:panelGroup>
-
-                    <!-- button save edit -->
-                    <span>
-                        <h:commandButton styleClass="btn btn-outline-success btn-sm"
-                                         value="#{bundle['fxs.insurancesList.save']}"
-                                         action="#{rolesPermissionsBean.add}">
-                            <f:ajax execute="formPopupAdd" render="@all"></f:ajax>
-                        </h:commandButton>
-                    </span>
-
-                    <span>
-                        <h:commandButton styleClass="btn btn-outline-dark btn-sm"
-                                         value="#{bundle['fxs.insurancesList.close']}"
-                                         action="#{rolesPermissionsBean.hidePopupModal}">
-                            <f:ajax render="@all"></f:ajax>
-                        </h:commandButton>
-                    </span>
-                </div>
-            </h:form>
-        </h:panelGroup>
-    </f:view>
-
-    <!-- popup edit -->
-    <f:view>
-        <h:panelGroup id="popupEdit" layout="block" styleClass="popup-panel-overlay"
-                      rendered="#{rolesPermissionsBean.showPopupEdit}">
-
-            <h:form id="formPopupEdit">
-                <div class="popup-panel">
-                    <h:outputText value="#{rolesPermissionsBean.success}"
-                                  style="color: green; font-weight: bold"></h:outputText>
-                    <h:outputText value="#{rolesPermissionsBean.fail}"
-                                  style="color: darkred; font-weight: bold"></h:outputText>
-
-                    <div class="form-group">
-                        <h:outputLabel value="ID" for="idRolesPermissions"></h:outputLabel>
-                        <h:outputText id="idRolesPermission" value="#{rolesPermissionsBean.rolesPermissionsEntity.id}"
-                                      styleClass="form-control"></h:outputText>
-                    </div>
-
-                    <h:panelGroup styleClass="form-group">
-                        <h:selectOneMenu id="rolesDisplays" styleClass="form-group"
-                                         value="#{rolesBean.rolesEntity.id}">
-                            <f:selectItem itemValue="#{null}" itemLabel=" "/>
-                            <f:selectItems value="#{rolesBean.rolesEntitiesSelectItems}"/>
-                        </h:selectOneMenu>
-                        <h:message for="rolesDisplay"/>
-                    </h:panelGroup>
-
-                    <h:panelGroup styleClass="form-group">
-                        <h:selectOneMenu id="permissionsDisplays" styleClass="form-group"
-                                         value="#{permissionsBean.permissionsEntity.id}">
-                            <f:selectItem itemValue="#{null}" itemLabel=" "/>
-                            <f:selectItems value="#{permissionsBean.permissionsEntitiesSelectItems}"/>
-                        </h:selectOneMenu>
-                        <h:message for="rolesDisplay"/>
-                    </h:panelGroup>
-
-                    <!-- button save add -->
-                    <span>
-                        <h:commandButton styleClass="btn btn-outline-success btn-sm"
-                                         value="#{bundle['fxs.insurancesList.save']}"
-                                         action="#{rolesPermissionsBean.functionUpdateRolePermissions}">
-                            <f:ajax execute="formPopupEdit" render="@all"></f:ajax>
-                        </h:commandButton>
-
-                    </span>
-
-                    <span>
-                        <h:commandButton styleClass="btn btn-outline-dark btn-sm"
-                                         value="#{bundle['fxs.insurancesList.close']}"
-                                         action="#{rolesPermissionsBean.hidePopupModal}">
-                            <f:ajax render="@all"></f:ajax>
-                        </h:commandButton>
-                    </span>
-                </div>
-            </h:form>
-        </h:panelGroup>
-    </f:view>
 
 
 </cc:implementation>

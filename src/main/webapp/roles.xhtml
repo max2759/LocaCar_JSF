@@ -19,11 +19,12 @@
             <f:metadata>
                 <f:event type="preRenderView" listener="#{rolesBean.init}"/>
             </f:metadata>
+
             <script>
                 $( document ).ready( function () {
 
-                    $( '.dataRole' ).dataTable().fnDestroy();
-                    loadTable();
+                        $( '.dataRole' ).dataTable().fnDestroy();
+                        loadTable();
 
                         function loadTable() {
                             $( '.optionTable' ).DataTable( {
@@ -45,12 +46,12 @@
                 <fxs:menu/>
                 <div class="col-md-offset-2 col-md-9 myarea-content">
                     <div class="myarea-content-title">
-                        <h2>#{bundle['fxs.insurances.title']}</h2>
+                        <h2>#{bundle['fxs.roles.title']}</h2>
                     </div>
                     <div class="myarea-content-display table-responsive">
                         <c:if test="#{usersBean.connected}">
                             <h:panelGroup rendered="#{rolesPermissionsBean.readRoles}">
-                                <h2>#{bundle['fxs.roles.title']}</h2>
+
                                 <h:form>
 
                                     <h:commandLink styleClass="btn btn-success"
@@ -67,7 +68,7 @@
                                                  value="#{rolesBean.rolesEntities}" var="role">
 
                                         <h:column>
-                                            <f:facet name="header">#{bundle['fxs.connexion.label']}</f:facet>
+                                            <f:facet name="header">#{bundle['fxs.roles.title']}</f:facet>
                                             <h:outputText value="#{role.label}"></h:outputText>
                                         </h:column>
 
@@ -112,10 +113,11 @@
                     <h:form id="formPopupEdit">
 
                         <div class="popup-panel">
-                            <h:outputText value="#{rolesBean.success}"
-                                          style="color: green; font-weight: bold"></h:outputText>
-                            <h:outputText value="#{rolesBean.fail}"
-                                          style="color: darkred; font-weight: bold"></h:outputText>
+                            <h:panelGrid>
+                                <h:messages id="messages" showSummary="true" globalOnly="true" infoClass="alert-success"
+                                            errorClass="alert-danger"/>
+                            </h:panelGrid>
+
 
                             <div class="form-group">
                                 <h:outputLabel value="ID" for="idRoles"></h:outputLabel>

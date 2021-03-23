@@ -7,6 +7,7 @@ import org.apache.log4j.Logger;
 import utils.JsfUtils;
 
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -182,6 +183,7 @@ public class RolesPermissionsBean implements Serializable {
      * Repetition code for update optionEntity
      */
     public void functionUpdateRolePermissions() {
+        FacesContext context = FacesContext.getCurrentInstance();
         log.info("appel a fonctionUpdateRole dans les permissions");
         int idRole = rolesBean.getRolesEntity().getId();
         int idPerm = permissionsBean.getPermissionsEntity().getId();
@@ -196,9 +198,11 @@ public class RolesPermissionsBean implements Serializable {
             log.info("label recu du form role: " + rolesPermissionsEntity.getRolesByIdRoles());
             //log.info("num de reole: " + rolesPermissionsBean.findById(1));
             rolesPermissionsServices.update(rolesPermissionsEntity);
-            success = JsfUtils.returnMessage(locale, "fxs.rolePerm.successUpdate");
+            //success = JsfUtils.returnMessage(locale, "fxs.rolePerm.successUpdate");
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, JsfUtils.returnMessage(getLocale(), "fxs.rolePerm.successUpdate"), null));
         } else {
-            fail = JsfUtils.returnMessage(getLocale(), "fxs.rolesPerm.doble");
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, JsfUtils.returnMessage(getLocale(), "fxs.rolesPerm.doble"), null));
+            // fail = JsfUtils.returnMessage(getLocale(), "fxs.rolesPerm.doble");
         }
 
     }
@@ -228,7 +232,7 @@ public class RolesPermissionsBean implements Serializable {
             log.info("label recu du form role: " + rolesPermissionsEntity.getRolesByIdRoles());
             //log.info("num de reole: " + rolesPermissionsBean.findById(1));
             rolesPermissionsServices.add(rolesPermissionsEntity);
-            success = JsfUtils.returnMessage(getLocale(), "fxs.user.welcome");
+            success = JsfUtils.returnMessage(getLocale(), "fxs.rolePerm.successUpdate");
         } else {
             fail = JsfUtils.returnMessage(getLocale(), "fxs.user.welcome");
         }
