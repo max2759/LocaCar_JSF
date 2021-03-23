@@ -11,6 +11,10 @@
 </cc:interface>
 
 <cc:implementation>
+    <h:panelGrid>
+        <h:messages id="messag" showSummary="true" globalOnly="true" infoClass="alert-success"
+                    errorClass="alert-danger"/>
+    </h:panelGrid>
     <h:form>
 
         <h:outputText value="#{usersBean.success}"
@@ -64,10 +68,13 @@
 
         <h:panelGroup styleClass="row mb-2">
             <h:outputText value="#{bundle['fxs.user.birthdate']} *" styleClass="col-sm-2 col-form-label"></h:outputText>
-            <h:inputText value="#{usersBean.usersEntity.birthdate}" required="true" converter="localDateTimeConverter"
+            <h:inputText id="year" value="#{usersBean.usersEntity.birthdate}" required="true"
+                         converter="localDateTimeConverter"
                          styleClass="form-control col-2 ry">
                 <!--<f:convertDateTime pattern="yyyy-mm-dd"/> -->
             </h:inputText>
+            <f:validator validatorId="DateValidator"/>
+            <h:message for="year"/>
         </h:panelGroup>
 
         <h:panelGroup styleClass="row mb-2">
@@ -89,7 +96,7 @@
 
         <h:panelGroup styleClass="row mb-2">
             <h:outputText value="#{bundle['fxs.user.box']}" styleClass="col-sm-2 col-form-label"></h:outputText>
-            <h:inputText value="#{addressesBean.addressesEntity.box}" required="true"
+            <h:inputText value="#{addressesBean.addressesEntity.box}"
                          styleClass="form-control col-2 ry"></h:inputText>
         </h:panelGroup>
 

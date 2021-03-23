@@ -19,7 +19,7 @@
                 $( document ).ready( function () {
                     $( '.datatableRolePerm' ).DataTable( {
                         retrieve: true,
-                        paging: false,
+
                         orderFixed: [0, 'asc'],
                         rowGroup: {
                             dataSrc: 0
@@ -37,13 +37,15 @@
                 <fxs:menu/>
                 <div class="col-md-offset-2 col-md-9 myarea-content">
                     <div class="myarea-content-title">
-                        <h2>#{bundle['fxs.users.title']}</h2>
+                        <h2>#{bundle['fxs.users.RolesPermissions']}</h2>
                     </div>
                     <div class="myarea-content-display table-responsive">
                         <fxs:rolePermissions id="displayUsersList"></fxs:rolePermissions>
                     </div>
                 </div>
             </div>
+            <fxs:modalRolePermEdit id="modalRolePermEdit"/>
+
         </h:body>
 
     </ui:define>

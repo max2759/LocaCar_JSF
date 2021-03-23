@@ -8,6 +8,7 @@ import utils.JsfUtils;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
@@ -24,7 +25,7 @@ import static java.lang.Integer.parseInt;
 
 @Named(value = "rolesBean")
 @SessionScoped
-public class RolesBean implements Serializable {
+public class RolesBean extends ExtendBean implements Serializable {
     private static final long serialVersionUID = -8262263353009937764L;
     public static Logger log = Logger.getLogger(RolesBean.class);
     Locale locale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
@@ -108,7 +109,7 @@ public class RolesBean implements Serializable {
      */
     public void hidePopupModal() {
         log.info("Hide PopupModal");
-        initialisationFields();
+
         showPopupEdit = false;
         showPopupAdd = false;
     }
@@ -118,7 +119,7 @@ public class RolesBean implements Serializable {
      * Sauvegarde l'entité ajouté ou modifié !
      */
     public void saveEdit() {
-
+        FacesContext context = FacesContext.getCurrentInstance();
 
         List<RolesEntity> rolesEntitiesByLabel = rolesServices.findByLabel(rolesEntity.getLabel());
         initialisationFields();
@@ -132,10 +133,12 @@ public class RolesBean implements Serializable {
             if (ue.getId() == rolesEntity.getId()) {
                 functionUpdateRole();
             } else {
-                fail = JsfUtils.returnMessage(locale, "fxs.roles.errorAdd");
+                context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, JsfUtils.returnMessage(getLocale(), "fxs.roles.errorAdd"), null));
+                //fail = JsfUtils.returnMessage(locale, "fxs.roles.errorAdd");
             }
         } else {
-            fail = JsfUtils.returnMessage(locale, "fxs.users.errorAdd");
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, JsfUtils.returnMessage(getLocale(), "fxs.roles.errorAdd"), null));
+            //  fail = JsfUtils.returnMessage(locale, "fxs.users.errorAdd");
         }
 
         init();
@@ -144,15 +147,18 @@ public class RolesBean implements Serializable {
     public void functionAddRole() {
         log.info("begin addrole");
         rolesServices.add(rolesEntity);
-        success = JsfUtils.returnMessage(locale, "fxs.options.succesAdd");
+        success = JsfUtils.returnMessage(locale, "fxs.role.successAdd");
     }
 
     /**
      * Repetition code for update optionEntity
      */
     public void functionUpdateRole() {
+        FacesContext context = FacesContext.getCurrentInstance();
         rolesServices.update(rolesEntity);
-        success = JsfUtils.returnMessage(locale, "fxs.options.successUpdate");
+        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, JsfUtils.returnMessage(getLocale(), "fxs.role.successUpdate"), null));
+
+        // success = JsfUtils.returnMessage(locale, "fxs.role.successUpdate");
     }
 
     public void delete() {

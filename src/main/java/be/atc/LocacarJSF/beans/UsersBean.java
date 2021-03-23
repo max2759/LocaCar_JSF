@@ -12,6 +12,7 @@ import utils.JsfUtils;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
@@ -94,24 +95,19 @@ public class UsersBean extends ExtendBean implements Serializable {
     public void postConstruct() {
         log.info("begin postConstruct, connexion = " + connexion);
         if (connexion) {
-            log.info("connexion = true? :" + connexion);
             usersEntity = findUserById(usersEntity.getId());
             // citiesEntity = citiesServices.findByUser(usersEntity.getId());
 
             //  usersEntity = findUserWithAdresses(usersEntity.getId());
 
         } else {
-            log.info("connexion = false? : " + connexion);
             usersEntity = new UsersEntity();
             init();
         }
     }
 
-
     public void init() {
-        log.info("init() - start");
         usersEntities = usersServices.findAll();
-        //  log.info("Initialization done : "+usersEntities != null ? usersEntities.size() : 0+" results found.");
     }
 
     /**
@@ -140,9 +136,11 @@ public class UsersBean extends ExtendBean implements Serializable {
     }
 
     /**
+     * @return Strng redirect page
      * @throws NoSuchAlgorithmException
      */
     public String connexion() throws NoSuchAlgorithmException {
+        FacesContext context = FacesContext.getCurrentInstance();
 
         String username = usersEntity.getUsername();
         String password = usersEntity.getPassword();
@@ -183,16 +181,19 @@ public class UsersBean extends ExtendBean implements Serializable {
 
                 //              FacesContext.getCurrentInstance().getApplication().getNavigationHandler().handleNavigation(FacesContext.getCurrentInstance(), null, "index.xhtml");
 
-                success = JsfUtils.returnMessage(getLocale(), "fxs.user.welcome");
+                context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, JsfUtils.returnMessage(getLocale(), "fxs.user.welcome"), null));
+                //     success = JsfUtils.returnMessage(getLocale(), "fxs.user.welcome");
                 return "index?faces-redirect=true";
 
 
             } else {
-                fail = JsfUtils.returnMessage(getLocale(), "fxs.user.badConnexion");
+                context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, JsfUtils.returnMessage(getLocale(), "fxs.user.badConnexion"), null));
+                // fail = JsfUtils.returnMessage(getLocale(), "fxs.user.badConnexion");
                 return "connexion?faces-redirect=true";
             }
         } else {
-            fail = JsfUtils.returnMessage(getLocale(), "fxs.user.badConnexion");
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, JsfUtils.returnMessage(getLocale(), "fxs.user.badConnexion"), null));
+            //  fail = JsfUtils.returnMessage(getLocale(), "fxs.user.badConnexion");
             log.info("existe pas");
             return "connexion?faces-redirect=true";
         }
@@ -206,8 +207,9 @@ public class UsersBean extends ExtendBean implements Serializable {
      * @throws NoSuchAlgorithmException
      */
     public void addUser() throws NoSuchAlgorithmException, ParseException {
-
+        FacesContext context = FacesContext.getCurrentInstance();
         log.info("begin addUserBean");
+        initialisationFields();
 
         if (connected && rolesPermissionsBean.isCreateUsers()) {
             //permet d'ajouter dans userList par un admin
@@ -217,19 +219,15 @@ public class UsersBean extends ExtendBean implements Serializable {
             //  usersEntity = new UsersEntity();
         }
 
-
         LocalDateTime currentDate = LocalDateTime.now();
 
         //begin check username
         List<UsersEntity> usernameCheck = usersServices.findByUsername(usersEntity.getUsername());
-        log.info("usernameCheck est null == vide sinonb l'username existe deja= " + usernameCheck);
 
         if (usernameCheck == null || usernameCheck.isEmpty()) {
-
             String password = usersEntity.getPassword();
             boolean bool = Pattern.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,}$", password);
             log.info(bool);
-
 
             if (bool) {
                 String hashPass = hashPassword(password);
@@ -240,14 +238,12 @@ public class UsersBean extends ExtendBean implements Serializable {
                 if (connexion) {
                     log.info(roleLabel);
                     if (rolesPermissionsBean.isCreateUsers()) {
-                        log.info("role = admin, en gros userEntity.setRole()");
                         usersEntity.setRolesByIdRoles(rolesBean.findById(rolesEntity.getId()));
                     }
                 } else {
                     log.info("role non admin et user non co");
-                    usersEntity.setRolesByIdRoles(rolesBean.findById(1));
+                    usersEntity.setRolesByIdRoles(rolesBean.findById(2));
                 }
-
 
                 log.info("first name: " + usersEntity.getFirstname());
 
@@ -277,7 +273,6 @@ public class UsersBean extends ExtendBean implements Serializable {
                         } else {
                             fail = JsfUtils.returnMessage(getLocale(), "fxs.user.errorPassword");
                         }
-
                     }
 
                     if (connected && rolesPermissionsBean.isCreateUsers()) {
@@ -288,6 +283,7 @@ public class UsersBean extends ExtendBean implements Serializable {
 
                         FacesContext.getCurrentInstance().getApplication().getNavigationHandler().handleNavigation(FacesContext.getCurrentInstance(), null, "connexion.xhtml");
                         connected = false;
+                        initialisationFields();
                     }
 
 
@@ -295,14 +291,14 @@ public class UsersBean extends ExtendBean implements Serializable {
                     log.info("begin delete physic after error insert user");
 
                     deletePhysic();
+                    context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, JsfUtils.returnMessage(getLocale(), "fxs.user.errorInsert"), null));
                     fail = JsfUtils.returnMessage(getLocale(), "fxs.user.errorInsert");
                 }
-
             } else {
-                fail = JsfUtils.returnMessage(getLocale(), "fxs.user.errorPassword");
+                context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, JsfUtils.returnMessage(getLocale(), "fxs.user.errorPassword"), null));
             }
         } else {
-            fail = JsfUtils.returnMessage(getLocale(), "fxs.user.usernameError");
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, JsfUtils.returnMessage(getLocale(), "fxs.user.usernameError"), null));
         }
 
     }
@@ -310,7 +306,7 @@ public class UsersBean extends ExtendBean implements Serializable {
     /**
      * deconnexion
      *
-     * @return
+     * @return redirection page de connexion
      */
     public void doLogoutUser() {
         log.info("befin logOut");
@@ -390,20 +386,7 @@ public class UsersBean extends ExtendBean implements Serializable {
     }
 
 
-    public void showPopupModalUpdateByUser() {
-        log.info("Show PopupModal");
-        showPopup = true;
-        if (getParam("id") != null) {
-            log.info("getParam(\"id\") != null");
-            editUsersEntity = false;
-            int idUsers = parseInt(getParam("id"));
-            usersEntity = usersServices.findById(idUsers);
-        } else {
-            log.info("getParam(\"id\") == null");
-            editUsersEntity = true;
-            usersEntity = new UsersEntity();
-        }
-    }
+
 
     /**
      * Fermer le popup d'edition ou d'ajout
@@ -421,8 +404,8 @@ public class UsersBean extends ExtendBean implements Serializable {
      */
     public void saveEdit() throws NoSuchAlgorithmException {
 
+        FacesContext context = FacesContext.getCurrentInstance();
         List<UsersEntity> usersEntitiesByLabel = usersServices.findByUsername(usersEntity.getUsername());
-
 
         log.info("Save edit");
         if ((usersEntitiesByLabel.isEmpty())) {
@@ -433,28 +416,21 @@ public class UsersBean extends ExtendBean implements Serializable {
             if (ue.getId() == usersEntity.getId()) {
                 functionUpdateUser();
             } else {
-                fail = JsfUtils.returnMessage(locale, "fxs.users.errorAdd");
+                context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, JsfUtils.returnMessage(getLocale(), "fxs.users.errorAdd"), null));
             }
         } else {
-            fail = JsfUtils.returnMessage(locale, "fxs.users.errorAdd");
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, JsfUtils.returnMessage(getLocale(), "fxs.users.errorAdd"), null));
         }
 
-        init();
+       init();
     }
 
-    /**
-     * Repetition code for add userEntity
-     */
-    public void functionAddUser() {
-        usersServices.add(usersEntity);
-        success = JsfUtils.returnMessage(getLocale(), "fxs.users.succesAdd");
-
-    }
 
     /**
      * Repetition code for update UserEntity
      */
     public void functionUpdateUser() throws NoSuchAlgorithmException {
+        FacesContext context = FacesContext.getCurrentInstance();
         log.info(usersEntity.getRolesByIdRoles().getLabel());
         String password = usersEntity.getPassword();
         boolean bool = Pattern.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,}$", password);
@@ -465,12 +441,12 @@ public class UsersBean extends ExtendBean implements Serializable {
             usersEntity.setPassword(hashPass);
 
             usersServices.update(usersEntity);
-            success = JsfUtils.returnMessage(getLocale(), "successUpdate");
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, JsfUtils.returnMessage(getLocale(), "successUpdate"), null));
+            //  success = JsfUtils.returnMessage(getLocale(), "successUpdate");
         } else {
-            fail = JsfUtils.returnMessage(getLocale(), "failUpdate");
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, JsfUtils.returnMessage(getLocale(), "failUpdate"), null));
+            //     fail = JsfUtils.returnMessage(getLocale(), "failUpdate");
         }
-
-
     }
 
     public UsersEntity findUserById(int idUser) {

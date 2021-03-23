@@ -10,4 +10,14 @@ function regExPass() {
     alert( 'je suis dedans' );
 }
 
+$( document ).ready( function () {
+    $( '.dataUser' ).DataTable( {
+        retrieve: true,
+        orderFixed: [[2, 'desc'], [0, 'asc']],
+        rowGroup: {
+            dataSrc: 2
+        }
+    } );
+} );
+
 new Splide( '.splide' ).mount();
