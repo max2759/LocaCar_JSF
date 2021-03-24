@@ -23,7 +23,9 @@ import static java.lang.Integer.parseInt;
 
 @Named(value = "rolesPermissionsBean")
 @SessionScoped
-
+/**
+ * @author Larché Marie-Elise
+ */
 public class RolesPermissionsBean implements Serializable {
     private static final long serialVersionUID = -8262263353009937764L;
     public static Logger log = Logger.getLogger(be.atc.LocacarJSF.beans.RolesPermissionsBean.class);
@@ -234,7 +236,7 @@ public class RolesPermissionsBean implements Serializable {
             rolesPermissionsServices.add(rolesPermissionsEntity);
             success = JsfUtils.returnMessage(getLocale(), "fxs.rolePerm.successUpdate");
         } else {
-            fail = JsfUtils.returnMessage(getLocale(), "fxs.user.welcome");
+            fail = JsfUtils.returnMessage(getLocale(), "fxs.rolesPerm.doble");
         }
 
 

@@ -72,28 +72,32 @@
                                             <h:outputText value="#{role.label}"></h:outputText>
                                         </h:column>
 
-                                        <h:column>
-                                            <!-- bouton edit -->
-                                            <f:facet name="header">#{bundle['fxs.rolesList.edit']}</f:facet>
-                                            <!-- appel de showmodalPopup -->
-                                            <h:commandLink styleClass="btn btn-outline-primary btn-sm"
-                                                           action="#{rolesBean.showPopupModalEdit}">
-                                                <f:param name="id" value="#{role.id}"></f:param>
-                                                <f:ajax render="@all"/>
-                                                <i class="fas fa-edit"></i>
-                                            </h:commandLink>
-                                        </h:column>
-                                        <h:column>
-                                            <!-- bouton delete -->
-                                            <f:facet name="header">#{bundle['fxs.roles.delete']}</f:facet>
-                                            <!-- appel de showmodalPopup -->
-                                            <h:commandLink styleClass="btn btn-outline-primary btn-sm"
-                                                           action="#{rolesBean.delete}">
-                                                <f:param name="idDel" value="#{role.id}"></f:param>
+                                        <h:panelGroup rendered="#{rolesPermissionsBean.updateRoles}">
+                                            <h:column>
+                                                <!-- bouton edit -->
+                                                <f:facet name="header">#{bundle['fxs.rolesList.edit']}</f:facet>
+                                                <!-- appel de showmodalPopup -->
+                                                <h:commandLink styleClass="btn btn-outline-primary btn-sm"
+                                                               action="#{rolesBean.showPopupModalEdit}">
+                                                    <f:param name="id" value="#{role.id}"></f:param>
+                                                    <f:ajax render="@all"/>
+                                                    <i class="fas fa-edit"></i>
+                                                </h:commandLink>
+                                            </h:column>
+                                        </h:panelGroup>
+                                        <h:panelGroup rendered="#{rolesPermissionsBean.deleteRoles}">
+                                            <h:column>
+                                                <!-- bouton delete -->
+                                                <f:facet name="header">#{bundle['fxs.roles.delete']}</f:facet>
+                                                <!-- appel de showmodalPopup -->
+                                                <h:commandLink styleClass="btn btn-outline-primary btn-sm"
+                                                               action="#{rolesBean.delete}">
+                                                    <f:param name="idDel" value="#{role.id}"></f:param>
 
-                                                <i class="fas fa-edit"></i>
-                                            </h:commandLink>
-                                        </h:column>
+                                                    <i class="fas fa-edit"></i>
+                                                </h:commandLink>
+                                            </h:column>
+                                        </h:panelGroup>
 
                                     </h:dataTable>
                                 </h:form>

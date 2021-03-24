@@ -8,7 +8,9 @@ import utils.EMF;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import java.util.List;
-
+/**
+ * @author Larche Marie-Élise
+ */
 public class AddressesDAOImpl implements AddressesDAO {
 
     public static Logger log = Logger.getLogger(AddressesDAOImpl.class);

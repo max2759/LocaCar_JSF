@@ -3,18 +3,20 @@ package be.atc.LocacarJSF.services;
 import be.atc.LocacarJSF.dao.entities.RolesEntity;
 
 import java.util.List;
-
+/**
+ * @author Larche Marie-Élise
+ */
 public interface RolesServices {
     //fait les verifs (genre pas nul...)
-    public boolean add(RolesEntity rolesEntity);
+    boolean add(RolesEntity rolesEntity);
 
-    public boolean update(RolesEntity rolesEntity);
+    boolean update(RolesEntity rolesEntity);
 
-    public boolean delete(int idRole);
+    boolean delete(int idRole);
 
-    public List<RolesEntity> findAll();
+    List<RolesEntity> findAll();
 
-    public RolesEntity findById(int id);
+    RolesEntity findById(int id);
 
-    public List<RolesEntity> findByLabel(String label);
+    List<RolesEntity> findByLabel(String label);
 }

@@ -28,6 +28,12 @@
 
                 <h:form>
                     <h:panelGrid columns="2" styleClass="table table-hover">
+                        <h:panelGroup>#{bundle['fxs.user.firstName']}</h:panelGroup>
+                        <h:panelGroup>#{usersBean.usersEntity.firstname}</h:panelGroup>
+
+                        <h:panelGroup>#{bundle['fxs.user.lastName']}</h:panelGroup>
+                        <h:panelGroup>#{usersBean.usersEntity.lastname}</h:panelGroup>
+
                         <h:panelGroup>#{bundle['fxs.user.username']}</h:panelGroup>
                         <h:panelGroup>#{usersBean.usersEntity.username}</h:panelGroup>
 

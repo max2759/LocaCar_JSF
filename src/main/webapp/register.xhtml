@@ -6,12 +6,20 @@
 
     <ui:define name="title">#{bundle['fxs.register.pageTitle']}</ui:define>
     <ui:define name="content">
+        <h:head>
+            <script>
+                $( function () {
+                    $( '.cal' ).datepicker( $.datepicker.regional[ 'fr' ] );
+                } );
+            </script>
+        </h:head>
+
         <h:body>
-                <h2>#{bundle['fxs.register.pageTitle']}</h2>
-                <!--c'est dans composant qu'on crée tout ca-->
-                <div class="user-form">
-                    <fxs:register id="displayListProject"></fxs:register>
-                </div>
+            <h2>#{bundle['fxs.register.pageTitle']}</h2>
+            <!--c'est dans composant qu'on crée tout ca-->
+            <div class="user-form">
+                <fxs:register id="displayListProject"></fxs:register>
+            </div>
         </h:body>
     </ui:define>
 </ui:composition>

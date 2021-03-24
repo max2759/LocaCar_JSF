@@ -50,7 +50,8 @@
             </h:column>
 
             <!-- bouton update -->
-            <h:column>
+
+            <h:column rendered="#{rolesPermissionsBean.updateRoles}">
 
                 <f:facet name="header">#{bundle['fxs.user.editUser']}</f:facet>
                 <h:commandLink styleClass="btn btn-success"
@@ -64,7 +65,7 @@
             </h:column>
 
 
-            <h:column>
+            <h:column rendered="#{rolesPermissionsBean.deleteRoles}">
                 <!-- bouton delete -->
                 <f:facet name="header">#{bundle['fxs.user.delete']}</f:facet>
                 <!-- appel de showmodalPopup -->
@@ -79,11 +80,6 @@
 
         </h:dataTable>
     </h:form>
-
-
-
-
-
 
 
 </cc:implementation>

@@ -7,7 +7,9 @@ import utils.EMF;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import java.util.List;
-
+/**
+ * @author Larche Marie-Élise
+ */
 public class RolesPermissionsDAOImpl implements RolesPermissionsDAO {
 
     public static Logger log = Logger.getLogger(RolesPermissionsDAOImpl.class);

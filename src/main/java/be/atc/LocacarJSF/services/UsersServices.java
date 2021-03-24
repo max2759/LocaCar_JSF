@@ -3,28 +3,30 @@ package be.atc.LocacarJSF.services;
 import be.atc.LocacarJSF.dao.entities.UsersEntity;
 
 import java.util.List;
-
+/**
+ * @author Larche Marie-Élise
+ */
 public interface UsersServices {
     //fait les verifs (genre pas nul...)
-    public boolean add(UsersEntity usersEntity);
+    boolean add(UsersEntity usersEntity);
 
-    public boolean update(UsersEntity usersEntity);
+    boolean update(UsersEntity usersEntity);
 
-    public boolean delete(int idUser);
+    boolean delete(int idUser);
 
-    public boolean connexion(UsersEntity usersEntity);
+    boolean connexion(UsersEntity usersEntity);
 
-    public List<UsersEntity> findAll();
+    List<UsersEntity> findAll();
 
-    public UsersEntity findById(int id);
+    UsersEntity findById(int id);
 
-    public UsersEntity findByOneUsername(String username);
+    UsersEntity findByOneUsername(String username);
 
-    public List<UsersEntity> findByUsername(String username);
+    List<UsersEntity> findByUsername(String username);
 
-    public UsersEntity findByUsernameAndPassword(String username, String password);
+    UsersEntity findByUsernameAndPassword(String username, String password);
 
-    public UsersEntity findUserWithAddresses(int idUser);
+    UsersEntity findUserWithAddresses(int idUser);
 
 
 }
