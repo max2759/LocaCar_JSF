@@ -15,9 +15,6 @@
 </cc:interface>
 
 <cc:implementation>
-    <div class="account-title">
-        <h1>#{bundle['account.title']}</h1>
-    </div>
     <div class="row">
         <fxs:menu/>
         <div class="col-md-offset-2 col-md-9 myarea-content">
@@ -84,6 +81,18 @@
                                 <i class="fas fa-edit"></i>
                             </h:commandLink>
                         </h:panelGroup>
+                    </h:column>
+
+                    <h:column>
+
+                        <h:commandButton styleClass="btn btn-outline-warning btn-sm"
+                                         value="#{bundle['fxs.insurancesList.delete']}"
+                                         onclick="return confirmer();"
+                                         action="#{usersBean.deleteUser}">
+                            <f:param name="id" value="#{user.id}"></f:param>
+                            <f:ajax execute="formPopupEdit" render="@all"></f:ajax>
+                        </h:commandButton>
+
                     </h:column>
 
 

@@ -91,6 +91,7 @@
                                                 <f:facet name="header">#{bundle['fxs.roles.delete']}</f:facet>
                                                 <!-- appel de showmodalPopup -->
                                                 <h:commandLink styleClass="btn btn-outline-primary btn-sm"
+                                                               onclick="return confirmer();"
                                                                action="#{rolesBean.delete}">
                                                     <f:param name="idDel" value="#{role.id}"></f:param>
 
