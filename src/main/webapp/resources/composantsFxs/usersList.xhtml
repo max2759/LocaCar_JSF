@@ -50,7 +50,8 @@
                 <h:outputText value="#{user.rolesByIdRoles.label}"></h:outputText>
             </h:column>
 
-            <h:column>
+
+            <h:column rendered="#{rolesPermissionsBean.updateUsers}">
                 <!-- bouton edit -->
                 <f:facet name="header">#{bundle['fxs.users.edit']}</f:facet>
                 <!-- appel de showmodalPopup -->
@@ -63,7 +64,7 @@
             </h:column>
 
 
-            <h:column>
+            <h:column rendered="#{rolesPermissionsBean.deleteUsers}">
                 <h:panelGroup rendered="#{user.active}">
                     <h:commandButton styleClass="btn btn-outline-success btn-sm"
                                      value="#{bundle['fxs.insurancesList.delete']}"
@@ -72,6 +73,7 @@
                         <f:ajax execute="formPopupEdit" render="@all"></f:ajax>
                     </h:commandButton>
                 </h:panelGroup>
+
 
                 <h:panelGroup rendered="#{not user.active}">
                     <h:commandButton styleClass="btn btn-outline-success btn-sm"

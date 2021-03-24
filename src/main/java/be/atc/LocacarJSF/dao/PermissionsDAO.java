@@ -3,16 +3,18 @@ package be.atc.LocacarJSF.dao;
 import be.atc.LocacarJSF.dao.entities.PermissionsEntity;
 
 import java.util.List;
-
+/**
+ * @author Larche Marie-Élise
+ */
 public interface PermissionsDAO {
-    public boolean add(PermissionsEntity permissionsEntity);
+    boolean add(PermissionsEntity permissionsEntity);
 
-    public boolean update(PermissionsEntity permissionsEntity);
+    boolean update(PermissionsEntity permissionsEntity);
 
-    public boolean delete(PermissionsEntity permissionsEntity);
+    boolean delete(PermissionsEntity permissionsEntity);
 
-    public List<PermissionsEntity> findAll();
+    List<PermissionsEntity> findAll();
 
-    public PermissionsEntity findById(int id);
+    PermissionsEntity findById(int id);
 
 }

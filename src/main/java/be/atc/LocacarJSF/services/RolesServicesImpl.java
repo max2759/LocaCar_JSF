@@ -7,7 +7,9 @@ import be.atc.LocacarJSF.dao.entities.RolesEntity;
 import org.apache.log4j.Logger;
 
 import java.util.List;
-
+/**
+ * @author Larche Marie-Élise
+ */
 public class RolesServicesImpl implements RolesServices {
 
     public static Logger log = Logger.getLogger(RolesServicesImpl.class);

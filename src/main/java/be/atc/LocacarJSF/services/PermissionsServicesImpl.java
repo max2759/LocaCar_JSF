@@ -5,7 +5,9 @@ import be.atc.LocacarJSF.dao.PermissionsDAOImpl;
 import be.atc.LocacarJSF.dao.entities.PermissionsEntity;
 
 import java.util.List;
-
+/**
+ * @author Larche Marie-Élise
+ */
 public class PermissionsServicesImpl implements PermissionsServices {
 
     PermissionsDAO permissionsDAO = new PermissionsDAOImpl();

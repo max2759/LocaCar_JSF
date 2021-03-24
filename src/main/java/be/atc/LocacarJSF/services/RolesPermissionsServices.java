@@ -3,21 +3,23 @@ package be.atc.LocacarJSF.services;
 import be.atc.LocacarJSF.dao.entities.RolesPermissionsEntity;
 
 import java.util.List;
-
+/**
+ * @author Larche Marie-Élise
+ */
 public interface RolesPermissionsServices {
-    public boolean add(RolesPermissionsEntity rolesPermissionsEntity);
+    boolean add(RolesPermissionsEntity rolesPermissionsEntity);
 
-    public boolean update(RolesPermissionsEntity rolesPermissionsEntity);
+    boolean update(RolesPermissionsEntity rolesPermissionsEntity);
 
-    public boolean delete(int idRolePerm);
+    boolean delete(int idRolePerm);
 
-    public List<RolesPermissionsEntity> findAll();
+    List<RolesPermissionsEntity> findAll();
 
-    public RolesPermissionsEntity findById(int id);
+    RolesPermissionsEntity findById(int id);
 
-    public List<RolesPermissionsEntity> findByIDRoles(int idRole);
+    List<RolesPermissionsEntity> findByIDRoles(int idRole);
 
-    public List<RolesPermissionsEntity> findAllForRolesAndPerm(int idRole);
+    List<RolesPermissionsEntity> findAllForRolesAndPerm(int idRole);
 
-    public RolesPermissionsEntity findByRoleAndPerm(int idRole, int idPerm);
+    RolesPermissionsEntity findByRoleAndPerm(int idRole, int idPerm);
 }

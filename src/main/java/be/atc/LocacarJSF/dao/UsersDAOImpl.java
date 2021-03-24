@@ -8,6 +8,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import java.util.List;
 
+/**
+ * @author Larche Marie-Élise
+ */
 public class UsersDAOImpl implements UsersDAO {
 
     public static Logger log = Logger.getLogger(UsersDAOImpl.class);

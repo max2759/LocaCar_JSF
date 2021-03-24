@@ -6,7 +6,9 @@ import be.atc.LocacarJSF.dao.entities.UsersEntity;
 import org.apache.log4j.Logger;
 
 import java.util.List;
-
+/**
+ * @author Larche Marie-Élise
+ */
 public class UsersServicesImpl implements UsersServices {
     public static Logger log = Logger.getLogger(UsersServicesImpl.class);
 
