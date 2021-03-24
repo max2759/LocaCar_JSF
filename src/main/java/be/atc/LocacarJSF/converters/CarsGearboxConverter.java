@@ -13,6 +13,10 @@ import javax.faces.convert.ConverterException;
 import javax.faces.convert.FacesConverter;
 import java.util.Locale;
 
+/**
+ * @author Zabbara - Maximilien
+ */
+
 @FacesConverter("carsGearboxConverter")
 public class CarsGearboxConverter implements Converter {
 

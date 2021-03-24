@@ -2,10 +2,16 @@
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:fxs="http://java.sun.com/jsf/composite/composantsFxs"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
                 template="WEB-INF/templates/template.xhtml">
 
     <ui:define name="title">#{bundle['fxs.addAds.displayName']}</ui:define>
     <ui:define name="content">
+
+        <f:metadata>
+            <f:event listener="#{accessControlBean.checkPermission}" type="preRenderView"/>
+            <f:attribute name="permRequired" value="create_ads"/>
+        </f:metadata>
 
         <h:head>
             <script>
@@ -16,15 +22,15 @@
         </h:head>
 
         <h:body>
-                <div class="return-div">
+            <div class="return-div">
 
-                    <h:link outcome="index"> <i class="fas fa-chevron-left"></i> #{bundle['adsdetails.return']}
-                    </h:link>
-                </div>
-                <h1>#{bundle['fxs.addAds.displayName']}</h1>
-                <div id="displayAdsForm">
-                    <fxs:addAds/>
-                </div>
+                <h:link outcome="index"> <i class="fas fa-chevron-left"></i> #{bundle['adsdetails.return']}
+                </h:link>
+            </div>
+            <h1>#{bundle['fxs.addAds.displayName']}</h1>
+            <div id="displayAdsForm">
+                <fxs:addAds/>
+            </div>
         </h:body>
     </ui:define>
 </ui:composition>

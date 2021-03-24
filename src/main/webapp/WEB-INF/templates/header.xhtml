@@ -16,6 +16,11 @@
                 <h:form>
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <h:panelGroup>
+                                <li class="nav-item"><h:commandLink styleClass="nav-link"
+                                                                    value="#{bundle['fxs.allads.search']}"
+                                                                    action="#{adsBean.toPageAllAds}"/></li>
+                            </h:panelGroup>
                             <h:panelGroup rendered="#{!usersBean.connected}">
                                 <li class="nav-item"><h:commandLink styleClass="nav-link" value="Register"
                                                                     action="#{usersBean.toPageAddUser}"/></li>
@@ -30,7 +35,7 @@
                             </h:panelGroup>
                             <h:panelGroup rendered="#{usersBean.connected}">
                                 <li class="nav-item">
-                                    <h:commandLink styleClass="nav-link" action="/account?faces-redirect=true"
+                                    <h:commandLink styleClass="nav-link" action="/userUpdateByUsers?faces-redirect=true"
                                                    value="Bonjour #{usersBean.usersEntity.username}">
                                     </h:commandLink>
                                 </li>

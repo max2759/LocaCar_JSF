@@ -5,6 +5,10 @@ import be.atc.LocacarJSF.enums.EnumTypeAds;
 
 import java.util.List;
 
+/**
+ * @author Zabbara - Maximilien
+ */
+
 public interface AdsServices {
     boolean add(AdsEntity adsEntity);
 

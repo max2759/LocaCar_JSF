@@ -7,6 +7,10 @@ import utils.EMF;
 import javax.persistence.EntityManager;
 import java.util.List;
 
+/**
+ * @author Zabbara - Maximilien
+ */
+
 public class CarsFuelsDAOImpl implements CarsFuelsDAO {
 
     public static Logger log = Logger.getLogger(CarsFuelsDAO.class);

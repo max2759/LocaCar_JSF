@@ -6,6 +6,10 @@ import be.atc.LocacarJSF.dao.entities.CarsColorsEntity;
 
 import java.util.List;
 
+/**
+ * @author Zabbara - Maximilien
+ */
+
 public class CarsColorsServicesImpl implements CarsColorsServices {
 
     CarsColorsDAO carsColorsDAO = new CarsColorsDAOImpl();

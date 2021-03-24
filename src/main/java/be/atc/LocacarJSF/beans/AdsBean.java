@@ -46,7 +46,7 @@ public class AdsBean extends ExtendBean implements Serializable {
     private List<String> imagePath = new ArrayList<>();
 
     private String folder = "resources/upload/";
-    private Map<Integer, String> carsPicturesEntityMap = new HashMap<Integer, String>();
+    private Map<Integer, String> carsPicturesEntityMap = new HashMap<>();
 
     private List<CarsPicturesEntity> carsPicturesEntityList;
     private int idModelSearch;
@@ -384,7 +384,6 @@ public class AdsBean extends ExtendBean implements Serializable {
     /**
      * Get one picture from its cars id
      *
-     * @return cars picture entity
      */
     protected void findOnePicturesByIdCars() {
         for (AdsEntity a : adsEntities
@@ -399,6 +398,15 @@ public class AdsBean extends ExtendBean implements Serializable {
 
         log.info(carsPicturesEntityMap);
 
+    }
+
+    /**
+     * Return page allads.xhtml
+     *
+     * @return String
+     */
+    public String toPageAllAds() {
+        return "allads?faces-redirect=true";
     }
 
 

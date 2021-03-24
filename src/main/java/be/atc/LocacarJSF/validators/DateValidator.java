@@ -11,6 +11,9 @@ import javax.faces.validator.ValidatorException;
 import java.time.LocalDateTime;
 import java.util.Locale;
 
+/**
+ * @author Maximilien - Zabbara
+ */
 @FacesValidator("dateValidator")
 public class DateValidator implements Validator {
 

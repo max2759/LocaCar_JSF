@@ -6,6 +6,10 @@ import be.atc.LocacarJSF.dao.entities.OptionsEntity;
 
 import java.util.List;
 
+/**
+ * @author Zabbara - Maximilien
+ */
+
 public class OptionsServicesImpl implements OptionsServices {
 
     OptionsDAO optionsDAO = new OptionsDAOImpl();

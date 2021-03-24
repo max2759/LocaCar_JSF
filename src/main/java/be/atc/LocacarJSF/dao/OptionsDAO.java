@@ -4,6 +4,10 @@ import be.atc.LocacarJSF.dao.entities.OptionsEntity;
 
 import java.util.List;
 
+/**
+ * @author Zabbara - Maximilien
+ */
+
 public interface OptionsDAO {
 
     public boolean add(OptionsEntity optionsEntity);
