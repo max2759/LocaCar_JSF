@@ -14,7 +14,7 @@
         <h:form>
             <h:commandLink styleClass="btn btn-success"
                            value="#{bundle['fxs.optionsList.add']}"
-                           action="#{optionsBean.showPopupModal}">
+                           action="#{optionsBean.showPopupModal}" rendered="#{rolesPermissionsBean.createOptions}">
                 <f:param name="addOptionEntity" value="addOptionEntity"></f:param>
                 <i class="fas fa-plus"></i>
             </h:commandLink>
@@ -29,7 +29,7 @@
                 <h:outputText value="#{options.label}"></h:outputText>
 
             </h:column>
-            <h:column>
+            <h:column rendered="#{rolesPermissionsBean.updateOptions}">
                 <f:facet name="header">#{bundle['fxs.optionsList.edit']}</f:facet>
 
                 <h:commandLink styleClass="text-info"

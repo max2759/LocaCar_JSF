@@ -18,7 +18,7 @@
 
             <h:commandLink styleClass="btn btn-success"
                            value="#{bundle['fxs.optionsList.add']}"
-                           action="#{modelsBean.showPopupModal}">
+                           action="#{modelsBean.showPopupModal}" rendered="#{rolesPermissionsBean.createModels}">
                 <f:param name="addModelsEntity" value="addModelsEntity"></f:param>
                 <i class="fas fa-plus"></i>
             </h:commandLink>
@@ -37,10 +37,9 @@
                 <f:facet name="header">#{bundle['fxs.models.brands']}</f:facet>
                 <h:outputText value="#{models.brandsByIdBrands.label}"></h:outputText>
             </h:column>
-            <h:column>
+            <h:column rendered="#{rolesPermissionsBean.updateModels}">
                 <f:facet name="header">#{bundle['fxs.insurancesList.edit']}</f:facet>
                 <h:commandLink styleClass="text-info" action="#{modelsBean.showPopupModal}">
-
                     <i class="far fa-edit"></i>
                     <f:param name="id" value="#{models.id}"></f:param>
                     <f:ajax render="@all"/>

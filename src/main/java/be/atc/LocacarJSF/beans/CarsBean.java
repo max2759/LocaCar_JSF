@@ -63,7 +63,9 @@ public class CarsBean extends ExtendBean implements Serializable {
         carsEntity.setActive(true);
         carsServices.add(carsEntity);
         carsOptionsBean.addOptionsToCarsOptions(carsEntity);
-        picturesBean.save(carsEntity);
+        if (picturesBean.getFile() != null) {
+            picturesBean.save(carsEntity);
+        }
     }
 
 
@@ -81,9 +83,7 @@ public class CarsBean extends ExtendBean implements Serializable {
         carsServices.update(carsEntity);
         carsOptionsBean.deleteCarOption(carsEntity);
         carsOptionsBean.addOptionsToCarsOptions(carsEntity);
-        if (picturesBean.getFile() == null) {
-            return;
-        } else {
+        if (picturesBean.getFile() != null) {
             picturesBean.save(carsEntity);
         }
 

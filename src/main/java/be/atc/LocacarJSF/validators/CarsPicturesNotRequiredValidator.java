@@ -35,9 +35,8 @@ public class CarsPicturesNotRequiredValidator implements Validator {
     @Override
     public void validate(FacesContext facesContext, UIComponent uiComponent, Object value) throws ValidatorException {
 
-        if (value == null) {
-            return;
-        } else {
+        if (value != null) {
+
             log.info("Début validation image");
             Part file = (Part) value;
 

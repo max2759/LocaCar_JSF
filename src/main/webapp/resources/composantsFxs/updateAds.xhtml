@@ -20,7 +20,7 @@
                 <h5>#{bundle['fxs.ads.carInfoTitle']}</h5>
             </div>
             <div class="car-info">
-                <h:panelGroup styleClass="row mb-3">
+                <h:panelGroup id="showBrands" styleClass="row mb-3">
                     <h:outputLabel value="#{bundle['fxs.ads.brands']}" styleClass="col-sm-2 col-form-label"/>
                     <h:selectOneMenu id="brandsDisplay" styleClass="form-group"
                                      value="#{adsBean.adsEntity.carsByIdCars.modelsByIdModels.brandsByIdBrands}"
@@ -36,7 +36,7 @@
                     <h:message for="brandsDisplay" errorClass="error"/>
                 </h:panelGroup>
 
-                <h:panelGroup id="showModels" rendered="#{modelsBean.showInput}" styleClass="row mb-3">
+                <h:panelGroup id="showModels" styleClass="row mb-3">
                     <h:outputLabel value="#{bundle['fxs.ads.models']}" styleClass="col-sm-2 col-form-label"/>
                     <h:selectOneMenu id="modelsDisplay" value="#{adsBean.adsEntity.carsByIdCars.modelsByIdModels}"
                                      converter="modelsConverter" styleClass="form-group" required="true"

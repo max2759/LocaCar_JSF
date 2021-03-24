@@ -56,7 +56,8 @@
 
                                     <h:commandLink styleClass="btn btn-success"
                                                    value="#{bundle['fxs.optionsList.add']}"
-                                                   action="#{rolesBean.showPopupModalAdd}">
+                                                   action="#{rolesBean.showPopupModalAdd}"
+                                                   rendered="#{rolesPermissionsBean.addRoles}">
                                         <f:param name="addRolesEntity" value="addRolesEntity"></f:param>
                                         <i class="fas fa-plus"></i>
                                     </h:commandLink>
@@ -94,8 +95,7 @@
                                                            onclick="return confirmer();"
                                                            action="#{rolesBean.delete}">
                                                 <f:param name="idDel" value="#{role.id}"></f:param>
-
-                                                <i class="fas fa-edit"></i>
+                                                <i class="fas fa-trash-alt"></i>
                                             </h:commandLink>
                                             </h:column>
 

@@ -17,6 +17,20 @@
                 <f:event type="preRenderView" listener="#{usersBean.init}"/>
             </f:metadata>
 
+            <script>
+                $( document ).ready( function () {
+                    $( '.dataUser' ).DataTable( {
+                        language: {
+                            'url': '//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/French.json'
+                        },
+                        retrieve: true,
+                        orderFixed: [[2, 'desc'], [0, 'asc']],
+                        rowGroup: {
+                            dataSrc: 2
+                        }
+                    } );
+                } );
+            </script>
         </h:head>
 
         <h:body>

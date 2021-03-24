@@ -43,11 +43,14 @@
                     <h:commandLink rendered="#{rolesPermissionsBean.readModels}"
                                    class="nav-link account-a"
                                    action="models?faces-redirect=true" value="#{bundle['account.model']}"/>
-                    <h:commandLink class="nav-link account-a"
+                    <h:commandLink rendered="#{rolesPermissionsBean.readUsers}"
+                                   class="nav-link account-a"
                                    action="users?faces-redirect=true" value="#{bundle['account.users']}"/>
-                    <h:commandLink class="nav-link account-a"
+                    <h:commandLink rendered="#{rolesPermissionsBean.readRoles}"
+                                   class="nav-link account-a"
                                    action="roles?faces-redirect=true" value="#{bundle['account.addRole']}"/>
-                    <h:commandLink class="nav-link account-a"
+                    <h:commandLink rendered="#{rolesPermissionsBean.readRoles}"
+                                   class="nav-link account-a"
                                    action="addRolePermissions?faces-redirect=true"
                                    value="#{bundle['account.addRolePermissions']}"/>
                 </h:panelGroup>

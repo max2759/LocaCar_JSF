@@ -9,15 +9,17 @@
     <ui:define name="content">
 
         <h:head>
-            <title>Utilisateurs</title>
+            <title>#{bundle['account.title']}</title>
             <f:metadata>
                 <f:event type="preRenderView" listener="#{usersBean.init}"/>
             </f:metadata>
         </h:head>
 
         <h:body>
+            <div class="account-title">
+                <h1>#{bundle['account.title']}</h1>
+            </div>
             <h:panelGroup rendered="#{usersBean.connected}">
-
                 <fxs:userUpdateByUsers id="displayUsersList"></fxs:userUpdateByUsers>
             </h:panelGroup>
             <fxs:modalUserByUsersEdit id="modalUserByUsersEdit"/>
