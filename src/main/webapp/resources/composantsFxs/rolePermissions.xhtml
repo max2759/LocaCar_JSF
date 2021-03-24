@@ -70,7 +70,7 @@
                 <f:facet name="header">#{bundle['fxs.user.delete']}</f:facet>
                 <!-- appel de showmodalPopup -->
                 <h:commandLink styleClass="btn btn-outline-primary btn-sm"
-                               value="#{bundle['fxs.user.delete']}"
+                               value="#{bundle['fxs.user.delete']}" onclick="return confirmer();"
                                action="#{rolesPermissionsBean.delete}">
                     <f:param name="id" value="#{roleP.id}"></f:param>
 
