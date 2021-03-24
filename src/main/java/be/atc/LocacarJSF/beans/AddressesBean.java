@@ -197,6 +197,7 @@ public class AddressesBean implements Serializable {
 
         } else {
             success = JsfUtils.returnMessage(locale, "fxs.users.idCity0");
+
         }
 
 

@@ -141,6 +141,7 @@ public class UsersBean extends ExtendBean implements Serializable {
      * @throws NoSuchAlgorithmException
      */
     public String connexion() throws NoSuchAlgorithmException {
+
         FacesContext context = FacesContext.getCurrentInstance();
 
         String username = usersEntity.getUsername();
