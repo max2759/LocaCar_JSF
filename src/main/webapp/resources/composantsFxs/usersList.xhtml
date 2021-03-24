@@ -67,7 +67,7 @@
             <h:column rendered="#{rolesPermissionsBean.deleteUsers}">
                 <h:panelGroup rendered="#{user.active}">
                     <h:commandButton styleClass="btn btn-outline-success btn-sm"
-                                     value="#{bundle['fxs.insurancesList.delete']}"
+                                     value="#{bundle['fxs.insurancesList.delete']}" onclick="return confirmer();"
                                      action="#{usersBean.deleteUser}">
                         <f:param name="id" value="#{user.id}"></f:param>
                         <f:ajax execute="formPopupEdit" render="@all"></f:ajax>
@@ -77,7 +77,7 @@
 
                 <h:panelGroup rendered="#{not user.active}">
                     <h:commandButton styleClass="btn btn-outline-success btn-sm"
-                                     value="#{bundle['fxs.user.activeUser']}"
+                                     value="#{bundle['fxs.user.activeUser']}" onclick="return enabledConfirm();"
                                      action="#{usersBean.activeUser}">
                         <f:param name="id" value="#{user.id}"></f:param>
                         <f:ajax execute="formPopupEdit" render="@all"></f:ajax>
