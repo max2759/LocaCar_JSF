@@ -7,6 +7,10 @@ import utils.EMF;
 import javax.persistence.EntityManager;
 import java.util.List;
 
+/**
+ * @author Zabbara - Maximilien
+ */
+
 public class CarsTypesDAOImpl implements CarsTypesDAO {
 
     public static Logger log = Logger.getLogger(CarsTypesDAOImpl.class);

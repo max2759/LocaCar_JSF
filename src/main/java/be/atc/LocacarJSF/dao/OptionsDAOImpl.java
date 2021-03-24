@@ -8,6 +8,10 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import java.util.List;
 
+/**
+ * @author Zabbara - Maximilien
+ */
+
 public class OptionsDAOImpl implements OptionsDAO {
 
     public static Logger log = Logger.getLogger(OptionsDAOImpl.class);

@@ -14,6 +14,10 @@ import javax.faces.convert.ConverterException;
 import javax.faces.convert.FacesConverter;
 import java.util.Locale;
 
+/**
+ * @author Zabbara - Maximilien
+ */
+
 @FacesConverter("modelsConverter")
 public class ModelsConverter implements Converter {
 

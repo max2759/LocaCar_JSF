@@ -17,7 +17,7 @@ import java.util.Locale;
 /**
  * Converter pour afficher correctement les dates en format Jour/mois/année
  *
- * @author Max
+ * @author Zabbara - Maximilien
  */
 
 @FacesConverter(value = "localDateTimeConverter")

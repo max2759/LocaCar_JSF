@@ -4,6 +4,10 @@ import be.atc.LocacarJSF.dao.entities.CarsColorsEntity;
 
 import java.util.List;
 
+/**
+ * @author Zabbara - Maximilien
+ */
+
 public interface CarsColorsDAO {
 
     public boolean add(CarsColorsEntity carsColorsEntity);

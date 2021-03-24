@@ -45,9 +45,9 @@ public class PriceValidator implements Validator {
     }
 
     /**
-     * Return message for exception
+     * Message for exception
      *
-     * @return
+     * @return error message
      */
     private String getMessageErrorPrice() {
         return JsfUtils.returnMessage(locale, "fxs.insurancesList.priceError");

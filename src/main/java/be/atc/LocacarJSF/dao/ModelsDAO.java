@@ -4,6 +4,10 @@ import be.atc.LocacarJSF.dao.entities.ModelsEntity;
 
 import java.util.List;
 
+/**
+ * @author Zabbara - Maximilien
+ */
+
 public interface ModelsDAO {
 
     public boolean add(ModelsEntity modelsEntity);

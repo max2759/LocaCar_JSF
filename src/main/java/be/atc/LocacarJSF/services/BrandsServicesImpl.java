@@ -6,6 +6,10 @@ import be.atc.LocacarJSF.dao.entities.BrandsEntity;
 
 import java.util.List;
 
+/**
+ * @author Zabbara - Maximilien
+ */
+
 public class BrandsServicesImpl implements BrandsServices {
 
     BrandsDAO brandsDAO = new BrandsDAOImpl();

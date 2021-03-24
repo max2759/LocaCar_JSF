@@ -6,6 +6,10 @@ import be.atc.LocacarJSF.dao.entities.CarsGearboxEntity;
 
 import java.util.List;
 
+/**
+ * @author Zabbara - Maximilien
+ */
+
 public class CarsGearboxServicesImpl implements CarsGearboxServices {
 
     CarsGearboxDAO carsGearboxDAO = new CarsGeaboxDAOImpl();

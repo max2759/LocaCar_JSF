@@ -4,6 +4,10 @@ import be.atc.LocacarJSF.dao.entities.CarsOptionsEntity;
 
 import java.util.List;
 
+/**
+ * @author Zabbara - Maximilien
+ */
+
 public interface CarsOptionsServices {
 
     boolean add(CarsOptionsEntity carsOptionsEntity);

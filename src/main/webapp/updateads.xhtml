@@ -19,6 +19,8 @@
         <f:metadata>
             <f:viewAction action="#{adsBean.displayOneAd}"/>
             <f:viewAction action="#{adsBean.getAllCarOptions}"/>
+            <f:event listener="#{accessControlBean.checkPermission}" type="preRenderView"/>
+            <f:attribute name="permRequired" value="update_ads"/>
         </f:metadata>
 
         <h:body>

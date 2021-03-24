@@ -7,6 +7,10 @@ import be.atc.LocacarJSF.dao.entities.ModelsEntity;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * @author Zabbara - Maximilien
+ */
+
 public class ModelsServicesImpl implements ModelsServices {
 
     ModelsDAO modelsDAO = new ModelsDAOImpl();

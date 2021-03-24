@@ -7,6 +7,10 @@ import be.atc.LocacarJSF.enums.EnumTypeAds;
 
 import java.util.List;
 
+/**
+ * @author Zabbara - Maximilien
+ */
+
 public class AdsServicesImpl implements AdsServices {
 
     AdsDAO adsDAO = new AdsDAOImpl();
@@ -15,7 +19,7 @@ public class AdsServicesImpl implements AdsServices {
      * Add entity
      *
      * @param adsEntity
-     * @return
+     * @return true or false
      */
     @Override
     public boolean add(AdsEntity adsEntity) {

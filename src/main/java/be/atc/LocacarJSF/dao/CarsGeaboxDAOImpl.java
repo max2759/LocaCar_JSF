@@ -8,6 +8,10 @@ import utils.EMF;
 import javax.persistence.EntityManager;
 import java.util.List;
 
+/**
+ * @author Zabbara - Maximilien
+ */
+
 public class CarsGeaboxDAOImpl implements CarsGearboxDAO {
 
     public static Logger log = Logger.getLogger(CarsGearboxDAO.class);

@@ -10,15 +10,20 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import java.util.List;
 
+/**
+ * @author Zabbara - Maximilien
+ */
+
 public class AdsDAOImpl extends EntityFinderImpl<AdsEntity> implements AdsDAO {
 
+    private static final long serialVersionUID = -2193895876065436853L;
     public static Logger log = Logger.getLogger(AdsDAOImpl.class);
 
     /**
      * Add entity
      *
      * @param adsEntity
-     * @return
+     * @return true or false
      */
     @Override
     public boolean add(AdsEntity adsEntity) {
@@ -46,7 +51,7 @@ public class AdsDAOImpl extends EntityFinderImpl<AdsEntity> implements AdsDAO {
      * Update entity
      *
      * @param adsEntity
-     * @return
+     * @return true or false
      */
     @Override
     public boolean update(AdsEntity adsEntity) {
@@ -73,7 +78,7 @@ public class AdsDAOImpl extends EntityFinderImpl<AdsEntity> implements AdsDAO {
     /**
      * Find all entities
      *
-     * @return
+     * @return List of AdsEntity
      */
     @Override
     public List<AdsEntity> findAll() {
@@ -84,7 +89,7 @@ public class AdsDAOImpl extends EntityFinderImpl<AdsEntity> implements AdsDAO {
      * find entity by id
      *
      * @param id
-     * @return
+     * @return adsEntity
      */
     @Override
     public AdsEntity findById(int id) {

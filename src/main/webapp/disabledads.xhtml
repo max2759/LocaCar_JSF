@@ -9,8 +9,9 @@
     <ui:define name="content">
 
         <f:metadata>
+            <f:event listener="#{accessControlBean.checkPermission}" type="preRenderView"/>
+            <f:attribute name="permRequired" value="update_ads"/>
             <f:viewAction action="#{adsBean.displayDisabeldAdsByUser}"/>
-            <f:event listener="#{accessControlBean.isNotLogged}" type="preRenderView"/>
         </f:metadata>
 
 

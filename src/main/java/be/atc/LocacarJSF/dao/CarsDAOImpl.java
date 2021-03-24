@@ -9,8 +9,13 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import java.util.List;
 
+/**
+ * @author Zabbara - Maximilien
+ */
+
 public class CarsDAOImpl extends EntityFinderImpl<CarsEntity> implements CarsDAO {
 
+    private static final long serialVersionUID = -914690637638574799L;
     public static Logger log = Logger.getLogger(CarsDAOImpl.class);
 
     /**
