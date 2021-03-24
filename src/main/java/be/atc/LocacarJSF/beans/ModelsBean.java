@@ -62,7 +62,6 @@ public class ModelsBean extends ExtendBean implements Serializable {
     @PostConstruct
     public void init() {
         showModel = false;
-        modelsEntities = modelsServices.findAll();
         showInput = true;
     }
 
@@ -80,6 +79,10 @@ public class ModelsBean extends ExtendBean implements Serializable {
             addModelsEntity = true;
             modelsEntity = new ModelsEntity();
         }
+    }
+
+    public void findAllModel() {
+        modelsEntities = modelsServices.findAll();
     }
 
     /**
@@ -140,7 +143,7 @@ public class ModelsBean extends ExtendBean implements Serializable {
             context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, JsfUtils.returnMessage(getLocale(), "fxs.models.errorAdd"), null));
         }
 
-        init();
+        findAllModel();
     }
 
     /**
@@ -164,6 +167,10 @@ public class ModelsBean extends ExtendBean implements Serializable {
         showModel = !modelsEntities.isEmpty();
     }
 
+    public void findModelsByBrandsID() {
+        modelsEntities = modelsServices.findModelsByBrandsId(adsBean.getAdsEntity().getCarsByIdCars().getModelsByIdModels().getBrandsByIdBrands().getId());
+    }
+
     /**
      * find Brands by ads ID
      */
@@ -172,9 +179,9 @@ public class ModelsBean extends ExtendBean implements Serializable {
         FacesContext context = FacesContext.getCurrentInstance();
 
         if (adsBean.getAdsEntity().getCarsByIdCars().getModelsByIdModels().getBrandsByIdBrands().getId() == 0) {
-            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, JsfUtils.returnMessage(getLocale(), "fxs.models.errorAdd"), null));
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, JsfUtils.returnMessage(getLocale(), "fxs.models.errorAdd"), null));
         } else {
-            modelsEntities = modelsServices.findModelsByBrandsId(adsBean.getAdsEntity().getCarsByIdCars().getModelsByIdModels().getBrandsByIdBrands().getId());
+            findModelsByBrandsID();
         }
 
         showInput = !modelsEntities.isEmpty();

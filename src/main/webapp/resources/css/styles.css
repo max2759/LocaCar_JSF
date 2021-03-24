@@ -54,6 +54,27 @@ a:hover {
     height: 0.7rem;
 }
 
+.list-style-header:hover {
+    color: #c8a62d;
+}
+
+.list-style-header {
+    color: #575f67;
+}
+
+.list-style-header-2:hover {
+    border-bottom: #c8a62d 2px solid;
+}
+
+.fa-shopping-cart {
+    color: #575f67;
+}
+
+.fa-shopping-cart:hover {
+    color: #c8a62d;
+    border: none;
+}
+
 /**
 ** Bootstrap
 *

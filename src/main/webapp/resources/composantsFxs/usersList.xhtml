@@ -18,7 +18,7 @@
         <h:form>
             <h:commandLink styleClass="btn btn-success"
                            value="#{bundle['fxs.optionsList.add']}"
-                           action="#{usersBean.showPopupModalAdd}">
+                           action="#{usersBean.showPopupModalAdd}" rendered="#{rolesPermissionsBean.createUsers}">
                 <f:param name="addUserEntity" value="addUserEntity"></f:param>
                 <f:ajax render="@all"/>
                 <i class="fas fa-plus"></i>
@@ -156,7 +156,7 @@
                     <span>
                         <h:commandButton styleClass="btn btn-outline-success btn-sm"
                                          value="#{bundle['fxs.insurancesList.save']}"
-                                         action="#{usersBean.saveEdit}">
+                                         action="#{usersBean.updateUserByAdmin}">
                             <f:ajax execute="formPopupEdit" render="@all"></f:ajax>
                         </h:commandButton>
 

@@ -17,7 +17,7 @@
         <h:form>
             <h:commandLink styleClass="btn btn-success"
                            value="#{bundle['fxs.optionsList.add']}"
-                           action="#{carsColorsBean.showPopupModal}">
+                           action="#{carsColorsBean.showPopupModal}" rendered="#{rolesPermissionsBean.addColors}">
                 <f:param name="addCarsColorsEntity" value="addCarsColorsEntity"></f:param>
                 <i class="fas fa-plus"></i>
             </h:commandLink>
@@ -28,11 +28,11 @@
         <h:dataTable id="outputMessage" styleClass="table table-hover colorsTable"
                      value="#{carsColorsBean.carsColorsEntities}" var="colors">
             <h:column>
-                <f:facet name="header">#{bundle['fxs.optionsList.title']}</f:facet>
+                <f:facet name="header">#{bundle['fxs.carscolors.title']}</f:facet>
                 <h:outputText value="#{colors.label}"></h:outputText>
 
             </h:column>
-            <h:column>
+            <h:column rendered="#{rolesPermissionsBean.updateColors}">
                 <f:facet name="header">#{bundle['fxs.optionsList.edit']}</f:facet>
 
                 <h:commandLink styleClass="text-info"

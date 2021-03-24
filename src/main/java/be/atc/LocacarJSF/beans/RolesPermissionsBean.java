@@ -239,6 +239,7 @@ public class RolesPermissionsBean implements Serializable {
             fail = JsfUtils.returnMessage(getLocale(), "fxs.rolesPerm.doble");
         }
 
+        init();
 
         log.info("role inscrit");
     }

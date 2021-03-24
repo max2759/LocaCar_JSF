@@ -213,9 +213,8 @@
                 <h:panelGroup styleClass="row mb-3">
                     <h:outputLabel value="#{bundle['fxs.addAds.image']}"
                                    styleClass="col-sm-2 col-form-label"/>
-                    <h:inputFile value="#{picturesBean.file}" id="picturesInput" required="true"
-                                 requiredMessage="#{bundle['fxs.adsPicture.required']}">
-                        <f:validator validatorId="carsPicturesValidator"/>
+                    <h:inputFile value="#{picturesBean.file}" id="picturesInput">
+                        <f:validator validatorId="carsPicturesNotRequiredValidator"/>
                     </h:inputFile>
                     <h:message for="picturesInput" styleClass="error"/>
                 </h:panelGroup>

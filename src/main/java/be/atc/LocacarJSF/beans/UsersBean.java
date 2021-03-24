@@ -460,6 +460,12 @@ public class UsersBean extends ExtendBean implements Serializable {
         return usersServices.findUserWithAddresses(idUser);
     }
 
+    public void updateUserByAdmin() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        usersServices.update(usersEntity);
+        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, JsfUtils.returnMessage(getLocale(), "successUpdate"), null));
+    }
+
 
     /**
      * Méthode pour retourner les paramètres récupéré
