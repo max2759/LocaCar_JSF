@@ -72,33 +72,33 @@
                                             <h:outputText value="#{role.label}"></h:outputText>
                                         </h:column>
 
-                                        <h:panelGroup rendered="#{rolesPermissionsBean.updateRoles}">
-                                            <h:column>
-                                                <!-- bouton edit -->
-                                                <f:facet name="header">#{bundle['fxs.rolesList.edit']}</f:facet>
-                                                <!-- appel de showmodalPopup -->
-                                                <h:commandLink styleClass="btn btn-outline-primary btn-sm"
-                                                               action="#{rolesBean.showPopupModalEdit}">
-                                                    <f:param name="id" value="#{role.id}"></f:param>
-                                                    <f:ajax render="@all"/>
-                                                    <i class="fas fa-edit"></i>
-                                                </h:commandLink>
-                                            </h:column>
-                                        </h:panelGroup>
-                                        <h:panelGroup rendered="#{rolesPermissionsBean.deleteRoles}">
-                                            <h:column>
-                                                <!-- bouton delete -->
-                                                <f:facet name="header">#{bundle['fxs.roles.delete']}</f:facet>
-                                                <!-- appel de showmodalPopup -->
-                                                <h:commandLink styleClass="btn btn-outline-primary btn-sm"
-                                                               onclick="return confirmer();"
-                                                               action="#{rolesBean.delete}">
-                                                    <f:param name="idDel" value="#{role.id}"></f:param>
 
-                                                    <i class="fas fa-edit"></i>
-                                                </h:commandLink>
+                                        <h:column rendered="#{rolesPermissionsBean.updateRoles}">
+                                            <!-- bouton edit -->
+                                            <f:facet name="header">#{bundle['fxs.rolesList.edit']}</f:facet>
+                                            <!-- appel de showmodalPopup -->
+                                            <h:commandLink styleClass="btn btn-outline-primary btn-sm"
+                                                           action="#{rolesBean.showPopupModalEdit}">
+                                                <f:param name="id" value="#{role.id}"></f:param>
+                                                <f:ajax render="@all"/>
+                                                <i class="fas fa-edit"></i>
+                                            </h:commandLink>
+                                        </h:column>
+
+
+                                        <h:column rendered="#{rolesPermissionsBean.deleteRoles}">
+                                            <!-- bouton delete -->
+                                            <f:facet name="header">#{bundle['fxs.roles.delete']}</f:facet>
+                                            <!-- appel de showmodalPopup -->
+                                            <h:commandLink styleClass="btn btn-outline-primary btn-sm"
+                                                           onclick="return confirmer();"
+                                                           action="#{rolesBean.delete}">
+                                                <f:param name="idDel" value="#{role.id}"></f:param>
+
+                                                <i class="fas fa-edit"></i>
+                                            </h:commandLink>
                                             </h:column>
-                                        </h:panelGroup>
+
 
                                     </h:dataTable>
                                 </h:form>
@@ -125,12 +125,6 @@
 
 
                             <div class="form-group">
-                                <h:outputLabel value="ID" for="idRoles"></h:outputLabel>
-                                <h:outputText id="idRoles" value="#{rolesBean.rolesEntity.id}"
-                                              styleClass="form-control"></h:outputText>
-                            </div>
-
-                            <div class="form-group">
                                 <h:outputLabel value="label" for="label"></h:outputLabel>
                                 <h:inputText value="#{rolesBean.rolesEntity.label}"
                                              styleClass="form-control"
@@ -149,6 +143,7 @@
                                                              value="#{bundle['fxs.insurancesList.save']}"
                                                              action="#{rolesBean.saveEdit}">
                                                 <f:ajax execute="formPopupEdit" render="@all"></f:ajax>
+                                                <i class="fas fa-edit"></i>
                                             </h:commandButton>
 
                                         </span>
@@ -177,12 +172,6 @@
                                           style="color: green; font-weight: bold"></h:outputText>
                             <h:outputText value="#{rolesBean.fail}"
                                           style="color: darkred; font-weight: bold"></h:outputText>
-
-                            <div class="form-group">
-                                <h:outputLabel value="ID" for="idRolesAdd"></h:outputLabel>
-                                <h:outputText id="idRolesAdd" value="#{rolesBean.rolesEntity.id}"
-                                              styleClass="form-control"></h:outputText>
-                            </div>
 
                             <div class="form-group">
                                 <h:outputLabel value="labelRole" for="labelRole"></h:outputLabel>

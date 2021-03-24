@@ -16,14 +16,15 @@
 
     <!-- LIST -->
     <h:form>
-
-        <h:commandLink styleClass="btn btn-success"
-                       value="#{bundle['fxs.optionsList.add']}"
-                       action="#{rolesPermissionsBean.showPopupModalAdd}">
-            <f:param name="addRolesPermissionsEntity" value="addRolesPermissionsEntity"></f:param>
-            <f:ajax render="@all"/>
-            <i class="fas fa-plus"></i>
-        </h:commandLink>
+        <h:column rendered="#{rolesPermissionsBean.addRoles}">
+            <h:commandLink styleClass="btn btn-success"
+                           value="#{bundle['fxs.optionsList.add']}"
+                           action="#{rolesPermissionsBean.showPopupModalAdd}">
+                <f:param name="addRolesPermissionsEntity" value="addRolesPermissionsEntity"></f:param>
+                <f:ajax render="@all"/>
+                <i class="fas fa-plus"></i>
+            </h:commandLink>
+        </h:column>
     </h:form>
 
     <h:form>
@@ -59,7 +60,7 @@
                                action="#{rolesPermissionsBean.showPopupModalEdit}">
                     <f:param name="id" value="#{roleP.id}"></f:param>
                     <f:ajax render="@all"/>
-                    <i class="fas fa-plus"></i>
+                    <i class="fas fa-edit"></i>
                 </h:commandLink>
 
             </h:column>
@@ -74,7 +75,7 @@
                                action="#{rolesPermissionsBean.delete}">
                     <f:param name="id" value="#{roleP.id}"></f:param>
 
-                    <i class="fas fa-edit"></i>
+                    <i class="fas fa-trash-alt"></i>
                 </h:commandLink>
             </h:column>
 
